@@ -5,6 +5,7 @@
 *.a
 *.exe
 *~
-kernel/kernel
-kernel/bootblock
+screenshot-old.png
+image
 cross
+cadexkernel.code-workspace
