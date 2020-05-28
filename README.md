@@ -18,9 +18,7 @@ To be clear, this is raw low-level code, not a production system.
 If you want to hack code and learn about operating system, you will like Cadex OS.
 If you are looking for a new OS to run on your laptop, then this is not what you want.
 
-This project is led by Prof. Douglas Thain at the University of Notre Dame.
-A variety of students have contributed to the code, including
-Jack Mazanec, Douglas Smith, Ethan Williams, Jon Westhoff, and Kevin Wern.
+This repo was made by HyperCreeck.
 
 To learn more, see the [Cadex OS Wiki](https://github.com/opencreeck/Cadex-OS/wiki).
  
