@@ -6,4 +6,4 @@ os:
 before_install:
   - sudo apt-get install -y mkisofs dosfstools
 
-script: make
+script: make clean && make

@@ -1,4 +1,5 @@
-# The Basekernel Operating System Kernel
+# The Cadex OS
+[![Build Status](https://travis-ci.org/OpenCreeck/Cadex-OS-Official.svg?branch=master)](https://travis-ci.org/OpenCreeck/Cadex-OS-Official)
 
 Basekernel is a simple operating system kernel for research, teaching, and fun.
 
