@@ -22,15 +22,15 @@ This project is led by Prof. Douglas Thain at the University of Notre Dame.
 A variety of students have contributed to the code, including
 Jack Mazanec, Douglas Smith, Ethan Williams, Jon Westhoff, and Kevin Wern.
 
-To learn more, see the [Cadex OS Wiki](https://github.com/dthain/Cadex OS/wiki).
-
+To learn more, see the [Cadex OS Wiki](https://github.com/opencreeck/Cadex-OS/wiki).
+ 
 ## Quick Start Instructions
 
-If you are building on a Linux-X86 machine
+If you are building on a Linux-x86 machine
 and have the QEMU virtual machine installed:
 
 ```
-git clone https://github.com/dthain/Cadex-OS
+git clone https://github.com/opencreeck/Cadex-OS
 cd Cadex-OS
 make
 qemu-system-i386 -cdrom cadex.iso
