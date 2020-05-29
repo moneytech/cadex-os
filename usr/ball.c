@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2016-2019 The University of Notre Dame
+Copyright (C) 2019-2020 OpenCreeck
 This software is distributed under the GNU General Public License.
 See the file LICENSE for details.
 */
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 		move(&g, &dg, 0, 255);
 		move(&b, &db, 0, 255);
 		draw_color(r, g, b);
-		draw_string(x1, y1, "basekernel");
+		draw_string(x1, y1, "Ball.EXE");
 		draw_flush();
 
 		syscall_process_sleep(75);

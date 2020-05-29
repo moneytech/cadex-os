@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2016-2019 The University of Notre Dame
+Copyright (C) 2019-2020 OpenCreeck
 This software is distributed under the GNU General Public License.
 See the file LICENSE for details.
 */
@@ -33,18 +33,18 @@ void merge(program * arr, int l, int m, int r);
 int main(int argc, char *argv[])
 {
 	/* Eventually, programs wont be hardcoded */
-	const char *args1[] = { "/bin/snake.exe" };
-	const char *args2[] = { "/bin/clock.exe", "08:40" };
-	const char *args3[] = { "/bin/sh.exe" };
-	const char *args4[] = { "/bin/mandelbrot.exe" };
+	const char *args1[] = { "/usr/bin/snake.exe" };
+	const char *args2[] = { "/usr/bin/clock.exe", "08:40" };
+	const char *args3[] = { "/usr/bin/sh.exe" };
+	const char *args4[] = { "/usr/bin/mandelbrot.exe" };
 
 
 	int padding = 4;
 	program programs[] = {
-			{ .w = 55 , .h = 25 , .exec = "bin/clock.exe", .args = args2, .argc = 2 },
-			{ .w = 500, .h = 400, .exec = "bin/sh.exe", .args = args3, .argc = 3 },
-			{ .w = 200, .h = 200, .exec = "bin/snake.exe", .args = args1, .argc = 1 },
-			{ .w = 400, .h = 400, .exec = "bin/mandelbrot.exe", .args = args4, .argc = 1 }
+			{ .w = 55 , .h = 25 , .exec = "usr/bin/clock.exe", .args = args2, .argc = 2 },
+			{ .w = 500, .h = 400, .exec = "usr/bin/sh.exe", .args = args3, .argc = 3 },
+			{ .w = 200, .h = 200, .exec = "usr/bin/snake.exe", .args = args1, .argc = 1 },
+			{ .w = 400, .h = 400, .exec = "usr/bin/mandelbrot.exe", .args = args4, .argc = 1 }
 	};
 
 

@@ -2,7 +2,7 @@ include Makefile.config
 
 LIBRARY_SOURCES=$(wildcard library/*.c)
 LIBRARY_HEADERS=$(wildcard library/*.h)
-USER_SOURCES=$(wildcard user/*.c)
+USER_SOURCES=$(wildcard usr/*.c)
 USER_PROGRAMS=$(USER_SOURCES:c=exe)
 KERNEL_SOURCES=$(wildcard kernel/*.[chS])
 
@@ -21,16 +21,16 @@ library/baselib.a: $(LIBRARY_SOURCES) $(LIBRARY_HEADERS)
 	cd library && make
 
 $(USER_PROGRAMS): $(USER_SOURCES) library/baselib.a $(LIBRARY_HEADERS)
-	cd user && make
+	cd usr && make
 
 kernel/cadex.img: $(KERNEL_SOURCES) $(LIBRARY_HEADERS)
 	cd kernel && make
 
 image: kernel/cadex.img $(USER_PROGRAMS)
 	rm -rf image
-	mkdir image image/boot image/bin image/data
+	mkdir image image/boot image/usr image/data image/usr/bin
 	cp kernel/cadex.img image/boot
-	cp $(USER_PROGRAMS) image/bin
+	cp $(USER_PROGRAMS) image/usr/bin
 	head -2000 /usr/share/dict/words > image/data/words
 
 cadex.iso: image
@@ -40,4 +40,4 @@ clean:
 	rm -rf cadex.iso image
 	cd kernel && make clean
 	cd library && make clean
-	cd user && make clean
+	cd usr && make clean

@@ -86,7 +86,7 @@ memdone:
 
 # These are documented on page 30 of the VESA-BIOS manual:
 # interrupt 0x10
-# ax = 0x4f02 "Set VBE Mode"
+# ax = 0x4f02 "[SYS] Set VBE Mode"
 # bx = mode
 #    D0-8   = Mode Number
 #    D9-10  = Reserved (must be 0)
@@ -250,7 +250,7 @@ video_buffer:
 
 .align 4
 videomsg:
-	.asciz	"fatal error: couldn't find suitable video mode!\r\n"
+	.asciz	"[ERR] fatal error: couldn't find suitable video mode!\r\n"
 
 ###########################
 # 32 BIT CODE BEGINS HERE #

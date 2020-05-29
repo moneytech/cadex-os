@@ -8,7 +8,7 @@
 void handleException(int excode){
     switch(excode){
         case 1:
-            printf("FATAL: Exception occured while execution. Details: \njava.lang.NullPointerException, Tried to access an object at null pointer reference\r\n    at java.util.Core\r\n   at java.lang.Corona");
+            printf("[ERR] Exception occured while execution. Details: \njava.lang.NullPointerException, Tried to access an object at null pointer reference\r\n    at java.util.Core\r\n   at java.lang.Corona");
 
         default:
             printf("Exception");

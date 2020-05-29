@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2016-2019 The University of Notre Dame
+Copyright (C) 2019-2020 OpenCreeck
 This software is distributed under the GNU General Public License.
 See the file LICENSE for details.
 */
@@ -137,7 +137,11 @@ static int kshell_listdir(const char *path)
 			kfree(buffer);
 		}
 	} else {
+		if(path != "."){
 		printf("list.exe: file/directory %s does not exist in the current directory\n", path);
+		} else {
+			printf("list.exe: root directory not found. Possible causes:\n\n * CD-ROM not mounted\n * Hard-Disk error\n * Other filesystem error\n\nTry running 'mount atapi 2 cdromfs' if you are running this OS from a CD-ROM\n");
+		}
 	}
 
 	return 0;
@@ -178,7 +182,7 @@ static int kshell_execute(int argc, const char **argv)
 				printf("process %d exited with status %d\n", info.pid, info.exitcode);
 				process_reap(info.pid);
 			} else {
-				printf("run.exe: error: cannot start %s\n", argv[1]);
+				printf("run.exe: error: cannot find %s\n", argv[1]);
 			}
 		} else {
 			printf("run.exe: requires argument\n");
@@ -342,13 +346,15 @@ static int kshell_execute(int argc, const char **argv)
 	} else if(!strcmp(cmd,"bcache_flush")) {
 		bcache_flush_all();
 	} else if(!strcmp(cmd, "help")) {
-		printf("Cadex Shell Commands:\nrun <path> <args>\nstart <path> <args>\nkill <pid>\nreap <pid>\nwait\nlist\nmount <device> <unit> <fstype>\numount\nformat <device> <unit><fstype>\ninstall <srcunit> <dstunit>\nchdir <path>\nmkdir <path>\nremove <path>time\nbcache_stats\nbcache_flush\nreboot\nhelp\n\n");
+		printf("Cadex Shell Commands:\n\n* run <path> <args>\n* pman install <package>\n* pman remove <package>\n* pman reinit\n* pman upgrade <pacgage>\n* whoami\n* start <path> <args>\n* kill <pid>\n* reap <pid>\n* wait\n* list\n* mount <device> <unit> <fstype>\n* umount\n* format <device> <unit><fstype>\n* install <srcunit> <dstunit>\n* chdir <path>\n* mkdir <path>\n* remove <path>\n* time\n* bcache_stats\n* bcache_flush\n* reboot\n* help\n\n");
 	} else if(!strcmp(cmd, "pman")){
 		printf(">>>>>>>>> Cadex Package Manager <<<<<<<<<<<<\n\nUsage:\n pman install <package name>\n pman remove <package name>\n pman reinit\n pman upgrade <package name>");
 	} else if (!strcmp(cmd, "ls")){
 		printf("\ncshell.exe: Use list instead\n");
 	} else if (!strcmp(cmd, "cd")){
 		printf("\ncshell.exe: Use chdir instead\n");
+	} else if (!strcmp(cmd, "whoami")){
+		printf("\nroot\n");
 	} else {
 		printf("%s: command/program not found\n", argv[0]);
 	}
@@ -393,7 +399,7 @@ int kshell_launch()
 	int argc;
 	printf("\n\nRun 'mount atapi 2 cdromfs' to mount CD-ROM to filesystem\n\n");
 	while(1) {
-		printf("user:root@cadex:> ");
+		printf("[user:root@cadex]: ");
 		kshell_readline(line, sizeof(line));
 
 		argc = 0;
