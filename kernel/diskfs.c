@@ -143,7 +143,7 @@ static int diskfs_inumber_alloc( struct fs_volume *v )
 		}
 	}
 
-	printf("diskfs.exe: warning: out of inodes!\n");
+	printf("diskfs: warning: out of inodes!\n");
 
 	page_free(b);
 	return 0;
@@ -515,7 +515,7 @@ struct fs_volume * diskfs_volume_open( struct device *device )
 
 	page_free(b);
 
-	printf("diskfs.exe: %d bitmap blocks, %d inode blocks, %d data blocks\n",
+	printf("diskfs: %d bitmap blocks, %d inode blocks, %d data blocks\n",
 		v->disk.bitmap_blocks,
 		v->disk.inode_blocks,
 		v->disk.data_blocks);
@@ -540,7 +540,7 @@ int diskfs_volume_format( struct device *device )
 
 	int nblocks = device_nblocks(device);
 
-	printf("diskfs.exe: formatting device %s unit %d\n",device_name(device),device_unit(device));
+	printf("diskfs: formatting device %s unit %d\n",device_name(device),device_unit(device));
 
 	sb.magic = DISKFS_MAGIC;
 	sb.block_size = DISKFS_BLOCK_SIZE;
@@ -554,32 +554,32 @@ int diskfs_volume_format( struct device *device )
 	sb.bitmap_start = sb.inode_start + sb.inode_blocks;
 	sb.data_start = sb.bitmap_start + sb.bitmap_blocks;
 
-	printf("diskfs.exe: %d inode blocks, %d bitmap blocks, %d data blocks\n",
+	printf("diskfs: %d inode blocks, %d bitmap blocks, %d data blocks\n",
 	       sb.inode_blocks, sb.bitmap_blocks, sb.data_blocks );
 
 	memset(b,0,DISKFS_BLOCK_SIZE);
 	b->superblock = sb;
 
-	printf("diskfs.exe: writing superblock\n");
+	printf("diskfs: writing superblock\n");
 	diskfs_block_write(device,b,0);
 
 	memset(b,0,DISKFS_BLOCK_SIZE);
 
 	int i;
 
-	printf("diskfs.exe: writing %d inode blocks\n",sb.inode_blocks);
+	printf("diskfs: writing %d inode blocks\n",sb.inode_blocks);
 
 	for(i=sb.inode_blocks-1;i>=0;i--) {
 		diskfs_block_write(device,b,sb.inode_start+i);
 	}
 
-	printf("diskfs.exe: writing %d bitmap blocks\n",sb.bitmap_blocks);
+	printf("diskfs: writing %d bitmap blocks\n",sb.bitmap_blocks);
 
 	for(i=sb.bitmap_blocks-1;i>=0;i--) {
 		diskfs_block_write(device,b,sb.bitmap_start+i);
 	}
 
-	printf("diskfs.exe: creating root directory\n");
+	printf("diskfs: creating root directory\n");
 
 	// Mark the zeroth and first blocks as used.
 	b->data[0] = 0x03;
@@ -602,7 +602,7 @@ int diskfs_volume_format( struct device *device )
 
 	page_free(b);
 
-	printf("diskfs.exe: flushing buffer cache\n");
+	printf("diskfs: flushing buffer cache\n");
 	bcache_flush_device(device);
 
 	return 0;
