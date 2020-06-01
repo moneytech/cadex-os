@@ -117,7 +117,7 @@ static int ata_wait(int id, int mask, int state)
 			return 1;
 		}
 		if(t & ATA_STATUS_ERR) {
-			printf("ata.exe: error\n");
+			printf("ata: error\n");
 			ata_reset(id);
 			return 0;
 		}

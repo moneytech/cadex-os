@@ -340,7 +340,7 @@ void stat_live_2_str(STAT_LIVE stat_l, char * str) {
 /* Help message */
 void help() {
   printf("\nusage\n\n");
-  printf("statslive.exe\n");
+  printf("statslive\n");
   printf("                -h | --help          # display help\n");
   printf("                -b                   # buffer cache stats\n");
   printf("                -dr  <DRIVER_NAME>   # driver stats\n");
