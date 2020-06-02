@@ -525,19 +525,6 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		printf("\nroot\n");
 	}	
-	else if (!strcmp(cmd, "ifbas")){
-		if (!strcmp(argv[1], "-exec")){
-
-		}
-		else if (!strcmp(argv[1], "-ver"))
-		{
-			printf("Cadex IfBasic Ver 0.1.2\nLicensed Under CC BY SA\n\nSource code at http://github.com/opencreeck/ifbasic\n");
-		}
-		else
-		{
-			printf("Unknown option %s\n", argv[1]);
-		}
-		}
 	else
 	{
 		printf("%s: command/program not found\n", argv[0]);
