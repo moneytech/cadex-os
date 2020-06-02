@@ -9,14 +9,17 @@
 #include "ifbasic.h"
 #include "includeall.h"
 
-void ifbasexec(char *srccode){
+static int ifbasic(int iargc, const char **iargv){
+    const char *srccode = iargv[0];
+    const int *pokeone = iargv[1];
+    const int *poketwo = iargv[2];
     if (!strcmp(srccode, "print"))
     {
         printf("");
     }
     else if (!strcmp(srccode, "poke"))
     {
-        /* code */
+        
     }
     else if (!strcmp(srccode, "peek"))
     {
@@ -28,7 +31,6 @@ void ifbasexec(char *srccode){
     }
     else
     {
-        /* code */
+        return 1;
     }
-    
 }
