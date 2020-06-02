@@ -530,13 +530,13 @@ static int kshell_execute(int argc, const char **argv)
 		if(argv[1] == "-on"){
 
 			/* Set the data signals (D0-7) of the port to all low (0) */
-			outb(0xED, BASEPORT);
+			outb(0xF4, );
 
 			/* Sleep for a while (100 ms) */
-			usleep(1000);
+			sleep(1000);
 			printf("\n here ");
 			outb(0x07, BASEPORT);
-			usleep(1000);
+			sleep(1000);
 		}
 	}
 	
