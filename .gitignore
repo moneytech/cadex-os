@@ -10,3 +10,6 @@ image
 cross
 cadexkernel.code-workspace
 .git
+kernel/kernel
+kernel/bootblock
+kernel/*.elf

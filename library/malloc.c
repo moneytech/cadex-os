@@ -1,4 +1,4 @@
-/* The next parts are all for configuring dlmalloc to work with basekernel */
+/* The next parts are all for configuring dlmalloc to work with cadex kernel */
 #define ENOMEM 0
 #define LACKS_TIME_H
 #define LACKS_SYS_TYPES_H
