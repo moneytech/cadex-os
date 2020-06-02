@@ -579,7 +579,7 @@ int kshell_launch()
 	printf("\n\nRun 'mount atapi 2 cdromfs' to mount CD-ROM to filesystem\n\n");
 	while (1)
 	{
-		printf("[user:root@cadex]: ");
+		printf("[user:root@cadex]# ");
 		kshell_readline(line, sizeof(line));
 
 		argc = 0;
