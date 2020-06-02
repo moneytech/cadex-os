@@ -524,22 +524,7 @@ static int kshell_execute(int argc, const char **argv)
 	else if (!strcmp(cmd, "whoami"))
 	{
 		printf("\nroot\n");
-	}
-	else if (!strcmp(cmd, "capslock"))
-	{
-		if(argv[1] == "-on"){
-
-			/* Set the data signals (D0-7) of the port to all low (0) */
-			outb(0xF4, );
-
-			/* Sleep for a while (100 ms) */
-			sleep(1000);
-			printf("\n here ");
-			outb(0x07, BASEPORT);
-			sleep(1000);
-		}
-	}
-	
+	}	
 	else
 	{
 		printf("%s: command/program not found\n", argv[0]);
