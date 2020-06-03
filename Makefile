@@ -6,16 +6,22 @@ USER_SOURCES=$(wildcard usr/*.c)
 USER_PROGRAMS=$(USER_SOURCES:c=exe)
 KERNEL_SOURCES=$(wildcard kernel/*.[chS])
 
-all: cadex.iso
+all: clean cadex.iso run
 
-run: cadex.iso disk.img
-	qemu-system-i386 -cdrom cadex.iso -hda disk.img
+run: cadex.iso # hddimg
+					#  | This .exe is for compatibility for WSL. See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
+		    		# \/ This is ignored if you are not building on a WSL.
+	qemu-system-i386.exe -cdrom cadex.iso -hda disk.img || qemu-system-i386 -cdrom cadex.iso -hda disk.img
 
-debug: cadex.iso disk.img
-	qemu-system-i386 -cdrom cadex.iso -hda disk.img -s -S &
+debug: cadex.iso hddimg
+					#  | This .exe is for compatibility for WSL. See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
+		    		# \/ This is ignored if you are not building on a WSL.
+	qemu-system-i386.exe -cdrom cadex.iso -hda disk.img -s -S & || qemu-system-i386 -cdrom cadex.iso -hda disk.img -s -S &
 
-disk.img:
-	qemu-img create disk.img 10M
+hddimg:
+			#  | This .exe is for compatibility for WSL. See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
+		    # \/ This is ignored if you are not building on a WSL.
+	qemu-img.exe create disk.img 10M || qemu-img.exe create disk.img 10M
 
 library/baselib.a: $(LIBRARY_SOURCES) $(LIBRARY_HEADERS)
 	cd library && make

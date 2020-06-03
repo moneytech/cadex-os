@@ -430,9 +430,9 @@ static int ata_probe_internal( int id, int kind, int *nblocks, int *blocksize, c
 		result = ata_identify(id, ATA_COMMAND_IDENTIFY, cbuffer);
 		if(result) {
 			*nblocks = buffer[1] * buffer[3] * buffer[6];
-			printf("%d logical cylinders\n", buffer[1]);
-			printf("%d logical heads\n", buffer[3]);
-			printf("%d logical sectors/track\n", buffer[6]);
+			printf("[HARDWARE] HardDisk: %d logical cylinders\n", buffer[1]);
+			printf("[HARDWARE] HardDisk: %d logical heads\n", buffer[3]);
+			printf("[HARDWARE] HardDisk: %d logical sectors/track\n", buffer[6]);
 			*blocksize = ATA_BLOCKSIZE;
 		}
 	}

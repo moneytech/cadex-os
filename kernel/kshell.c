@@ -7,6 +7,7 @@ See the file LICENSE for details.
 #include "kernel/types.h"
 #include "kernel/error.h"
 #include "kernel/ascii.h"
+#include "library/syscalls.h"
 #include "kshell.h"
 #include "keyboard.h"
 #include "console.h"
@@ -26,10 +27,76 @@ See the file LICENSE for details.
 #include "library/syscalls.h"
 #include "library/user-io.h"
 #include "library/string.h"
+#include "kernel/syscall.h"
+#include "kernel/stats.h"
+#include "kernel/gfxstream.h"
 #include "graphics.h"
 #include "interrupt.h"
 #include "font.h"
 #define BASEPORT 0x0060 /* lp1 */
+uint16_t cursor_pos = 0, cursor_next_line_index = 1;
+static uint32_t next_line_index = 1;
+char *shakespeare[] = {
+	"[Horatio] Now cracke a Noble heart:",
+	"Goodnight sweet Prince,",
+	"And flights of Angels sing thee to thy rest,",
+	"Why do's the Drumme come hither?",
+	"Enter Fortinbras and English Ambassador, with Drumme,",
+	"Colours, and Attendants.",
+	"[Fortinbras] Where is this sight?",
+	"[Horatio] What is it ye would see;",
+	"If ought of woe, or wonder, cease your search.",
+	"[Fortinbras] His quarry cries on hauocke. Oh proud death,",
+	"What feast is toward in thine eternall Cell.",
+	"That thou so many Princes, at a shoote,",
+	"So bloodily hast strooke.",
+	"[Ambassador] The sight is dismall,",
+	"And our affaires from England come too late,",
+	"The eares are senselesse that should giue vs hearing,",
+	"To tell him his command'ment is fulfill'd,",
+	"That Rosincrance and Guildensterne are dead:",
+	"Where should we haue our thankes?",
+	"[Horatio] Not from his mouth,",
+	"Had it th'abilitie of life to thanke you:",
+	"He neuer gaue command'ment for their death.",
+	"But since so iumpe vpon this bloodie question,",
+	"You from the Polake warres, and you from England",
+	"Are heere arriued. Giue order that these bodies",
+	"High on a stage be placed to the view,",
+	"And let me speake to th'yet vnknowing world,",
+	"How these things came about. So shall you heare",
+	"Of carnall, bloudie, and vnnaturall acts,",
+	"Of accidentall iudgements, casuall slaughters",
+	"Of death's put on by cunning, and forc'd cause,",
+	"And in this vpshot, purposes mistooke,",
+	"Falne on the Inuentors heads. All this can I",
+	"Truly deliuer.",
+	"[Fortinbras] Let vs hast to heare it,",
+	"And call the Noblest to the Audience.",
+	"For me, with sorrow, I embrace my Fortune,",
+	"I haue some Rites of memory in this Kingdome,",
+	"Which are ro claime, my vantage doth",
+	"Inuite me,",
+	"[Horatio] Of that I shall haue alwayes cause to speake,",
+	"And from his mouth",
+	"Whose voyce will draw on more:",
+	"But let this same be presently perform'd,",
+	"Euen whiles mens mindes are wilde,",
+	"Lest more mischance",
+	"On plots, and errors happen.",
+	"[Fortinbras] Let foure Captaines",
+	"Beare Hamlet like a Soldier to the Stage,",
+	"For he was likely, had he beene put on",
+	"To haue prou'd most royally:",
+	"And for his passage,",
+	"The Souldiours Musicke, and the rites of Warre",
+	"Speake lowdly for him.",
+	"Take vp the body; Such a sight as this",
+	"Becomes the Field, but heere shewes much amis.",
+	"Go, bid the Souldiers shoote.",
+	"Exeunt Marching: after the which, a Peale of",
+	"Ordenance are shot off.",
+};
 
 static int kshell_mount(const char *devname, int unit, const char *fs_type)
 {
@@ -79,7 +146,20 @@ static int kshell_mount(const char *devname, int unit, const char *fs_type)
 
 	return -1;
 }
+void move_cursor(uint16_t pos)
+{
+	outb(0x3D4, 14);
+	outb(0x3D5, ((pos >> 8) & 0x00FF));
+	outb(0x3D4, 15);
+	outb(0x3D5, pos & 0x00FF);
+}
 
+void move_cursor_next_line()
+{
+	cursor_pos = 80 * cursor_next_line_index;
+	cursor_next_line_index++;
+	move_cursor(cursor_pos);
+}
 /*
 Install software from the cdrom volume unit src
 to the disk volume dst by performing a recursive copy.
@@ -480,11 +560,12 @@ static int kshell_execute(int argc, const char **argv)
 		{
 			outb(0x8900, *s);
 		}
-		printf("Shutting down...");
+		printf("Shutting down...\n");
 		// Uncomment the line below if you are running this on VirtualBox
 		//sleep(150);
 		sleep(5);
 		outb(0xf4, 0x00);
+		printf("[ERR] Your device BIOS does not support shutdown by 'outb(0xF4, 0x00);'\n");
 	}
 	else if (!strcmp(cmd, "beep"))
 	{
@@ -524,7 +605,69 @@ static int kshell_execute(int argc, const char **argv)
 	else if (!strcmp(cmd, "whoami"))
 	{
 		printf("\nroot\n");
-	}	
+	}		
+	else if (!strcmp(cmd, "longtest"))
+	{
+		/**
+		 * Long character test
+		 * Only for testing purposes
+		*/
+		if(!strcmp(argv[1], "-f")){
+		int i;
+		for (i = 0; i < sizeof(shakespeare) / sizeof(char *); i++)
+		{
+			printf("%s\n", shakespeare[i]);
+			sleep(1);
+		}
+		} else if (!strcmp(argv[1], "-s"))
+		{
+			int i;
+			for (i = 0; i < sizeof(shakespeare) / sizeof(char *); i++)
+			{
+				printf("%s\n", shakespeare[i]);
+				sleep(3);
+			}
+		}
+		 else
+		{
+			printf("Long Char Test Ver 0.0.1\nUsage: longtest <speed>\n-s for slow and -f for fast\n");
+		}
+	}
+	else if (!strcmp(cmd, "unexpected"))
+	{
+		while (1)
+		{
+			printf("\-/-\-/");
+		}
+		}
+	
+	else if (!strcmp(cmd, "uname"))
+	{
+		if (!strcmp(argv[1], "-v"))
+		{
+		}
+		else if (!strcmp(argv[1], "-b"))
+		{
+			printf("0.0.1B-D");
+		}
+		else if (!strcmp(argv[1], "-c"))
+		{
+			printf("Tackling Turbo");
+		}
+		else if (!strcmp(argv[1], "-a"))
+		{
+			printf("Cadex OS Version 0.0.1 B-DEB\nTackling Turbo\n 0.0.1\n");
+		}
+		else if (!strcmp(argv[1], "-v"))
+		{
+			printf("0.0.1\n");
+		}
+		else
+		{
+			printf("Usage: uname <options>\nOptions:\n -v: Version Number\n -b: Build number\n -c: Codename\n -a: All information\n");
+		}
+	}
+
 	else
 	{
 		printf("%s: command/program not found\n", argv[0]);
