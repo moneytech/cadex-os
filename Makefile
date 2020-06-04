@@ -21,7 +21,7 @@ debug: cadex.iso hddimg
 hddimg:
 			#  | This .exe is for compatibility for WSL. See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
 		    # \/ This is ignored if you are not building on a WSL.
-	qemu-img.exe create disk.img 10M || qemu-img.exe create disk.img 10M
+	qemu-img.exe create disk.img 10M || qemu-img create disk.img 10M
 
 library/baselib.a: $(LIBRARY_SOURCES) $(LIBRARY_HEADERS)
 	cd library && make
@@ -36,6 +36,7 @@ image: kernel/cadex.img $(USER_PROGRAMS)
 	rm -rf image
 	mkdir image image/boot image/usr image/data image/usr/bin
 	cp kernel/cadex.img image/boot
+	cp usr/kevin.txt image/usr/bin
 	cp $(USER_PROGRAMS) image/usr/bin
 	head -2000 /usr/share/dict/words > image/data/words
 
