@@ -514,7 +514,7 @@ void ata_init()
 		counters.blocks_written[i] = 0;
 	}
 
-	//printf("ata: setting up interrupts\n");
+	printf("[VERB] ata: setting up interrupts\n");
 
 	interrupt_register(ATA_IRQ0, ata_interrupt);
 	interrupt_enable(ATA_IRQ0);
@@ -522,7 +522,7 @@ void ata_init()
 	interrupt_register(ATA_IRQ1, ata_interrupt);
 	interrupt_enable(ATA_IRQ1);
 
-	//printf("ata: probing devices\n");
+	printf("[VERB] ata: probing devices\n");
 
 	for(i = 0; i < 4; i++) {
 		ata_probe_internal(i, 0, &nblocks, &blocksize, longname);
