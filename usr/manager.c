@@ -36,15 +36,30 @@ int main(int argc, char *argv[])
 	const char *args1[] = { "/usr/bin/snake.exe" };
 	const char *args2[] = { "/usr/bin/clock.exe", "08:40" };
 	const char *args3[] = { "/usr/bin/sh.exe" };
-	const char *args4[] = { "/usr/bin/mandelbrot.exe" };
-
+	const char *args4[] = { "/usr/bin/ball.exe" };
+        int window_width  = 270;
+        int window_height = 270;
+        int plot_width    = 180;
+        int plot_height   = 180;
+        int thickness     = 2;
+        int char_offset   = 8;
+	int r = 255;
+	int g = 255;
+	int b = 255;
+	int x1 = 150;
+	int y1 = 150;
+	int dx1 = 4;
+	int dy1 = 1;
+	int dr = -1;
+	int dg = 2;
+	int db = 3;
 
 	int padding = 4;
 	program programs[] = {
-			{ .w = 55 , .h = 25 , .exec = "usr/bin/clock.exe", .args = args2, .argc = 2 },
-			{ .w = 500, .h = 400, .exec = "usr/bin/sh.exe", .args = args3, .argc = 3 },
-			{ .w = 200, .h = 200, .exec = "usr/bin/snake.exe", .args = args1, .argc = 1 },
-			{ .w = 400, .h = 400, .exec = "usr/bin/mandelbrot.exe", .args = args4, .argc = 1 }
+			{ .w = 55 , .h = 25 , .exec = "/usr/bin/clock.exe", .args = args2, .argc = 2 },
+			{ .w = 500, .h = 400, .exec = "/usr/bin/sh.exe", .args = args3, .argc = 3 },
+			{ .w = 200, .h = 200, .exec = "/usr/bin/snake.exe", .args = args1, .argc = 1 },
+			{ .w = 400, .h = 400, .exec = "/usr/bin/ball.exe", .args = args4, .argc = 1 }
 	};
 
 
@@ -52,7 +67,10 @@ int main(int argc, char *argv[])
 	int std_dims[2];
 	syscall_object_size(KNO_STDWIN, std_dims, 2);
 	draw_window(KNO_STDWIN);
-	draw_clear(0, 0, std_dims[0], std_dims[1]);
+	/* The code below will not work */
+	draw_color(r, g, b);
+	draw_string(x1, y1, "Cadex Shell UI");
+	/* End not working code*/
 	draw_flush();
 
 	/* Sort programs in order of biggest height to smallest with smaller width being tie breaker */
@@ -122,7 +140,7 @@ int main(int argc, char *argv[])
 
 	/* Draw green window around active process and start it */
 	draw_window(KNO_STDWIN);
-	draw_border(placement[p_act][0] - 2*padding, placement[p_act][1] - 2*padding, programs[p_act].w + 4*padding, programs[p_act].h + 4*padding, padding, 0, 0, 255);
+	draw_border(placement[p_act][0] - 2*padding, placement[p_act][1] - 2*padding, programs[p_act].w + 4*padding, programs[p_act].h + 4*padding, padding, 0, 0, 244);
 	draw_flush();
 
 	while (tin != '~') {
