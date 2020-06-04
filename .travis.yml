@@ -4,6 +4,7 @@ os:
   - linux
 
 before_install:
-  - sudo apt-get install -y mkisofs dosfstools qemu && make hddimg
+  - sudo apt-get install -y mkisofs dosfstools qemu
+  - make hddimg
 
 script: make clean && make
