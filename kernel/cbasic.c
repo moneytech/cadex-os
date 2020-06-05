@@ -70,8 +70,18 @@ int cbasic(){
                 outb(str2int(cargv[1], sizeof(cargv[1])), str2int(cargv[2], sizeof(cargv[2])));
                 printf("\n");
             }
-            else if (!strcmp)
+            else if (!strcmp(cargv[0], "sum"))
             {
+                int pchar;
+                int uchar;
+                str2int(cargv[1], pchar);
+                str2int(cargv[2], uchar);
+                if(strncmp(cargv[1], "", sizeof(cargv[1])) && strncmp(cargv[2], "", sizeof(cargv[2]))){
+                    printf(pchar + uchar);
+                }else
+                {
+                    printf("?Syntax error");
+                }
                 
             }
             else
