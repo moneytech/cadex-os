@@ -28,6 +28,7 @@ int decToHex(){
 
         // display integer into character
         for (i = j; i >= 0; i--)
-            printf("%c\n", hexadecimalnum[i]);
+            printf("%c", hexadecimalnum[i]);
+        printf("\n");
         return 0;
 }
