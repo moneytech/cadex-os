@@ -33,6 +33,8 @@ See the file LICENSE for details.
 #include "graphics.h"
 #include "interrupt.h"
 #include "font.h"
+#include "utils.h"
+#include "scanf.h"
 #define BASEPORT 0x0060 /* lp1 */
 uint16_t cursor_pos = 0, cursor_next_line_index = 1;
 static uint32_t next_line_index = 1;
@@ -666,6 +668,10 @@ static int kshell_execute(int argc, const char **argv)
 		{
 			printf("Usage: uname <options>\nOptions:\n -v: Version Number\n -b: Build number\n -c: Codename\n -a: All information\n");
 		}
+	}
+	else if (!strcmp(cmd, "dectohex"))
+	{
+		decToHex();
 	}
 
 	else
