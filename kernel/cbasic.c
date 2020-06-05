@@ -43,6 +43,11 @@ int scargv;
 int cbasic(){
     while(1){
         scanf(line, sizeof(line));
+        if (sizeof(line) != 1)
+        {
+            printf("\nReady.\n");
+        }
+        
         cargc = 0;
         cargv[cargc] = strtok(line, " ");
         while (cargv[cargc])
@@ -70,14 +75,13 @@ int cbasic(){
                 outb(str2int(cargv[1], sizeof(cargv[1])), str2int(cargv[2], sizeof(cargv[2])));
                 printf("\n");
             }
-            else if (!strcmp(cargv[0], "sum"))
+            else if (!strcmp(cargv[0], "emoji"))
             {
                 int pchar;
                 int uchar;
                 str2int(cargv[1], pchar);
-                str2int(cargv[2], uchar);
-                if(strncmp(cargv[1], "", sizeof(cargv[1])) && strncmp(cargv[2], "", sizeof(cargv[2]))){
-                    printf(pchar + uchar);
+                if(strncmp(cargv[1], "", sizeof(cargv[1]))){
+                    printf(pchar);
                 }else
                 {
                     printf("?Syntax error");
