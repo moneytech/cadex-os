@@ -28,7 +28,7 @@ See the file LICENSE for details.
 #include "serial.h"
 
 /*
-This is the C initialization point of the kernel.
+This is the C initialization point of the Cadex kernel.
 By the time we reach this point, we are in protected mode,
 with interrupts disabled, a valid C stack, but no malloc heap.
 Now we initialize each subsystem in the proper order:
@@ -55,7 +55,7 @@ int kernel_main()
 	ata_init();
 	cdrom_init();
 	diskfs_init();
-
+	kshell_mount("atapi", 2, "cdromfs");
 	printf("\n************* Cadex OS Version 0.0.5 | Pre-Alpha *************\n");
 	kshell_launch();
 

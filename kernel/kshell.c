@@ -35,6 +35,8 @@ See the file LICENSE for details.
 #include "font.h"
 #include "utils.h"
 #include "scanf.h"
+#include "cbasic.h"
+
 #define BASEPORT 0x0060 /* lp1 */
 uint16_t cursor_pos = 0, cursor_next_line_index = 1;
 static uint32_t next_line_index = 1;
@@ -99,8 +101,13 @@ char *shakespeare[] = {
 	"Exeunt Marching: after the which, a Peale of",
 	"Ordenance are shot off.",
 };
-
-static int kshell_mount(const char *devname, int unit, const char *fs_type)
+char *promptsym[] = {
+	"#",
+	"$",
+	"%",
+};
+int prompt = 0;
+int kshell_mount(const char *devname, int unit, const char *fs_type)
 {
 	struct device *dev = device_open(devname, unit);
 	if (dev)
@@ -136,6 +143,51 @@ static int kshell_mount(const char *devname, int unit, const char *fs_type)
 		else
 		{
 			printf("mount: invalid fs type: %s\n", fs_type);
+			return -1;
+		}
+		device_close(dev);
+	}
+	else
+	{
+		printf("mount: couldn't open device %s unit %d\n", devname, unit);
+		return -1;
+	}
+
+	return -1;
+}
+static int kshell_mount_nomsg(const char *devname, int unit, const char *fs_type)
+{
+	struct device *dev = device_open(devname, unit);
+	if (dev)
+	{
+		struct fs *fs = fs_lookup(fs_type);
+		if (fs)
+		{
+			struct fs_volume *v = fs_volume_open(fs, dev);
+			if (v)
+			{
+				struct fs_dirent *d = fs_volume_root(v);
+				if (d)
+				{
+					if (current->root_dir)
+						fs_dirent_close(current->root_dir);
+					current->root_dir = d;
+					current->current_dir = fs_dirent_addref(d);
+					return 0;
+				}
+				else
+				{
+					return -1;
+				}
+				fs_volume_close(v);
+			}
+			else
+			{
+				return -1;
+			}
+		}
+		else
+		{
 			return -1;
 		}
 		device_close(dev);
@@ -192,7 +244,6 @@ int kshell_install(int src, int dst)
 	struct fs_dirent *dstroot = fs_volume_root(dstvolume);
 
 	printf("copying atapi unit %d to ata unit %d...\n", src, dst);
-
 	fs_dirent_copy(srcroot, dstroot, 0);
 
 	fs_dirent_close(dstroot);
@@ -673,7 +724,36 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		decToHex();
 	}
-
+	else if (!strcmp(cmd, "cdmount"))
+	{
+		printf("atapi: mounting disk with unit 2 with filesystem cdromfs\n");
+		kshell_mount("atapi", 2, "cdromfs");
+	}
+	else if (!strcmp(cmd, "cbas"))
+	{
+		
+		 cbasic();
+	}
+	else if (!strcmp(cmd, "chprompt"))
+	{
+		/* This is a very good customisation feature. Ability to change prompt symbol. */
+		if(!strcmp(argv[1], "bash")){
+			/* [root@cadex]$ */
+			prompt = 1;
+		} else if (!strcmp(argv[1], "rootbash"))
+		{
+			/* [root@cadex]# */
+			prompt = 0;
+		}else if (!strcmp(argv[1], "linux-3"))
+		{
+			/* [root@cadex]% */
+			prompt = 2;
+		}else
+		{
+			printf("\nCadex chprompt. Utility to change shell prompt symbol.\nAvailable symbols are:\n $ : chprompt bash\n # : chprompt rootbash\n % : chprompt linux-3\n\n");
+		}
+	}
+	
 	else
 	{
 		printf("%s: command/program not found\n", argv[0]);
@@ -725,10 +805,11 @@ int kshell_launch()
 	const char *argv[100];
 	int argc;
 	beep();
-	printf("\n\nRun 'mount atapi 2 cdromfs' to mount CD-ROM to filesystem\n\n");
+	// printf("\n\nRun 'cdmount' to mount CD-ROM to filesystem\n\n");
+	printf("\n");
 	while (1)
 	{
-		printf("[user:root@cadex]# ");
+		printf("[root@cadex:]%s ", promptsym[prompt]);
 		kshell_readline(line, sizeof(line));
 
 		argc = 0;

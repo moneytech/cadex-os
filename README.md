@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/OpenCreeck/Cadex-OS-Official.svg?branch=master)](https://travis-ci.org/OpenCreeck/Cadex-OS-Official)
 
 Cadex OS is a simple operating system kernel originally made by Prof. Douglas Thain at the University of Notre Dame and a variety of students including
-Jack Mazanec, Douglas Smith, Ethan Williams, Jon Westhoff, and Kevin Wern. This is a fork of the repo https://github.com/dthain/basekernel
+Jack Mazanec, Douglas Smith, Ethan Williams, Jon Westhoff, and Kevin Wern. And now maintained by HyperCreeck. This is a fork of the repo https://github.com/dthain/basekernel
 
 Cadex OS is _**not**_ a complete operating system, but it is a starting
 point for those who wish to study and develop new operating system code.
