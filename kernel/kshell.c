@@ -628,6 +628,7 @@ static int kshell_execute(int argc, const char **argv)
 		printf('\a');
 		printf("\n");
 	}
+
 	else if (!strcmp(cmd, "bcache_stats"))
 	{
 		struct bcache_stats stats;
