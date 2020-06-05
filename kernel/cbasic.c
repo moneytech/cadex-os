@@ -70,7 +70,10 @@ int cbasic(){
                 outb(str2int(cargv[1], sizeof(cargv[1])), str2int(cargv[2], sizeof(cargv[2])));
                 printf("\n");
             }
-            
+            else if (!strcmp)
+            {
+                
+            }
             else
             {
                 printf("?Syntax error\n");
