@@ -625,6 +625,8 @@ static int kshell_execute(int argc, const char **argv)
 		/* A simple beep implementation. See https://wiki.osdev.org/PC_Speaker#Sample_Code/ /**Code by HyperCreeck**/
 		/* May not work in emulators */
 		beep();
+		printf('\a');
+		printf("\n");
 	}
 	else if (!strcmp(cmd, "bcache_stats"))
 	{
@@ -753,7 +755,7 @@ static int kshell_execute(int argc, const char **argv)
 			printf("\nCadex chprompt. Utility to change shell prompt symbol.\nAvailable symbols are:\n $ : chprompt bash\n # : chprompt rootbash\n % : chprompt linux-3\n\n");
 		}
 	}
-	
+
 	else
 	{
 		printf("%s: command/program not found\n", argv[0]);

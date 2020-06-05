@@ -16,7 +16,7 @@ run: cadex.iso # hddimg
 debug: cadex.iso hddimg
 					#  | This .exe is for compatibility for WSL. See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
 		    		# \/ This is ignored if you are not building on a WSL.
-	qemu-system-i386.exe -cdrom cadex.iso -hda disk.img -s -S -device isa-debug-exit,iobase=0xf4,iosize=0x04 & || qemu-system-i386 -cdrom cadex.iso -hda disk.img -s -S -device isa-debug-exit,iobase=0xf4,iosize=0x04 &
+	qemu-system-i386.exe -cdrom cadex.iso -hda disk.img -s -S -device isa-debug-exit,iobase=0xf4,iosize=0x04 & || qemu-system-i386 -cdrom cadex.iso -hda disk.img -s -S  &
 
 hddimg:
 			#  | This .exe is for compatibility for WSL. See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
