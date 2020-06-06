@@ -691,6 +691,7 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "unexpected"))
 	{
+		
 		while (1)
 		{
 			printf("\-/-\-/");

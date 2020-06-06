@@ -41,13 +41,12 @@ int cargc;
 int scargv;
 
 int cbasic(){
+    printf("     **** CADEX CBASIC V1 ****    \n\n");
+    printf("64K RAM SYSTEM  38911 BASIC BYTES FREE\n");
     while(1){
-        scanf(line, sizeof(line));
-        if (sizeof(line) != 1)
-        {
-            printf("\nReady.\n");
-        }
-        
+        printf("\nREADY.\n");
+        scanf(line, sizeof(line));        
+                
         cargc = 0;
         cargv[cargc] = strtok(line, " ");
         while (cargv[cargc])
@@ -57,7 +56,7 @@ int cbasic(){
         }
         if (cargc > 0)
         {
-            if (!strcmp(cargv[0], "print"))
+            if (!strcmp(cargv[0], "print") || !strcmp(cargv[0], "PRINT"))
             {
                 scargv = cargc;
                 for (size_t i = 1; i < scargv; i++)
@@ -66,16 +65,16 @@ int cbasic(){
                 }
                 printf("\n");
             }
-            else if (!strcmp(cargv[0], "exit"))
+            else if (!strcmp(cargv[0], "exit") || !strcmp(cargv[0], "EXIT"))
             {
                 break;
             }
-            else if (!strcmp(cargv[0], "poke"))
+            else if (!strcmp(cargv[0], "poke") || !strcmp(cargv[0], "POKE"))
             {
                 outb(str2int(cargv[1], sizeof(cargv[1])), str2int(cargv[2], sizeof(cargv[2])));
                 printf("\n");
             }
-            else if (!strcmp(cargv[0], "emoji"))
+            else if (!strcmp(cargv[0], "emoji") || !strcmp(cargv[0], "EMOJI"))
             {
                 int pchar;
                 int uchar;
@@ -84,13 +83,18 @@ int cbasic(){
                     printf(pchar);
                 }else
                 {
-                    printf("?Syntax error");
+                    printf("?SYNTAX  ERROR");
                 }
                 
             }
+            else if (!strcmp(cargv[0], "peek") || !strcmp(cargv[0], "PEEK"))
+            {
+                printf(20182183737);
+            }
             else
             {
-                printf("?Syntax error\n");
+                printf("?SYNTAX  ERROR\n");
+                
             }
         }
     }
