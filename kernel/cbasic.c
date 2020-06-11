@@ -35,27 +35,39 @@
 #include "cbasic.h"
 #include "interrupt.h"
 
+// Create variables
 char line[1024];
 const char *cargv[100];
 int cargc;
 int scargv;
 
+// Our main function!
 int cbasic(){
+    // Let's print the name and some Commodore 64 BASIC related stuff!
+    // This must be before the loop!
     printf("     **** CADEX CBASIC V1 ****    \n\n");
     printf("64K RAM SYSTEM  38911 BASIC BYTES FREE\n");
+    // The loop starts!
     while(1){
+        // Print "Ready.""
         printf("\nREADY.\n");
+        // Take input from user
         scanf(line, sizeof(line));        
-                
+        // Number of arguments        
         cargc = 0;
+        // LEXER!!!
+        // This is similar to cargv.split(" ") in JavaScript
         cargv[cargc] = strtok(line, " ");
+        // Note that C does not have a string type. So, we have to look every character and remove the whitespace.
         while (cargv[cargc])
         {
             cargc++;
             cargv[cargc] = strtok(0, " ");
         }
+        // If we don't check the length of input, the OS will crash. Because this is on the core part of the OS, we cannot let the OS crash due to this.
         if (cargc > 0)
         {
+            // PARSER!!!
             if (!strcmp(cargv[0], "print") || !strcmp(cargv[0], "PRINT"))
             {
                 scargv = cargc;
@@ -96,6 +108,7 @@ int cbasic(){
                 printf("?SYNTAX  ERROR\n");
                 
             }
+            // Because this is a simple interpreter and this CBasic does not have line numbers or other things, we only have a lexer and a parser
         }
     }
 
