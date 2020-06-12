@@ -18,10 +18,10 @@ static uint32_t stdio_buffer_index = 0;
 static struct graphics_command graphics_buffer[PAGE_SIZE] = { {0} };
 
 static uint32_t graphics_buffer_index = 0;
-
+ 
 static int window_fd = KNO_STDWIN;
 
-void flush()
+void flushScreen()    
 {
 	syscall_object_write(KNO_STDOUT, stdio_buffer, stdio_buffer_index);
 	stdio_buffer_index = 0;
@@ -60,7 +60,7 @@ static void draw_set_buffer(int t, int a0, int a1, int a2, int a3)
 	graphics_buffer[graphics_buffer_index++] = c;
 }
 
-void flushScreen()
+void flush()
 {
 	draw_set_buffer(GRAPHICS_END, 0, 0, 0, 0);
 	syscall_object_write(window_fd, graphics_buffer, graphics_buffer_index);
