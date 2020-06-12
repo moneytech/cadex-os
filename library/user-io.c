@@ -21,7 +21,7 @@ static uint32_t graphics_buffer_index = 0;
  
 static int window_fd = KNO_STDWIN;
 
-void flushScreen()    
+void flushScreen()      
 {
 	syscall_object_write(KNO_STDOUT, stdio_buffer, stdio_buffer_index);
 	stdio_buffer_index = 0;

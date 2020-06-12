@@ -10,8 +10,7 @@ A trivial user level program to try out basic system calls.
 
 #include "library/syscalls.h"
 #include "library/string.h"
-#include "library/user-io.h"
-
+#include "library/user-io.h" 
 int main(int argc, char *argv[])
 {
 	syscall_chdir("/");
@@ -28,6 +27,7 @@ int main(int argc, char *argv[])
 		printf("%s", buffer);
 		flush();
 	}
+	
 	syscall_object_close(fd);
 	syscall_process_exit(0);
 
