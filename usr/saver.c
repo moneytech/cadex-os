@@ -40,9 +40,9 @@ int main(int argc, char *argv[])
 	int width = dims[0];
 	int height = dims[1];
 
-	draw_window(KNO_STDWIN);
-	draw_clear(0, 0, width, height);
-	draw_flush();
+	renderWindow(KNO_STDWIN);
+	clearScreen(0, 0, width, height);
+	flush();
 
 	char stop = -1;
 	while(stop == -1) {
@@ -53,17 +53,17 @@ int main(int argc, char *argv[])
 		move(&r, &dr, 0, 255);
 		move(&g, &dg, 0, 255);
 		move(&b, &db, 0, 255);
-		draw_window(KNO_STDWIN);
-		draw_color(r, g, b);
+		renderWindow(KNO_STDWIN);
+		setTextColor(r, g, b);
 
-		draw_line(x1, y1, x2 - x1, y2 - y1);
-		draw_flush();
+		drawLine(x1, y1, x2 - x1, y2 - y1);
+		flush();
 		syscall_process_sleep(25);
 		syscall_object_read_nonblock(KNO_STDIN,&stop, 1);
 	}
-	draw_clear(0, 0, width, height);
-	draw_color(255, 255, 255);
-	draw_flush();
+	clearScreen(0, 0, width, height);
+	setTextColor(255, 255, 255);
+	flush();
 	return 0;
 }
 

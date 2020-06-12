@@ -14,34 +14,18 @@ A trivial user level program to try out basic system calls.
 
 int main(int argc, char *argv[])
 {
-	uint32_t j = 0;
 	syscall_chdir("/");
-	printf("Got root access\n");
-	int fd = syscall_open_file("kevin.txt", 1, 0);
-	printf("Got filesystem access %d\n", fd);
-	printf("writing to file...\n");
-	for(;;) {
-		j++;
-		char buffer[100] = "Hello, world! I can write to ";
-		char num[5];
-		char newline[2] = "\n";
-		int n;
-		uint_to_string(j, num);
-		strcat(buffer, num);
-		strcat(buffer, newline);
-		n = syscall_object_write(fd, buffer, strlen(buffer));
-		if(n < 0)
-			break;
-		printf("wrote %d chars: %s\n", n, buffer);
-	}
-	syscall_object_close(fd);
-	fd = syscall_open_file("kevin.txt", 1, 0);
+	printf("got root\n");
+	int dir_fd = syscall_open_file("/", 0, 0);
+	syscall_object_set_tag(dir_fd, "ROOT");
+	printf("Opened root directory\n");
+	int fd = syscall_open_file("ROOT:/data/words", 0, 0);
 	char buffer[1000];
 	int n;
-	printf("Reading from file...\n");
-	while((n = syscall_object_read(fd, buffer, 999)) > 0) {
+	printf("reading file...\n");
+	while((n = syscall_object_read(fd, buffer, 100)) > 0) {
 		buffer[n] = 0;
-		printf("%s");
+		printf("%s", buffer);
 		flush();
 	}
 	syscall_object_close(fd);

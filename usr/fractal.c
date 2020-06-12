@@ -34,8 +34,8 @@ int main(int argc, char *argv[])
 	float factor = 0.001;
 
 	/* Setup the window */
-	draw_window(KNO_STDWIN);
-	draw_clear(0, 0, dim, dim);
+	renderWindow(KNO_STDWIN);
+	clearScreen(0, 0, dim, dim);
 
 	/* For each point, see if it is in the Mandelbrot set */
 	Complex current;
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 			current.i = (float)k*factor + i_init;
 			iter_val = in_set(current);
 			plot_point(iter_val, j, k);
-			draw_flush();
+			flush();
 		}
 		syscall_process_yield();
 	}
@@ -86,14 +86,14 @@ void plot_point(int iter_val, int j, int k)
 	int colors[STEPS][3] = {{255,255,0},{255,215,0},{50,205,50},{0,0,205},{165,42,42}};
 
 	if (iter_val > ITER_THRES) {
-		draw_color(255, 255, 255);
-		draw_rect(j, k, 1, 1);
+		setTextColor(255, 255, 255);
+		drawRect(j, k, 1, 1);
 	} else {
 		for (int i = 0; i < STEPS; ++i)
 		{
 			if (iter_val <= step_size*(i+1)) {
-				draw_color(colors[i][0], colors[i][1], colors[i][2]);
-				draw_rect(j, k, 1, 1);
+				setTextColor(colors[i][0], colors[i][1], colors[i][2]);
+				drawRect(j, k, 1, 1);
 				break;
 			}
 		}

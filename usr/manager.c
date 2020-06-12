@@ -66,12 +66,12 @@ int main(int argc, char *argv[])
 	/* Setup the window */
 	int std_dims[2];
 	syscall_object_size(KNO_STDWIN, std_dims, 2);
-	draw_window(KNO_STDWIN);
+	renderWindow(KNO_STDWIN);
 	/* The code below will not work */
-	draw_color(r, g, b);
-	draw_string(x1, y1, "Cadex Shell UI");
+	setTextColor(r, g, b);
+	print(x1, y1, "Cadex Shell UI");
 	/* End not working code*/
-	draw_flush();
+	flush();
 
 	/* Sort programs in order of biggest height to smallest with smaller width being tie breaker */
 	int left = 0;
@@ -129,9 +129,9 @@ int main(int argc, char *argv[])
 
 		// Take in an array of FD's
 		pids[p_i] = syscall_process_wrun(programs[p_i].exec, programs[p_i].argc, programs[p_i].args, fds[p_i], 4);
-		draw_window(KNO_STDWIN);
+		renderWindow(KNO_STDWIN);
 		draw_border(placement[p_i][0] - 2*padding, placement[p_i][1] - 2*padding, programs[p_i].w + 4*padding, programs[p_i].h + 4*padding, padding, 255, 255, 255);
-		draw_flush();
+		flush();
 	}
 
 	/* Finally, allow the user to switch between programs*/
@@ -139,9 +139,9 @@ int main(int argc, char *argv[])
 	char tin = 0;
 
 	/* Draw green window around active process and start it */
-	draw_window(KNO_STDWIN);
+	renderWindow(KNO_STDWIN);
 	draw_border(placement[p_act][0] - 2*padding, placement[p_act][1] - 2*padding, programs[p_act].w + 4*padding, programs[p_act].h + 4*padding, padding, 0, 0, 244);
-	draw_flush();
+	flush();
 
 	while (tin != '~') {
 		if (pids[p_act] == 0) {
@@ -152,16 +152,16 @@ int main(int argc, char *argv[])
 		/* If tab entered, go to the next process */
 		syscall_object_read(0, &tin, 1);
 		if (tin == '\t') {
-			draw_window(KNO_STDWIN);
+			renderWindow(KNO_STDWIN);
 			draw_border(placement[p_act][0] - 2*padding, placement[p_act][1] - 2*padding, programs[p_act].w + 4*padding, programs[p_act].h + 4*padding, padding, 255, 255, 255);
-			draw_flush();
+			flush();
 			p_act = (p_act + 1) % num_programs;
 
 			/* Draw green window around active process and start it */
-			draw_window(KNO_STDWIN);
+			renderWindow(KNO_STDWIN);
 			draw_border(placement[p_act][0] - 2*padding, placement[p_act][1] - 2*padding, programs[p_act].w + 4*padding, programs[p_act].h + 4*padding, padding, 0, 0, 255);
-			draw_flush();
-			draw_color(255, 255, 255);
+			flush();
+			setTextColor(255, 255, 255);
 			continue;
 		}
 		/* Write 1 character to the correct pipe */
@@ -175,9 +175,9 @@ int main(int argc, char *argv[])
 	}
 
 	/* Clean up the window */
-	draw_color(255, 255, 255);
-	draw_clear(0, 0, std_dims[0], std_dims[1]);
-	draw_flush();
+	setTextColor(255, 255, 255);
+	clearScreen(0, 0, std_dims[0], std_dims[1]);
+	flush();
 	return 0;
 }
 
@@ -242,9 +242,9 @@ void merge(program * arr, int l, int m, int r) {
 
 
 void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b) {
-	draw_color(r, b, g);
-	draw_rect(x, y, w, thickness);
-	draw_rect(x, y, thickness, h);
-	draw_rect(x + w - thickness, y, thickness, h);
-	draw_rect(x, y + h - thickness, w, thickness);
+	setTextColor(r, b, g);
+	drawRect(x, y, w, thickness);
+	drawRect(x, y, thickness, h);
+	drawRect(x + w - thickness, y, thickness, h);
+	drawRect(x, y + h - thickness, w, thickness);
 }

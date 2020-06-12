@@ -38,11 +38,11 @@ int main(int argc, char *argv[])
 	int thickness = 4;
 
 	/* Set up window  */
-	draw_window(KNO_STDWIN);
-	draw_clear(0, 0, CLOCK_W, CLOCK_H);
+	renderWindow(KNO_STDWIN);
+	clearScreen(0, 0, CLOCK_W, CLOCK_H);
 	draw_border(0, 0, CLOCK_W, CLOCK_H, thickness, 255, 255, 255);
 	draw_clock(time.hour, time.minute, timezone, military, 0, 0, 2*thickness, 255, 255, 255);
-	draw_flush();
+	flush();
 
 	/* Run Clock */
 	char c = 0;
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 		syscall_process_sleep(2000);
 		syscall_system_rtc(&time);
 		draw_clock(time.hour, time.minute, timezone, military, 0, 0, 2*thickness, 255, 255, 255);
-		draw_flush();
+		flush();
 
 	}
 
@@ -61,15 +61,15 @@ int main(int argc, char *argv[])
 
 void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
 {
-	draw_color(r, b, g);
-	draw_rect(x, y, w, thickness);
-	draw_rect(x, y, thickness, h);
-	draw_rect(x + w - thickness, y, thickness, h);
-	draw_rect(x, y + h - thickness, w, thickness);
+	setTextColor(r, b, g);
+	drawRect(x, y, w, thickness);
+	drawRect(x, y, thickness, h);
+	drawRect(x + w - thickness, y, thickness, h);
+	drawRect(x, y + h - thickness, w, thickness);
 }
 
 void draw_clock(uint32_t hour, uint32_t minute, int timezone, int military, int x, int y, int padding, int r, int g, int b) {
-	draw_color(r, b, g);
+	setTextColor(r, b, g);
 
 	char h_str[100];
 	char m_str[100];
@@ -103,5 +103,5 @@ void draw_clock(uint32_t hour, uint32_t minute, int timezone, int military, int 
 	}
 	strcat(time, (const char *) m_str);
 
-	draw_string(x + padding, y + padding, time);
+	print(x + padding, y + padding, time);
 }

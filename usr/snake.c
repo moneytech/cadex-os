@@ -80,12 +80,13 @@ int main(int argc, char *argv[])
 	if((wd = initialize_window(x, y, WIDTH, HEIGHT, thick, 255, 255, 255)) < 0) {
 		return 1;
 	}
-	draw_string(thick * 3, thick * 4, "Press any key to start");
-	draw_string(thick * 3, thick * 8, "j: up");
-	draw_string(thick * 3, thick * 12, "n: down");
-	draw_string(thick * 3, thick * 16, "m: right");
-	draw_string(thick * 3, thick * 20, "b: left");
-	draw_flush();
+	print(thick * 4, thick * 2, "Snake");
+	print(thick * 3, thick * 4, "Press any key to start");
+	print(thick * 3, thick * 8, "j: up");
+	print(thick * 3, thick * 12, "n: down");
+	print(thick * 3, thick * 16, "m: right");
+	print(thick * 3, thick * 20, "b: left");
+	flush();
 
 
 	syscall_object_read(0, &tin, 1);
@@ -123,12 +124,12 @@ int main(int argc, char *argv[])
 			board[0][0] = 1;
 			init_snake_coords(snake_coords, x_steps, y_steps, x, y);
 
-			draw_flush();
-			draw_color(255, 255, 255);
-			draw_string(thick * 3, thick * 4, "You lose!");
-			draw_string(thick * 3, thick * 8, "Enter q to quit");
-			draw_string(thick * 3, thick * 12, "Press any key to start");
-			draw_flush();
+			flush();
+			setTextColor(255, 255, 255);
+			print(thick * 3, thick * 4, "You lose!");
+			print(thick * 3, thick * 8, "Enter q to quit");
+			print(thick * 3, thick * 12, "Press any key to start");
+			flush();
 			syscall_object_read(0, &tin, 1);
 			if (tin == 'q')
 			{
@@ -140,7 +141,7 @@ int main(int argc, char *argv[])
 			}
 			in = tin;
 			set_apple_location(x_steps, y_steps, &apple, (uint8_t *) board);
-			draw_clear(0, 0, game_width, game_height);
+			clearScreen(0, 0, game_width, game_height);
 			if(draw_border(0, 0, game_width, game_height, thick, 255, 255, 255) < 0) {
 				printf("Border create failed!\n");
 				return -1;
@@ -217,13 +218,13 @@ uint16_t randint(uint16_t min, uint16_t max)
 int initialize_window(uint16_t x_b, uint16_t y_b, uint16_t w_b, uint16_t h_b, uint16_t thick, uint8_t r_b, uint8_t g_b, uint8_t b_b)
 {
 	/* draw initial window */
-	draw_window(KNO_STDWIN);
-	draw_clear(0, 0, w_b, h_b);
+	renderWindow(KNO_STDWIN);
+	clearScreen(0, 0, w_b, h_b);
 	if(draw_border(0, 0, w_b, h_b, thick, r_b, g_b, b_b) < 0) {
 		printf("Border create failed!\n");
 		return -1;
 	}
-	draw_flush();
+	flush();
 
 	return KNO_STDWIN;
 }
@@ -232,35 +233,35 @@ int initialize_window(uint16_t x_b, uint16_t y_b, uint16_t w_b, uint16_t h_b, ui
 int draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
 {
 	// Color the border appropriately
-	draw_color(r, b, g);
+	setTextColor(r, b, g);
 
 	// Draw 4 rectangles to represent the border
-	draw_rect(x, y, w, thickness);
-	draw_rect(x, y, thickness, h);
-	draw_rect(x + w - thickness, y, thickness, h);
-	draw_rect(x, y + h - thickness, w, thickness);
+	drawRect(x, y, w, thickness);
+	drawRect(x, y, thickness, h);
+	drawRect(x + w - thickness, y, thickness, h);
+	drawRect(x, y + h - thickness, w, thickness);
 
 	return 0;
 }
 
 void draw_board(uint16_t wd, uint16_t x_0, uint16_t y_0, uint16_t game_width, uint16_t game_height, uint16_t x_steps, uint16_t y_steps, struct coords *snake_coords, struct coords apple, uint16_t thick)
 {
-	draw_clear(x_0, y_0, game_width, game_height);
-	draw_window(wd);
+	clearScreen(x_0, y_0, game_width, game_height);
+	renderWindow(wd);
 	// Draw the snake
-	draw_color(0, 255, 0);
+	setTextColor(0, 255, 0);
 	for(uint16_t i = 0; i < x_steps * y_steps; i++) {
 		if(snake_coords[i].x_c == 255) {
 			break;
 		}
-		draw_rect(snake_coords[i].x_c * thick + x_0, snake_coords[i].y_c * thick + y_0, thick, thick);
+		drawRect(snake_coords[i].x_c * thick + x_0, snake_coords[i].y_c * thick + y_0, thick, thick);
 	}
 
 	// Draw the apple
-	draw_color(255, 0, 0);
-	draw_rect(apple.x_c * thick + x_0, apple.y_c * thick + y_0, thick, thick);
+	setTextColor(255, 0, 0);
+	drawRect(apple.x_c * thick + x_0, apple.y_c * thick + y_0, thick, thick);
 
-	draw_flush();
+	flush();
 }
 
 int move_snake(struct coords *snake_coords, struct coords *apple, uint16_t x_steps, uint16_t y_steps, uint8_t * board, char in)

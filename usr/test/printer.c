@@ -17,10 +17,10 @@ A fun graphics demo that features a line segment bouncing around the screen.
 
 int main(int argc, char *argv[])
 {
-	draw_window(KNO_STDWIN);
-	draw_color(0, 0, 255);
-	draw_clear(0, 0, WIDTH, HEIGHT);
-	draw_flush();
+	renderWindow(KNO_STDWIN);
+	setTextColor(0, 0, 255);
+	clearScreen(0, 0, WIDTH, HEIGHT);
+	flush();
 
 	int cd = syscall_open_console(KNO_STDWIN);
 	if(cd < 0) {

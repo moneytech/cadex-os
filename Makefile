@@ -6,7 +6,7 @@ USER_SOURCES=$(wildcard usr/*.c)
 USER_PROGRAMS=$(USER_SOURCES:c=exe)
 KERNEL_SOURCES=$(wildcard kernel/*.[chS])
 
-all: clean cadex.iso run
+all: clean cadex.iso # run # Uncomment this run command to run the OS after you've built the OS
 
 run: cadex.iso # hddimg
 					#  | This .exe is for compatibility for WSL. See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat

@@ -36,28 +36,28 @@ int main(int argc, char *argv[])
 	int width = dims[0];
 	int height = dims[1];
 
-	draw_window(KNO_STDWIN);
-	draw_clear(0, 0, width, height);
-	draw_flush();
+	renderWindow(KNO_STDWIN);
+	clearScreen(0, 0, width, height);
+	flush();
 
 	char stop = -1;
 	while(stop == -1) {
-		draw_window(KNO_STDWIN);
+		renderWindow(KNO_STDWIN);
 		move(&x1, &dx1, 0, width - 80);
 		move(&y1, &dy1, 0, height - 1);
 		move(&r, &dr, 0, 255);
 		move(&g, &dg, 0, 255);
 		move(&b, &db, 0, 255);
-		draw_color(r, g, b);
-		draw_string(x1, y1, "Ball.EXE");
-		draw_flush();
+		setTextColor(r, g, b);
+		print(x1, y1, "Ball.EXE");
+		flush();
 
 		syscall_process_sleep(75);
 		syscall_object_read_nonblock(KNO_STDIN,&stop,1);
 	}
-	draw_clear(0, 0, width, height);
-	draw_color(255, 255, 255);
-	draw_flush();
+	clearScreen(0, 0, width, height);
+	setTextColor(255, 255, 255);
+	flush();
 	return 0;
 }
 

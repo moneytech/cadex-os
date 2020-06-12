@@ -60,39 +60,39 @@ static void draw_set_buffer(int t, int a0, int a1, int a2, int a3)
 	graphics_buffer[graphics_buffer_index++] = c;
 }
 
-void draw_flush()
+void flushScreen()
 {
 	draw_set_buffer(GRAPHICS_END, 0, 0, 0, 0);
 	syscall_object_write(window_fd, graphics_buffer, graphics_buffer_index);
 	graphics_buffer_index = 0;
 }
 
-void draw_window(int wd)
+void renderWindow(int wd)
 {
 	window_fd = wd;
 }
 
-void draw_color(int r, int g, int b)
+void setTextColor(int r, int g, int b)
 {
 	draw_set_buffer(GRAPHICS_COLOR, r, g, b, 0);
 }
 
-void draw_rect(int x, int y, int w, int h)
+void drawRect(int x, int y, int w, int h)
 {
 	draw_set_buffer(GRAPHICS_RECT, x, y, w, h);
 }
 
-void draw_clear(int x, int y, int w, int h)
+void clearScreen(int x, int y, int w, int h)
 {
 	draw_set_buffer(GRAPHICS_CLEAR, x, y, w, h);
 }
 
-void draw_line(int x, int y, int w, int h)
+void drawLine(int x, int y, int w, int h)
 {
 	draw_set_buffer(GRAPHICS_LINE, x, y, w, h);
 }
 
-void draw_string(int x, int y, char *s)
+void print(int x, int y, char *s)
 {
 	draw_set_buffer(GRAPHICS_TEXT, x, y, (int) s, 0);
 }
