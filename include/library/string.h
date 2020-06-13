@@ -30,5 +30,6 @@ void memset(void *d, char value, unsigned length);
 void memcpy(void *d, const void *s, unsigned length);
 
 void printf(const char *s, ...);
+// int scanf(char *s);
 
 #endif

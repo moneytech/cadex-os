@@ -8,6 +8,7 @@ See the file LICENSE for details.
 #include "kernel/ascii.h"
 #include "library/malloc.h"
 #include "library/string.h"
+#include "library/syscalls.h"
 #include "library/malloc.h"
 #include "stdarg.h"
 
@@ -305,3 +306,32 @@ char *uint_to_string(uint32_t u, char *s)
 	s[i] = 0;
 	return s;
 }
+/* Work in progress */
+//int scanf(char *line)
+//{	int i = 0;
+//    while (i < (length - 1))
+//    {
+//        char c;		syscall_object_read(0, &line, sizeof(&line));
+//        if (c == ASCII_CR)
+//        {
+//            line[i] = 0;
+//            printf("\n");
+//            return 1;
+//        }
+//        else if (c == ASCII_BS)
+//        {
+//            if (i > 0)
+//            {
+//                putchar(c);
+//                i--;
+//            }
+//        }
+//        else if (c >= 0x20 && c <= 0x7E)
+//        {
+//            putchar(c);
+//            line[i] = c;
+//            i++;
+//        }
+//    }
+//    return 0;
+//}

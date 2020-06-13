@@ -8,6 +8,7 @@ See the file LICENSE for details.
 #include "kernel/stats.h"
 #include "kernel/gfxstream.h"
 
+char buffsize[5000];
 void syscall_debug(const char *str)
 {
 	syscall(SYSCALL_DEBUG, (uint32_t) str, 0, 0, 0, 0);
