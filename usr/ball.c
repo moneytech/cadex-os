@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 		print(x1, y1, "Ball.EXE");
 		flush();
 
-		syscall_process_sleep(75);
+		syscall_process_sleep(65);
 		syscall_object_read_nonblock(KNO_STDIN,&stop,1);
 	}
 	clearScreen(0, 0, width, height);
