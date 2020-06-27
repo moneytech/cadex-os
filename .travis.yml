@@ -6,4 +6,4 @@ os:
 before_install:
   - sudo apt-get install -y mkisofs dosfstools qemu
 
-script: make -file=CIMakefile
+script: make --file=CIMakefile

@@ -11,5 +11,5 @@ pool:
 
 steps:
 - script: |
-    make -file=CIMakefile
+    make --file=CIMakefile
   displayName: 'make'
