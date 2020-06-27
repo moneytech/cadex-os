@@ -1,4 +1,4 @@
-include Makefile.config
+include CIMakefile.config
 
 LIBRARY_SOURCES=$(wildcard library/*.c)
 LIBRARY_HEADERS=$(wildcard library/*.h)
