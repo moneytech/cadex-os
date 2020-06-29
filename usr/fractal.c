@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 	float factor = 0.001;
 
 	/* Setup the window */
-	renderWindow(KNO_STDWIN);
+	renderWindow(WN_STDWINDOW);
 	clearScreen(0, 0, dim, dim);
 
 	/* For each point, see if it is in the Mandelbrot set */

@@ -17,12 +17,12 @@ A fun graphics demo that features a line segment bouncing around the screen.
 
 int main(int argc, char *argv[])
 {
-	renderWindow(KNO_STDWIN);
+	renderWindow(WN_STDWINDOW);
 	setTextColor(0, 0, 255);
 	clearScreen(0, 0, WIDTH, HEIGHT);
 	flush();
 
-	int cd = syscall_open_console(KNO_STDWIN);
+	int cd = syscall_open_console(WN_STDWINDOW);
 	if(cd < 0) {
 		printf("Console open failed!\n");
 		return 2;

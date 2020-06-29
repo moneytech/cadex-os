@@ -65,8 +65,8 @@ int main(int argc, char *argv[])
 
 	/* Setup the window */
 	int std_dims[2];
-	syscall_object_size(KNO_STDWIN, std_dims, 2);
-	renderWindow(KNO_STDWIN);
+	syscall_object_size(WN_STDWINDOW, std_dims, 2);
+	renderWindow(WN_STDWINDOW);
 	/* The code below will not work */
 	setTextColor(r, g, b);
 	print(x1, y1, "Cadex Shell UI");
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 		}
 
 		fds[p_i][0] = syscall_open_pipe();
-		fds[p_i][3] = syscall_open_window(KNO_STDWIN, placement[p_i][0], placement[p_i][1], programs[p_i].w, programs[p_i].h);
+		fds[p_i][3] = syscall_open_window(WN_STDWINDOW, placement[p_i][0], placement[p_i][1], programs[p_i].w, programs[p_i].h);
 
 		// Standard output and error get console
 		fds[p_i][1] = syscall_open_console(fds[p_i][3]);
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
 
 		// Take in an array of FD's
 		pids[p_i] = syscall_process_wrun(programs[p_i].exec, programs[p_i].argc, programs[p_i].args, fds[p_i], 4);
-		renderWindow(KNO_STDWIN);
+		renderWindow(WN_STDWINDOW);
 		draw_border(placement[p_i][0] - 2*padding, placement[p_i][1] - 2*padding, programs[p_i].w + 4*padding, programs[p_i].h + 4*padding, padding, 255, 255, 255);
 		flush();
 	}
@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 	char tin = 0;
 
 	/* Draw green window around active process and start it */
-	renderWindow(KNO_STDWIN);
+	renderWindow(WN_STDWINDOW);
 	draw_border(placement[p_act][0] - 2*padding, placement[p_act][1] - 2*padding, programs[p_act].w + 4*padding, programs[p_act].h + 4*padding, padding, 0, 0, 244);
 	flush();
 
@@ -152,13 +152,13 @@ int main(int argc, char *argv[])
 		/* If tab entered, go to the next process */
 		syscall_object_read(0, &tin, 1);
 		if (tin == '\t') {
-			renderWindow(KNO_STDWIN);
+			renderWindow(WN_STDWINDOW);
 			draw_border(placement[p_act][0] - 2*padding, placement[p_act][1] - 2*padding, programs[p_act].w + 4*padding, programs[p_act].h + 4*padding, padding, 255, 255, 255);
 			flush();
 			p_act = (p_act + 1) % num_programs;
 
 			/* Draw green window around active process and start it */
-			renderWindow(KNO_STDWIN);
+			renderWindow(WN_STDWINDOW);
 			draw_border(placement[p_act][0] - 2*padding, placement[p_act][1] - 2*padding, programs[p_act].w + 4*padding, programs[p_act].h + 4*padding, padding, 0, 0, 255);
 			flush();
 			setTextColor(255, 255, 255);

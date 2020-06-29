@@ -28,7 +28,7 @@ int filereads() {
       syscall_object_close(fd[1]);
       syscall_object_close(fd[2]);
     }
-    syscall_process_sleep(3000);
+    sleepThread(3000);
     count++;
   }
 }

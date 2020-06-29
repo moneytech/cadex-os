@@ -161,8 +161,8 @@ static void nosound()
 //Make a beep
 void beep()
 {
-	play_sound(1000);
-	sleep(10);
+	play_sound(600);
+	sleep(1);
 	nosound();
 	//set_PIT_2(old_frequency);
 }

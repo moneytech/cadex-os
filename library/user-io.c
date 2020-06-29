@@ -19,7 +19,7 @@ static struct graphics_command graphics_buffer[PAGE_SIZE] = { {0} };
 
 static uint32_t graphics_buffer_index = 0;
  
-static int window_fd = KNO_STDWIN;
+static int window_fd = WN_STDWINDOW;
 
 void flushScreen()      
 {
@@ -162,4 +162,17 @@ void beep()
 	//set_PIT_2(old_frequency);
 }
 // End sound code
+int getWindowDimens(char *type){
+	int dims[2];
+	syscall_object_size(WN_STDWINDOW, dims, 2);
 
+	int width = dims[0];
+	int height = dims[1];
+	if(!strcmp(type[0], "width")){
+		return width;
+	}
+	if(!strcmp(type[0], "height")){
+		return height;
+	}
+	return width, height;
+}

@@ -69,7 +69,7 @@ int syscall_process_wait(struct process_info *info, int timeout)
 	return syscall(SYSCALL_PROCESS_WAIT, (uint32_t) info, timeout, 0, 0, 0);
 }
 
-int syscall_process_sleep(unsigned int ms)
+int sleepThread(unsigned int ms)
 {
 	return syscall(SYSCALL_PROCESS_SLEEP, ms, 0, 0, 0, 0);
 }

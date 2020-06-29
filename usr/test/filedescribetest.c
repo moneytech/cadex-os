@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	int type = -2;
 	int tag = -3;
 
-	int window_descriptor = syscall_open_window(KNO_STDWIN, 1, 1, 1, 1);
+	int window_descriptor = syscall_open_window(WN_STDWINDOW, 1, 1, 1, 1);
 	if(!window_descriptor) {
 		return 1;
 	}

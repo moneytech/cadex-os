@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 	int i;
 	for(i = 0; i < sizeof(shakespeare) / sizeof(char *); i++) {
 		printf("%s\n", shakespeare[i]);
-		syscall_process_sleep(1000);
+		sleepThread(1000);
 	}
 
 	return 0;

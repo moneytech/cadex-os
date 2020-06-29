@@ -1,6 +1,6 @@
 #ifndef COLOR_H
 #define COLOR_H
-#define BLUE 60,60,150
+#define BLUE 200,200,255
 #define BLACK 0,0,0
 #define WHITE 255,255,255
 #define GREEN 0,255,0

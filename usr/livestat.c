@@ -174,7 +174,7 @@ void run_stats(struct stat_args * args) {
 
     /* Sleep for 6 seconds and then continue */
     sleep:
-    syscall_process_sleep(6000);
+    sleepThread(6000);
   }
   setTextColor(255, 255, 255);
   flush();
@@ -244,7 +244,7 @@ void create_graph(STAT_LIVE stat_type, char * stat_name, char * stat_arg, int wi
   }
 
   /* Draw border around window */
-  renderWindow(KNO_STDWIN);
+  renderWindow(WN_STDWINDOW);
   clearScreen(0, 0, window_width, window_height);
   drawRect(0, 0, window_width, thickness);
   drawRect(0, 0, thickness, window_height);

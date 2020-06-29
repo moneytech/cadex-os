@@ -10,7 +10,7 @@ See the file LICENSE for details.
 #define KNO_STDIN  0
 #define KNO_STDOUT 1
 #define KNO_STDERR 2
-#define KNO_STDWIN 3
+#define WN_STDWINDOW 3
 
 void printf_putchar(char c);
 void printf_putstring(char *s);
@@ -24,5 +24,6 @@ void drawLine(int x, int y, int w, int h);
 void printChar(int x, int y, char c);
 void print(int x, int y, char *s);
 void flushScreen();
+int getWindowDimens(char *s);
 
 #endif

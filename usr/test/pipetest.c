@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 		printf("%d: Writing...\n", syscall_process_self());
 		syscall_object_dup(w, KNO_STDOUT);
 		printf("Testing!\n");
-		syscall_process_sleep(1000);
+		sleepThread(1000);
 	} else {
 		printf("%d: Reading...\n", syscall_process_self());
 		int r;

@@ -25,7 +25,7 @@ int syscall_process_parent();
 int syscall_process_kill(unsigned int pid);
 int syscall_process_reap(unsigned int pid);
 int syscall_process_wait(struct process_info *info, int timeout);
-int syscall_process_sleep(unsigned int ms);
+int sleepThread(unsigned int ms);
 int syscall_process_stats(struct process_stats *s, unsigned int pid);
 extern void *syscall_process_heap(int a);
 

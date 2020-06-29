@@ -36,10 +36,15 @@ int main(int argc, char *argv[])
 	int CLOCK_W = 55;
 	int CLOCK_H = 25;
 	int thickness = 4;
+	int dims[2];
+	syscall_object_size(WN_STDWINDOW, dims, 2);
+
+	int width = dims[0];
+	int height = dims[1];
 
 	/* Set up window  */
-	renderWindow(KNO_STDWIN);
-	clearScreen(0, 0, CLOCK_W, CLOCK_H);
+	renderWindow(WN_STDWINDOW);
+	clearScreen(0, 0, width, height);
 	draw_border(0, 0, CLOCK_W, CLOCK_H, thickness, 255, 255, 255);
 	draw_clock(time.hour, time.minute, timezone, military, 0, 0, 2*thickness, 255, 255, 255);
 	flush();
@@ -49,7 +54,7 @@ int main(int argc, char *argv[])
 	while(c != 'q')
 	{
 		syscall_object_read_nonblock(0, &c, 1);
-		syscall_process_sleep(2000);
+		sleepThread(2000);
 		syscall_system_rtc(&time);
 		draw_clock(time.hour, time.minute, timezone, military, 0, 0, 2*thickness, 255, 255, 255);
 		flush();

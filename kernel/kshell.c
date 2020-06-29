@@ -808,8 +808,6 @@ int kshell_launch()
 	char line[1024];
 	const char *argv[100];
 	int argc;
-	beep();
-	// printf("\n\nRun 'cdmount' to mount CD-ROM to filesystem\n\n");
 	printf("\n");
 	while (1)
 	{

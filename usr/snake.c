@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 		draw_board(wd, thick, thick, game_width, game_height, x_steps, y_steps, snake_coords, apple, thick);
 
 		// Wait
-		syscall_process_sleep(100);
+		sleepThread(100);
 
 		// Get users next input -- non-blocking
 		syscall_object_read_nonblock(0, &tin, 1);
@@ -218,7 +218,7 @@ uint16_t randint(uint16_t min, uint16_t max)
 int initialize_window(uint16_t x_b, uint16_t y_b, uint16_t w_b, uint16_t h_b, uint16_t thick, uint8_t r_b, uint8_t g_b, uint8_t b_b)
 {
 	/* draw initial window */
-	renderWindow(KNO_STDWIN);
+	renderWindow(WN_STDWINDOW);
 	clearScreen(0, 0, w_b, h_b);
 	if(draw_border(0, 0, w_b, h_b, thick, r_b, g_b, b_b) < 0) {
 		printf("Border create failed!\n");
@@ -226,7 +226,7 @@ int initialize_window(uint16_t x_b, uint16_t y_b, uint16_t w_b, uint16_t h_b, ui
 	}
 	flush();
 
-	return KNO_STDWIN;
+	return WN_STDWINDOW;
 }
 
 // Draws the border with the colors specified
