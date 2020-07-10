@@ -7,9 +7,9 @@
 *~
 screenshot-old.png
 image
-cross
 cadexkernel.code-workspace
 .git
+cross
 kernel/kernel
 kernel/bootblock
 kernel/*.elf

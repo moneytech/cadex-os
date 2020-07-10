@@ -8,7 +8,7 @@
 #include <library/string.h>
 #include <library/objno.h>
 #include <library/malloc.h>
-#include <library/user-io.h>
+#include <library/stdio.h>
 #include <kernel/ascii.h>
 #include <kernel/types.h>
 #include <kernel/syscall.h>
@@ -42,18 +42,20 @@ int cargc;
 int scargv;
 
 // Our main function!
-int cbasic(){
+int cbasic()
+{
     // Let's print the name and some Commodore 64 BASIC related stuff!
     // This must be before the loop!
     printf("     **** CADEX CBASIC V1 ****    \n\n");
     printf("64K RAM SYSTEM  38911 BASIC BYTES FREE\n");
     // The loop starts!
-    while(1){
+    while (1)
+    {
         // Print "Ready.""
         printf("\nREADY.\n");
         // Take input from user
-        scanf(line, sizeof(line));        
-        // Number of arguments        
+        scanf(line, sizeof(line));
+        // Number of arguments
         cargc = 0;
         // LEXER!!!
         // This is similar to cargv.split(" ") in JavaScript
@@ -91,13 +93,14 @@ int cbasic(){
                 int pchar;
                 int uchar;
                 str2int(cargv[1], pchar);
-                if(strncmp(cargv[1], "", sizeof(cargv[1]))){
+                if (strncmp(cargv[1], "", sizeof(cargv[1])))
+                {
                     printf(pchar);
-                }else
+                }
+                else
                 {
                     printf("?SYNTAX  ERROR");
                 }
-                
             }
             else if (!strcmp(cargv[0], "peek") || !strcmp(cargv[0], "PEEK"))
             {
@@ -106,10 +109,8 @@ int cbasic(){
             else
             {
                 printf("?SYNTAX  ERROR\n");
-                
             }
             // Because this is a simple interpreter and this CBasic does not have line numbers or other things, we only have a lexer and a parser
         }
     }
-
 }

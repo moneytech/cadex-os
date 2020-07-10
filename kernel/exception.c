@@ -1,9 +1,11 @@
+/* Just for fun! Fake stuff */
 #include "exception.h"
 
 #define EXEC_ERR 190
 #define ENOTFOUND 400
 #define ENOTACC 409
 #define ENOEXEC 199
+#define ENOENT 102
 
 void handleException(int excode){
     switch(excode){

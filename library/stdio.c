@@ -6,7 +6,7 @@ See the file LICENSE for details.
 
 #include "kernel/gfxstream.h"
 #include "kernel/types.h"
-#include "library/user-io.h"
+#include "library/stdio.h"
 #include "library/syscalls.h"
 #include "library/string.h"
 #include "stdarg.h"
@@ -26,32 +26,6 @@ void flushScreen()
 	syscall_object_write(KNO_STDOUT, stdio_buffer, stdio_buffer_index);
 	stdio_buffer_index = 0;
 	stdio_buffer[0] = 0;
-}
-
-static void printf_buffer(char *s, unsigned len)
-{
-	while(len) {
-		unsigned l = len % (PAGE_SIZE - 1);
-		if(l > PAGE_SIZE - stdio_buffer_index - 1) {
-			flush();
-		}
-		memcpy(stdio_buffer + stdio_buffer_index, s, l);
-		stdio_buffer_index += l;
-		len -= l;
-	}
-	stdio_buffer[stdio_buffer_index] = 0;
-}
-
-void printf_putchar(char c)
-{
-	printf_buffer(&c, 1);
-	if(c == '\n')
-		flush();
-}
-
-void printf_putstring(char *s)
-{
-	printf_buffer(s, strlen(s));
 }
 
 static void draw_set_buffer(int t, int a0, int a1, int a2, int a3)
@@ -121,6 +95,34 @@ void wait_for_io(uint32_t timer_count)
 			break;
 	}
 }
+static void printf_buffer(char *s, unsigned len)
+{
+	while (len)
+	{
+		unsigned l = len % (PAGE_SIZE - 1);
+		if (l > PAGE_SIZE - stdio_buffer_index - 1)
+		{
+			flush();
+		}
+		memcpy(stdio_buffer + stdio_buffer_index, s, l);
+		stdio_buffer_index += l;
+		len -= l;
+	}
+	stdio_buffer[stdio_buffer_index] = 0;
+}
+
+void printf_putchar(char c)
+{
+	printf_buffer(&c, 1);
+	if (c == '\n')
+		flush();
+}
+
+void printf_putstring(char *s)
+{
+	printf_buffer(s, strlen(s));
+}
+
 // A simple beep implementation. See https://wiki.osdev.org/PC_Speaker#Sample_Code/ /**Code by HyperCreeck**/
 void sleep(uint32_t timer_count)
 {
@@ -162,6 +164,8 @@ void beep()
 	//set_PIT_2(old_frequency);
 }
 // End sound code
+
+// Returns Window Dimensions.
 int getWindowDimens(char *type){
 	int dims[2];
 	syscall_object_size(WN_STDWINDOW, dims, 2);

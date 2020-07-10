@@ -10,10 +10,10 @@ A fun graphics demo that features a line segment bouncing around the screen.
 
 #include "library/syscalls.h"
 #include "library/string.h"
-#include "library/user-io.h"
+#include "library/stdio.h"
 
-#define WIDTH    (200)
-#define HEIGHT   (200)
+#define WIDTH (200)
+#define HEIGHT (200)
 
 int main(int argc, char *argv[])
 {
@@ -23,7 +23,8 @@ int main(int argc, char *argv[])
 	flush();
 
 	int cd = syscall_open_console(WN_STDWINDOW);
-	if(cd < 0) {
+	if (cd < 0)
+	{
 		printf("Console open failed!\n");
 		return 2;
 	}

@@ -10,7 +10,7 @@ A trivial user level program to try out basic system calls.
 
 #include "library/syscalls.h"
 #include "library/string.h"
-#include "library/user-io.h"
+#include "library/stdio.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +20,8 @@ int main(int argc, char *argv[])
 	int fd = syscall_open_file("kevin", 2, 0);
 	printf("got fd %d\n", fd);
 	printf("writing to file...\n");
-	for(;;) {
+	for (;;)
+	{
 		j++;
 		char buffer[100] = "Hello, world! I can write to ";
 		char num[5];
@@ -30,7 +31,7 @@ int main(int argc, char *argv[])
 		strcat(buffer, num);
 		strcat(buffer, newline);
 		n = syscall_object_write(fd, buffer, strlen(buffer));
-		if(n < 0)
+		if (n < 0)
 			break;
 		printf("wrote %d chars: %s\n", n, buffer);
 	}
@@ -39,7 +40,8 @@ int main(int argc, char *argv[])
 	char buffer[1000];
 	int n;
 	printf("reading file...\n");
-	while((n = syscall_object_read(fd, buffer, 999)) > 0) {
+	while ((n = syscall_object_read(fd, buffer, 999)) > 0)
+	{
 		buffer[n] = 0;
 		printf("%s");
 		flush();

@@ -20,7 +20,7 @@
 #define true 1
 #define false 0
 
-typedef char * string;
+typedef char *string;
 typedef long long int64_t;
 typedef int int32_t;
 typedef short int16_t;

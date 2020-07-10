@@ -2,7 +2,7 @@
 #include <library/string.h>
 #include <library/objno.h>
 #include <library/malloc.h>
-#include <library/user-io.h>
+#include <library/stdio.h>
 #include <kernel/ascii.h>
 #include <kernel/types.h>
 #include <kernel/syscall.h>
@@ -26,4 +26,4 @@
 #include "ata.h"
 #include "bitmap.h"
 
-int scanf(char*, int);
+int scanf(char *, int);

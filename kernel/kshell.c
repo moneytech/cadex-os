@@ -25,7 +25,7 @@ See the file LICENSE for details.
 #include "printf.h"
 #include "exception.h"
 #include "library/syscalls.h"
-#include "library/user-io.h"
+#include "library/stdio.h"
 #include "library/string.h"
 #include "kernel/syscall.h"
 #include "kernel/stats.h"
@@ -38,6 +38,8 @@ See the file LICENSE for details.
 #include "cbasic.h"
 
 #define BASEPORT 0x0060 /* lp1 */
+
+// #define SHOW_DEBUG_INFO 
 uint16_t cursor_pos = 0, cursor_next_line_index = 1;
 static uint32_t next_line_index = 1;
 char *shakespeare[] = {
@@ -319,12 +321,15 @@ static int kshell_execute(int argc, const char **argv)
 			int pid = sys_process_run(argv[1], argc - 1, &argv[1]);
 			if (pid > 0)
 			{
+#ifdef SHOW_DEBUG_INFO
 				printf("started process %d\n", pid);
+#endif
 				process_yield();
 			}
 			else
 			{
 				printf("run: error: cannot start %s\n", argv[1]);
+				
 			}
 		}
 		else
@@ -352,11 +357,15 @@ static int kshell_execute(int argc, const char **argv)
 			int pid = sys_process_run(argv[1], argc - 1, &argv[1]);
 			if (pid > 0)
 			{
+				#ifdef SHOW_DEBUG_INFO
 				printf("started process %d\n", pid);
+				#endif
 				process_yield();
 				struct process_info info;
 				process_wait_child(pid, &info, -1);
+				#ifdef SHOW_DEBUG_INFO
 				printf("process %d exited with status %d\n", info.pid, info.exitcode);
+				#endif
 				process_reap(info.pid);
 			}
 			else
@@ -661,21 +670,23 @@ static int kshell_execute(int argc, const char **argv)
 	else if (!strcmp(cmd, "whoami"))
 	{
 		printf("\nroot\n");
-	}		
+	}
 	else if (!strcmp(cmd, "longtest"))
 	{
 		/**
 		 * Long character test
 		 * Only for testing purposes
 		*/
-		if(!strcmp(argv[1], "-f")){
-		int i;
-		for (i = 0; i < sizeof(shakespeare) / sizeof(char *); i++)
+		if (!strcmp(argv[1], "-f"))
 		{
-			printf("%s\n", shakespeare[i]);
-			sleep(1);
+			int i;
+			for (i = 0; i < sizeof(shakespeare) / sizeof(char *); i++)
+			{
+				printf("%s\n", shakespeare[i]);
+				sleep(1);
+			}
 		}
-		} else if (!strcmp(argv[1], "-s"))
+		else if (!strcmp(argv[1], "-s"))
 		{
 			int i;
 			for (i = 0; i < sizeof(shakespeare) / sizeof(char *); i++)
@@ -684,20 +695,20 @@ static int kshell_execute(int argc, const char **argv)
 				sleep(3);
 			}
 		}
-		 else
+		else
 		{
 			printf("Long Char Test Ver 0.0.1\nUsage: longtest <speed>\n-s for slow and -f for fast\n");
 		}
 	}
 	else if (!strcmp(cmd, "unexpected"))
 	{
-		
+
 		while (1)
 		{
 			printf("\-/-\-/");
 		}
-		}
-	
+	}
+
 	else if (!strcmp(cmd, "uname"))
 	{
 		if (!strcmp(argv[1], "-v"))
@@ -735,32 +746,41 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "cbas"))
 	{
-		
-		 cbasic();
+
+		cbasic();
 	}
 	else if (!strcmp(cmd, "chprompt"))
 	{
 		/* This is a very good customisation feature. Ability to change prompt symbol. */
-		if(!strcmp(argv[1], "bash")){
+		if (!strcmp(argv[1], "bash"))
+		{
 			/* [root@cadex]$ */
 			prompt = 1;
-		} else if (!strcmp(argv[1], "rootbash"))
+		}
+		else if (!strcmp(argv[1], "rootbash"))
 		{
 			/* [root@cadex]# */
 			prompt = 0;
-		}else if (!strcmp(argv[1], "linux-3"))
+		}
+		else if (!strcmp(argv[1], "linux-3"))
 		{
 			/* [root@cadex]% */
 			prompt = 2;
-		}else
+		}
+		else
 		{
-			printf("\nCadex chprompt. Utility to change shell prompt symbol.\nAvailable symbols are:\n $ : chprompt bash\n # : chprompt rootbash\n % : chprompt linux-3\n\n");
+			printf("\nCadex chprompt. Utility to change shell prompt symbol.\nAvailable symbols are:\n $ : chprompt bash\n # : chprompt rootbash\n \% : chprompt linux-3\n\n");
 		}
 	}
-
+	else if (!strcmp(cmd, "mdrvact"))
+	{
+		printf("Mouse activated.\n");
+		mouse_init();
+		ps2_clear_buffer();
+	}
 	else
 	{
-		printf("%s: command/program not found\n", argv[0]);
+		printf("%s: command/program not found.\n", argv[0]);
 	}
 	return 0;
 }
@@ -811,7 +831,7 @@ int kshell_launch()
 	printf("\n");
 	while (1)
 	{
-		printf("[root@cadex:]%s ", promptsym[prompt]);
+		printf("[root@cadex]:%s ", promptsym[prompt]);
 		kshell_readline(line, sizeof(line));
 
 		argc = 0;

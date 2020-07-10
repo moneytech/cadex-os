@@ -59,7 +59,7 @@ static void unknown_exception(int i, int code)
 		// Check if page is already mapped (which will result from violating the permissions on page) or that
 		// we are accessing neither the stack nor the heap, or we are accessing both. If so, error
 		if (page_already_present || !(data_access ^ stack_access)) {
-			printf("\n\n!!!FATAL ERROR OCCURED!!!\n\nillegal page access at vaddr %x\n",vaddr);
+			printf("\n\nSegmentation Fault (Core Dumped In Console)\n\nillegal page access at vaddr %x\n",vaddr);
 			process_dump(current);
 			process_exit(0);
 		} else {
@@ -68,7 +68,7 @@ static void unknown_exception(int i, int code)
 			return;
 		}
 	} else {
-		printf("\n\n!!!FATAL ERROR OCCURED!!!\n\nIn module Cadex.Kernel.Shell.Core \nStack trace:\n%d: %s (code %x)\n", i, exception_names[i], code);
+		printf("\n\nUnknown Exception Occured\n\nStack trace:\n%d: %s (code %x)\n", i, exception_names[i], code);
 		process_dump(current);
 	}
 

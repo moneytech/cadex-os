@@ -6,7 +6,9 @@ USER_SOURCES=$(wildcard usr/*.c)
 USER_PROGRAMS=$(USER_SOURCES:c=exe)
 KERNEL_SOURCES=$(wildcard kernel/*.[chS])
 
-all: clean cadex.iso # run # Uncomment this run command to run the OS after you've built the OS
+.PHONY: clean
+
+all: clean cadex.iso success # run # Uncomment this run command to run the OS after you've built the OS
 
 run: cadex.iso # hddimg
 					#  | This .exe is for compatibility for WSL. See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
@@ -42,7 +44,10 @@ image: kernel/cadex.img $(USER_PROGRAMS)
 
 cadex.iso: image
 	${ISOGEN} -input-charset utf-8 -iso-level 2 -J -R -o $@ -b boot/cadex.img image
-
+success:
+	@echo "----------------------------------------------------"
+	@echo "Successfully compiled kernel. Type 'make run' to run"
+	@echo "----------------------------------------------------"
 clean:
 	rm -rf cadex.iso image
 	cd kernel && make clean

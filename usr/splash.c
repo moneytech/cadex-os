@@ -9,7 +9,7 @@ A fun graphics demo that features text bouncing around the screen.
 */
 
 #include "library/syscalls.h"
-#include "library/user-io.h"
+#include "library/stdio.h"
 #include "library/string.h"
 
 typedef unsigned int uint32_t;
@@ -17,8 +17,25 @@ typedef unsigned int uint32_t;
 uint32_t randint(uint32_t min, uint32_t max);
 void move(int *x, int *d, int min, int max);
 char *splashMessage = {
-    "W" "e" "l" "c" "o" "m" "e" " " "t" "o" " " "C" "a" "d" "e" "x" " " "O" "S"
-};
+	"W"
+	"e"
+	"l"
+	"c"
+	"o"
+	"m"
+	"e"
+	" "
+	"t"
+	"o"
+	" "
+	"C"
+	"a"
+	"d"
+	"e"
+	"x"
+	" "
+	"O"
+	"S"};
 int main(int argc, char *argv[])
 {
 	int r = 255;
@@ -41,30 +58,31 @@ int main(int argc, char *argv[])
 	renderWindow(WN_STDWINDOW);
 	clearScreen(0, 0, width, height);
 	flush();
-    move(&x1, &dx1, 0, width - 80);
+	move(&x1, &dx1, 0, width - 80);
 	move(&y1, &dy1, 0, height - 1);
 	char stop = -1;
 	// while(stop == -1) {
-		renderWindow(WN_STDWINDOW);
-        move(&r, &dr, 0, 255);
-		move(&g, &dg, 0, 255);
-		move(&b, &db, 0, 255);
-		setTextColor(r, g, b);
-		print(x1, y1, "Cadex OS v0.1.3");
-		flush();
+	renderWindow(WN_STDWINDOW);
+	move(&r, &dr, 0, 255);
+	move(&g, &dg, 0, 255);
+	move(&b, &db, 0, 255);
+	setTextColor(r, g, b);
+	print(x1, y1, "Cadex OS v0.1.3");
+	flush();
 
-		sleepThread(2);
-		// syscall_object_read_nonblock(KNO_STDIN,&stop,1);
+	sleepThread(2);
+	// syscall_object_read_nonblock(KNO_STDIN,&stop,1);
 	// }
-    int o = 0;
-    for(o = 0;o = 10; o++){
-        renderWindow(WN_STDWINDOW);
-        setTextColor(255,255,255);
-        clearScreen(0,0,width,height);  
-        print(x1, y1, splashMessage[1]);
-        flush();
-        sleepThread(1000);
-    }
+	int o = 0;
+	for (o = 0; o = 10; o++)
+	{
+		renderWindow(WN_STDWINDOW);
+		setTextColor(255, 255, 255);
+		clearScreen(0, 0, width, height);
+		print(x1, y1, splashMessage[1]);
+		flush();
+		sleepThread(1000);
+	}
 	clearScreen(0, 0, width, height);
 	setTextColor(255, 255, 255);
 	flush();
@@ -82,11 +100,13 @@ uint32_t randint(uint32_t min, uint32_t max)
 void move(int *x, int *d, int min, int max)
 {
 	*x += *d;
-	if(*x < min) {
+	if (*x < min)
+	{
 		*x = min;
 		*d = randint(1, 10);
 	}
-	if(*x > max) {
+	if (*x > max)
+	{
 		*x = max;
 		*d = -randint(1, 10);
 	}

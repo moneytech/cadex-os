@@ -4,10 +4,9 @@ This software is distributed under the GNU General Public License.
 See the file LICENSE for details.
 */
 
-
 #include "library/syscalls.h"
 #include "library/string.h"
-#include "library/user-io.h"
+#include "library/stdio.h"
 
 /*
 	Have a list of programs and windows that we want to run in certain sized windows
@@ -16,33 +15,33 @@ See the file LICENSE for details.
 
 #define num_programs 4
 
-typedef struct program {
+typedef struct program
+{
 	int w;
 	int h;
-	const char * exec;
-	const char ** args;
+	const char *exec;
+	const char **args;
 	int argc;
 } program;
 
 /* Function declarations */
 void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b);
-void mergeSort(program * programs, int l, int r);
-void merge(program * arr, int l, int m, int r);
-
+void mergeSort(program *programs, int l, int r);
+void merge(program *arr, int l, int m, int r);
 
 int main(int argc, char *argv[])
 {
 	/* Eventually, programs wont be hardcoded */
-	const char *args1[] = { "/usr/bin/snake.exe" };
-	const char *args2[] = { "/usr/bin/clock.exe", "08:40" };
-	const char *args3[] = { "/usr/bin/sh.exe" };
-	const char *args4[] = { "/usr/bin/ball.exe" };
-        int window_width  = 270;
-        int window_height = 270;
-        int plot_width    = 180;
-        int plot_height   = 180;
-        int thickness     = 2;
-        int char_offset   = 8;
+	const char *args1[] = {"/usr/bin/snake.exe"};
+	const char *args2[] = {"/usr/bin/clock.exe", "08:40"};
+	const char *args3[] = {"/usr/bin/sh.exe"};
+	const char *args4[] = {"/usr/bin/ball.exe"};
+	int window_width = 270;
+	int window_height = 270;
+	int plot_width = 180;
+	int plot_height = 180;
+	int thickness = 2;
+	int char_offset = 8;
 	int r = 255;
 	int g = 255;
 	int b = 255;
@@ -56,12 +55,10 @@ int main(int argc, char *argv[])
 
 	int padding = 4;
 	program programs[] = {
-			{ .w = 55 , .h = 25 , .exec = "/usr/bin/clock.exe", .args = args2, .argc = 2 },
-			{ .w = 500, .h = 400, .exec = "/usr/bin/sh.exe", .args = args3, .argc = 3 },
-			{ .w = 200, .h = 200, .exec = "/usr/bin/snake.exe", .args = args1, .argc = 1 },
-			{ .w = 400, .h = 400, .exec = "/usr/bin/ball.exe", .args = args4, .argc = 1 }
-	};
-
+		{.w = 55, .h = 25, .exec = "/usr/bin/clock.exe", .args = args2, .argc = 2},
+		{.w = 500, .h = 400, .exec = "/usr/bin/sh.exe", .args = args3, .argc = 3},
+		{.w = 200, .h = 200, .exec = "/usr/bin/snake.exe", .args = args1, .argc = 1},
+		{.w = 400, .h = 400, .exec = "/usr/bin/ball.exe", .args = args4, .argc = 1}};
 
 	/* Setup the window */
 	int std_dims[2];
@@ -75,47 +72,57 @@ int main(int argc, char *argv[])
 
 	/* Sort programs in order of biggest height to smallest with smaller width being tie breaker */
 	int left = 0;
-	int right = num_programs-1;
+	int right = num_programs - 1;
 	mergeSort(programs, left, right);
 
 	/* Packing algorithm - First fit decreasing height - doesnt fit, skip it */
 	int spacing = 6;
-	int current_pos[num_programs][2] = {{ 0 }}; // for each row, keep track of the current x position and height
-	int placement[num_programs][3] = {{ 0 }}; // (x, y, valid) of specific program
+	int current_pos[num_programs][2] = {{0}}; // for each row, keep track of the current x position and height
+	int placement[num_programs][3] = {{0}};	  // (x, y, valid) of specific program
 	int p_i, row;
 
-	for (p_i = 0; p_i < num_programs; ++p_i) {
-		for (row = 0; row < num_programs; ++row) {
-			if (current_pos[row][0] + programs[p_i].w + 4*padding <= std_dims[0]) {
+	for (p_i = 0; p_i < num_programs; ++p_i)
+	{
+		for (row = 0; row < num_programs; ++row)
+		{
+			if (current_pos[row][0] + programs[p_i].w + 4 * padding <= std_dims[0])
+			{
 				// Program can be placed
 				// If it is the first element in the row, x == 0
 				// And, all of the rows havent been set, set the val of the next row
-				if (current_pos[row][0] == 0) {
+				if (current_pos[row][0] == 0)
+				{
 					// Probably need to keep track of y coords
 					// If the program overlaps, we cant place it
-					if (current_pos[row][1] + programs[p_i].h + 4*padding > std_dims[1]) {
+					if (current_pos[row][1] + programs[p_i].h + 4 * padding > std_dims[1])
+					{
 						break;
-					} else if (row < num_programs - 1) {
+					}
+					else if (row < num_programs - 1)
+					{
 						// Otherwise, we can place that element in that row and we can
 						// Set the y position of the next row
-						current_pos[row+1][1] = current_pos[row][1] + spacing + programs[p_i].h + 4*padding;
+						current_pos[row + 1][1] = current_pos[row][1] + spacing + programs[p_i].h + 4 * padding;
 					}
 				}
 				// Now, set the placement of this object
-				placement[p_i][0] = current_pos[row][0] + 2*padding; // x coord
-				placement[p_i][1] = current_pos[row][1] + 2*padding; // y coord
-				placement[p_i][2] = 1; // program is validly placed
-				current_pos[row][0] = current_pos[row][0] + spacing + programs[p_i].w + 4*padding;;
+				placement[p_i][0] = current_pos[row][0] + 2 * padding; // x coord
+				placement[p_i][1] = current_pos[row][1] + 2 * padding; // y coord
+				placement[p_i][2] = 1;								   // program is validly placed
+				current_pos[row][0] = current_pos[row][0] + spacing + programs[p_i].w + 4 * padding;
+				;
 				break;
 			}
 		}
 	}
 
 	/* Wrun each program */
-	int pids[num_programs] = { 0 };
-	int fds[num_programs][4] = {{ 0 }};
-	for (p_i = 0; p_i < num_programs; ++p_i) {
-		if (placement[p_i][2] == 0) {
+	int pids[num_programs] = {0};
+	int fds[num_programs][4] = {{0}};
+	for (p_i = 0; p_i < num_programs; ++p_i)
+	{
+		if (placement[p_i][2] == 0)
+		{
 			printf("INVALID\n");
 			continue;
 		}
@@ -130,7 +137,7 @@ int main(int argc, char *argv[])
 		// Take in an array of FD's
 		pids[p_i] = syscall_process_wrun(programs[p_i].exec, programs[p_i].argc, programs[p_i].args, fds[p_i], 4);
 		renderWindow(WN_STDWINDOW);
-		draw_border(placement[p_i][0] - 2*padding, placement[p_i][1] - 2*padding, programs[p_i].w + 4*padding, programs[p_i].h + 4*padding, padding, 255, 255, 255);
+		draw_border(placement[p_i][0] - 2 * padding, placement[p_i][1] - 2 * padding, programs[p_i].w + 4 * padding, programs[p_i].h + 4 * padding, padding, 255, 255, 255);
 		flush();
 	}
 
@@ -140,26 +147,29 @@ int main(int argc, char *argv[])
 
 	/* Draw green window around active process and start it */
 	renderWindow(WN_STDWINDOW);
-	draw_border(placement[p_act][0] - 2*padding, placement[p_act][1] - 2*padding, programs[p_act].w + 4*padding, programs[p_act].h + 4*padding, padding, 0, 0, 244);
+	draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 0, 0, 244);
 	flush();
 
-	while (tin != '~') {
-		if (pids[p_act] == 0) {
+	while (tin != '~')
+	{
+		if (pids[p_act] == 0)
+		{
 			p_act = (p_act + 1) % num_programs;
 			continue;
 		}
 
 		/* If tab entered, go to the next process */
 		syscall_object_read(0, &tin, 1);
-		if (tin == '\t') {
+		if (tin == '\t')
+		{
 			renderWindow(WN_STDWINDOW);
-			draw_border(placement[p_act][0] - 2*padding, placement[p_act][1] - 2*padding, programs[p_act].w + 4*padding, programs[p_act].h + 4*padding, padding, 255, 255, 255);
+			draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 255, 255, 255);
 			flush();
 			p_act = (p_act + 1) % num_programs;
 
 			/* Draw green window around active process and start it */
 			renderWindow(WN_STDWINDOW);
-			draw_border(placement[p_act][0] - 2*padding, placement[p_act][1] - 2*padding, programs[p_act].w + 4*padding, programs[p_act].h + 4*padding, padding, 0, 0, 255);
+			draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 0, 0, 255);
 			flush();
 			setTextColor(255, 255, 255);
 			continue;
@@ -181,20 +191,21 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-
 /** HELPER FUNCTIONS **/
 // Code for mergesort taken from https://www.geeksforgeeks.org/merge-sort/
-void mergeSort(program * arr, int l, int r) {
-	if (l < r) {
-		int m = l+(r-l)/2;
+void mergeSort(program *arr, int l, int r)
+{
+	if (l < r)
+	{
+		int m = l + (r - l) / 2;
 		mergeSort(arr, l, m);
-		mergeSort(arr, m+1, r);
+		mergeSort(arr, m + 1, r);
 		merge(arr, l, m, r);
 	}
 }
 
-
-void merge(program * arr, int l, int m, int r) {
+void merge(program *arr, int l, int m, int r)
+{
 	int i, j, k;
 	int n1 = m - l + 1;
 	int n2 = r - m;
@@ -210,38 +221,48 @@ void merge(program * arr, int l, int m, int r) {
 	j = 0;
 	k = l;
 
-	while (i < n1 && j < n2) {
-		if (L[i].h > R[j].h) {
+	while (i < n1 && j < n2)
+	{
+		if (L[i].h > R[j].h)
+		{
 			arr[k] = L[i];
 			i++;
-		} else if (R[j].h > L[i].h) {
+		}
+		else if (R[j].h > L[i].h)
+		{
 			arr[k] = R[j];
 			j++;
-		} else if (L[i].w < R[j].w) {
+		}
+		else if (L[i].w < R[j].w)
+		{
 			arr[k] = L[i];
 			i++;
-		} else {
+		}
+		else
+		{
 			arr[k] = R[j];
 			j++;
 		}
 		k++;
 	}
 
-	while (i < n1) {
+	while (i < n1)
+	{
 		arr[k] = L[i];
 		i++;
 		k++;
 	}
 
-	while (j < n2) {
+	while (j < n2)
+	{
 		arr[k] = R[j];
 		j++;
 		k++;
 	}
 }
 
-
-void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b) {
+void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
+{
 	setTextColor(r, b, g);
 	drawRect(x, y, w, thickness);
 	drawRect(x, y, thickness, h);

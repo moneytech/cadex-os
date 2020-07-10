@@ -1,4 +1,4 @@
-# Copyright (C) 2015 The University of Notre Dame
+# Copyright (C) 2019-2020 OpenCreeck
 # This software is distributed under the GNU General Public License.
 # See the file LICENSE for details.
 
@@ -147,7 +147,7 @@ bios_putchar:				# routine to print a single char
 	ret
 
 loadmsg:
-        .asciz "********** Cadex OS Version 0.1.5 **********\r\nLoading system..."
+        .asciz "Loading system..."
 bootmsg:
 	.asciz "\r\nBooting............\r\n"
 

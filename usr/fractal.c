@@ -4,10 +4,9 @@ This software is distributed under the GNU General Public License.
 See the file LICENSE for details.
 */
 
-
 #include "library/syscalls.h"
 #include "library/string.h"
-#include "library/user-io.h"
+#include "library/stdio.h"
 
 #define ITER_THRES 100
 #define VAL_THRES 2
@@ -17,7 +16,8 @@ See the file LICENSE for details.
 	Compute and graph the mandelbrot set
 */
 
-typedef struct Complex {
+typedef struct Complex
+{
 	float r;
 	float i;
 } Complex;
@@ -45,8 +45,8 @@ int main(int argc, char *argv[])
 	{
 		for (k = 0; k < dim; ++k)
 		{
-			current.r = (float)j*factor + r_init;
-			current.i = (float)k*factor + i_init;
+			current.r = (float)j * factor + r_init;
+			current.i = (float)k * factor + i_init;
 			iter_val = in_set(current);
 			plot_point(iter_val, j, k);
 			flush();
@@ -64,14 +64,15 @@ int in_set(Complex c)
 		Returns iteration it exceeded the threshold
 		If it does not, return one greater than Threshold
 	*/
-	Complex z = { .r = 0, .i = 0};
+	Complex z = {.r = 0, .i = 0};
 	int i = 0;
 	for (i = 0; i < ITER_THRES; ++i)
 	{
-		z.r = z.r*z.r + -1*z.i*z.i + c.r;
-		z.i = 2*z.r*z.i + c.i;
+		z.r = z.r * z.r + -1 * z.i * z.i + c.r;
+		z.i = 2 * z.r * z.i + c.i;
 
-		if (z.r > VAL_THRES) {
+		if (z.r > VAL_THRES)
+		{
 			return i;
 		}
 	}
@@ -82,16 +83,20 @@ int in_set(Complex c)
 void plot_point(int iter_val, int j, int k)
 {
 	/* Plot the point based on the color */
-	int step_size = ITER_THRES/STEPS;
-	int colors[STEPS][3] = {{255,255,0},{255,215,0},{50,205,50},{0,0,205},{165,42,42}};
+	int step_size = ITER_THRES / STEPS;
+	int colors[STEPS][3] = {{255, 255, 0}, {255, 215, 0}, {50, 205, 50}, {0, 0, 205}, {165, 42, 42}};
 
-	if (iter_val > ITER_THRES) {
+	if (iter_val > ITER_THRES)
+	{
 		setTextColor(255, 255, 255);
 		drawRect(j, k, 1, 1);
-	} else {
+	}
+	else
+	{
 		for (int i = 0; i < STEPS; ++i)
 		{
-			if (iter_val <= step_size*(i+1)) {
+			if (iter_val <= step_size * (i + 1))
+			{
 				setTextColor(colors[i][0], colors[i][1], colors[i][2]);
 				drawRect(j, k, 1, 1);
 				break;

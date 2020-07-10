@@ -9,7 +9,7 @@ A fun graphics demo that features text bouncing around the screen.
 */
 
 #include "library/syscalls.h"
-#include "library/user-io.h"
+#include "library/stdio.h"
 #include "library/string.h"
 
 typedef unsigned int uint32_t;
@@ -41,7 +41,8 @@ int main(int argc, char *argv[])
 	flush();
 
 	char stop = -1;
-	while(stop == -1) {
+	while (stop == -1)
+	{
 		renderWindow(WN_STDWINDOW);
 		move(&x1, &dx1, 0, width - 80);
 		move(&y1, &dy1, 0, height - 1);
@@ -53,7 +54,7 @@ int main(int argc, char *argv[])
 		flush();
 
 		sleepThread(35);
-		syscall_object_read_nonblock(KNO_STDIN,&stop,1);
+		syscall_object_read_nonblock(KNO_STDIN, &stop, 1);
 	}
 	clearScreen(0, 0, width, height);
 	setTextColor(255, 255, 255);
@@ -71,11 +72,13 @@ uint32_t randint(uint32_t min, uint32_t max)
 void move(int *x, int *d, int min, int max)
 {
 	*x += *d;
-	if(*x < min) {
+	if (*x < min)
+	{
 		*x = min;
 		*d = randint(1, 10);
 	}
-	if(*x > max) {
+	if (*x > max)
+	{
 		*x = max;
 		*d = -randint(1, 10);
 	}
