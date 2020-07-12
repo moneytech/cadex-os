@@ -13,3 +13,4 @@ cross
 kernel/kernel
 kernel/bootblock
 kernel/*.elf
+.vs
