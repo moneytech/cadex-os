@@ -2,7 +2,7 @@
 #define KERNELTYPES_H
 
 #pragma pack(2)
-
+#include "kernel/stdbool.h"
 #define PAGE_SIZE 4096
 #define PAGE_BITS 12
 #define PAGE_MASK 0xfffff000
@@ -19,6 +19,7 @@
 
 #define true 1
 #define false 0
+#define null 0
 
 typedef char *string;
 typedef long long int64_t;
@@ -30,8 +31,6 @@ typedef unsigned long long uint64_t;
 typedef unsigned int uint32_t;
 typedef unsigned short uint16_t;
 typedef unsigned char uint8_t;
-
-typedef uint8_t bool;
 
 typedef uint32_t addr_t;
 

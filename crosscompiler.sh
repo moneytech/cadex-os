@@ -8,6 +8,8 @@ CURRDIR=`pwd`
 PREFIX=$CURRDIR/cross
 WORKDIR=`mktemp -d`
 
+echo "Cross Compiler Builder Script for i386 Architecture"
+echo "---------------------------------------------------"
 echo "Installing cross-compiler to $PREFIX"
 echo "Building in directory $WORKDIR"
 

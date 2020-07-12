@@ -7,7 +7,7 @@ See the file LICENSE for details.
 #ifndef STRING_H
 #define STRING_H
 
-#include "kernel/types.h"
+#include <library/types.h>
 
 void strcpy(char *d, const char *s);
 void strncpy(char *d, const char *s, unsigned length);

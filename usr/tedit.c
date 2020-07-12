@@ -5,7 +5,7 @@ See the file LICENSE for details.
 */
 
 /*
-A trivial user level program to try out basic system calls.
+A clone of gedit for Cadex OS 
 */
 
 #include "library/syscalls.h"
@@ -13,8 +13,10 @@ A trivial user level program to try out basic system calls.
 #include "library/stdio.h"
 int main(int argc, char *argv[])
 {
+	// Change directory to root
 	syscall_chdir("/");
 	printf("got root\n");
+	// Open file stream
 	int dir_fd = syscall_open_file("/", 0, 0);
 	syscall_object_set_tag(dir_fd, "ROOT");
 	printf("Opened root directory\n");

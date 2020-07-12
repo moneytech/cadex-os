@@ -4,15 +4,17 @@ This software is distributed under the GNU General Public License.
 See the file LICENSE for details.
 */
 
-#ifndef USERIO_H
-#define USERIO_H
+#ifndef STDIO_H
+#define STDIO_H
+
+#include <library/syscalls.h>
 
 #define KNO_STDIN  0
 #define KNO_STDOUT 1
 #define KNO_STDERR 2
-#define WN_STDWINDOW 3
 
 void printf_putchar(char c);
+#define WN_STDWINDOW 3
 void printf_putstring(char *s);
 void flush();
 

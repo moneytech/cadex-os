@@ -4,13 +4,21 @@ This software is distributed under the GNU General Public License.
 See the file LICENSE for details.
 */
 
-#include "kernel/gfxstream.h"
-#include "kernel/types.h"
-#include "library/stdio.h"
-#include "library/syscalls.h"
-#include "library/string.h"
+/*
+* stdio library
+* part of the libc
+* includes the most i/o functions like print, setTextColor
+* this is not the stdio in GNU libc. that is different
+*/
+#include <kernel/gfxstream.h>
+#include <kernel/types.h>
+#include <library/stdio.h>
+#include <library/syscalls.h>
+#include <library/string.h>
+#include <library/stdbool.h>
+#include <library/math.h>
+#include <library/assert.h>
 #include "stdarg.h"
-
 static char stdio_buffer[PAGE_SIZE] = { 0 };
 
 static uint32_t stdio_buffer_index = 0;
@@ -41,35 +49,48 @@ void flush()
 	graphics_buffer_index = 0;
 }
 
+// Renders the window
 void renderWindow(int wd)
 {
 	window_fd = wd;
+	flushScreen();
 }
 
+// Sets the text/cursor color
 void setTextColor(int r, int g, int b)
 {
 	draw_set_buffer(GRAPHICS_COLOR, r, g, b, 0);
+	flushScreen();
 }
 
+// Draws a rectangle on screen with specified dimensions
 void drawRect(int x, int y, int w, int h)
 {
 	draw_set_buffer(GRAPHICS_RECT, x, y, w, h);
+	flushScreen();
 }
 
+// Clears the screen
 void clearScreen(int x, int y, int w, int h)
 {
 	draw_set_buffer(GRAPHICS_CLEAR, x, y, w, h);
+	flushScreen();
 }
-
+// Draws a line on screen on the specified x and y axis with the specified width and height.
 void drawLine(int x, int y, int w, int h)
 {
 	draw_set_buffer(GRAPHICS_LINE, x, y, w, h);
+	flushScreen();
 }
 
+// Prints text on screen on the specified x and y axis.
 void print(int x, int y, char *s)
 {
 	draw_set_buffer(GRAPHICS_TEXT, x, y, (int) s, 0);
+	flushScreen();
 }
+
+// Get data from specified port.
 uint8_t inb(uint16_t port)
 {
 	uint8_t data;
@@ -79,6 +100,7 @@ uint8_t inb(uint16_t port)
 	return data;
 }
 
+// Send data to specified port.
 void outb(uint16_t port, uint8_t data)
 {
 	asm volatile("outb %0, %1"
@@ -123,11 +145,13 @@ void printf_putstring(char *s)
 	printf_buffer(s, strlen(s));
 }
 
-// A simple beep implementation. See https://wiki.osdev.org/PC_Speaker#Sample_Code/ /**Code by HyperCreeck**/
+// Sets the CPU to noop mode for specified milliseconds
 void sleep(uint32_t timer_count)
 {
 	wait_for_io(timer_count * 0x02FFFFFF);
 }
+
+// Play sound with specified frequency
 static void play_sound(uint32_t nFrequence)
 {
 	uint32_t Div;
@@ -147,7 +171,7 @@ static void play_sound(uint32_t nFrequence)
 	}
 }
 
-//make it shutup
+// Stop playing sound
 static void nosound()
 {
 	uint8_t tmp = inb(0x61) & 0xFC;
@@ -155,7 +179,7 @@ static void nosound()
 	outb(0x61, tmp);
 }
 
-//Make a beep
+// A code for Beeping. May not work correctly on QEMU. See https://wiki.osdev.org/PC_Speaker#Sample_Code/ 
 void beep()
 {
 	play_sound(1000);
@@ -165,7 +189,7 @@ void beep()
 }
 // End sound code
 
-// Returns Window Dimensions.
+// Returns Window Dimensions. EXPERIMENTAL
 int getWindowDimens(char *type){
 	int dims[2];
 	syscall_object_size(WN_STDWINDOW, dims, 2);
@@ -179,4 +203,10 @@ int getWindowDimens(char *type){
 		return height;
 	}
 	return width, height;
+}
+
+// Executes specified file with specified argc and argv. 
+int system(string *program, int argc, string **argv) {
+	syscall_process_exec(program, argc, argv);
+	return false;
 }

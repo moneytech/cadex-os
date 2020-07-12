@@ -1,3 +1,8 @@
+/*
+GWin Graphics/Window Server
+
+Most of the functions and features are stubbed, ie. they don't work. They compile successfully but they don;'t do anything.
+*/
 #include <gwin/gwin.h>
 
 #define GWIN_LIB
