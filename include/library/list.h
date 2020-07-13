@@ -9,9 +9,9 @@
 #ifdef _KERNEL_
 #include <kernel/types.h>
 #else
-#include <stdint.h>
+#include <library/stdint.h>
 #include <stddef.h>
-#include <assert.h>
+#include <library/assert.h>
 #include <kernel/types.h>
 #endif
 
