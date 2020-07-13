@@ -3,7 +3,7 @@
 #include <kernel/types.h>
 #include <library/math.h>
 
-// #include <toaru/hashmap.h>
+#include <library/hashmap.h>
 #include <library/list.h>
 #include <json.h>
 
