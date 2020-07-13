@@ -9,6 +9,18 @@ See the file LICENSE for details.
 
 #include <library/syscalls.h>
 #include <library/errno.h>
+#include <library/types.h>
+#include <library/ctype.h>
+#include <library/color.h>
+#include <library/const.h>
+#include <library/float.h>
+#include <library/hashmap.h>
+#include <library/limits.h>
+#include <library/malloc.h>
+#include <library/math.h>
+#include <library/stdbool.h>
+#include <library/stddef.h>
+#include <library/ascii.h>
 
 extern uintptr_t initial_esp;
 
