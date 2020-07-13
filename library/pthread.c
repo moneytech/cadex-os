@@ -1,16 +1,12 @@
-/* This file is part of ToaruOS and is released under the terms
- * of the NCSA / University of Illinois License - see LICENSE.md
- * Copyright (C) 2012-2018 K. Lange
- */
-#include <stdlib.h>
-#include <stdint.h>
+#include <library/stdlib.h>
+#include <library/stdint.h>
 #include <syscall.h>
-#include <syscall_nums.h>
-#include <signal.h>
-#include <pthread.h>
-#include <errno.h>
+#include <library/syscall_nums.h>
+#include <library/signal.h>
+#include <library/pthread.h>
+#include <library/errno.h>
 
-#include <sys/wait.h>
+#include <library/stdio.h>
 
 DEFN_SYSCALL3(clone, SYS_CLONE, uintptr_t, uintptr_t, void *);
 DEFN_SYSCALL0(gettid, SYS_GETTID);

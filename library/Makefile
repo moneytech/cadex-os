@@ -1,6 +1,6 @@
 include ../Makefile.config
 
-LIBRARY_OBJECTS=errno.o objno.o syscall.o syscalls.o string.o stdio.o malloc.o math.o qsort.o scanf.o gwin.o
+LIBRARY_OBJECTS=errno.o objno.o syscall.o syscalls.o string.o stdio.o malloc.o math.o qsort.o scanf.o gwin.o assert.o _ctype.o pthread.o strftime.o toupper.o tolower.o 
 
 all: user-start.o baselib.a rand.o
 

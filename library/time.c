@@ -1,5 +1,5 @@
 #include <time.h>
-#include <sys/time.h>
+#include <library/time.h>
 
 time_t time(time_t * out) {
 	struct timeval p;
