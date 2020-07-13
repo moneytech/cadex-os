@@ -16,7 +16,8 @@ extern void *realloc(void *ptr, size_t size);
 
 extern void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
 
-extern int system(const char *command);
+extern int exec(char *, int, char **, char **, int);
+extern int system(char *, int, char **, char **);
 
 extern int abs(int j);
 

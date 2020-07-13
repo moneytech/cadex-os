@@ -1,6 +1,6 @@
-//#include <library/stdlib.h>
+#include <library/stdlib.h>
 #include <library/ctype.h>
-//#include <library/limits.h>
+#include <library/limits.h>
 #include <library/errno.h>
 
 static int is_valid(int base, char c)
