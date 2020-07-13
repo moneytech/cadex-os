@@ -1,7 +1,6 @@
 #include <library/stdlib.h>
 #include <library/stdint.h>
-#include <syscall.h>
-#include <library/syscall_nums.h>
+#include <library/syscalls.h>
 #include <library/signal.h>
 #include <library/pthread.h>
 #include <library/errno.h>

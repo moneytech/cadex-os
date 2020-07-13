@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #endif
 
-#include <toaru/list.h>
+#include <library/list.h>
 
 void list_destroy(list_t *list)
 {
