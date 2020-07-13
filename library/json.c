@@ -4,7 +4,7 @@
 #include <library/math.h>
 
 // #include <toaru/hashmap.h>
-// #include <toaru/list.h>
+#include <library/list.h>
 #include <json.h>
 
 typedef struct JSON_Value Value;
