@@ -10,7 +10,7 @@
 #include <library/stdlib.h>
 #endif
 
-#include <library/list.h>
+#include <library/list_t.h>
 
 _Begin_C_Header
 

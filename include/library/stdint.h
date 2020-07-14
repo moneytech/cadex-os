@@ -38,8 +38,6 @@ extern "C"
 #endif
 
 #if __STDINT_EXP(SCHAR_MAX) == 0x7f
-    typedef signed char int8_t;
-    typedef unsigned char uint8_t;
 #define __int8_t_defined 1
 #endif
 
@@ -76,20 +74,12 @@ typedef unsigned char uint16_t;
 #endif
 
 #if __have_long32
-    typedef signed long int32_t;
-    typedef unsigned long uint32_t;
 #define __int32_t_defined 1
 #elif __STDINT_EXP(INT_MAX) == 0x7fffffffL
-typedef signed int int32_t;
-typedef unsigned int uint32_t;
 #define __int32_t_defined 1
 #elif __STDINT_EXP(SHRT_MAX) == 0x7fffffffL
-typedef signed short int32_t;
-typedef unsigned short uint32_t;
 #define __int32_t_defined 1
 #elif __STDINT_EXP(SCHAR_MAX) == 0x7fffffffL
-typedef signed char int32_t;
-typedef unsigned char uint32_t;
 #define __int32_t_defined 1
 #endif
 

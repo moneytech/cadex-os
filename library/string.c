@@ -4,15 +4,24 @@ This software is distributed under the GNU General Public License.
 See the file LICENSE for details.
 */
 
-#include "kernel/types.h"
-#include "kernel/ascii.h"
-#include "library/malloc.h"
-#include "library/string.h"
-#include "library/syscalls.h"
-#include "library/malloc.h"
-#include "stdarg.h"
-#include "library/stdlib.h"
-#include "library/list.h"
+#include <kernel/types.h>
+#include <kernel/ascii.h>
+#include <library/malloc.h>
+#include <library/string.h>
+#include <library/syscalls.h>
+#include <library/malloc.h>
+#include <library/stdarg.h>
+#include <library/stdlib.h>
+#include <library/list_t.h>
+#include <limits.h>
+#include <library/assert.h>
+#include <library/ctype.h>
+#include <library/color.h>
+#include <library/errno.h>
+#include <library/stdint.h>
+#include <library/float.h>
+#include <library/list_t.h>
+#include <library/strtoui.h>
 
 #define MIN(A, B) ((A) < (B) ? (A) : (B))
 #define MAX(A, B) ((A) > (B) ? (A) : (B))
@@ -84,11 +93,11 @@ char *strchrnul(const char *s, int c)
 	return (char *)s;
 }
 
-char *strchr(const char *s, int c)
-{
-	char *r = strchrnul(s, c);
-	return *(unsigned char *)r == (unsigned char)c ? r : 0;
-}
+// char *strchr(const char *s, int c)
+// {
+	// char *r = strchrnul(s, c);
+	// return *(unsigned char *)r == (unsigned char)c ? r : 0;
+// }
 
 char *strrchr(const char *s, int c)
 {

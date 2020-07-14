@@ -9,8 +9,9 @@
 #include "stdarg.h"
 
 // Executes specified file with specified argc and argv.
-int system(string *program, int argc, string **argv)
-{
-    syscall_process_exec(program, argc, argv);
-    return false;
-}
+// int system(string *program, int argc, string **argv)
+// {
+//     syscall_process_exec(program, argc, argv);
+//     return false;
+// }
+// ^^^^^ -> Commented because it is defined in stdio.c

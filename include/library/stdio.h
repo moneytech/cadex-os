@@ -21,6 +21,7 @@ See the file LICENSE for details.
 #include <library/stdbool.h>
 #include <library/stddef.h>
 #include <library/ascii.h>
+#include <library/stdint.h>
 
 extern uintptr_t initial_esp;
 
@@ -68,5 +69,6 @@ void printChar(int x, int y, char c);
 void print(int x, int y, char *s);
 void flushScreen();
 int getWindowDimens(char *s);
+void system(char *program, int argc, char **argv);
 
 #endif

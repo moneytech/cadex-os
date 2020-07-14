@@ -4,7 +4,7 @@
  * Copyright (C) 2013-2018 K. Lange
  */
 
-#include <library/list.h>
+#include <library/list_t.h>
 #include <library/hashmap.h>
 
 unsigned int hashmap_string_hash(void *_key)

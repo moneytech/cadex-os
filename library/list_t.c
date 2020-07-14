@@ -9,11 +9,11 @@
 #ifdef _KERNEL_
 #include <kernel/system.h>
 #else
-#include <stddef.h>
-#include <stdlib.h>
+#include <library/stddef.h>
+#include <library/stdlib.h>
 #endif
 
-#include <library/list.h>
+#include <library/list_t.h>
 
 void list_destroy(list_t *list)
 {
@@ -206,7 +206,7 @@ void *list_index(list_t *list, int index)
     return NULL;
 }
 
-void list_remove(list_t *list, size_t index)
+void list_rm(list_t *list, size_t index)
 {
     /* remove index from the list */
     if (index > list->length)

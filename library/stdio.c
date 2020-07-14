@@ -206,7 +206,6 @@ int getWindowDimens(char *type){
 }
 
 // Executes specified file with specified argc and argv. 
-int system(string *program, int argc, string **argv) {
+void system(char *program, int argc, char **argv) {
 	syscall_process_exec(program, argc, argv);
-	return false;
 }

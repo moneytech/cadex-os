@@ -9,7 +9,7 @@
 #ifdef _KERNEL_
 #include <kernel/types.h>
 #else
-#include <library/stdint.h>
+//#include <library/stdint.h>
 #include <library/stddef.h>
 #include <library/assert.h>
 #include <kernel/types.h>
@@ -39,7 +39,7 @@ extern node_t *list_insert(list_t *list, void *item);
 extern list_t *list_create(void);
 extern node_t *list_find(list_t *list, void *value);
 extern int list_index_of(list_t *list, void *value);
-extern void list_remove(list_t *list, size_t index);
+extern void list_rm(list_t *list, size_t index);
 extern void list_delete(list_t *list, node_t *node);
 extern node_t *list_pop(list_t *list);
 extern node_t *list_dequeue(list_t *list);
