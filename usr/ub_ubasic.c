@@ -28,7 +28,7 @@
  *
  */
 
-#include "ubasic.h"
+#include <ub/ubasic.h>
 
 static const char program[] =
 "10 gosub 100\n\

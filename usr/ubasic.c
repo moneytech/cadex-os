@@ -36,11 +36,11 @@
 #define DEBUG_PRINTF(...)
 #endif
 
-#include "ubasic.h"
-#include "tokenizer.h"
+#include <ub/ubasic.h>
+#include <ub/tokenizer.h>
 
-#include <stdio.h> /* printf() */
-#include <stdlib.h> /* exit() */
+#include <library/stdio.h> /* printf() */
+#include <library/stdlib.h> /* exit() */
 
 static char const *program_ptr;
 #define MAX_STRINGLEN 40
