@@ -1,7 +1,7 @@
 #pragma once
 
 #include <library/_cheader.h>
-#include <stddef.h>
+#include <library/stddef.h>
 
 _Begin_C_Header
 

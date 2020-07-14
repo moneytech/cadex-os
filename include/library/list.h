@@ -10,7 +10,7 @@
 #include <kernel/types.h>
 #else
 #include <library/stdint.h>
-#include <stddef.h>
+#include <library/stddef.h>
 #include <library/assert.h>
 #include <kernel/types.h>
 #endif
