@@ -30,6 +30,7 @@ void memset(void *d, char value, unsigned length);
 void memcpy(void *d, const void *s, unsigned length);
 
 void printf(const char *s, ...);
+void reverseSentence();
 // int scanf(char *s);
 
 #endif

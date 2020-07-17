@@ -716,6 +716,15 @@ char *uint_to_string(uint32_t u, char *s)
 	s[i] = 0;
 	return s;
 }
+
+void reverseSentence() {
+    char c;
+    scanf("%c", &c);
+    if (c != '\n') {
+        reverseSentence();
+        printf("%c", c);
+    }
+}
 /* Work in progress */
 //int scanf(char *line)
 //{	int i = 0;
