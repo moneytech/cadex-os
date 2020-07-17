@@ -11,7 +11,7 @@ See the file LICENSE for details.
 
 void strcpy(char *d, const char *s);
 void strncpy(char *d, const char *s, unsigned length);
-char * strdup(const char *s);
+char *strdup(const char *s);
 int strcmp(const char *a, const char *b);
 int strncmp(const char *a, const char *b, unsigned length);
 char *strdup(const char *s);
@@ -30,6 +30,7 @@ void memset(void *d, char value, unsigned length);
 void memcpy(void *d, const void *s, unsigned length);
 
 void printf(const char *s, ...);
+void printf_putstring(char *str);
 void reverseSentence();
 // int scanf(char *s);
 
