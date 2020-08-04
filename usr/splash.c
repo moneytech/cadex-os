@@ -5,37 +5,18 @@ See the file LICENSE for details.
 */
 
 /*
-A fun graphics demo that features text bouncing around the screen.
+Splash screen for Cadex OS. In development.
 */
 
-#include "library/syscalls.h"
-#include "library/stdio.h"
-#include "library/string.h"
+#include <library/syscalls.h>
+#include <library/stdio.h>
+#include <library/string.h>
 
 typedef unsigned int uint32_t;
 
 uint32_t randint(uint32_t min, uint32_t max);
 void move(int *x, int *d, int min, int max);
-char *splashMessage = {
-	"W"
-	"e"
-	"l"
-	"c"
-	"o"
-	"m"
-	"e"
-	" "
-	"t"
-	"o"
-	" "
-	"C"
-	"a"
-	"d"
-	"e"
-	"x"
-	" "
-	"O"
-	"S"};
+char* message = "Cadex OS v0.1.3b2.0";
 int main(int argc, char *argv[])
 {
 	int r = 255;
@@ -67,22 +48,23 @@ int main(int argc, char *argv[])
 	move(&g, &dg, 0, 255);
 	move(&b, &db, 0, 255);
 	setTextColor(r, g, b);
-	print(x1, y1, "Cadex OS v0.1.3");
+	print(x1, y1, message);
 	flush();
 
 	sleepThread(2);
 	// syscall_object_read_nonblock(KNO_STDIN,&stop,1);
 	// }
-	int o = 0;
-	for (o = 0; o = 10; o++)
-	{
-		renderWindow(WN_STDWINDOW);
-		setTextColor(255, 255, 255);
-		clearScreen(0, 0, width, height);
-		print(x1, y1, splashMessage[1]);
-		flush();
-		sleepThread(1000);
-	}
+	
+	// The code below is commented because its useless. It was written to make the typewriter animation but it failed.
+	/* for (o = 0; o = 10; o++)*/
+	/* {*/
+	/* 	 renderWindow(WN_STDWINDOW);*/
+	/* 	 setTextColor(255, 255, 255);*/
+	/* 	 clearScreen(0, 0, width, height);*/
+	/* 	 print(x1, y1, splashMessage[1]);*/
+	/* 	 flush();*/
+	/* 	 sleepThread(1000);*/
+	/* }*/
 	clearScreen(0, 0, width, height);
 	setTextColor(255, 255, 255);
 	flush();
