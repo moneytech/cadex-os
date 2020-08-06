@@ -1,6 +1,11 @@
 // definitions for system info
+/* System Version */
 #define SYS_VER 0.1.3
+/* Is this version a beta build */
 #define ISBETA true
-#define SYS_CODENAME "ponytail"
+/* Version Codename */
+#define SYS_CODENAME "gorgeous gorilla"
+/* Major version */
 #define SYS_MAJOR_VER 0.1
-#define SYS_BUILD 381b
+/* OS Build number */
+#define SYS_BUILD 396b
