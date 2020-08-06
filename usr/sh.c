@@ -40,7 +40,7 @@ int do_command(char *line)
 			{
 				argv[i++] = next;
 			}
-			int pid = syscall_process_fork();
+			int pid = fork();
 			if (pid != 0)
 			{
 				printf("started process %d\n", pid);

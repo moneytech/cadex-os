@@ -41,25 +41,25 @@ struct process_info_t {
 #define _X	0x40	/* hex digit */
 #define _SP	0x80	/* hard space (0x20) */
 
-extern unsigned char _ctype[];
-extern char _ctmp;
+// extern unsigned char _ctype[];
+// extern char _ctmp;
 
-#define _isalnum(c) ((_ctype+1)[c]&(_U|_L|_D))
-#define _isalpha(c) ((_ctype+1)[c]&(_U|_L))
-#define _iscntrl(c) ((_ctype+1)[c]&(_C))
-#define _isdigit(c) ((_ctype+1)[c]&(_D))
-#define _isgraph(c) ((_ctype+1)[c]&(_P|_U|_L|_D))
-#define _islower(c) ((_ctype+1)[c]&(_L))
-#define _isprint(c) ((_ctype+1)[c]&(_P|_U|_L|_D|_SP))
-#define _ispunct(c) ((_ctype+1)[c]&(_P))
-#define _isspace(c) ((_ctype+1)[c]&(_S))
-#define _isupper(c) ((_ctype+1)[c]&(_U))
-#define _isxdigit(c) ((_ctype+1)[c]&(_D|_X))
+// #define _isalnum(c) ((_ctype+1)[c]&(_U|_L|_D))
+// #define _isalpha(c) ((_ctype+1)[c]&(_U|_L))
+// #define _iscntrl(c) ((_ctype+1)[c]&(_C))
+// #define _isdigit(c) ((_ctype+1)[c]&(_D))
+// #define _isgraph(c) ((_ctype+1)[c]&(_P|_U|_L|_D))
+// #define _islower(c) ((_ctype+1)[c]&(_L))
+// #define _isprint(c) ((_ctype+1)[c]&(_P|_U|_L|_D|_SP))
+// #define _ispunct(c) ((_ctype+1)[c]&(_P))
+// #define _isspace(c) ((_ctype+1)[c]&(_S))
+// #define _isupper(c) ((_ctype+1)[c]&(_U))
+// #define _isxdigit(c) ((_ctype+1)[c]&(_D|_X))
 
-#define _isascii(c) (((unsigned) c)<=0x7f)
-#define _toascii(c) (((unsigned) c)&0x7f)
+// #define _isascii(c) (((unsigned) c)<=0x7f)
+// #define _toascii(c) (((unsigned) c)&0x7f)
 
-#define _tolower(c) (_ctmp=c,isupper(_ctmp)?_ctmp+('a'+'A'):_ctmp)
-#define _toupper(c) (_ctmp=c,islower(_ctmp)?_ctmp+('A'-'a'):_ctmp)
+// #define _tolower(c) (_ctmp=c,isupper(_ctmp)?_ctmp+('a'+'A'):_ctmp)
+// #define _toupper(c) (_ctmp=c,islower(_ctmp)?_ctmp+('A'-'a'):_ctmp)
 
 #endif

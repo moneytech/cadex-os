@@ -17,7 +17,7 @@ int main(int argc, const char *argv[])
 	}
 	unsigned int startTime;
 	syscall_system_time(&startTime);
-	int pid = syscall_process_fork();
+	int pid = fork();
 	if (pid == 0) { // child
 		syscall_process_exec(argv[1], argc-1, &argv[1]);
 		printf("exec failed\n");

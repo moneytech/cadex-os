@@ -43,11 +43,11 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* On 4.3bsd-net2, make sure ansi.h is included, so we have
    one less case to deal with in the following.  */
 #if defined(__BSD_NET2__) || defined(____386BSD____) || (defined(__FreeBSD__) && (__FreeBSD__ < 5)) || defined(__NetBSD__)
-#include <machine/ansi.h>
+//#include <machine/ansi.h>
 #endif
 /* On FreeBSD 5, machine/ansi.h does not exist anymore... */
 #if defined(__FreeBSD__) && (__FreeBSD__ >= 5)
-#include <sys/_types.h>
+//#include <sys/_types.h>
 #endif
 
 /* In 4.3bsd-net2, machine/ansi.h defines these symbols, which are

@@ -13,7 +13,6 @@ See the file LICENSE for details.
 #include <library/stdarg.h>
 #include <library/stdlib.h>
 #include <library/list_t.h>
-#include <limits.h>
 #include <library/assert.h>
 #include <library/color.h>
 #include <library/errno.h>
@@ -357,31 +356,31 @@ static char *strstr_4b(const unsigned char *h, const unsigned char *n)
 // 	return strstr_twoway((void *)h, (void *)n);
 // }
 
-int atoi(const char *s)
-{
-	int n = 0;
-	int neg = 0;
-	while (isspace(*s))
-	{
-		s++;
-	}
-	switch (*s)
-	{
-	case '-':
-		neg = 1;
-		/* Fallthrough is intentional here */
-	case '+':
-		s++;
-	}
-	while (isdigit(*s))
-	{
-		n = 10 * n - (*s++ - '0');
-	}
-	/* The sign order may look incorrect here but this is correct as n is calculated
-	 * as a negative number to avoid overflow on INT_MAX.
-	 */
-	return neg ? n : -n;
-}
+// int atoi(const char *s)
+// {
+// 	int n = 0;
+// 	int neg = 0;
+// 	while (isspace(*s))
+// 	{
+// 		s++;
+// 	}
+// 	switch (*s)
+// 	{
+// 	case '-':
+// 		neg = 1;
+// 		/* Fallthrough is intentional here */
+// 	case '+':
+// 		s++;
+// 	}
+// 	while (isdigit(*s))
+// 	{
+// 		n = 10 * n - (*s++ - '0');
+// 	}
+// 	/* The sign order may look incorrect here but this is correct as n is calculated
+// 	 * as a negative number to avoid overflow on INT_MAX.
+// 	 */
+// 	return neg ? n : -n;
+// }
 
 void strncpy(char *d, const char *s, unsigned length)
 {
@@ -718,14 +717,14 @@ char *uint_to_string(uint32_t u, char *s)
 	return s;
 }
 
-void reverseSentence() {
-    char c;
-    scanf("%c", &c);
-    if (c != '\n') {
-        reverseSentence();
-        printf("%c", c);
-    }
-}
+// void reverseSentence() {
+//     char c;
+//     scanf("%c", &c);
+//     if (c != '\n') {
+//         reverseSentence();
+//         printf("%c", c);
+//     }
+// }
 /* Work in progress */
 //int scanf(char *line)
 //{	int i = 0;

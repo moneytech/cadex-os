@@ -81,7 +81,7 @@ peek_func peek_function = NULL;
 poke_func poke_function = NULL;
 
 /*---------------------------------------------------------------------------*/
-void
+extern void
 ubasic_init(const char *program)
 {
   program_ptr = program;
@@ -91,7 +91,7 @@ ubasic_init(const char *program)
   ended = 0;
 }
 /*---------------------------------------------------------------------------*/
-void
+extern void
 ubasic_init_peek_poke(const char *program, peek_func peek, poke_func poke)
 {
   program_ptr = program;
@@ -605,7 +605,7 @@ line_statement(void)
   return;
 }
 /*---------------------------------------------------------------------------*/
-void
+extern void
 ubasic_run(void)
 {
   if(tokenizer_finished()) {
@@ -616,7 +616,7 @@ ubasic_run(void)
   line_statement();
 }
 /*---------------------------------------------------------------------------*/
-int
+extern int
 ubasic_finished(void)
 {
   return ended || tokenizer_finished();

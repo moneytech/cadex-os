@@ -4,7 +4,9 @@ include Makefile.config
 LIBRARY_SOURCES=$(wildcard library/*.c)
 LIBRARY_HEADERS=$(wildcard library/*.h)
 USER_SOURCES=$(wildcard usr/*.c)
+SYSTEM_BIN_SOURCES=$(wildcard bin/*.c)
 USER_PROGRAMS=$(USER_SOURCES:c=exe)
+SYSTEM_BIN_FILES=$(SYSTEM_BIN_SOURCES:c=exe)
 KERNEL_SOURCES=$(wildcard kernel/*.[chS])
 
 .PHONY: clean
@@ -32,15 +34,20 @@ library/baselib.a: $(LIBRARY_SOURCES) $(LIBRARY_HEADERS)
 $(USER_PROGRAMS): $(USER_SOURCES) library/baselib.a $(LIBRARY_HEADERS)
 	cd usr && make
 
+$(SYSTEM_BIN_FILES): $(SYSTEM_BIN_SOURCES) library/baselib.a $(LIBRARY_HEADERS)
+	cd bin && make
+
 kernel/cadex.img: $(KERNEL_SOURCES) $(LIBRARY_HEADERS)
 	cd kernel && make
 
-image: kernel/cadex.img $(USER_PROGRAMS)
+image: kernel/cadex.img $(USER_PROGRAMS) $(SYSTEM_BIN_FILES)
 	rm -rf image
-	mkdir image image/boot image/usr image/data image/usr/bin
+	mkdir image image/boot image/usr image/data image/usr/bin image/bin image/sys
 	cp kernel/cadex.img image/boot
-	cp usr/kevin.txt image/usr/bin
+	cp usr/kevin.txt image/usr/share
+	cp sys/sys.json image/sys/
 	cp $(USER_PROGRAMS) image/usr/bin
+	cp $(SYSTEM_BIN_FILES) image/bin
 	head -2000 /usr/share/dict/words > image/data/words
 
 cadex.iso: image
