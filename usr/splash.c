@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 	move(&r, &dr, 0, 255);
 	move(&g, &dg, 0, 255);
 	move(&b, &db, 0, 255);
-	setTextColor(r, g, b);
+	setTextColor(r, g, b,0);
 	print(x1, y1, message);
 	flush();
 
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 	/* 	 sleepThread(1000);*/
 	/* }*/
 	clearScreen(0, 0, width, height);
-	setTextColor(255, 255, 255);
+	setTextColor(255, 255, 255,0);
 	flush();
 
 	return 0;

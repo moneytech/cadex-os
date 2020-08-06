@@ -211,7 +211,7 @@ int main(int argc, char *argv[])
 
 	while (1)
 	{
-		printf("cshell> ");
+		printf("C:\\> ");
 		flush();
 		if (readline(line, sizeof(line)))
 		{

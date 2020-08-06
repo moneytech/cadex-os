@@ -91,7 +91,7 @@ void printf_putstring(char *s);
 void flush();
 
 void renderWindow(int wd);
-void setTextColor(int r, int g, int b);
+void setTextColor(int r, int g, int b, int a);
 void drawRect(int x, int y, int w, int h);
 void clearScreen(int x, int y, int w, int h);
 void drawLine(int x, int y, int w, int h);
@@ -100,5 +100,5 @@ void print(int x, int y, char *s);
 void flushScreen();
 int getWindowDimens(char *s);
 void system(char *program, int argc, char **argv);
-
+void resetColor();
 #endif

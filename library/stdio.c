@@ -57,12 +57,14 @@ void renderWindow(int wd)
 }
 
 // Sets the text/cursor color
-void setTextColor(int r, int g, int b)
+void setTextColor(int r, int g, int b, int a)
 {
-	draw_set_buffer(GRAPHICS_COLOR, r, g, b, 0);
+	draw_set_buffer(GRAPHICS_COLOR, r, g, b, a);
 	flushScreen();
 }
-
+void resetColor(){
+	draw_set_buffer(GRAPHICS_COLOR, 255,255,255, 0);
+}
 // Draws a rectangle on screen with specified dimensions
 void drawRect(int x, int y, int w, int h)
 {

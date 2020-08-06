@@ -75,7 +75,7 @@ static void unknown_exception(int i, int code)
 	if(current) {
 		process_exit(0);
 	} else {
-		printf("!!!FATAL ERROR OCCURED!!!\n\n exception in module Cadex.Kernel.Core\n");
+		printf("Segmentation fault (core dumped)\n");
 		halt();
 	}
 }

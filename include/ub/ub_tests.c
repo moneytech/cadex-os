@@ -29,9 +29,8 @@
  *
  */
 
-#include <time.h>
-#include <stdio.h>
-#include <assert.h>
+#include <library/stdio.h>
+#include <library/assert.h>
 #include "ubasic.h"
 
 static const char program_let[] =

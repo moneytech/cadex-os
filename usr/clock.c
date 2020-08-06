@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 
 void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
 {
-	setTextColor(r, b, g);
+	setTextColor(r, b, g,0);
 	drawRect(x, y, w, thickness);
 	drawRect(x, y, thickness, h);
 	drawRect(x + w - thickness, y, thickness, h);
@@ -73,7 +73,7 @@ void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
 
 void draw_clock(uint32_t hour, uint32_t minute, int timezone, int military, int x, int y, int padding, int r, int g, int b)
 {
-	setTextColor(r, b, g);
+	setTextColor(r, b, g,0);
 
 	char h_str[100];
 	char m_str[100];

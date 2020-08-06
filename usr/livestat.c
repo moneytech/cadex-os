@@ -215,7 +215,7 @@ void run_stats(struct stat_args *args)
   sleep:
     sleepThread(6000);
   }
-  setTextColor(255, 255, 255);
+  setTextColor(255, 255, 255,0);
   flush();
 }
 
@@ -382,7 +382,7 @@ void plot_bars(int most_recent_vals[POINTS], int max, int window_width, int wind
   float x_step = (float)plot_width / POINTS;
   float y_step = (float)plot_height / max;
 
-  setTextColor(0, 255, 0);
+  setTextColor(0, 255, 0,0);
 
   for (i = 0; i < POINTS; i++)
   {
@@ -394,7 +394,7 @@ void plot_bars(int most_recent_vals[POINTS], int max, int window_width, int wind
     drawRect(current_point[0], current_point[1], thickness, (int)(y_step * most_recent_vals[i]));
   }
   flush();
-  setTextColor(255, 255, 255);
+  setTextColor(255, 255, 255,0);
 }
 
 /* Convert stat type to string */

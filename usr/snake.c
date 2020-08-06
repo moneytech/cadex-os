@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
 			init_snake_coords(snake_coords, x_steps, y_steps, x, y);
 
 			flush();
-			setTextColor(255, 255, 255);
+			setTextColor(255, 255, 255,0);
 			print(thick * 3, thick * 4, "You lose!");
 			print(thick * 3, thick * 8, "Enter q to quit");
 			print(thick * 3, thick * 12, "Press any key to start");
@@ -256,7 +256,7 @@ int initialize_window(uint16_t x_b, uint16_t y_b, uint16_t w_b, uint16_t h_b, ui
 int draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
 {
 	// Color the border appropriately
-	setTextColor(r, b, g);
+	setTextColor(r, b, g,0);
 
 	// Draw 4 rectangles to represent the border
 	drawRect(x, y, w, thickness);
@@ -272,7 +272,7 @@ void draw_board(uint16_t wd, uint16_t x_0, uint16_t y_0, uint16_t game_width, ui
 	clearScreen(x_0, y_0, game_width, game_height);
 	renderWindow(wd);
 	// Draw the snake
-	setTextColor(0, 255, 0);
+	setTextColor(0, 255, 0,0);
 	for (uint16_t i = 0; i < x_steps * y_steps; i++)
 	{
 		if (snake_coords[i].x_c == 255)
@@ -283,7 +283,7 @@ void draw_board(uint16_t wd, uint16_t x_0, uint16_t y_0, uint16_t game_width, ui
 	}
 
 	// Draw the apple
-	setTextColor(255, 0, 0);
+	setTextColor(255, 0, 0,0);
 	drawRect(apple.x_c * thick + x_0, apple.y_c * thick + y_0, thick, thick);
 
 	flush();

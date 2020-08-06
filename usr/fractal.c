@@ -88,7 +88,7 @@ void plot_point(int iter_val, int j, int k)
 
 	if (iter_val > ITER_THRES)
 	{
-		setTextColor(255, 255, 255);
+		setTextColor(255, 255, 255,0);
 		drawRect(j, k, 1, 1);
 	}
 	else
@@ -97,7 +97,7 @@ void plot_point(int iter_val, int j, int k)
 		{
 			if (iter_val <= step_size * (i + 1))
 			{
-				setTextColor(colors[i][0], colors[i][1], colors[i][2]);
+				setTextColor(colors[i][0], colors[i][1], colors[i][2],0);
 				drawRect(j, k, 1, 1);
 				break;
 			}

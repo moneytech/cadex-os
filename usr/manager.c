@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 	syscall_object_size(WN_STDWINDOW, std_dims, 2);
 	renderWindow(WN_STDWINDOW);
 	/* The code below will not work */
-	setTextColor(r, g, b);
+	setTextColor(r, g, b,0);
 	print(x1, y1, "Cadex Shell UI");
 	/* End not working code*/
 	flush();
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
 			renderWindow(WN_STDWINDOW);
 			draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 0, 0, 255);
 			flush();
-			setTextColor(255, 255, 255);
+			setTextColor(255, 255, 255,0);
 			continue;
 		}
 		/* Write 1 character to the correct pipe */
@@ -185,7 +185,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* Clean up the window */
-	setTextColor(255, 255, 255);
+	setTextColor(255, 255, 255,0);
 	clearScreen(0, 0, std_dims[0], std_dims[1]);
 	flush();
 	return 0;
@@ -263,7 +263,7 @@ void merge(program *arr, int l, int m, int r)
 
 void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
 {
-	setTextColor(r, b, g);
+	setTextColor(r, b, g,0);
 	drawRect(x, y, w, thickness);
 	drawRect(x, y, thickness, h);
 	drawRect(x + w - thickness, y, thickness, h);

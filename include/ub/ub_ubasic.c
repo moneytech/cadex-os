@@ -28,9 +28,9 @@
  *
  */
 
-#include <ub/ubasic.h>
 #include <ub/tokenizer.h>
 #include <ub/ubasic.h>
+#include <ub/vartype.h>
 
 static const char program[] =
 "10 gosub 100\n\

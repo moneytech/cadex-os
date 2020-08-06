@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 		move(&g, &dg, 0, 255);
 		move(&b, &db, 0, 255);
 		renderWindow(WN_STDWINDOW);
-		setTextColor(r, g, b);
+		setTextColor(r, g, b,0);
 
 		drawLine(x1, y1, x2 - x1, y2 - y1);
 		flush();
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 		syscall_object_read_nonblock(KNO_STDIN, &stop, 1);
 	}
 	clearScreen(0, 0, width, height);
-	setTextColor(255, 255, 255);
+	setTextColor(255, 255, 255,0);
 	flush();
 	return 0;
 }

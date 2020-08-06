@@ -447,15 +447,18 @@ void process_make_dead(struct process *dead)
 
 int process_kill(uint32_t pid)
 {
-	if(pid > 0 && pid <= PROCESS_MAX_PID) {
+	if(pid > 0 && pid <= PROCESS_MAX_PID && pid != 1) {
 		struct process *dead = process_table[pid];
 		if(dead) {
-			printf("process killed\n");
+			printf("successfully killed the specified process\n");
 			process_make_dead(dead);
 			return 0;
 		} else {
 			return 1;
 		}
+	}else if(pid == 1){
+		printf("kill: cannot kill the specified process: you tried to kill the core process\n");
+		return 1;
 	} else {
 		return 1;
 	}
