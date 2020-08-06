@@ -1,7 +1,7 @@
 
 include ../Makefile.config
 
-USER_PROGRAMS= mkdiag.exe
+USER_PROGRAMS= mkdiag.exe whoami.exe
 
 all: $(USER_PROGRAMS)
 

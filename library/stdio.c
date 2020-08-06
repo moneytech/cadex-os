@@ -91,6 +91,14 @@ void print(int x, int y, char *s)
 	draw_set_buffer(GRAPHICS_TEXT, x, y, (int) s, 0);
 	flushScreen();
 }
+// Prints text on screen on the specified x and y axis.
+void print_debug(int x, int y, char *s)
+{
+#ifdef DEBUG
+	draw_set_buffer(GRAPHICS_TEXT, x, y, (int)s, 0);
+	flushScreen();
+#endif // DEBUG
+}
 
 // Get data from specified port.
 uint8_t inb(uint16_t port)

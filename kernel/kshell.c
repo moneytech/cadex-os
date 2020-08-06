@@ -777,6 +777,9 @@ static int kshell_execute(int argc, const char **argv)
 		printf("Mouse activated.\n");
 		mouse_init();
 		ps2_clear_buffer();
+	} else if (!strcmp(cmd, "mkdiag"))
+	{
+		kshell_execute(0, "bin/mkdiag.exe");
 	}
 	else
 	{
