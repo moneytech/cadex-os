@@ -1,0 +1,41 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${default}"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ]
+        },
+        {
+            "name": "Cadex",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${default}"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:\\Users\\User\\Documents\\GitHub\\Cadex-OS-Official\\cross\\bin\\i686-elf-gcc",
+            "compilerArgs": [
+                "Wall",
+                "-c",
+                "-ffreestanding",
+                "-fno-pie ",
+                "-g ",
+                "-std=gnu99"
+            ],
+            "intelliSenseMode": "gcc-x86",
+            "cStandard": "gnu99",
+            "cppStandard": "c++11"
+        }
+    ],
+    "version": 4
+}

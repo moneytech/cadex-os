@@ -10,6 +10,13 @@ Most of the functions and features are stubbed, ie. they don't work. They compil
 gwin_stdwin mainWindow;
 gwin_server_t mainServ;
 
+int DESETTINGS = 1;
+
+string server_name = "gwin_server_gserv";
+
+bool doesServerSupportsDualScreen = false;
+bool serverActivated = true;
+
 bool checkIfServerIsAvailable(){
     if(!mainServ.isServerRunning && !mainServ.isServerAvailable){
         mainServ.isServerAvailable = true;
@@ -17,6 +24,7 @@ bool checkIfServerIsAvailable(){
         return mainServ.isServerAvailable;
     }
 }
+
 int return_current_active_server(){
     if(mainServ.isServerRunning){
         
@@ -29,5 +37,7 @@ void initServer(gwin_server_t gserv1){
     if(gserv1.isServerAvailable && gserv1.isServerRunning){
         gserv1.serv_hax_addr = 0x0BB13;
         gserv1.activeWindow = mainWindow;
+        gserv1.port = 8080;
+        gserv1.disable3dAcceleration = true;
     }
 }

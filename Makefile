@@ -1,3 +1,4 @@
+# Cadex OS Build Makefile for i386 architecture.
 include Makefile.config
 
 LIBRARY_SOURCES=$(wildcard library/*.c)

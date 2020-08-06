@@ -47,6 +47,9 @@ typedef union
     bool isServerAvailable;
     bool isServerRunning;
     gwin_stdwin activeWindow;
+    int port;
+    int address;
+    bool disable3dAcceleration;
 } gwin_server_t;
 
 #endif // !GWIN_H

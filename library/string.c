@@ -23,7 +23,7 @@ See the file LICENSE for details.
 #include <library/strtoui.h>
 #include <library/_cheader.h>
 #include <library/stdio.h>
-#include <unix.h>
+
 #define MIN(A, B) ((A) < (B) ? (A) : (B))
 #define MAX(A, B) ((A) > (B) ? (A) : (B))
 

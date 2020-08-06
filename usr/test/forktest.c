@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
 	printf("hello world, I am %d.\n", syscall_process_self());
-	int x = syscall_process_fork();
+	int x = fork();
 	printf("My fork returned %d\n", x);
 
 	printf("Some numbers:\n");

@@ -34,7 +34,7 @@ int syscall_process_wrun(const char *cmd, int argc, const char **argv, int * fds
 	return syscall(SYSCALL_PROCESS_WRUN, (uint32_t) cmd, argc, (uint32_t) argv, (uint32_t) fds, fd_len);
 }
 
-int syscall_process_fork()
+int fork()
 {
 	return syscall(SYSCALL_PROCESS_FORK, 0, 0, 0, 0, 0);
 }
