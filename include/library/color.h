@@ -6,4 +6,5 @@
 #define GREEN 0,255,0
 #define RED 255,0,0
 #define GRAY 230,230,230
+#define LIGHT_GREEN 
 #endif
