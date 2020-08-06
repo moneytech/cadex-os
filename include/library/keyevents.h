@@ -17,3 +17,12 @@ typedef struct keyEventHandler
     event afterKeyPress;
     event afterKeyUp;
 };
+enum key_event_codes
+{
+    E_KEY_PRESS,
+    E_KEY_DOWN,
+    E_KEY_UP,
+    E_AFTER_KEYPRESS,
+    E_AFTER_KEYDOWN,
+    E_AFTER_KEYUP
+};
