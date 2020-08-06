@@ -10,13 +10,9 @@
 #include <library/stdio.h>
 #include <passwd.h>
 
-                 int main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-    struct passwd *p = getpwuid(getprocuid());
-    if (!p)
-        return 0;
 
-    printf("%s\n", p->pw_name);
-
+    printf_putstring("root");
     return 0;
 }
