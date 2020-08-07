@@ -19,17 +19,17 @@ See the file LICENSE for details.
 #include <library/math.h>
 #include <library/assert.h>
 #include "stdarg.h"
-static char stdio_buffer[PAGE_SIZE] = { 0 };
+static char stdio_buffer[PAGE_SIZE] = {0};
 
 static uint32_t stdio_buffer_index = 0;
 
-static struct graphics_command graphics_buffer[PAGE_SIZE] = { {0} };
+static struct graphics_command graphics_buffer[PAGE_SIZE] = {{0}};
 
 static uint32_t graphics_buffer_index = 0;
- 
+
 static int window_fd = WN_STDWINDOW;
 
-void flushScreen()      
+void flushScreen()
 {
 	syscall_object_write(KNO_STDOUT, stdio_buffer, stdio_buffer_index);
 	stdio_buffer_index = 0;
@@ -38,7 +38,7 @@ void flushScreen()
 
 static void draw_set_buffer(int t, int a0, int a1, int a2, int a3)
 {
-	struct graphics_command c = { t, {a0, a1, a2, a3} };
+	struct graphics_command c = {t, {a0, a1, a2, a3}};
 	graphics_buffer[graphics_buffer_index++] = c;
 }
 
@@ -62,8 +62,9 @@ void setTextColor(int r, int g, int b, int a)
 	draw_set_buffer(GRAPHICS_COLOR, r, g, b, a);
 	flushScreen();
 }
-void resetColor(){
-	draw_set_buffer(GRAPHICS_COLOR, 255,255,255, 0);
+void resetColor()
+{
+	draw_set_buffer(GRAPHICS_COLOR, 255, 255, 255, 0);
 }
 // Draws a rectangle on screen with specified dimensions
 void drawRect(int x, int y, int w, int h)
@@ -88,7 +89,7 @@ void drawLine(int x, int y, int w, int h)
 // Prints text on screen on the specified x and y axis.
 void print(int x, int y, char *s)
 {
-	draw_set_buffer(GRAPHICS_TEXT, x, y, (int) s, 0);
+	draw_set_buffer(GRAPHICS_TEXT, x, y, (int)s, 0);
 	flushScreen();
 }
 // Prints text on screen on the specified x and y axis.
@@ -189,7 +190,7 @@ static void nosound()
 	outb(0x61, tmp);
 }
 
-// A code for Beeping. May not work correctly on QEMU. See https://wiki.osdev.org/PC_Speaker#Sample_Code/ 
+// A code for Beeping. May not work correctly on QEMU. See https://wiki.osdev.org/PC_Speaker#Sample_Code/
 void beep()
 {
 	play_sound(1000);
@@ -200,22 +201,26 @@ void beep()
 // End sound code
 
 // Returns Window Dimensions. EXPERIMENTAL
-int getWindowDimens(char *type){
+int getWindowDimens(char *type)
+{
 	int dims[2];
 	syscall_object_size(WN_STDWINDOW, dims, 2);
 
 	int width = dims[0];
 	int height = dims[1];
-	if(!strcmp(type[0], "width")){
+	if (!strcmp(type[0], "width"))
+	{
 		return width;
 	}
-	if(!strcmp(type[0], "height")){
+	if (!strcmp(type[0], "height"))
+	{
 		return height;
 	}
 	return width, height;
 }
 
-// Executes specified file with specified argc and argv. 
-void system(char *program, int argc, char **argv) {
-	syscall_process_exec(program, argc, argv);
+// Executes specified file with specified argc and argv.
+void system(char *program, int argc, char **argv)
+{
+	exec(program, argc, argv);
 }

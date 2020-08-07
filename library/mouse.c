@@ -1,5 +1,7 @@
 #include <library/stdio.h>
 #include <library/string.h>
+#include <passwd.h>
+#include <library/limits.h>
 
 static uint8_t mouse_cycle = 0;
 static uint8_t mouse_byte[4];

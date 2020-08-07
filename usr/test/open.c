@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 		flush();
 	}
 	syscall_object_close(fd);
-	syscall_process_exit(0);
+	_process_exit(0);
 
 	return 0;
 }

@@ -1,10 +1,10 @@
 #include <time.h>
 #include <sys/time.h>
-#include <stdio.h>
+#include <library/stdio.h>
 
 #define SEC_DAY 86400
 
-#define fprintf(...)
+#define fprintf(a) printf(a)
 
 static struct tm _timevalue;
 

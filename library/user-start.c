@@ -10,7 +10,7 @@ The very first symbol in this module must be _start() because
 the kernel simply jumps to the very first location of the executable.
 _start() sets up any necessary runtime environment and invokes
 the main function.  Note that this function cannot exit, but
-must invoke the syscall_process_exit() system call to terminate the process.
+must invoke the _process_exit() system call to terminate the process.
 */
 
 #include "library/syscalls.h"
@@ -19,5 +19,5 @@ int main(int argc, const char *argv[]);
 
 void _start(int argc, const char **argv)
 {
-	syscall_process_exit(main(argc, argv));
+	_process_exit(main(argc, argv));
 }

@@ -47,7 +47,7 @@ int do_command(char *line)
 			}
 			else
 			{
-				syscall_process_exec(pch, 2, argv);
+				exec(pch, 2, argv);
 			}
 		}
 		else
@@ -110,7 +110,7 @@ int do_command(char *line)
 		int pid;
 		if (pch && str2int(pch, &pid))
 		{
-			syscall_process_kill(pid);
+			_process_kill(pid);
 		}
 		else
 			printf("kill: expected process id number but got %s\n", pch);

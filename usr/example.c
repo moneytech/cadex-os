@@ -4,9 +4,12 @@ This software is distributed under the GNU General Public License.
 See the file LICENSE for details.
 */
 
-#include "library/syscalls.h"
-#include "library/string.h"
-#include "library/malloc.h"
+// An example program 
+
+#include <library/syscalls.h>
+#include <library/string.h>
+#include <library/malloc.h>
+#include <library/stdio.h>
 
 int main(int argc, char *argv[])
 {
