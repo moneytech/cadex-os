@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 	while ((n = syscall_object_read(fd, buffer, 100)) > 0)
 	{
 		buffer[n] = 0;
-		printf("%s", buffer);
+		printf(buffer);
 		flush();
 	}
 

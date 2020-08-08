@@ -33,5 +33,6 @@ void printf(const char *s, ...);
 void printf_putstring(char *str);
 void reverseSentence();
 // int scanf(char *s);
+int atoi(const char *nptr);
 
 #endif

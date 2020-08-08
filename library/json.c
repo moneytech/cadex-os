@@ -8,6 +8,35 @@
 #include <json.h>
 
 typedef struct JSON_Value Value;
+#define _U	0x01	/* upper */
+#define _L	0x02	/* lower */
+#define _D	0x04	/* digit */
+#define _C	0x08	/* cntrl */
+#define _P	0x10	/* punct */
+#define _S	0x20	/* white space (space/lf/tab) */
+#define _X	0x40	/* hex digit */
+#define _SP	0x80	/* hard space (0x20) */
+
+extern unsigned char _ctype[];
+extern char _ctmp;
+
+#define isalnum(c) ((_ctype+1)[c]&(_U|_L|_D))
+#define isalpha(c) ((_ctype+1)[c]&(_U|_L))
+#define iscntrl(c) ((_ctype+1)[c]&(_C))
+#define isdigit(c) ((_ctype+1)[c]&(_D))
+#define isgraph(c) ((_ctype+1)[c]&(_P|_U|_L|_D))
+#define islower(c) ((_ctype+1)[c]&(_L))
+#define isprint(c) ((_ctype+1)[c]&(_P|_U|_L|_D|_SP))
+#define ispunct(c) ((_ctype+1)[c]&(_P))
+#define isspace(c) ((_ctype+1)[c]&(_S))
+#define isupper(c) ((_ctype+1)[c]&(_U))
+#define isxdigit(c) ((_ctype+1)[c]&(_D|_X))
+
+#define isascii(c) (((unsigned) c)<=0x7f)
+#define toascii(c) (((unsigned) c)&0x7f)
+
+#define tolower(c) (_ctmp=c,isupper(_ctmp)?_ctmp+('a'+'A'):_ctmp)
+#define toupper(c) (_ctmp=c,islower(_ctmp)?_ctmp+('A'-'a'):_ctmp)
 
 /* Internal usage */
 struct JSON_Context
@@ -68,7 +97,7 @@ static void whitespace(struct JSON_Context *ctx)
     }
 }
 
-static Value *string(struct JSON_Context *ctx)
+static Value *json_type_str(struct JSON_Context *ctx)
 {
     if (peek(ctx) != '"')
         return null;
@@ -215,7 +244,7 @@ static Value *object(struct JSON_Context *ctx)
     while (1)
     {
         whitespace(ctx);
-        Value *s = string(ctx);
+        Value *s = json_type_str(ctx);
 
         if (!s)
         {
@@ -262,7 +291,7 @@ _object_done:
     return out;
 }
 
-static Value *boolean(struct JSON_Context *ctx)
+static Value *json_type_bool(struct JSON_Context *ctx)
 {
     int value = -1;
     if (peek(ctx) == 't')
@@ -520,7 +549,7 @@ static Value *value(struct JSON_Context *ctx)
 {
     whitespace(ctx);
     if (peek(ctx) == '"')
-        WHITE(string(ctx))
+        WHITE(json_type_str(ctx))
     else if (peek(ctx) == '{')
         WHITE(object(ctx))
     else if (peek(ctx) == '[')
@@ -528,9 +557,9 @@ static Value *value(struct JSON_Context *ctx)
     else if (peek(ctx) == '-' || isdigit(peek(ctx)))
         WHITE(number(ctx))
     else if (peek(ctx) == 't')
-        WHITE(boolean(ctx))
+        WHITE(json_type_bool(ctx))
     else if (peek(ctx) == 'f')
-        WHITE(boolean(ctx))
+        WHITE(json_type_bool(ctx))
     else if (peek(ctx) == 'n')
         WHITE(jnull(ctx))
     ctx->error = "Unexpected value";

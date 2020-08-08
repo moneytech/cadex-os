@@ -13,5 +13,6 @@ int main(int argc, char const *argv[])
     {
         printf("Cadex");
     }
+    printf("Test");
     return 0;
 }

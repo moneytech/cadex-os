@@ -14,7 +14,7 @@ _Begin_C_Header
 #define JSON_TYPE_BOOL 4
 #define JSON_TYPE_NULL 5
 
-    struct JSON_Value
+typedef struct JSON_Value
 {
     int type;
     union
@@ -26,7 +26,7 @@ _Begin_C_Header
         int boolean;
     };
 };
-
+typedef struct JSON_Value Value;
 #define JSON_KEY(v, k) ((struct JSON_Value *)(hashmap_get(v->object, k)))
 #define JSON_IND(v, i) ((struct JSON_Value *)(list_index(v->array, i)))
 
@@ -43,7 +43,7 @@ extern void json_free(struct JSON_Value *);
  *
  * Parse a string into a JSON_Value
  */
-extern struct JSON_Value *json_parse(const char *);
+extern Value *json_parse(const char *);
 
 /**
  * json_parse_file

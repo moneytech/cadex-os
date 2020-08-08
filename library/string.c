@@ -30,6 +30,26 @@ See the file LICENSE for details.
 #define ONES ((size_t)-1 / UCHAR_MAX)
 #define HIGHS (ONES * (UCHAR_MAX / 2 + 1))
 #define HASZERO(X) (((X)-ONES) & ~(X)&HIGHS)
+unsigned char chartmp[];
+char _ctmp;
+
+#define isalnum(c) ((chartmp + 1)[c] & (_U | _L | _D))
+#define isalpha(c) ((chartmp + 1)[c] & (_U | _L))
+#define iscntrl(c) ((chartmp + 1)[c] & (_C))
+#define isdigit(c) ((chartmp + 1)[c] & (_D))
+#define isgraph(c) ((chartmp + 1)[c] & (_P | _U | _L | _D))
+#define islower(c) ((chartmp + 1)[c] & (_L))
+#define isprint(c) ((chartmp + 1)[c] & (_P | _U | _L | _D | _SP))
+#define ispunct(c) ((chartmp + 1)[c] & (_P))
+#define isspace(c) ((chartmp + 1)[c] & (_S))
+#define isupper(c) ((chartmp + 1)[c] & (_U))
+#define isxdigit(c) ((chartmp + 1)[c] & (_D | _X))
+
+#define isascii(c) (((unsigned)c) <= 0x7f)
+#define toascii(c) (((unsigned)c) & 0x7f)
+
+#define tolower(c) (_ctmp = c, isupper(_ctmp) ? _ctmp + ('a' + 'A') : _ctmp)
+#define toupper(c) (_ctmp = c, islower(_ctmp) ? _ctmp + ('A' - 'a') : _ctmp)
 
 #define BITOP(A, B, OP) \
 	((A)[(size_t)(B) / (8 * sizeof *(A))] OP(size_t) 1 << ((size_t)(B) % (8 * sizeof *(A))))
@@ -651,17 +671,13 @@ void printf(const char *s, ...)
 
 	va_start(args, s);
 
-	while (*s)
-	{
-		if (*s != '%')
-		{
+	while (*s) {
+		if (*s != '%') {
 			printf_putchar(*s);
 		}
-		else
-		{
+		else {
 			s++;
-			switch (*s)
-			{
+			switch (*s) {
 			case 'd':
 				i = va_arg(args, int32_t);
 				printf_putint(i);
@@ -693,6 +709,35 @@ void printf(const char *s, ...)
 		s++;
 	}
 	va_end(args);
+}
+// static inline int isdigit(int ch) {
+// 	return (unsigned int)ch-'0' < 10;
+// }
+
+// static inline int isspace(int ch) {
+// 	return ch == ' ' || (unsigned int)ch-'\t' < 5;
+// }
+
+int atoi(const char * s) {
+	int n = 0;
+	int neg = 0;
+	while (isspace(*s)) {
+		s++;
+	}
+	switch (*s) {
+	case '-':
+		neg = 1;
+		/* Fallthrough is intentional here */
+	case '+':
+		s++;
+	}
+	while (isdigit(*s)) {
+		n = 10*n - (*s++ - '0');
+	}
+	/* The sign order may look incorrect here but this is correct as n is calculated
+	 * as a negative number to avoid overflow on INT_MAX.
+	 */
+	return neg ? n : -n;
 }
 
 char *uint_to_string(uint32_t u, char *s)
