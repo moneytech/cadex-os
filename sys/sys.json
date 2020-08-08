@@ -3,6 +3,7 @@
     "system_name": "cadex-generic-0.1.3-beta:396",
     "details": {
         "kernel_name": "cadex-generic",
-        "os_name": "Cadex OS 0.1.3b396"
+        "os_name": "Cadex OS 0.1.3b396",
+	"beta_kernel": "true"
     }
 }
