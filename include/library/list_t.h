@@ -9,10 +9,10 @@
 #ifdef _KERNEL_
 #include <kernel/types.h>
 #else
-//#include <library/stdint.h>
+#include <library/stdint.h>
 #include <library/stddef.h>
 #include <library/assert.h>
-#include <kernel/types.h>
+#include <library/types.h>
 #endif
 
 _Begin_C_Header
