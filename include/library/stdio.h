@@ -24,6 +24,20 @@ See the file LICENSE for details.
 
 extern uintptr_t initial_esp;
 
+typedef struct _FILE FILE;
+#define __DEFINED_FILE
+
+#define BUFSIZ 8192
+
+extern FILE * stdin;
+extern FILE * stdout;
+extern FILE * stderr;
+
+#define EOF (-1)
+
+#define SEEK_SET 0
+#define SEEK_CUR 1
+#define SEEK_END 2
 #define KNO_STDIN  0
 #define KNO_STDOUT 1
 #define KNO_STDERR 2
@@ -52,6 +66,7 @@ extern uintptr_t initial_esp;
 extern unsigned char _ctype[];
 extern char _ctmp;
 
+_Begin_C_Header
 #define isalnum(c) ((_ctype + 1)[c] & (_U | _L | _D))
 #define isalpha(c) ((_ctype + 1)[c] & (_U | _L))
 #define iscntrl(c) ((_ctype + 1)[c] & (_C))
@@ -101,4 +116,59 @@ void flushScreen();
 int getWindowDimens(char *s);
 void system(char *program, int argc, char **argv);
 void resetColor();
+
+
+
+extern FILE * fopen(const char *path, const char *mode);
+extern int fclose(FILE * stream);
+extern int fseek(FILE * stream, long offset, int whence);
+extern long ftell(FILE * stream);
+extern FILE * fdopen(int fd, const char *mode);
+extern FILE * freopen(const char *path, const char *mode, FILE * stream);
+
+extern size_t fread(void *ptr, size_t size, size_t nmemb, FILE * stream);
+extern size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE * stream);
+
+extern int fileno(FILE * stream);
+extern int fflush(FILE * stream);
+
+extern int sprintf(char *buf, const char *fmt, ...);
+extern int fprintf(FILE *stream, const char *fmt, ...);
+extern int snprintf(char * buf, size_t size, const char * fmt, ...);
+
+extern void rewind(FILE *stream);
+extern void setbuf(FILE * stream, char * buf);
+
+extern void perror(const char *s);
+
+extern int ungetc(int c, FILE * stream);
+
+extern int feof(FILE * stream);
+extern void clearerr(FILE * stream);
+extern int ferror(FILE * stream);
+
+extern int _fwouldblock(FILE * stream);
+
+extern FILE * tmpfile(void);
+
+extern int setvbuf(FILE * stream, char * buf, int mode, size_t size);
+
+extern int remove(const char * pathname);
+extern int rename(const char * oldpath, const char * newpath);
+
+#define _IONBF 0
+#define _IOLBF 1
+#define _IOFBF 2
+
+extern char * tmpnam(char * s);
+#define L_tmpnam 256
+
+
+typedef long fpos_t;
+
+extern int fgetpos(FILE *stream, fpos_t *pos);
+extern int fsetpos(FILE *stream, const fpos_t *pos);
+
+
+_End_C_Header;
 #endif

@@ -19,7 +19,61 @@ See the file LICENSE for details.
 #include <library/math.h>
 #include <library/assert.h>
 #include "stdarg.h"
-static char stdio_buffer[PAGE_SIZE] = {0};
+
+struct _FILE {
+	int fd;
+
+	char * read_buf;
+	int available;
+	int offset;
+	int read_from;
+	int ungetc;
+	int eof;
+	int bufsiz;
+	long last_read_start;
+	char * _name;
+};
+
+FILE _stdin ={
+	.fd = 0,
+	.read_buf = NULL,
+	.available = 0,
+	.offset = 0,
+	.read_from = 0,
+	.ungetc = -1,
+	.eof = 0,
+	.last_read_start = 0,
+	.bufsiz = BUFSIZ,
+};
+
+FILE _stdout ={
+	.fd = 1,
+	.read_buf = NULL,
+	.available = 0,
+	.offset = 0,
+	.read_from = 0,
+	.ungetc = -1,
+	.eof = 0,
+	.last_read_start = 0,
+	.bufsiz = BUFSIZ,
+};
+
+FILE _stderr ={
+	.fd = 2,
+	.read_buf = NULL,
+	.available = 0,
+	.offset = 0,
+	.read_from = 0,
+	.ungetc = -1,
+	.eof = 0,
+	.last_read_start = 0,
+	.bufsiz = BUFSIZ,
+};
+
+FILE * stdin = &_stdin;
+FILE * stdout = &_stdout;
+FILE * stderr = &_stderr;
+static char stdio_buffer[PAGE_SIZE] ={ 0 };
 
 static uint32_t stdio_buffer_index = 0;
 

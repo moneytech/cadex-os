@@ -11,7 +11,7 @@ KERNEL_SOURCES=$(wildcard kernel/*.[chS])
 
 .PHONY: clean
 
-all: clean cadex.iso success # run # Uncomment this run command to run the OS after you've built the OS
+all: clear clean cadex.iso success # run # Uncomment this run command to run the OS after you've built the OS
 
 run: cadex.iso # hddimg
 					#  | This .exe is for compatibility for WSL. See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
@@ -61,3 +61,6 @@ clean:
 	cd kernel && make clean
 	cd library && make clean
 	cd usr && make clean
+
+clear:
+	clear || cls
