@@ -31,19 +31,9 @@ int main(int argc, char const *argv[])
     renderWindow(WN_STDWINDOW);
     clearScreen(0, 0, width, height);
     flush();
-    // Check if length of command-line arguments is lesser than 0
-    // if(sizeof(argc) < 0){
-    //     // If length of command-line arguments is lesser than 0
-    //     printf("MKDiag version 0.2\nUsage: mkdiag.exe [OPTION]... (title|bgcolor|fgcolor|button)\n\nThis program is a part of Cadex OSUtils v0.11");
-    // }
-    setTextColor(GRAY,0);
-    drawRect(x1, y1, 190, 80);
+    setTextColor(GREEN, 0);
     setTextColor(WHITE, 0);
-    print(x1 + 10, y1 + 10, "Example dialog message");
-    setTextColor(BLUE, 0);
-    drawRect(x1+60, y1+50, 60, 20);
-    setTextColor(WHITE, 0);
-    print(x1+62, y1+52+3, "OK");
+    print(x1, y1, "Bounce - a small game");
     resetColor();
     flush();
     return 0;
