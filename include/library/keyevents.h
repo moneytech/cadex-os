@@ -1,12 +1,11 @@
 #include <library/stdio.h>
 #include <library/stdbool.h>
 
-typedef struct event
-{
+typedef struct {
     int eventid;
     int eventType;
     char *eventname;
-};
+}event;
 
 typedef struct keyEventHandler
 {
