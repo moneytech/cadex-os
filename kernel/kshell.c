@@ -36,7 +36,7 @@ See the file LICENSE for details.
 #include "utils.h"
 #include "scanf.h"
 #include "cbasic.h"
-
+#include "serial.h"
 #define BASEPORT 0x0060 /* lp1 */
 
 // #define SHOW_DEBUG_INFO 
@@ -772,7 +772,7 @@ static int kshell_execute(int argc, const char **argv)
 			printf("\nCadex chprompt. Utility to change shell prompt symbol.\nAvailable symbols are:\n $ : chprompt bash\n # : chprompt rootbash\n \% : chprompt linux-3\n\n");
 		}
 	}
-	else if (!strcmp(cmd, "mdrvact"))
+	else if (!strcmp(cmd, "serial"))
 	{
 		static struct mouse_event *state;
 		printf("Mouse activated.\n");
@@ -784,6 +784,7 @@ static int kshell_execute(int argc, const char **argv)
 			printf("%d", state->x);
 			//ps2_clear_buffer();
 		}
+		
 
 	}
 	else if (!strcmp(cmd, "mkdiag"))

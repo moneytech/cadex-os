@@ -30,7 +30,7 @@ void pic_init(int pic0base, int pic1base)
 	outb(PIC_ICW4_SLAVE, pic_data[1]);
 	outb(~0, pic_data[1]);
 
-	printf("[SYS] pic: ready\n");
+	printf("[SYS] PIC: ready\n");
 }
 
 void pic_enable(uint8_t irq)

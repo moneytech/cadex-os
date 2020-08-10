@@ -56,6 +56,7 @@ int kernel_main()
 	ata_init();
 	cdrom_init();
 	diskfs_init();
+	serial_init(0x3f8);
 	kshell_mount("atapi", 2, "cdromfs");
 	printf("\n>>>>>> Cadex OS Version 0.1.3 | beta-4.1 <<<<<<\n");
 	kshell_launch();
