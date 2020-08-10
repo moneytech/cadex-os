@@ -660,7 +660,54 @@ static void printf_putuint(uint32_t u)
 		f = f / 10;
 	}
 }
+int memcmp(const void *cs, const void *ct, size_t count)
+{
+	const unsigned char *su1, *su2;
+	int res = 0;
 
+	for (su1 = cs, su2 = ct; 0 < count; ++su1, ++su2, count--)
+		if ((res = *su1 - *su2) != 0)
+			break;
+	return res;
+}
+int strStartsWith(const char *pre, const char *str)
+{
+	size_t lenpre = strlen(pre),
+		lenstr = strlen(str);
+	return lenstr < lenpre ? false : memcmp(pre, str, lenpre) == 0;
+}
+int strEndsWith(const char *str, const char *suffix)
+{
+	if (!str || !suffix)
+		return false;
+	size_t lenstr = strlen(str);
+	size_t lensuffix = strlen(suffix);
+	if (lensuffix >  lenstr)
+		return false;
+	return strncmp(str + lenstr - lensuffix, suffix, lensuffix) == 0;
+}
+int strncasecmp(const char *s1, const char *s2, size_t len)
+{
+	/* Yes, Virginia, it had better be unsigned */
+	unsigned char c1, c2;
+
+	if (!len)
+		return 0;
+
+	do {
+		c1 = *s1++;
+		c2 = *s2++;
+		if (!c1 || !c2)
+			break;
+		if (c1 == c2)
+			continue;
+		c1 = tolower(c1);
+		c2 = tolower(c2);
+		if (c1 != c2)
+			break;
+	} while (--len);
+	return (int)c1 - (int)c2;
+}
 void printf(const char *s, ...)
 {
 	va_list args;

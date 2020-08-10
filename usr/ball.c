@@ -49,15 +49,14 @@ int main(int argc, char *argv[])
 		move(&r, &dr, 0, 255);
 		move(&g, &dg, 0, 255);
 		move(&b, &db, 0, 255);
-		setTextColor(r, g, b,0);
+		setTextColor(r, g, b, 0);
 		print(x1, y1, "Ball is AWESOME!");
 		flush();
-
 		sleepThread(35);
 		syscall_object_read_nonblock(KNO_STDIN, &stop, 1);
 	}
 	clearScreen(0, 0, width, height);
-	setTextColor(255, 255, 255,0);
+	setTextColor(255, 255, 255, 0);
 	flush();
 	return 0;
 }

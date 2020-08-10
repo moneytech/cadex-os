@@ -34,6 +34,22 @@ int main(int argc, char const *argv[])
     setTextColor(GREEN, 0);
     setTextColor(WHITE, 0);
     print(x1, y1, "Bounce - a small game");
+    print(x1+10, y1+10, "Press any key to continue...");
+    int i = 0;
+    char stop = -1;
+    while (stop == -1) {
+        clearScreen(0, 0, width, height);
+        renderWindow(WN_STDWINDOW);
+        print(x1+i, y1, "Hello World");
+        flush();
+        sleepThread(100);
+        syscall_object_read_nonblock(KNO_STDIN, &stop, 1);
+        i++;
+    }
+    if (stop == "") {
+
+    }
+    clearScreen(0, 0, width, height);
     resetColor();
     flush();
     return 0;
