@@ -66,7 +66,7 @@ int do_command(char *line)
 			{
 				argv[i++] = next;
 			}
-			int pid = syscall_process_run(argv[0], i, &argv[0]);
+			int pid = proc_run(argv[0], i, &argv[0]);
 			if (pid > 0)
 			{
 				printf("started process %d\n", pid);

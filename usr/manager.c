@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 	renderWindow(WN_STDWINDOW);
 	/* The code below will not work */
 	setTextColor(r, g, b,0);
-	print(x1, y1, "Cadex Shell UI");
+	print(10, 10, "Cadex Shell UI");
 	/* End not working code*/
 	flush();
 
@@ -181,12 +181,12 @@ int main(int argc, char *argv[])
 	/* Reap all children processes */
 	for (int i = 0; i < num_programs; ++i)
 	{
-		syscall_process_reap(pids[i]);
+		//syscall_process_reap(pids[i]);
 	}
 
 	/* Clean up the window */
 	setTextColor(255, 255, 255,0);
-	clearScreen(0, 0, std_dims[0], std_dims[1]);
+	//clearScreen(0, 0, std_dims[0], std_dims[1]);
 	flush();
 	return 0;
 }

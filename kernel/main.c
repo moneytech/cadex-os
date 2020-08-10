@@ -36,6 +36,7 @@ Now we initialize each subsystem in the proper order:
 
 int kernel_main()
 {
+	char a;
 	struct graphics *g = graphics_create_root();
 
 	console_init(g);
@@ -56,11 +57,11 @@ int kernel_main()
 	cdrom_init();
 	diskfs_init();
 	kshell_mount("atapi", 2, "cdromfs");
-	printf("\n************* Cadex OS Version 0.0.5 | Pre-Alpha *************\n");
+	printf("\n>>>>>> Cadex OS Version 0.1.3 | beta-4.1 <<<<<<\n");
 	kshell_launch();
 
 	while(1) {
-		console_putchar(&console_root,keyboard_read(0));
+		console_putchar(&console_root,keyboard_read(a));
 	}
 
 	return 0;

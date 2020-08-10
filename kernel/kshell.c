@@ -42,7 +42,7 @@ See the file LICENSE for details.
 // #define SHOW_DEBUG_INFO 
 uint16_t cursor_pos = 0, cursor_next_line_index = 1;
 static uint32_t next_line_index = 1;
-char *shakespeare[] = {
+char *shakespeare[] ={
 	"[Horatio] Now cracke a Noble heart:",
 	"Goodnight sweet Prince,",
 	"And flights of Angels sing thee to thy rest,",
@@ -103,7 +103,7 @@ char *shakespeare[] = {
 	"Exeunt Marching: after the which, a Peale of",
 	"Ordenance are shot off.",
 };
-char *promptsym[] = {
+char *promptsym[] ={
 	"#",
 	"$",
 	"%",
@@ -321,15 +321,15 @@ static int kshell_execute(int argc, const char **argv)
 			int pid = sys_process_run(argv[1], argc - 1, &argv[1]);
 			if (pid > 0)
 			{
-#ifdef SHOW_DEBUG_INFO
+				#ifdef SHOW_DEBUG_INFO
 				printf("started process %d\n", pid);
-#endif
+				#endif
 				process_yield();
 			}
 			else
 			{
 				printf("run: error: cannot start %s\n", argv[1]);
-				
+
 			}
 		}
 		else
@@ -482,7 +482,7 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		while (1)
 		{
-			const char *argv[] = {"test", "arg1", "arg2", "arg3", "arg4", "arg5", 0};
+			const char *argv[] ={ "test", "arg1", "arg2", "arg3", "arg4", "arg5", 0 };
 			int pid = sys_process_run("/bin/test", 6, argv);
 			if (pid > 0)
 			{
@@ -643,9 +643,9 @@ static int kshell_execute(int argc, const char **argv)
 		struct bcache_stats stats;
 		bcache_get_stats(&stats);
 		printf("%d rhit %d rmiss %d whit %d wmiss %d wback\n",
-			   stats.read_hits, stats.read_misses,
-			   stats.write_hits, stats.write_misses,
-			   stats.writebacks);
+			stats.read_hits, stats.read_misses,
+			stats.write_hits, stats.write_misses,
+			stats.writebacks);
 	}
 	else if (!strcmp(cmd, "bcache_flush"))
 	{
@@ -777,9 +777,14 @@ static int kshell_execute(int argc, const char **argv)
 		printf("Mouse activated.\n");
 		mouse_init();
 		ps2_clear_buffer();
-	} else if (!strcmp(cmd, "mkdiag"))
+	}
+	else if (!strcmp(cmd, "mkdiag"))
 	{
-		kshell_execute(0, "bin/mkdiag.exe");
+		sys_process_run("bin/mkdiag.exe", 0, "");
+	}
+	else if (!strcmp(cmd, "clear"))
+	{
+		sys_process_run("bin/clear.exe", 0, "");
 	}
 	else
 	{
