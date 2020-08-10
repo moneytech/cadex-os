@@ -23,7 +23,7 @@ int main(int argc, char const *argv[])
     int dg = 2;
     int db = 3;
     int dims[2];
-    char stop = -1;
+    int stop = -1;
     int i = 0;
     syscall_object_size(WN_STDWINDOW, dims, 2);
 
@@ -36,17 +36,18 @@ int main(int argc, char const *argv[])
     setTextColor(GREEN, 0);
     setTextColor(WHITE, 0);
     print(x1, y1, "Bounce - a small game");
-    print(x1+10, y1+10, "Press any key to continue...");
+    print(x1+8, y1+50, "Press any key to continue...");
 
     syscall_object_read(KNO_STDIN, &stop, 1);
     stop = -1;
     clearScreen(0, 0, width, height);
-    while (stop != "x")
+    while (stop != KEY_DELETE)
     {
         renderWindow(WN_STDWINDOW);
         print(x1+i, y1, "Hello World");
         flush();
-        sleepThread(6);
+        sleepThread(1);
+        clearScreen(0, 0, width, height);
         i+=1;
     }
     

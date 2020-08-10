@@ -774,9 +774,17 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "mdrvact"))
 	{
+		static struct mouse_event *state;
 		printf("Mouse activated.\n");
 		mouse_init();
-		ps2_clear_buffer();
+		while (1)
+		{
+			mouse_read(state);
+			//printChar(state->x, state->y, "hi");
+			printf("%d", state->x);
+			//ps2_clear_buffer();
+		}
+
 	}
 	else if (!strcmp(cmd, "mkdiag"))
 	{

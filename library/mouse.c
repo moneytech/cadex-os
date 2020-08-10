@@ -1,273 +1,234 @@
-#include <library/stdio.h>
-#include <library/string.h>
-#include <passwd.h>
+/*
+Copyright (C) 2019-2020 OpenCreeck
+This software is distributed under the GNU General Public License.
+See the file LICENSE for details.
+*/
+
+#include <library/syscalls.h>
+#include <library/errno.h>
+#include <library/types.h>
+#include <library/color.h>
+#include <library/const.h>
+#include <library/float.h>
+#include <library/hashmap.h>
 #include <library/limits.h>
+#include <library/malloc.h>
+#include <library/math.h>
+#include <library/stdbool.h>
+#include <library/stddef.h>
+#include <library/ascii.h>
+#include <library/stdint.h>
+#include <library/_cheader.h>
+#include <sysinfo.h>
+#include <library/mouse.h>
+/*
+The PS2 interface uses a data port and a command port.
+Reading the command port yields a status byte,
+while writing to the command port executes commands.
+*/
 
-static uint8_t mouse_cycle = 0;
-static uint8_t mouse_byte[4];
+#define PS2_DATA_PORT    0x60
+#define PS2_COMMAND_PORT 0x64
 
-#define PACKETS_IN_PIPE 1024
-#define DISCARD_POINT 32
+/* Some commands that may be sent to the command port. */
 
-#define MOUSE_IRQ 12
+#define PS2_COMMAND_READ_CONFIG 0x20
+#define PS2_COMMAND_WRITE_CONFIG 0x60
+#define PS2_COMMAND_DISABLE_MOUSE 0xA7
+#define PS2_COMMAND_ENABLE_MOUSE 0xA8
+#define PS2_COMMAND_DISABLE_KEYBOARD 0xAD
+#define PS2_COMMAND_ENABLE_KEYBOARD 0xAE
+#define PS2_COMMAND_MOUSE_PREFIX 0xD4
 
-#define MOUSE_PORT 0x60
-#define MOUSE_STATUS 0x64
-#define MOUSE_ABIT 0x02
-#define MOUSE_BBIT 0x01
-#define MOUSE_WRITE 0xD4
-#define MOUSE_F_BIT 0x20
-#define MOUSE_V_BIT 0x08
+/* The status byte read from the command port has these fields. */
 
-#define MOUSE_DEFAULT 0
-#define MOUSE_SCROLLWHEEL 1
-#define MOUSE_BUTTONS 2
+#define PS2_STATUS_OBF 0x01	// true: may not write to data port
+#define PS2_STATUS_IBF 0x02	// true: may read from data port
+#define PS2_STATUS_SYS 0x04	// true when port is initialized
+#define PS2_STATUS_A2  0x08	// true if command port was last written to
+#define PS2_STATUS_INH 0x10	// true if keyboard inhibited
+#define PS2_STATUS_MOBF 0x20	// true if mouse output available
+#define PS2_STATUS_TOUT 0x40	// true if timeout during I/O
+#define PS2_STATUS_PERR 0x80	// true indicates parity error
 
-static int8_t mouse_mode = MOUSE_DEFAULT;
+/*
+In addition, a configuration byte may be read/written
+via PS2_COMMAND_READ/WRITECONFIG.  The configuration byte
+has these bitfields.
+*/
 
-static fs_node_t *mouse_pipe;
+#define PS2_CONFIG_PORTA_IRQ 0x01
+#define PS2_CONFIG_PORTB_IRQ 0x02
+#define PS2_CONFIG_SYSTEM    0x04
+#define PS2_CONFIG_RESERVED1 0x08
+#define PS2_CONFIG_PORTA_CLOCK 0x10
+#define PS2_CONFIG_PORTB_CLOCK 0x20
+#define PS2_CONFIG_PORTA_TRANSLATE 0x40
+#define PS2_CONFIG_RESERVED2   0x80
 
-void (*ps2_mouse_alternate)(void) = NULL;
+/*
+The mouse has several specialized commands that may
+be sent by first sending PS2_COMMAND_MOUSE_PREFIX,
+then one of the following:
+*/
 
-static void mouse_wait(uint8_t a_type)
+#define PS2_MOUSE_COMMAND_ENABLE_STREAMING 0xea
+#define PS2_MOUSE_COMMAND_ENABLE_DEVICE    0xf4
+#define PS2_MOUSE_COMMAND_RESET 0xff
+
+/*
+To read/write data to/from the PS2 port, we must first check
+for the input/output buffer full (IBF/OBF) bits are set appropriately
+in the status register.
+*/
+
+uint8_t ps2_read_data()
 {
-    uint32_t timeout = 100000;
-    if (!a_type)
-    {
-        while (--timeout)
-        {
-            if ((inportb(MOUSE_STATUS) & MOUSE_BBIT) == 1)
-            {
-                return;
-            }
-        }
-        print_debug(INFO, "mouse timeout");
-        return;
-    }
-    else
-    {
-        while (--timeout)
-        {
-            if (!((inportb(MOUSE_STATUS) & MOUSE_ABIT)))
-            {
-                return;
-            }
-        }
-        print_debug(INFO, "mouse timeout");
-        return;
-    }
+	uint8_t status;
+	do {
+		status = inb(PS2_COMMAND_PORT);
+	} while(!(status & PS2_STATUS_OBF));
+	return inb(PS2_DATA_PORT);
 }
 
-static void mouse_write(uint8_t write)
+void ps2_write_data(uint8_t data)
 {
-    mouse_wait(1);
-    outportb(MOUSE_STATUS, MOUSE_WRITE);
-    mouse_wait(1);
-    outportb(MOUSE_PORT, write);
+	uint8_t status;
+	do {
+		status = inb(PS2_COMMAND_PORT);
+	} while(status & PS2_STATUS_IBF);
+	return outb(data, PS2_DATA_PORT);
 }
 
-static uint8_t mouse_read(void)
+/*
+In a similar way, to write a command to the status port,
+we must also check that the IBF field is cleared.
+*/
+
+void ps2_write_command(uint8_t data)
 {
-    mouse_wait(0);
-    char t = inportb(MOUSE_PORT);
-    return t;
+	uint8_t status;
+	do {
+		status = inb(PS2_COMMAND_PORT);
+	} while(status & PS2_STATUS_IBF);
+	return outb(data, PS2_COMMAND_PORT);
 }
 
-static int mouse_handler(struct regs *r)
+/*
+Clear the buffer of all data by reading until OBF and IBF
+are both clear.  Useful when resetting the device to achieve
+a known state.
+*/
+
+void ps2_clear_buffer()
 {
-    uint8_t status = inportb(MOUSE_STATUS);
-    while ((status & MOUSE_BBIT) && (status & MOUSE_F_BIT))
-    {
-        if (ps2_mouse_alternate)
-        {
-            ps2_mouse_alternate();
-            break;
-        }
-        int8_t mouse_in = inportb(MOUSE_PORT);
-        switch (mouse_cycle)
-        {
-        case 0:
-            mouse_byte[0] = mouse_in;
-            if (!(mouse_in & MOUSE_V_BIT))
-                break;
-            ++mouse_cycle;
-            break;
-        case 1:
-            mouse_byte[1] = mouse_in;
-            ++mouse_cycle;
-            break;
-        case 2:
-            mouse_byte[2] = mouse_in;
-            if (mouse_mode == MOUSE_SCROLLWHEEL || mouse_mode == MOUSE_BUTTONS)
-            {
-                ++mouse_cycle;
-                break;
-            }
-            goto finish_packet;
-        case 3:
-            mouse_byte[3] = mouse_in;
-            goto finish_packet;
-        }
-        goto read_next;
-    finish_packet:
-        mouse_cycle = 0;
-        /* We now have a full mouse packet ready to use */
-        mouse_device_packet_t packet;
-        packet.magic = MOUSE_MAGIC;
-        int x = mouse_byte[1];
-        int y = mouse_byte[2];
-        if (x && mouse_byte[0] & (1 << 4))
-        {
-            /* Sign bit */
-            x = x - 0x100;
-        }
-        if (y && mouse_byte[0] & (1 << 5))
-        {
-            /* Sign bit */
-            y = y - 0x100;
-        }
-        if (mouse_byte[0] & (1 << 6) || mouse_byte[0] & (1 << 7))
-        {
-            /* Overflow */
-            x = 0;
-            y = 0;
-        }
-        packet.x_difference = x;
-        packet.y_difference = y;
-        packet.buttons = 0;
-        if (mouse_byte[0] & 0x01)
-        {
-            packet.buttons |= LEFT_CLICK;
-        }
-        if (mouse_byte[0] & 0x02)
-        {
-            packet.buttons |= RIGHT_CLICK;
-        }
-        if (mouse_byte[0] & 0x04)
-        {
-            packet.buttons |= MIDDLE_CLICK;
-        }
-
-        if (mouse_mode == MOUSE_SCROLLWHEEL && mouse_byte[3])
-        {
-            if ((int8_t)mouse_byte[3] > 0)
-            {
-                packet.buttons |= MOUSE_SCROLL_DOWN;
-            }
-            else if ((int8_t)mouse_byte[3] < 0)
-            {
-                packet.buttons |= MOUSE_SCROLL_UP;
-            }
-        }
-
-        mouse_device_packet_t bitbucket;
-        while (pipe_size(mouse_pipe) > (int)(DISCARD_POINT * sizeof(packet)))
-        {
-            read_fs(mouse_pipe, 0, sizeof(packet), (uint8_t *)&bitbucket);
-        }
-        write_fs(mouse_pipe, 0, sizeof(packet), (uint8_t *)&packet);
-    read_next:
-        break;
-    }
-    irq_ack(MOUSE_IRQ);
-    return 1;
+	uint8_t status;
+	do {
+		status = inb(PS2_COMMAND_PORT);
+		if(status & PS2_STATUS_OBF) {
+			inb(PS2_DATA_PORT);
+			continue;
+		}
+	} while(status & (PS2_STATUS_OBF | PS2_STATUS_IBF));
 }
 
-static int ioctl_mouse(fs_node_t *node, int request, void *argp)
+/*
+Send a mouse-specific command by sending the mouse prefix,
+then the mouse command as data, then reading back an
+acknowledgement.
+*/
+
+void ps2_mouse_command(uint8_t command)
 {
-    if (request == 1)
-    {
-        mouse_cycle = 0;
-        return 0;
-    }
-    return -1;
+	ps2_write_command(PS2_COMMAND_MOUSE_PREFIX);
+	ps2_write_data(command);
+	ps2_read_data();
 }
 
-static int mouse_install(void)
+/*
+Read and write the PS2 configuration byte, which
+does not involve an acknowledgement.
+*/
+
+uint8_t ps2_config_get()
 {
-    print_debug(NOTICE, "Initializing PS/2 mouse interface");
-    uint8_t status, result;
-    IRQ_OFF;
-
-    while ((inportb(0x64) & 1))
-    {
-        inportb(0x60);
-    }
-
-    mouse_pipe = make_pipe(sizeof(mouse_device_packet_t) * PACKETS_IN_PIPE);
-    mouse_wait(1);
-    outportb(MOUSE_STATUS, 0xA8);
-    mouse_read();
-    mouse_wait(1);
-    outportb(MOUSE_STATUS, 0x20);
-    mouse_wait(0);
-    status = inportb(0x60) | 3;
-    mouse_wait(1);
-    outportb(MOUSE_STATUS, 0x60);
-    mouse_wait(1);
-    outportb(MOUSE_PORT, status);
-    mouse_write(0xF6);
-    mouse_read();
-    mouse_write(0xF4);
-    mouse_read();
-
-    /* Try to enable scroll wheel (but not buttons) */
-    if (!args_present("nomousescroll"))
-    {
-        mouse_write(0xF2);
-        mouse_read();
-        result = mouse_read();
-        mouse_write(0xF3);
-        mouse_read();
-        mouse_write(200);
-        mouse_read();
-        mouse_write(0xF3);
-        mouse_read();
-        mouse_write(100);
-        mouse_read();
-        mouse_write(0xF3);
-        mouse_read();
-        mouse_write(80);
-        mouse_read();
-        mouse_write(0xF2);
-        mouse_read();
-        result = mouse_read();
-        if (result == 3)
-        {
-            mouse_mode = MOUSE_SCROLLWHEEL;
-        }
-    }
-
-    /* keyboard scancode set */
-    mouse_wait(1);
-    outportb(MOUSE_PORT, 0xF0);
-    mouse_wait(1);
-    outportb(MOUSE_PORT, 0x02);
-    mouse_wait(1);
-    mouse_read();
-
-    irq_install_handler(MOUSE_IRQ, mouse_handler, "ps2 mouse");
-    IRQ_RES;
-
-    uint8_t tmp = inportb(0x61);
-    outportb(0x61, tmp | 0x80);
-    outportb(0x61, tmp & 0x7F);
-    inportb(MOUSE_PORT);
-
-    while ((inportb(0x64) & 1))
-    {
-        inportb(0x60);
-    }
-
-    mouse_pipe->flags = FS_CHARDEVICE;
-    mouse_pipe->ioctl = ioctl_mouse;
-
-    vfs_mount("/dev/mouse", mouse_pipe);
-    return 0;
+	ps2_write_command(PS2_COMMAND_READ_CONFIG);
+	return ps2_read_data();
 }
 
-static int mouse_uninstall(void)
+void ps2_config_set(uint8_t config)
 {
-    /* TODO */
-    return 0;
+	ps2_write_command(PS2_COMMAND_WRITE_CONFIG);
+	ps2_write_data(config);
+}
+
+static struct mouse_event state;
+
+/*
+On each interrupt, read three bytes from the PS 2 port, which
+gives buttons and status, X and Y position.  The ninth (sign) bit
+of the X and Y position is given as a single bit in the status
+word, so we must assemble a twos-complement integer if needed.
+Finally, take those values and update the current mouse state.
+*/
+
+static void mouse_interrupt(int i, int code)
+{
+	uint8_t m1 = inb(PS2_DATA_PORT);
+	uint8_t m2 = inb(PS2_DATA_PORT);
+	uint8_t m3 = inb(PS2_DATA_PORT);
+
+	state.buttons = m1 & 0x03;
+	state.x += m1 & 0x10 ? 0xffffff00 | m2 : m2;
+	state.y -= m1 & 0x20 ? 0xffffff00 | m3 : m3;
+
+	if(state.x < 0)
+		state.x = 0;
+	if(state.y < 0)
+		state.y = 0;
+	if(state.x >= video_xres)
+		state.x = video_xres - 1;
+	if(state.y >= video_yres)
+		state.y = video_yres - 1;
+}
+
+/*
+Do a non-blocking read of the current mouse state.
+Block interrupts while reading, to avoid inconsistent state.
+*/
+
+void mouse_read(struct mouse_event *e)
+{
+	interrupt_disable(44);
+	*e = state;
+	interrupt_enable(44);
+}
+
+/*
+Unlike the keyboard, the mouse is not automatically enabled
+at bootup.  We must first obtain tbe ps2 configuration register,
+enable both port A (keyboard) and port B (mouse), then send
+a series of commands to reset the mouse and enable "streaming",
+which causes an interrupt for every move of the mouse.
+*/
+
+void mouse_init()
+{
+	ps2_clear_buffer();
+
+	uint8_t config = ps2_config_get();
+	config |= PS2_CONFIG_PORTA_IRQ;
+	config |= PS2_CONFIG_PORTB_IRQ;
+	config &= ~PS2_CONFIG_PORTA_CLOCK;
+	config &= ~PS2_CONFIG_PORTB_CLOCK;
+	config |= PS2_CONFIG_PORTA_TRANSLATE;
+	ps2_config_set(config);
+
+	ps2_mouse_command(PS2_MOUSE_COMMAND_RESET);
+	ps2_mouse_command(PS2_MOUSE_COMMAND_ENABLE_DEVICE);
+	ps2_mouse_command(PS2_MOUSE_COMMAND_ENABLE_STREAMING);
+
+	interrupt_register(44, mouse_interrupt);
+	interrupt_enable(44);
+	printf("[HARDWARE] mouse: ready\n");
 }
