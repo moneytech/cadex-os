@@ -46,7 +46,6 @@ image: kernel/cadex.img $(USER_PROGRAMS) $(SYSTEM_BIN_FILES)
 	cp kernel/cadex.img image/boot
 	cp usr/kevin.txt image/usr/share/
 	cp sys/sys.json image/sys/
-	cp sys/demois.exe image/sys/
 	cp $(USER_PROGRAMS) image/usr/bin
 	cp $(SYSTEM_BIN_FILES) image/bin
 	head -2000 /usr/share/dict/words > image/data/words
