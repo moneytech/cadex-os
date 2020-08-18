@@ -26,6 +26,7 @@ See the file LICENSE for details.
 #include "cdromfs.h"
 #include "diskfs.h"
 #include "serial.h"
+#include <sysinfo.h>
 
 /*
 This is the C initialization point of the Cadex kernel.
@@ -58,7 +59,7 @@ int kernel_main()
 	diskfs_init();
 	serial_init(0x3f8);
 	kshell_mount("atapi", 2, "cdromfs");
-	printf("\n>>>>>> Cadex OS Version 0.1.3 | beta-4.1 <<<<<<\n");
+	printf("\n>>>>>> Cadex OS Version %s | beta-%s <<<<<<\n", SYS_VER, SYS_BUILD);
 	kshell_launch();
 
 	while(1) {

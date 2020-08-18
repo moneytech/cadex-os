@@ -108,6 +108,7 @@ char *promptsym[] ={
 	"$",
 	"%",
 };
+char *curdir = "";
 int prompt = 0;
 int kshell_mount(const char *devname, int unit, const char *fs_type)
 {
@@ -290,7 +291,7 @@ static int kshell_listdir(const char *path)
 			}
 			else
 			{
-				printf("list: %s is not a directory\n", path);
+				printf("ls: %s is not a directory\n", path);
 			}
 			kfree(buffer);
 		}
@@ -299,11 +300,11 @@ static int kshell_listdir(const char *path)
 	{
 		if (path != ".")
 		{
-			printf("list: file/directory %s does not exist in the current directory\n", path);
+			printf("ls: file/directory %s does not exist in the current directory\n", path);
 		}
 		else
 		{
-			printf("list: root directory not found. Possible causes:\n\n * CD-ROM not mounted\n * Hard-Disk error\n * Other filesystem error\n\nTry running 'mount atapi 2 cdromfs' if you are running this OS from a CD-ROM\n");
+			printf("ls: root directory not found. Possible causes:\n\n * CD-ROM not mounted\n * Hard-Disk error\n * Other filesystem error\n\nTry running 'mount atapi 2 cdromfs' if you are running this OS from a CD-ROM\n");
 		}
 	}
 
@@ -467,7 +468,7 @@ static int kshell_execute(int argc, const char **argv)
 			printf("wait: timeout\n");
 		}
 	}
-	else if (!strcmp(cmd, "list"))
+	else if (!strcmp(cmd, "ls"))
 	{
 		if (argc > 1)
 		{
@@ -571,7 +572,7 @@ static int kshell_execute(int argc, const char **argv)
 			printf("install: expected unit #s for cdrom and disk\n");
 		}
 	}
-	else if (!strcmp(cmd, "remove"))
+	else if (!strcmp(cmd, "rm"))
 	{
 		if (argc == 3)
 		{
@@ -581,21 +582,21 @@ static int kshell_execute(int argc, const char **argv)
 				int result = fs_dirent_remove(dir, argv[2]);
 				if (result < 0)
 				{
-					printf("remove: couldn't remove %s\n", argv[2]);
+					printf("rm: couldn't remove %s\n", argv[2]);
 				}
 				fs_dirent_close(dir);
 			}
 			else
 			{
-				printf("remove: couldn't open %s\n", argv[1]);
+				printf("rm: couldn't open %s\n", argv[1]);
 			}
 		}
 		else
 		{
-			printf("remove ver 0.0.5\nUsage: remove <parent-dir> <filename>\n\n");
+			printf("rm ver 0.0.5\nUsage: rm <parent-dir> <filename>\n\n");
 		}
 	}
-	else if (!strcmp(cmd, "chdir"))
+	else if (!strcmp(cmd, "cd"))
 	{
 		if (argc == 2)
 		{
@@ -603,7 +604,7 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else
 		{
-			printf("chdir ver 0.0.3\nUsage: chdir <directory>\n\n");
+			printf("cd ver 0.0.3\nUsage: cd <directory>\n\n");
 		}
 	}
 	else if (!strcmp(cmd, "time"))
@@ -627,7 +628,7 @@ static int kshell_execute(int argc, const char **argv)
 		//sleep(150);
 		sleep(5);
 		outb(0xf4, 0x00);
-		printf("[ERR] Your device BIOS does not support shutdown by 'outb(0xF4, 0x00);'\n");
+		printf("Your device BIOS does not support shutdown by 'outb(0xF4, 0x00);'\n");
 	}
 	else if (!strcmp(cmd, "beep"))
 	{
@@ -653,7 +654,7 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "help"))
 	{
-		printf("Cadex Shell Commands:\n\n* run <path> <args>\n* pman install <package>\n* pman remove <package>\n* pman reinit\n* pman upgrade <pacgage>\n* whoami\n* start <path> <args>\n* kill <pid>\n* reap <pid>\n* wait\n* list\n* mount <device> <unit> <fstype>\n* umount\n* format <device> <unit><fstype>\n* install <srcunit> <dstunit>\n* chdir <path>\n* mkdir <path>\n* remove <path>\n* time\n* bcache_stats\n* bcache_flush\n* reboot\n* shutdown\n* help\n\n");
+		printf("Cadex Shell Commands:\n\n* whoami\n* longtest\n* cbas\n* chprompt <args>\n* mkdiag\n* clear\n* uname <args>\n* run <path> <args>\n* pman install <package>\n* pman remove <package>\n* pman reinit\n* pman upgrade <pacgage>\n* whoami\n* start <path> <args>\n* kill <pid>\n* reap <pid>\n* wait\n* ls\n* mount <device> <unit> <fstype>\n* umount\n* format <device> <unit><fstype>\n* install <srcunit> <dstunit>\n* cd <path>\n* mkdir <path>\n* rm <path>\n* time\n* bcache_stats\n* bcache_flush\n* reboot\n* shutdown\n* help\n\n");
 	}
 	else if (!strcmp(cmd, "pman"))
 	{
@@ -661,11 +662,11 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "ls"))
 	{
-		printf("\ncshell: Use list instead\n");
+		printf("\ncshell: Use ls instead\n");
 	}
 	else if (!strcmp(cmd, "cd"))
 	{
-		printf("\ncshell: Use chdir instead\n");
+		printf("\ncshell: Use cd instead\n");
 	}
 	else if (!strcmp(cmd, "whoami"))
 	{
@@ -784,7 +785,7 @@ static int kshell_execute(int argc, const char **argv)
 			printf("%d", state->x);
 			//ps2_clear_buffer();
 		}
-		
+
 
 	}
 	else if (!strcmp(cmd, "mkdiag"))
@@ -797,7 +798,27 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else
 	{
-		printf("%s: command/program not found.\n", argv[0]);
+		if (argc > 0) {
+			int pid = sys_process_run(argv[0], argc - 1, &argv[1]);
+			if (pid > 0) {
+				#ifdef DEBUG
+				printf("started process %d\n", pid);
+				#endif // DEBUG
+				process_yield();
+				struct process_info info;
+				process_wait_child(pid, &info, -1);
+				#ifdef DEBUG
+				printf("process %d exited with status %d\n", info.pid, info.exitcode);
+				#endif // DEBUG
+				process_reap(info.pid);
+			}
+			else {
+				printf("%s: command/program not found\n", argv[0]);
+			}
+		}
+		else {
+			//printf("run: requires argument\n");
+		}
 	}
 	return 0;
 }
@@ -848,7 +869,7 @@ int kshell_launch()
 	printf("\n");
 	while (1)
 	{
-		printf("[root@cadex]:%s ", promptsym[prompt]);
+		printf("[root@cadex:/%s]%s ", curdir, promptsym[prompt]);
 		kshell_readline(line, sizeof(line));
 
 		argc = 0;

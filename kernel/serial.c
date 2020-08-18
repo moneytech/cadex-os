@@ -158,7 +158,7 @@ void serial_init()
 		serial_init_port(serial_ports[i]);
 	}
 	device_driver_register(&serial_driver);
-	printf("[HARDWARE] serialports: ready");
+	printf("[HARDWARE] serialports: ready\n");
 }
 
 
