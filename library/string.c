@@ -62,6 +62,29 @@ void strcpy(char *d, const char *s)
 	}
 	*d = 0;
 }
+void * memchr(const void * src, int c, size_t n) {
+	const unsigned char * s = src;
+	c = (unsigned char)c;
+	for (; ((uintptr_t)s & (ALIGN - 1)) && n && *s != c; s++, n--);
+	if (n && *s != c) {
+		const size_t * w;
+		size_t k = ONES * c;
+		for (w = (const void *)s; n >= sizeof(size_t) && !HASZERO(*w^k); w++, n -= sizeof(size_t));
+		for (s = (const void *)w; n && *s != c; s++, n--);
+	}
+	return n ? (void *)s : 0;
+}
+void * memrchr(const void * m, int c, size_t n) {
+	const unsigned char * s = m;
+	c = (unsigned char)c;
+	while (n--) {
+		if (s[n] == c) {
+			return (void*)(s+n);
+		}
+	}
+	return 0;
+}
+
 size_t strspn(const char *s, const char *c)
 {
 	const char *a = s;
@@ -119,10 +142,10 @@ char *strchrnul(const char *s, int c)
 	// return *(unsigned char *)r == (unsigned char)c ? r : 0;
 // }
 
-// char *strrchr(const char *s, int c)
-// {
-// 	return memrchr(s, c, strlen(s) + 1);
-// }
+char *strrchr(const char *s, int c)
+{
+	return memrchr(s, c, strlen(s) + 1);
+}
 
 size_t strcspn(const char *s, const char *c)
 {

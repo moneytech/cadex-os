@@ -1,7 +1,7 @@
 
 include ../Makefile.config
 
-USER_PROGRAMS= mkdiag.exe whoami.exe uname.exe bounce.exe clrscr.exe
+USER_PROGRAMS= mkdiag.exe whoami.exe uname.exe bounce.exe clrscr.exe cat.exe
 
 all: $(USER_PROGRAMS)
 

@@ -660,14 +660,6 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		printf(">>>>>>>>> Cadex Package Manager <<<<<<<<<<<<\n\nUsage:\n pman install <package name>\n pman remove <package name>\n pman reinit\n pman upgrade <package name>");
 	}
-	else if (!strcmp(cmd, "ls"))
-	{
-		printf("\ncshell: Use ls instead\n");
-	}
-	else if (!strcmp(cmd, "cd"))
-	{
-		printf("\ncshell: Use cd instead\n");
-	}
 	else if (!strcmp(cmd, "whoami"))
 	{
 		printf("\nroot\n");
@@ -795,6 +787,9 @@ static int kshell_execute(int argc, const char **argv)
 	else if (!strcmp(cmd, "clear"))
 	{
 		sys_process_run("bin/clear.exe", 0, "");
+	} else if (!strcmp(cmd, "cat"))
+	{
+		
 	}
 	else
 	{
@@ -815,9 +810,6 @@ static int kshell_execute(int argc, const char **argv)
 			else {
 				printf("%s: command/program not found\n", argv[0]);
 			}
-		}
-		else {
-			//printf("run: requires argument\n");
 		}
 	}
 	return 0;

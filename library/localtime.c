@@ -4,7 +4,7 @@
 
 #define SEC_DAY 86400
 
-#define fprintf(a) printf(a)
+//#define fprintf(a) printf(a)
 
 static struct tm _timevalue;
 
