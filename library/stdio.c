@@ -147,6 +147,17 @@ void print(int x, int y, char *s)
 	flushScreen();
 	flush();
 }
+
+// void perror(const char *s) {
+// 	fprintf(stderr, "%s: %s\n", s, strerror(errno));
+// }
+
+int puts(const char *s) {
+	/* eof? */
+	printf(s);
+	return 0;
+}
+
 // Prints text on screen on the specified x and y axis.
 void print_debug(int x, int y, char *s)
 {
@@ -276,4 +287,50 @@ int getWindowDimens(char *type)
 void system(char *program, int argc, char **argv)
 {
 	exec(program, argc, argv);
+}
+void __stdio_init_buffers(void) {
+	_stdin.read_buf = malloc(BUFSIZ);
+	//_stdout.read_buf = malloc(BUFSIZ);
+	//_stderr.read_buf = malloc(BUFSIZ);
+	_stdin._name = strdup("stdin");
+	_stdout._name = strdup("stdout");
+	_stderr._name = strdup("stderr");
+}
+int setvbuf(FILE * stream, char * buf, int mode, size_t size) {
+	if (mode != _IOLBF) {
+		return -1; /* Unsupported */
+	}
+	if (buf) {
+		if (stream->read_buf) {
+			dlfree(stream->read_buf);
+		}
+		stream->read_buf = buf;
+		stream->bufsiz = size;
+	}
+	return 0;
+}
+FILE * fopen(const char *path, const char *mode) {
+
+	int flags, mask;
+	//parse_mode(mode, &flags, &mask);
+	int fd = syscall_open_file(path, mode, flags);
+
+	if (fd < 0) {
+		errno = -fd;
+		return NULL;
+	}
+
+	FILE * out = malloc(sizeof(FILE));
+	memset(out, 0, sizeof(struct _FILE));
+	out->fd = fd;
+	out->read_buf = malloc(BUFSIZ);
+	out->bufsiz = BUFSIZ;
+	out->available = 0;
+	out->read_from = 0;
+	out->offset = 0;
+	out->ungetc = -1;
+	out->eof = 0;
+	out->_name = strdup(path);
+
+	return out;
 }
