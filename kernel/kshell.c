@@ -267,11 +267,18 @@ static int kshell_printdir(const char *d, int length)
 {
 	while (length > 0)
 	{
-		printf("%s\n", d);
+		if(!strcmp(d, ".") || !strcmp(d, "..")){ 
+			printf("%s\n", d);
+		} else
+		{
+			printf("%s   ", d);
+		}
+		
 		int len = strlen(d) + 1;
 		d += len;
 		length -= len;
 	}
+	printf("\n");
 	return 0;
 }
 
@@ -789,7 +796,7 @@ static int kshell_execute(int argc, const char **argv)
 		sys_process_run("bin/clear.exe", 0, "");
 	} else if (!strcmp(cmd, "cat"))
 	{
-		
+
 	}
 	else
 	{
