@@ -4,6 +4,6 @@
     "details": {
         "kernel_name": "cadex-generic",
         "os_name": "Cadex OS 0.1.3b396",
-	"beta_kernel": "true"
+    "beta_kernel": "true"
     }
 }

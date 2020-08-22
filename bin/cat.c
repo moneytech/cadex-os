@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #define TAG_BUFFER_SIZE 256
+int ctemp;
 int main(int argc, char *argv[])
 {
     syscall_chdir("/");
