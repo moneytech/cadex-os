@@ -19,6 +19,7 @@ extern int scanf(char *line, int length)
         if (c == ASCII_CR)
         {
             printf_putchar(c);
+            flushScreen();
             flush();
             line[i] = 0;
             return i;
@@ -29,6 +30,7 @@ extern int scanf(char *line, int length)
             {
                 i--;
                 printf_putchar(c);
+                flushScreen();
                 flush();
             }
         }
@@ -39,6 +41,7 @@ extern int scanf(char *line, int length)
                 line[i] = c;
                 i++;
                 printf_putchar(c);
+                flushScreen();
                 flush();
             }
         }

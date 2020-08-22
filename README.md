@@ -12,6 +12,14 @@ mode, with support for VESA framebuffer graphics, ATA hard disks, ATAPI optical
 devices, process management, memory protection, simple graphics, and basic filesystem.
 From there, it's your job to write user-level programs and expand the system.
 
+# FYI:
+ - Cadex OS supports a small subset of libc, and more functions and libraries from libc need to be implemented.
+ - Cadex OS has a small BASIC interpreter that can be used to write small programs.
+ - Cadex OS supports graphical and text-based applications
+ - Cadex OS uses ELF as the binary format
+ - Cadex OS supports modules, but it is still in development and is not in the Makefile
+ - Cadex OS will be useful if you are a beginner in C programming lanhguage and you want to write small programs.
+
 This repo was made by HyperCreeck and actively maintained by HyperCreeck and people in this Organisation.
 
 To learn more, see the __[Cadex OS Wiki](https://github.com/opencreeck/Cadex-OS-Official/wiki).__
