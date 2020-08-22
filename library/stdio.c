@@ -77,7 +77,7 @@ static char stdio_buffer[PAGE_SIZE] ={ 0 };
 
 static uint32_t stdio_buffer_index = 0;
 
-static struct graphics_command graphics_buffer[PAGE_SIZE] = {{0}};
+static struct graphics_command graphics_buffer[PAGE_SIZE] ={ { 0 } };
 
 static uint32_t graphics_buffer_index = 0;
 
@@ -92,7 +92,7 @@ void flushScreen()
 
 static void draw_set_buffer(int t, int a0, int a1, int a2, int a3)
 {
-	struct graphics_command c = {t, {a0, a1, a2, a3}};
+	struct graphics_command c ={ t, { a0, a1, a2, a3 } };
 	graphics_buffer[graphics_buffer_index++] = c;
 }
 
@@ -127,6 +127,10 @@ void drawRect(int x, int y, int w, int h)
 	flushScreen();
 }
 
+void drawTriangle(int x, int y, int w, int h) {
+	draw_set_buffer(GRAPHICS_RECT, x, y, w, h);
+	flushScreen();
+}
 // Clears the screen
 void clearScreen(int x, int y, int w, int h)
 {
@@ -161,10 +165,10 @@ int puts(const char *s) {
 // Prints text on screen on the specified x and y axis.
 void print_debug(int x, int y, char *s)
 {
-#ifdef DEBUG
+	#ifdef DEBUG
 	draw_set_buffer(GRAPHICS_TEXT, x, y, (int)s, 0);
 	flushScreen();
-#endif // DEBUG
+	#endif // DEBUG
 }
 
 // Get data from specified port.
@@ -172,8 +176,8 @@ uint8_t inb(uint16_t port)
 {
 	uint8_t data;
 	asm volatile("inb %1, %0"
-				 : "=a"(data)
-				 : "Nd"(port));
+		: "=a"(data)
+		: "Nd"(port));
 	return data;
 }
 
@@ -181,8 +185,8 @@ uint8_t inb(uint16_t port)
 void outb(uint16_t port, uint8_t data)
 {
 	asm volatile("outb %0, %1"
-				 :
-				 : "a"(data), "Nd"(port));
+		:
+	: "a"(data), "Nd"(port));
 }
 void wait_for_io(uint32_t timer_count)
 {
@@ -194,12 +198,14 @@ void wait_for_io(uint32_t timer_count)
 			break;
 	}
 }
+
 static void printf_buffer(char *s, unsigned len)
 {
-	while(len) {
+	while (len) {
 		unsigned l = len % (PAGE_SIZE - 1);
-		if(l > PAGE_SIZE - stdio_buffer_index - 1) {
+		if (l > PAGE_SIZE - stdio_buffer_index - 1) {
 			flush();
+			flushScreen();
 		}
 		memcpy(stdio_buffer + stdio_buffer_index, s, l);
 		stdio_buffer_index += l;
@@ -213,6 +219,7 @@ void printf_putchar(char c)
 	printf_buffer(&c, 1);
 	if (c == '\n')
 		flush();
+		flushScreen();
 }
 
 void printf_putstring(char *s)

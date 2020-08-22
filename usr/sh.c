@@ -160,7 +160,8 @@ int do_command(char *line)
 	}
 	else if (pch && !strcmp(pch, "exit"))
 	{
-		return -1;
+		_process_exit(0);
+		return 0;
 	}
 	else if (pch)
 	{

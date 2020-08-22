@@ -13,4 +13,6 @@
 #include "interrupt.h"
 #include "fs.h"
 
-int decToHex();
+extern int decToHex();
+extern void printTriangle(int rows_s);
+extern void hardMath(int number1, int number2);

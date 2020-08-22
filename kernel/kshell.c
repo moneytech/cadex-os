@@ -37,6 +37,7 @@ See the file LICENSE for details.
 #include "scanf.h"
 #include "cbasic.h"
 #include "serial.h"
+
 #define BASEPORT 0x0060 /* lp1 */
 
 // #define SHOW_DEBUG_INFO 
@@ -267,13 +268,14 @@ static int kshell_printdir(const char *d, int length)
 {
 	while (length > 0)
 	{
-		if(!strcmp(d, ".") || !strcmp(d, "..")){ 
+		if (!strcmp(d, ".") || !strcmp(d, "..")) {
 			printf("%s\n", d);
-		} else
+		}
+		else
 		{
 			printf("%s   ", d);
 		}
-		
+
 		int len = strlen(d) + 1;
 		d += len;
 		length -= len;
@@ -794,9 +796,14 @@ static int kshell_execute(int argc, const char **argv)
 	else if (!strcmp(cmd, "clear"))
 	{
 		sys_process_run("bin/clear.exe", 0, "");
-	} else if (!strcmp(cmd, "cat"))
+	}
+	else if (!strcmp(cmd, "cat"))
 	{
 
+	}
+	else if (!strcmp(cmd, "triangle"))
+	{
+		printTriangle(7);
 	}
 	else
 	{
