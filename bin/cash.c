@@ -212,7 +212,7 @@ int main(int argc, char *argv[])
 
 	while (1)
 	{
-		printf("C:\\> ");
+		printf("(root:cadex)~: ");
 		flush();
 		if (readline(line, sizeof(line)))
 		{
