@@ -7,6 +7,32 @@
 
 #define MAX_LINE_LENGTH 1024
 
+int tmp1 = 0;
+// Basic implementation of sudo
+extern int getAuth()
+{
+	char *passwd[1024];
+	
+password:
+	printf("sudo: password for root: ");
+	scanf(passwd, sizeof(passwd));
+	if (!strcmp(passwd, "root"))
+	{
+		return 0;
+	}
+	else
+	{
+		printf("Wrong password\n");
+		if(tmp1 > 2){
+			printf("Max tries exceeded\n");
+			return 1;
+		}
+		tmp1 += 1;
+		goto password;
+	}
+}
+
+
 void print_directory(char *d, int length)
 {
 	while (length > 0)
@@ -162,6 +188,14 @@ int do_command(char *line)
 	{
 		_process_exit(0);
 		return 0;
+	} else if (pch && !strcmp(pch, "sudo"))
+	{
+		if(getAuth() == 0){
+			printf("got root permission\n");
+		} else
+		{
+			printf("E: getting root permission failed!\n");
+		}
 	}
 	else if (pch)
 	{

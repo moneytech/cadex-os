@@ -48,6 +48,7 @@ image: kernel/cadex.img $(USER_PROGRAMS) $(SYSTEM_BIN_FILES)
 	cp basefs/sys/sys.json image/sys/reg.json
 	cp basefs/etc/sudoers image/etc/sudoers
 	cp basefs/etc/cash.config image/etc/cash.config
+	cp basefs/etc/passwd image/etc/passwd
 	cp $(USER_PROGRAMS) image/usr/bin
 	cp $(SYSTEM_BIN_FILES) image/bin
 	head -2000 /usr/share/dict/words > image/data/words

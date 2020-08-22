@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <library/scanf.h>
+#include <auth.h>
 
 #define MAX_INPUT_CHARS 1024
+
+
 int main(int argc, const char *argv[])
 {
     char *cargv[100];
@@ -42,7 +45,7 @@ int main(int argc, const char *argv[])
                     printf("%s ", cargv[i]);
                 }
                 printf("\n");
-            } 
+            }             
             else
             {
                 printf("SYNTAX ERROR: NO COMMAND NAMED %s\n", cargv[0]);
