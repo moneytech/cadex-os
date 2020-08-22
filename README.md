@@ -12,7 +12,7 @@ mode, with support for VESA framebuffer graphics, ATA hard disks, ATAPI optical
 devices, process management, memory protection, simple graphics, and basic filesystem.
 From there, it's your job to write user-level programs and expand the system.
 
-# FYI:
+## FYI:
  - Cadex OS supports a small subset of libc, and more functions and libraries from libc need to be implemented.
  - Cadex OS has a small BASIC interpreter that can be used to write small programs.
  - Cadex OS supports graphical and text-based applications
