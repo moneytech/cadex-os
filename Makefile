@@ -16,7 +16,7 @@ all: clear clean cadex.iso success # run # Uncomment this run command to run the
 run: cadex.iso # hddimg
 					#  | This .exe is for compatibility for WSL. See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
 		    		# \/ This is ignored if you are not building on a WSL.
-	qemu-system-i386.exe -cdrom cadex.iso -drive 'file=disk.img,format=raw' -device isa-debug-exit,iobase=0xf4,iosize=0x04 || qemu-system-i386 -cdrom cadex.iso -hda disk.img -device isa-debug-exit,iobase=0xf4,iosize=0x04
+	qemu-system-i386.exe -cdrom cadex.iso -m size=500M -drive 'file=disk.img,format=raw' -device isa-debug-exit,iobase=0xf4,iosize=0x04 || qemu-system-i386 -cdrom cadex.iso -m size=500M -drive 'file=disk.img,format=raw' -hda disk.img -device isa-debug-exit,iobase=0xf4,iosize=0x04
 
 debug: cadex.iso hddimg
 					#  | This .exe is for compatibility for WSL. See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
@@ -49,6 +49,7 @@ image: kernel/cadex.img $(USER_PROGRAMS) $(SYSTEM_BIN_FILES)
 	cp basefs/etc/sudoers image/etc/sudoers
 	cp basefs/etc/cash.config image/etc/cash.config
 	cp basefs/etc/passwd image/etc/passwd
+	cp basefs/etc/sysinfo.b86 image/etc/sysinfo.b86
 	cp $(USER_PROGRAMS) image/usr/bin
 	cp $(SYSTEM_BIN_FILES) image/bin
 	head -2000 /usr/share/dict/words > image/data/words
