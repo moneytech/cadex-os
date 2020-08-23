@@ -14,6 +14,7 @@ int main(int argc, char *argv[]){
 
     renderWindow(WN_STDWINDOW);
     clearScreen(0, 0, width, height);
+    flushScreen();
     flush();
     return 0;
 }
