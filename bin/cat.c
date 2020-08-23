@@ -19,6 +19,8 @@ int main(int argc, char *argv[])
         printf("%s", buffer);
         flush();
     }
+    n = syscall_object_read(fd, buffer, 100);
+    buffer[n] = 0;
     syscall_object_close(fd);
     printf("\n");
     _process_exit(0);

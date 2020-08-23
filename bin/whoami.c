@@ -13,6 +13,6 @@
 int main(int argc, char **argv)
 {
 
-    printf_putstring("root");
+    printf("root");
     return 0;
 }
