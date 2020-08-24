@@ -4,14 +4,17 @@
 
 #define MAX_INPUT_CHARS 1024
 
-
+int check_semicolon(char *string[])
+{
+    return strEndsWith(string, ";");
+}
 int main(int argc, const char *argv[])
 {
     char *cargv[100];
     int cargc;
     int scargv;
     char *input[MAX_INPUT_CHARS];
-    printf("BASIC Commander v1\n");
+    printf("BASIC Commander v1.0\n");
     printf("Type HELP for a list of commands or EXIT for exiting the commander\n");
     while (1)
     {
@@ -26,8 +29,9 @@ int main(int argc, const char *argv[])
         {
             cargc++;
             cargv[cargc] = strtok(0, " ");
-        } 
-        if(cargc > 0){
+        }
+        if (cargc > 0)
+        {
             if (!strcmp(cargv[0], "help"))
             {
                 printf("List of available BASIC commands:\n");
@@ -37,15 +41,24 @@ int main(int argc, const char *argv[])
             {
                 _process_exit(0);
                 return 0;
-            } else if (!strcmp(cargv[0], "print"))
+            }
+            else if (!strcmp(cargv[0], "print:"))
             {
                 scargv = cargc;
                 for (size_t i = 1; i < scargv; i++)
                 {
-                    printf("%s ", cargv[i]);
+                    if (!strcmp(cargv[i], ":end"))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        printf("%s ", cargv[i]);
+                    }
                 }
                 printf("\n");
-            } else if (!strcmp(cargv[0], "sysexec"))
+            }             
+            else if (!strcmp(cargv[0], "execute"))
             {
                 int pid = fork();
 
@@ -62,12 +75,14 @@ int main(int argc, const char *argv[])
                     syscall_process_wait(&info, -1);
                     syscall_process_reap(info.pid);
                 }
-            }             
+            }
             else
             {
                 printf("SYNTAX ERROR: NO COMMAND NAMED %s\n", cargv[0]);
             }
         }
     }
+missing_semicolon:
+    printf("Error: Missing semicolon");
     //return 0;
 }

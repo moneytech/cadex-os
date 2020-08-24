@@ -59,9 +59,9 @@ static void unknown_exception(int i, int code)
 		// Check if page is already mapped (which will result from violating the permissions on page) or that
 		// we are accessing neither the stack nor the heap, or we are accessing both. If so, error
 		if (page_already_present || !(data_access ^ stack_access)) {
-			printf("\n\nSegmentation Fault (Core Dumped In Console)\n\nillegal page access at vaddr %x\n",vaddr);
-			process_dump(current);
-			process_exit(0);
+			printf("Segmentation Fault\nIllegal page access at vaddr 0x%x\n",vaddr);
+			//process_dump(current);
+			//process_exit(0);
 		} else {
 			// XXX update process->vm_stack_size when growing the stack.
 			pagetable_alloc(current->pagetable, vaddr, PAGE_SIZE, PAGE_FLAG_USER | PAGE_FLAG_READWRITE | PAGE_FLAG_CLEAR);

@@ -16,14 +16,15 @@ int main(int argc, const char *argv[])
     int dir_fd = syscall_open_file("/", 0, 0);
     // syscall_object_set_tag(dir_fd, "ROOT");
     // printf("Opened root directory\n");
-    int fd = syscall_open_file("/etc/sysinfo.b86", 0, 0);
+    int fd = syscall_open_file(argv[0], 0, 0);
     char buffer[1000];
     int n;
     //printf("reading file...\n");
     setTextColor(0, 200, 0, 100);
-    printf("FILE: /etc/sysinfo.b86\n");
     resetColor();
-    if(strEndsWith("/etc/sysinfo.b86", ".b86")){
+    if (strEndsWith(argv[0], ".b86"))
+    {
+        printf("FILE: %s\n\n", argv[0]);
         while ((n = syscall_object_read(fd, buffer, 100)) > 0)
         {
             buffer[n] = 0;
@@ -44,13 +45,17 @@ int main(int argc, const char *argv[])
                     printf("List of available BASIC commands:\n");
                     printf(" * PRINT: Prints text to the screen\n");
                 }
+                else if (!strcmp(cargv[0], ":end"))
+                {
+                    continue;
+                }
                 else if (!strcmp(cargv[0], "exit"))
                 {
                     syscall_object_close(fd);
                     _process_exit(0);
                     return 0;
                 }
-                else if (!strcmp(cargv[0], "print"))
+                else if (!strcmp(cargv[0], "print:"))
                 {
                     scargv = cargc;
                     for (size_t i = 1; i < scargv; i++)
@@ -59,6 +64,11 @@ int main(int argc, const char *argv[])
                     }
                     printf("\n");
                 }
+                else if (!strcmp(cargv[0], "true"))
+                {
+                    printf("[builtin-keyword] true: Has a value of 1, on, or yes");
+                }
+
                 else if (!strcmp(cargv[0], "sysexec"))
                 {
                     int pid = fork();
@@ -77,17 +87,22 @@ int main(int argc, const char *argv[])
                         syscall_process_reap(info.pid);
                     }
                 }
+                else if (!strStartsWith(";", cargv[0]))
+                {
+                    printf("");
+                }
                 else
                 {
                     printf("SYNTAX ERROR: NO COMMAND NAMED %s\n", cargv[0]);
                 }
             }
-        }       
-    } else
+        }
+    }
+    else
     {
         printf("Error: Specified file does not have '.b86' file extension. Cadex BASIC files must have '.b86' file extension.\n");
         _process_exit(0);
         return 0;
     }
-    //return 0;
+    return 0;
 }
