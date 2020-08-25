@@ -5,39 +5,39 @@
 
 _Begin_C_Header
 
-    extern void
-    exit(int status);
+    // extern void
+    // exit(int status);
 extern char *getenv(const char *name);
 
-extern void *malloc(size_t size);
-extern void free(void *ptr);
-extern void *calloc(size_t nmemb, size_t size);
-extern void *realloc(void *ptr, size_t size);
+// extern void *malloc(size_t size);
+// extern void free(void *ptr);
+// extern void *calloc(size_t nmemb, size_t size);
+// extern void *realloc(void *ptr, size_t size);
 
 extern void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
 
 //extern int exec(char *, int, char **, char **, int);
 //extern int system(char *, int, char **, char **);
 
-extern int abs(int j);
+// extern int abs(int j);
 
 extern int putenv(char *name);
 extern int setenv(const char *name, const char *value, int overwrite);
 extern int unsetenv(const char *str);
 
 extern double strtod(const char *nptr, char **endptr);
-extern float strtof(const char *nptr, char **endptr);
-extern double atof(const char *nptr);
-extern int atoi(const char *nptr);
-extern long atol(const char *nptr);
-extern long int labs(long int j);
-extern long int strtol(const char *s, char **endptr, int base);
-extern long long int strtoll(const char *nptr, char **endptr, int base);
-extern unsigned long int strtoul(const char *nptr, char **endptr, int base);
-extern unsigned long long int strtoull(const char *nptr, char **endptr, int base);
+// extern float strtof(const char *nptr, char **endptr);
+// extern double atof(const char *nptr);
+// ///extern int atoi(const char *nptr);
+// extern long atol(const char *nptr);
+// extern long int labs(long int j);
+// extern long int strtol(const char *s, char **endptr, int base);
+// extern long long int strtoll(const char *nptr, char **endptr, int base);
+// extern unsigned long int strtoul(const char *nptr, char **endptr, int base);
+// extern unsigned long long int strtoull(const char *nptr, char **endptr, int base);
 
-extern void srand(unsigned int);
-extern int rand(void);
+// extern void srand(unsigned int);
+// extern int rand(void);
 
 #define ATEXIT_MAX 32
 extern int atexit(void (*h)(void));

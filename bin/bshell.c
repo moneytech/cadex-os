@@ -166,6 +166,10 @@ int main(int argc, const char *argv[])
                     syscall_process_reap(info.pid);
                 }
             }
+            else if (!strcmp(cargv[0], "drawrect"))
+            {
+                drawRect(10, 10, atoi(cargv[1]), atoi(cargv[2]));
+            }
             else
             {
                 printf("Syntax error: no command named '%s' exists in the current instance\n", cargv[0]);
