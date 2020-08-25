@@ -45,7 +45,9 @@ int main(int argc, const char *argv[])
     printf("Type HELP for a list of commands or EXIT for exiting the commander\n");
     while (1)
     {
+        resetColor();
         printf("%s> ", pre_prompt_str);
+        resetColor();
         scanf(input, sizeof(input));
         // Number of arguments
         cargc = 0;
@@ -92,11 +94,12 @@ int main(int argc, const char *argv[])
                     if (!strcmp(cargv[i], ":end"))
                     {
                         break;
-                    } else if (!strcmp(cargv[i], "\\n"))
+                    }
+                    else if (!strcmp(cargv[i], "\\n"))
                     {
                         printf("\n");
                     }
-                    
+
                     else
                     {
                         printf("%s ", cargv[i]);
@@ -114,18 +117,17 @@ int main(int argc, const char *argv[])
             {
                 if (assembly)
                 {
-                    
                 }
                 else
                 {
                     printf("Assembly mode is not enabled.\n");
                 }
-            }             
-             else if (!strcmp(cargv[0], "@END_ASM86"))
+            }
+            else if (!strcmp(cargv[0], "@END_ASM86"))
             {
                 assembly = 0;
             }
-            
+
             else if (!strcmp(cargv[0], "cls"))
             {
                 int x1 = 12;
@@ -168,8 +170,52 @@ int main(int argc, const char *argv[])
             }
             else if (!strcmp(cargv[0], "drawrect"))
             {
+                int dims[2];
+                syscall_object_size(WN_STDWINDOW, dims, 2);
+
+                int width = dims[0];
+                int height = dims[1];
+
+                renderWindow(WN_STDWINDOW);
+                //clearScreen(0, 0, width, height);
+                flush();
+                setTextColor(CLEAR_RED, 0);
                 drawRect(10, 10, atoi(cargv[1]), atoi(cargv[2]));
+                flush();
+                flushScreen();
             }
+            else if (!strcmp(cargv[0], "input:"))
+            {
+                char *line[1024];
+                scargv = cargc;
+                for (size_t i = 1; i < scargv; i++)
+                {
+                    if (!strcmp(cargv[i], ":end"))
+                    {
+                        break;
+                    }
+                    else if (!strcmp(cargv[i], "\\n"))
+                    {
+                        printf("\n");
+                    }
+                    else
+                    {
+                        printf("%s ", cargv[i]);
+                    }
+                }
+                scanf(line, sizeof(line));
+            }
+            else if (!strcmp(cargv[0], "loop"))
+            {
+                if (cargc > 2)
+                {
+                    for (int io = 0; io > atoi(cargv[1]); io++)
+                    {
+                        printf(cargv[2]);
+                    }
+                }
+            }
+
             else
             {
                 printf("Syntax error: no command named '%s' exists in the current instance\n", cargv[0]);
