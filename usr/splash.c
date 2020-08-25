@@ -16,9 +16,10 @@ typedef unsigned int uint32_t;
 
 uint32_t randint(uint32_t min, uint32_t max);
 void move(int *x, int *d, int min, int max);
-char* message = "Cadex OS v0.1.3b2.0";
+char *message[] = {"C", "a", "d", "e", "x", "", "o", "s"};
 int main(int argc, char *argv[])
 {
+	int o, i, j, k, l, m, n;
 	int r = 255;
 	int g = 0;
 	int b = 0;
@@ -39,34 +40,22 @@ int main(int argc, char *argv[])
 	renderWindow(WN_STDWINDOW);
 	clearScreen(0, 0, width, height);
 	flush();
-	move(&x1, &dx1, 0, width - 80);
-	move(&y1, &dy1, 0, height - 1);
 	char stop = -1;
-	// while(stop == -1) {
-	renderWindow(WN_STDWINDOW);
-	move(&r, &dr, 0, 255);
-	move(&g, &dg, 0, 255);
-	move(&b, &db, 0, 255);
-	setTextColor(r, g, b,0);
-	print(x1, y1, message);
-	flush();
+	while (stop == -1)
+	{
+		renderWindow(WN_STDWINDOW);
+		move(&r, &dr, 0, 255);
+		move(&g, &dg, 0, 255);
+		move(&b, &db, 0, 255);
+		setTextColor(r, g, b, 0);
+		print(x1, y1, message);
+		flush();
 
-	sleepThread(2);
-	// syscall_object_read_nonblock(KNO_STDIN,&stop,1);
-	// }
-	
-	// The code below is commented because its useless. It was written to make the typewriter animation but it failed.
-	/* for (o = 0; o = 10; o++)*/
-	/* {*/
-	/* 	 renderWindow(WN_STDWINDOW);*/
-	/* 	 setTextColor(255, 255, 255);*/
-	/* 	 clearScreen(0, 0, width, height);*/
-	/* 	 print(x1, y1, splashMessage[1]);*/
-	/* 	 flush();*/
-	/* 	 sleepThread(1000);*/
-	/* }*/
+		sleepThread(1000);
+		syscall_object_read_nonblock(KNO_STDIN, &stop, 1);
+	}
 	clearScreen(0, 0, width, height);
-	setTextColor(255, 255, 255,0);
+	setTextColor(255, 255, 255, 0);
 	flush();
 
 	return 0;

@@ -779,14 +779,7 @@ void printf(const char *s, ...)
 		s++;
 	}
 	va_end(args);
-}
-// static inline int isdigit(int ch) {
-// 	return (unsigned int)ch-'0' < 10;
-// }
-
-// static inline int isspace(int ch) {
-// 	return ch == ' ' || (unsigned int)ch-'\t' < 5;
-// }
+}  
 
 int atoi(const char * s) {
 	int n = 0;

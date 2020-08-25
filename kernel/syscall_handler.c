@@ -28,6 +28,7 @@ See the file LICENSE for details.
 #include "graphics.h"
 #include "is_valid.h"
 #include "bcache.h"
+#include "mouse.h"
 
 /*
 syscall_handler() is responsible for decoding system calls
@@ -50,6 +51,10 @@ greater indiciates success, and return of less than zero
 indicates an error and the reason.
 */
 
+int mouse_dev_read(struct mouse_event *m){
+	mouse_read(m);
+	return 0;
+}
 int sys_debug(const char *str)
 {
 	if(!is_valid_string(str)) return KERROR_INVALID_ADDRESS;
@@ -711,6 +716,8 @@ int32_t syscall_handler(syscall_t n, uint32_t a, uint32_t b, uint32_t c, uint32_
 		return sys_device_driver_stats((char *) a, (struct device_driver_stats *) b);
 	case SYSCALL_CHDIR:
 		return sys_chdir((const char *) a);
+	case SYSCALL_MOUSE_READ:
+		return mouse_dev_read((struct mouse_event *)a);
 	default:
 		return KERROR_INVALID_SYSCALL;
 	}

@@ -47,3 +47,41 @@ extern int scanf(char *line, int length)
         }
     }
 }
+extern int passwd_scanf(char *line, int length)
+{
+    int i = 0;
+    char c;
+    while (1)
+    {
+        syscall_object_read(0, &c, 1);
+        if (c == ASCII_CR)
+        {
+            //printf_putchar(c);
+            flushScreen();
+            flush();
+            line[i] = 0;
+            return i;
+        }
+        else if (c == ASCII_BS)
+        {
+            if (i > 0)
+            {
+                i--;
+                //printf_putchar(c);
+                flushScreen();
+                flush();
+            }
+        }
+        else
+        {
+            if (i < (length - 1))
+            {
+                line[i] = c;
+                i++;
+                //printf_putchar(c);
+                flushScreen();
+                flush();
+            }
+        }
+    }
+}

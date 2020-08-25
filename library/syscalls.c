@@ -7,6 +7,7 @@ See the file LICENSE for details.
 #include "kernel/syscall.h"
 #include "kernel/stats.h"
 #include "kernel/gfxstream.h"
+#include <library/mouse.h>
 
 char buffsize[5000];
 void syscall_debug(const char *str)
@@ -23,7 +24,9 @@ int syscall_process_yield()
 {
 	return syscall(SYSCALL_PROCESS_YIELD, 0, 0, 0, 0, 0);
 }
-
+int mouse_read(struct mouse_event *m){
+	return syscall(SYSCALL_MOUSE_READ, m, 0, 0, 0, 0);
+}
 int proc_run(const char *cmd, int argc, const char **argv)
 {
 	return syscall(SYSCALL_PROCESS_RUN, (uint32_t)cmd, argc, (uint32_t)argv, 0, 0);

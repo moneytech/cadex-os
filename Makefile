@@ -65,6 +65,7 @@ clean:
 	cd kernel && make clean
 	cd library && make clean
 	cd usr && make clean
+	cd bin && make clean
 
 clear:
 	clear || cls

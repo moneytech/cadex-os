@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     int height = dims[1];
     renderWindow(WN_STDWINDOW);
     // clearScreen(0, 0, width, height);
-    if (!strcmp(argv[1], "blue")) {
+    if (!strcmp(argv[0], "blue")) {
         setTextColor(BLUE,0);
     }
     else {

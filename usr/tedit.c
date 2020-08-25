@@ -18,9 +18,9 @@ int main(int argc, char *argv[])
 	printf("got root\n");
 	// Open file stream
 	int dir_fd = syscall_open_file("/", 0, 0);
-	syscall_object_set_tag(dir_fd, "ROOT");
-	printf("Opened root directory\n");
-	int fd = syscall_open_file("ROOT:/data/words", 0, 0);
+	// syscall_object_set_tag(dir_fd, "ROOT");
+	// printf("Opened root directory\n");
+	int fd = syscall_open_file("/data/words", 0, 0);
 	char buffer[1000];
 	int n;
 	printf("reading file...\n");

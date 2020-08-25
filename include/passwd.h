@@ -6,3 +6,5 @@ typedef struct passwd
 extern void endpwent();
 extern int getpwuid(int a);
 extern int getprocuid();
+
+extern char *sudo_password = "root";
