@@ -45,9 +45,7 @@ int main(int argc, const char *argv[])
     printf("Type HELP for a list of commands or EXIT for exiting the commander\n");
     while (1)
     {
-        resetColor();
         printf("%s> ", pre_prompt_str);
-        resetColor();
         scanf(input, sizeof(input));
         // Number of arguments
         cargc = 0;
@@ -65,14 +63,13 @@ int main(int argc, const char *argv[])
             {
                 printf("List of available commands:\n");
                 printf(" * PRINT: Prints text to the screen\n");
+                printf(" * INPUT: Gets input from the user and print the prompt if specified\n");
                 printf(" * EXIT: Exits the commander\n");
                 printf(" * END: Ends the current command input stream\n");
                 printf(" * CLS: Clears the screen\n");
                 printf(" * EXECUTE: Executes the specified file\n");
                 printf(" * CMDREGISTER: Adds a new command to the command list. [NOTE: This commander can only store one custom command]\n");
                 printf("\nList of available Annotations (Attributes):\n");
-                printf(" * @ASM86: Enables x86 Assembly input mode\n");
-                printf(" * @END_ASM86: Disables x86 Assembly input mode\n");
                 printf(" * @CMD: Enables command definition mode\n");
                 printf(" * @END_CMD: Disables command definition mode\n");
             }
@@ -107,27 +104,6 @@ int main(int argc, const char *argv[])
                 }
                 printf("\n");
             }
-            else if (!strcmp(cargv[0], "@ASM86"))
-            {
-                printf("Assembly mode enabled\n");
-                assembly = 1;
-                pre_prompt_str = "asm86";
-            }
-            else if (!strcmp(cargv[0], "mov"))
-            {
-                if (assembly)
-                {
-                }
-                else
-                {
-                    printf("Assembly mode is not enabled.\n");
-                }
-            }
-            else if (!strcmp(cargv[0], "@END_ASM86"))
-            {
-                assembly = 0;
-            }
-
             else if (!strcmp(cargv[0], "cls"))
             {
                 int x1 = 12;
@@ -179,11 +155,42 @@ int main(int argc, const char *argv[])
                 renderWindow(WN_STDWINDOW);
                 //clearScreen(0, 0, width, height);
                 flush();
-                setTextColor(CLEAR_RED, 0);
                 drawRect(10, 10, atoi(cargv[1]), atoi(cargv[2]));
                 flush();
                 flushScreen();
             }
+            else if (!strcmp(cargv[0], "setcolor"))
+            {
+                if (cargc > 1)
+                {
+                    if (!strcmp(cargv[1], "red"))
+                    {
+                        setTextColor(CLEAR_RED, 0);
+                        renderWindow(WN_STDWINDOW);
+                        flushScreen();
+                        flush();
+                    }
+                    else if (!strcmp(cargv[1], "green"))
+                    {
+                        setTextColor(GREEN, 0);
+                        renderWindow(WN_STDWINDOW);
+                        flushScreen();
+                        flush();
+                    }
+                    else if (!strcmp(cargv[1], "white"))
+                    {
+                        setTextColor(WHITE, 0);
+                        renderWindow(WN_STDWINDOW);
+                        flushScreen();
+                        flush();
+                    }
+                    else
+                    {
+                        printf("%s is not a valid color code\n", cargv[1]);
+                    }
+                }
+            }
+
             else if (!strcmp(cargv[0], "input:"))
             {
                 char *line[1024];
