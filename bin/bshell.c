@@ -92,7 +92,11 @@ int main(int argc, const char *argv[])
                     if (!strcmp(cargv[i], ":end"))
                     {
                         break;
+                    } else if (!strcmp(cargv[i], "\\n"))
+                    {
+                        printf("\n");
                     }
+                    
                     else
                     {
                         printf("%s ", cargv[i]);

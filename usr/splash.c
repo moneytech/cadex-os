@@ -43,12 +43,13 @@ int main(int argc, char *argv[])
 	char stop = -1;
 	while (stop == -1)
 	{
+		i += 1;
 		renderWindow(WN_STDWINDOW);
 		move(&r, &dr, 0, 255);
 		move(&g, &dg, 0, 255);
 		move(&b, &db, 0, 255);
 		setTextColor(r, g, b, 0);
-		print(x1, y1, message);
+		print(x1, y1, message[i]);
 		flush();
 
 		sleepThread(1000);
