@@ -791,11 +791,19 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "mkdiag"))
 	{
-		sys_process_run("bin/mkdiag.exe", 0, "");
+		int pid = sys_process_run("/bin/mkdiag.exe", argc - 1, &argv[1]);
+		process_yield();
+		struct process_info info;
+		process_wait_child(pid, &info, -1);
+		process_reap(info.pid);
 	}
 	else if (!strcmp(cmd, "clear"))
 	{
-		sys_process_run("bin/clear.exe", 0, "");
+		int pid = sys_process_run("/bin/clrscr.exe", argc - 1, &argv[1]);
+		process_yield();
+		struct process_info info;
+		process_wait_child(pid, &info, -1);
+		process_reap(info.pid);
 	}
 	else if (!strcmp(cmd, "cat"))
 	{
@@ -811,10 +819,6 @@ static int kshell_execute(int argc, const char **argv)
 		struct process_info info;
 		process_wait_child(pid, &info, -1);
 		process_reap(info.pid);
-	}
-	else if (!strcmp(cmd, "triangle"))
-	{
-		printTriangle(7);
 	}
 	else
 	{
