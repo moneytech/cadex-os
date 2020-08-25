@@ -531,5 +531,5 @@ void ata_init()
 	device_driver_register(&ata_driver);
 	printf("[SYS] ata: ready\n");
 	device_driver_register(&atapi_driver);
-	printf("[SYS] atapi: ready\n\n");
+	printf("[SYS] atapi: ready\n");
 }
