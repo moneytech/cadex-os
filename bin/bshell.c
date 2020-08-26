@@ -37,6 +37,8 @@ int main(int argc, const char *argv[])
     int scargv;
     int assembly = 0;
     int asyncmethod = 0;
+    int x;
+    int y;
     char *current_stored_cmd;
     char *input[MAX_INPUT_CHARS];
     char *pre_prompt_str = "";
@@ -155,10 +157,42 @@ int main(int argc, const char *argv[])
                 renderWindow(WN_STDWINDOW);
                 //clearScreen(0, 0, width, height);
                 flush();
-                drawRect(10, 10, atoi(cargv[1]), atoi(cargv[2]));
+                drawRect(x, y, atoi(cargv[1]), atoi(cargv[2]));
                 flush();
                 flushScreen();
+            } else if (!strcmp(cargv[0], "setx"))
+            {
+                if(cargc > 1){
+                    x = atoi(cargv[1]);
+                }
+                else
+                {
+                    printf("Syntax: setx <x>\n");
+                }
             }
+            else if (!strcmp(cargv[0], "sety"))
+            {
+                if (cargc > 1)
+                {
+                    y = atoi(cargv[1]);
+                }
+                else
+                {
+                    printf("Syntax: sety <y>\n");
+                }
+            }
+            else if (!strcmp(cargv[0], "setxy"))
+            {
+                if (cargc > 2)
+                {
+                    x = atoi(cargv[1]);
+                    y = atoi(cargv[2]);
+                } else
+                {
+                    printf("Syntax: setxy <x> <y>\n");
+                }
+            }
+
             else if (!strcmp(cargv[0], "setcolor"))
             {
                 if (cargc > 1)
@@ -177,6 +211,14 @@ int main(int argc, const char *argv[])
                         flushScreen();
                         flush();
                     }
+                    else if (!strcmp(cargv[1], "blue"))
+                    {
+                        setTextColor(BLUE, 0);
+                        renderWindow(WN_STDWINDOW);
+                        flushScreen();
+                        flush();
+                    }
+                    
                     else if (!strcmp(cargv[1], "white"))
                     {
                         setTextColor(WHITE, 0);

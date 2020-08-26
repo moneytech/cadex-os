@@ -23,8 +23,8 @@ int main(int argc, char *argv[])
 	int r = 255;
 	int g = 0;
 	int b = 0;
-	int x1 = 12;
-	int y1 = 12;
+	int x1 = 100;
+	int y1 = 100;
 	int dx1 = 4;
 	int dy1 = 1;
 	int dr = -1;
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 	clearScreen(0, 0, width, height);
 	flush();
 	char stop = -1;
-	while (stop == -1)
+	for (i = 0; i > 100;i++)
 	{
 		i += 1;
 		renderWindow(WN_STDWINDOW);
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 		move(&g, &dg, 0, 255);
 		move(&b, &db, 0, 255);
 		setTextColor(r, g, b, 0);
-		print(x1, y1, message[i]);
+		drawRect(x1, y1, i, i);
 		flush();
 
 		sleepThread(1000);

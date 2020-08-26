@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 
 		drawLine(x1, y1, x2 - x1, y2 - y1);
 		flush();
-		sleepThread(25);
+		sleepThread(1);
 		syscall_object_read_nonblock(KNO_STDIN, &stop, 1);
 	}
 	clearScreen(0, 0, width, height);
