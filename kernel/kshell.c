@@ -614,7 +614,7 @@ static int kshell_execute(int argc, const char **argv)
 		{
 			printf("cd ver 0.0.3\nUsage: cd <directory>\n\n");
 		}
-	}
+	} 	
 	else if (!strcmp(cmd, "time"))
 	{
 		struct rtc_time time;
