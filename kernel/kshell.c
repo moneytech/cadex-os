@@ -40,10 +40,10 @@ See the file LICENSE for details.
 
 #define BASEPORT 0x0060 /* lp1 */
 
-// #define SHOW_DEBUG_INFO 
+// #define SHOW_DEBUG_INFO
 uint16_t cursor_pos = 0, cursor_next_line_index = 1;
 static uint32_t next_line_index = 1;
-char *shakespeare[] ={
+char *shakespeare[] = {
 	"[Horatio] Now cracke a Noble heart:",
 	"Goodnight sweet Prince,",
 	"And flights of Angels sing thee to thy rest,",
@@ -104,7 +104,7 @@ char *shakespeare[] ={
 	"Exeunt Marching: after the which, a Peale of",
 	"Ordenance are shot off.",
 };
-char *promptsym[] ={
+char *promptsym[] = {
 	"#",
 	"$",
 	"%",
@@ -268,7 +268,8 @@ static int kshell_printdir(const char *d, int length)
 {
 	while (length > 0)
 	{
-		if (!strcmp(d, ".") || !strcmp(d, "..")) {
+		if (!strcmp(d, ".") || !strcmp(d, ".."))
+		{
 			printf("%s\n", d);
 		}
 		else
@@ -331,15 +332,14 @@ static int kshell_execute(int argc, const char **argv)
 			int pid = sys_process_run(argv[1], argc - 1, &argv[1]);
 			if (pid > 0)
 			{
-				#ifdef SHOW_DEBUG_INFO
+#ifdef SHOW_DEBUG_INFO
 				printf("started process %d\n", pid);
-				#endif
+#endif
 				process_yield();
 			}
 			else
 			{
 				printf("run: error: cannot start %s\n", argv[1]);
-
 			}
 		}
 		else
@@ -367,15 +367,15 @@ static int kshell_execute(int argc, const char **argv)
 			int pid = sys_process_run(argv[1], argc - 1, &argv[1]);
 			if (pid > 0)
 			{
-				#ifdef SHOW_DEBUG_INFO
+#ifdef SHOW_DEBUG_INFO
 				printf("started process %d\n", pid);
-				#endif
+#endif
 				process_yield();
 				struct process_info info;
 				process_wait_child(pid, &info, -1);
-				#ifdef SHOW_DEBUG_INFO
+#ifdef SHOW_DEBUG_INFO
 				printf("process %d exited with status %d\n", info.pid, info.exitcode);
-				#endif
+#endif
 				process_reap(info.pid);
 			}
 			else
@@ -492,7 +492,7 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		while (1)
 		{
-			const char *argv[] ={ "test", "arg1", "arg2", "arg3", "arg4", "arg5", 0 };
+			const char *argv[] = {"test", "arg1", "arg2", "arg3", "arg4", "arg5", 0};
 			int pid = sys_process_run("/bin/test", 6, argv);
 			if (pid > 0)
 			{
@@ -653,9 +653,9 @@ static int kshell_execute(int argc, const char **argv)
 		struct bcache_stats stats;
 		bcache_get_stats(&stats);
 		printf("%d rhit %d rmiss %d whit %d wmiss %d wback\n",
-			stats.read_hits, stats.read_misses,
-			stats.write_hits, stats.write_misses,
-			stats.writebacks);
+			   stats.read_hits, stats.read_misses,
+			   stats.write_hits, stats.write_misses,
+			   stats.writebacks);
 	}
 	else if (!strcmp(cmd, "bcache_flush"))
 	{
@@ -786,8 +786,6 @@ static int kshell_execute(int argc, const char **argv)
 			printf("%d", state->x);
 			//ps2_clear_buffer();
 		}
-
-
 	}
 	else if (!strcmp(cmd, "mkdiag"))
 	{
@@ -812,7 +810,8 @@ static int kshell_execute(int argc, const char **argv)
 		struct process_info info;
 		process_wait_child(pid, &info, -1);
 		process_reap(info.pid);
-	} else if (!strcmp(cmd, "sudo"))
+	}
+	else if (!strcmp(cmd, "sudo"))
 	{
 		int pid = sys_process_run("/bin/sudo.exe", argc - 1, &argv[1]);
 		process_yield();
@@ -822,21 +821,24 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else
 	{
-		if (argc > 0) {
+		if (argc > 0)
+		{
 			int pid = sys_process_run(argv[0], argc - 1, &argv[1]);
-			if (pid > 0) {
-				#ifdef DEBUG
+			if (pid > 0)
+			{
+#ifdef DEBUG
 				printf("started process %d\n", pid);
-				#endif // DEBUG
+#endif // DEBUG
 				process_yield();
 				struct process_info info;
 				process_wait_child(pid, &info, -1);
-				#ifdef DEBUG
+#ifdef DEBUG
 				printf("process %d exited with status %d\n", info.pid, info.exitcode);
-				#endif // DEBUG
+#endif // DEBUG
 				process_reap(info.pid);
 			}
-			else {
+			else
+			{
 				printf("%s: command/program not found\n", argv[0]);
 			}
 		}
@@ -856,7 +858,7 @@ int kshell_readline(char *line, int length)
 			line[i] = 0;
 			printf("\n");
 			return 1;
-		}		
+		}
 		else if (c == ASCII_BS)
 		{
 			if (i > 0)
@@ -889,7 +891,7 @@ int kshell_launch()
 	char line[1024];
 	const char *argv[100];
 	int argc;
-	start:
+start:
 	printf("\n");
 	while (1)
 	{
