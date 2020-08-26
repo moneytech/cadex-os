@@ -33,33 +33,35 @@ static const char *exception_names[] = {
 	"general protection fault",
 	"page fault",
 	"unknown",
-	"coprocessor error"
-};
+	"coprocessor error"};
 
 static void unknown_exception(int i, int code)
 {
 	unsigned vaddr; // virtual address trying to be accessed
 	unsigned paddr; // physical address
-	unsigned esp; // stack pointer
+	unsigned esp;	// stack pointer
 
-	if(i==14) {
-		asm("mov %%cr2, %0" : "=r" (vaddr) ); // virtual address trying to be accessed		
-		esp  = ((struct x86_stack *)(current->kstack_top - sizeof(struct x86_stack)))->esp; // stack pointer of the process that raised the exception
+	if (i == 14)
+	{
+		asm("mov %%cr2, %0"
+			: "=r"(vaddr));																   // virtual address trying to be accessed
+		esp = ((struct x86_stack *)(current->kstack_top - sizeof(struct x86_stack)))->esp; // stack pointer of the process that raised the exception
 		// Check if the requested memory is in the stack or data
 		int data_access = vaddr < current->vm_data_size;
 
-		// Subtract 128 from esp because of the red-zone 
-		// According to https:gcc.gnu.org, the red zone is a 128-byte area beyond 
-		// the stack pointer that will not be modified by signal or interrupt handlers 
+		// Subtract 128 from esp because of the red-zone
+		// According to https:gcc.gnu.org, the red zone is a 128-byte area beyond
+		// the stack pointer that will not be modified by signal or interrupt handlers
 		// and therefore can be used for temporary data without adjusting the stack pointer.
-		int stack_access = vaddr >= esp - 128; 
+		int stack_access = vaddr >= esp - 128;
 
 		// Check if the requested memory is already in use
-		int page_already_present = pagetable_getmap(current->pagetable,vaddr,&paddr,0);
-		
+		int page_already_present = pagetable_getmap(current->pagetable, vaddr, &paddr, 0);
+
 		// Check if page is already mapped (which will result from violating the permissions on page) or that
 		// we are accessing neither the stack nor the heap, or we are accessing both. If so, error
-		if (page_already_present || !(data_access ^ stack_access)) {
+		if (page_already_present || !(data_access ^ stack_access))
+		{
 			// set graphics
 			struct graphics_color *g;
 			// set blue as a background. i dont know why but when i set red to 200 it appears like blue.
@@ -81,7 +83,7 @@ static void unknown_exception(int i, int code)
 			// clear the screen
 			graphics_clear(&graphics_root, 0, 0, 1024, 768);
 			// print the problem and the vaddr contents
-			printf("Segmentation fault: Illegal page access at vaddr 0x%x\n\nPRESS ANY KEY TO CONTINUE.", vaddr);
+			printf("\n     Segmentation fault: Illegal page access at vaddr 0x%x\n\n     PRESS ANY KEY TO CONTINUE.\n", vaddr);
 			keyboard_read(0);
 			g->r = 50;
 			// we dont need green or blue. blue is 0 but when the error occurs, it is blue.
@@ -95,25 +97,45 @@ static void unknown_exception(int i, int code)
 				// print newlines
 				printf("\n\n");
 			}
+			wait_for_io(1000);
+			graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			wait_for_io(1000);
+			graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			wait_for_io(1000);
+			graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			wait_for_io(1000);
+			graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			wait_for_io(1000);
+			graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			wait_for_io(1000);
+			graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			wait_for_io(1000);
+			graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			wait_for_io(1000);
 			graphics_clear(&graphics_root, 0, 0, 1024, 768);
 			// dump current process
 			//process_dump(current);
-			//printf("Segmentation Fault\nIllegal page access at vaddr 0x%x\n",vaddr);
-			//process_dump(current);
 			//process_exit(0);
-		} else {
+		}
+		else
+		{
 			// XXX update process->vm_stack_size when growing the stack.
 			pagetable_alloc(current->pagetable, vaddr, PAGE_SIZE, PAGE_FLAG_USER | PAGE_FLAG_READWRITE | PAGE_FLAG_CLEAR);
 			return;
 		}
-	} else {
+	}
+	else
+	{
 		printf("\n\nUnknown Exception Occured\n\nStack trace:\n%d: %s (code %x)\n", i, exception_names[i], code);
 		process_dump(current);
 	}
 
-	if(current) {
+	if (current)
+	{
 		process_exit(0);
-	} else {
+	}
+	else
+	{
 		printf("Segmentation fault (core dumped)\n");
 		halt();
 	}
@@ -121,7 +143,8 @@ static void unknown_exception(int i, int code)
 
 static void unknown_hardware(int i, int code)
 {
-	if(!interrupt_spurious[i]) {
+	if (!interrupt_spurious[i])
+	{
 		printf("interrupt: spurious interrupt %d\n", i);
 	}
 	interrupt_spurious[i]++;
@@ -134,9 +157,12 @@ void interrupt_register(int i, interrupt_handler_t handler)
 
 static void interrupt_acknowledge(int i)
 {
-	if(i < 32) {
+	if (i < 32)
+	{
 		/* do nothing */
-	} else {
+	}
+	else
+	{
 		pic_acknowledge(i - 32);
 	}
 }
@@ -211,16 +237,19 @@ void interrupt_init()
 {
 	int i;
 	pic_init(32, 40);
-	for(i = 32; i < 48; i++) {
+	for (i = 32; i < 48; i++)
+	{
 		interrupt_disable(i);
 		interrupt_acknowledge(i);
 	}
-	for(i = 0; i < 32; i++) {
+	for (i = 0; i < 32; i++)
+	{
 		interrupt_handler_table[i] = unknown_exception;
 		interrupt_spurious[i] = 0;
 		interrupt_count[i] = 0;
 	}
-	for(i = 32; i < 48; i++) {
+	for (i = 32; i < 48; i++)
+	{
 		interrupt_handler_table[i] = unknown_hardware;
 		interrupt_spurious[i] = 0;
 		interrupt_count[i] = 0;
@@ -233,25 +262,31 @@ void interrupt_init()
 
 void interrupt_handler(int i, int code)
 {
-	(interrupt_handler_table[i]) (i, code);
+	(interrupt_handler_table[i])(i, code);
 	interrupt_acknowledge(i);
 	interrupt_count[i]++;
 }
 
 void interrupt_enable(int i)
 {
-	if(i < 32) {
+	if (i < 32)
+	{
 		/* do nothing */
-	} else {
+	}
+	else
+	{
 		pic_enable(i - 32);
 	}
 }
 
 void interrupt_disable(int i)
 {
-	if(i < 32) {
+	if (i < 32)
+	{
 		/* do nothing */
-	} else {
+	}
+	else
+	{
 		pic_disable(i - 32);
 	}
 }

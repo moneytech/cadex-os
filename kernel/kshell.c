@@ -847,6 +847,7 @@ static int kshell_execute(int argc, const char **argv)
 int kshell_readline(char *line, int length)
 {
 	int i = 0;
+	int j = 0;
 	while (i < (length - 1))
 	{
 		char c = keyboard_read(0);
@@ -855,7 +856,12 @@ int kshell_readline(char *line, int length)
 			line[i] = 0;
 			printf("\n");
 			return 1;
+		} else if (c == KEY_PAGE_UP)
+		{
+			j -= 1;
+			move_cursor(j);
 		}
+		
 		else if (c == ASCII_BS)
 		{
 			if (i > 0)
@@ -869,6 +875,7 @@ int kshell_readline(char *line, int length)
 			putchar(c);
 			line[i] = c;
 			i++;
+			j++;
 		}
 	}
 
