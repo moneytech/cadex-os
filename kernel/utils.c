@@ -51,7 +51,7 @@ extern void printTriangle(int rows_s) {
 }
 extern void hardMath(int number1, int number2) {
     float j, k, l, m, n, i;
-    i=number1 * number2 + number1 - number2 * number1 % number2 * number1 + number2;
+    i=number1 * number2 + number1 - number2 * number1 % number2 * number1 + number2 / 100 * 500030 * number2 / number2;
     k = i * number1;
     l = i * k + number1 * number2;
     printf("%d", l);
