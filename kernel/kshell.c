@@ -23,7 +23,6 @@ See the file LICENSE for details.
 #include "kernelcore.h"
 #include "bcache.h"
 #include "printf.h"
-#include "exception.h"
 #include "library/syscalls.h"
 #include "library/stdio.h"
 #include "library/string.h"
