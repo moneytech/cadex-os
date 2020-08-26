@@ -19,6 +19,8 @@ From there, it's your job to write user-level programs and expand the system.
  - Cadex OS uses ELF as the binary format
  - Cadex OS supports modules, but it is still in development and is not in the Makefile
  - Cadex OS will be useful if you are a beginner in C programming lanhguage and you want to write small programs.
+ - Cadex OS has a small graphics library called TrueGL. TrueGL is also a UI library
+ - Cadex OS has many useful string functions defined at `library/string.c`
 
 This repo was made by HyperCreeck and actively maintained by HyperCreeck and people in this Organisation.
 
