@@ -1,3 +1,7 @@
+
+/**
+ * Color definitions for TrueGL functions
+*/
 #ifndef COLOR_H
 #define COLOR_H
 #define BLUE 200,200,255

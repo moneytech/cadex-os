@@ -7,25 +7,55 @@
 */
 
 #include <stdio.h>
+#include <library/scanf.h>
+#include <library/_cheader.h>
+#include <library/color.h>
 
-typedef struct 
+/**
+ * This enum is defined but not used. Stubbed
+ */
+static enum UIColor {
+    T_COLOR_BLACK,
+    T_COLOR_BLUE,
+    T_COLOR_GREEN,
+    T_COLOR_RED,
+    T_COLOR_WHITE,
+    T_COLOR_GRAY,
+    T_COLOR_MAGENTA,
+    T_COLOR_LIGHTGREEN,
+    T_COLOR_LIGHTBLUE,
+    T_COLOR_LIGHTGRAY
+};
+/**
+ * GameObject type definition
+*/
+typedef struct
 {
     int posX;
     int posY;
     int width;
     int height;
-}GameObject;
+} GameObject;
 
+/**
+ * Sprite type definition
+*/
 typedef struct GameObject
 {
-    GameObject *spritego;
     int posX;
     int posY;
     int width;
     int height;
-}Sprite;
+} Sprite;
 
-
+typedef struct
+{
+    int posX;
+    int posY;
+    int width;
+    int height;
+    char *label;
+} UIElement;
 /**
  * Moves the specivied sprite to the specified X and Y location
  * 

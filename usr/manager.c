@@ -51,7 +51,6 @@ int main(int argc, char *argv[])
 	int dy1 = 1;
 	int dr = -1;
 	int dg = 2;
-	int db = 3;
 
 	int padding = 4;
 	program programs[] = {

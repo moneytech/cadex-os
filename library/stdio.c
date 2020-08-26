@@ -341,3 +341,26 @@ FILE * fopen(const char *path, const char *mode) {
 
 	return out;
 }
+void draw_window_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
+{
+	setTextColor(r, b, g, 0);
+	drawRect(x, y, w, thickness);
+	drawRect(x, y, thickness, h);
+	drawRect(x + w - thickness, y, thickness, h);
+	drawRect(x, y + h - thickness, w, thickness);
+}
+void draw_cadex_logo(){
+	int x=10, y = 10;
+	renderWindow(WN_STDWINDOW);
+	drawRect(x, y, 50, 50);
+	setTextColor(GREEN,0);
+	drawRect(x, y, 40, 40);
+	setTextColor(CLEAR_RED,0);
+	drawRect(x, y, 30, 30);
+	setTextColor(BLUE, 0);
+	drawRect(x, y, 20, 20);
+	setTextColor(GRAY, 0);
+	drawRect(x, y, 10, 10);
+	flushScreen();
+	flush();
+}

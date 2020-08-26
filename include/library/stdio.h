@@ -83,24 +83,23 @@ typedef int (*irq_handler_chain_t)(struct asm_regs *);
 #define SHM_START 0xB0000000
 void printf_putchar(char c);
 #define WN_STDWINDOW 3
-void printf_putstring(char *s);
-void flush();
+extern void printf_putstring(char *s);
+extern void flush();
+extern void renderWindow(int wd);
+extern void setTextColor(int r, int g, int b, int a);
+extern void drawRect(int x, int y, int w, int h);
+extern void clearScreen(int x, int y, int w, int h);
+extern void drawLine(int x, int y, int w, int h);
+extern void printChar(int x, int y, char c);
+extern void print(int x, int y, char *s);
+extern void flushScreen();
+extern int getWindowDimens(char *s);
+extern void system(char *program, int argc, char **argv);
+extern void resetColor();
+extern void draw_cadex_logo();
+extern void draw_window_border(int x, int y, int w, int h, int thickness, int r, int g, int b);
 
-void renderWindow(int wd);
-void setTextColor(int r, int g, int b, int a);
-void drawRect(int x, int y, int w, int h);
-void clearScreen(int x, int y, int w, int h);
-void drawLine(int x, int y, int w, int h);
-void printChar(int x, int y, char c);
-void print(int x, int y, char *s);
-void flushScreen();
-int getWindowDimens(char *s);
-void system(char *program, int argc, char **argv);
-void resetColor();
-
-
-
-extern FILE * fopen(const char *path, const char *mode);
+extern FILE *fopen(const char *path, const char *mode);
 extern int fclose(FILE * stream);
 extern int fseek(FILE * stream, long offset, int whence);
 extern long ftell(FILE * stream);
