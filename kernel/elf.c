@@ -145,7 +145,7 @@ int elf_load(struct process *p, const char *filename, addr_t * entry)
 	return 0;
 
       noload:
-	printf("elf: %s failed to load correctly!\n", filename);
+	printf("elf: %s failed to load correctly\n", filename);
 	fs_dirent_close(d);
 	return KERROR_NOT_FOUND;
 
