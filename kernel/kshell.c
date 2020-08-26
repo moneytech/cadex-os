@@ -856,12 +856,7 @@ int kshell_readline(char *line, int length)
 			line[i] = 0;
 			printf("\n");
 			return 1;
-		} else if (c == KEY_PAGE_UP)
-		{
-			j -= 1;
-			move_cursor(j);
-		}
-		
+		}		
 		else if (c == ASCII_BS)
 		{
 			if (i > 0)
@@ -894,6 +889,7 @@ int kshell_launch()
 	char line[1024];
 	const char *argv[100];
 	int argc;
+	start:
 	printf("\n");
 	while (1)
 	{
@@ -913,6 +909,6 @@ int kshell_launch()
 			kshell_execute(argc, argv);
 		}
 	}
-
-	return 0;
+	// This is to keep the kernel running even after a segfault/exception
+	goto start;
 }
