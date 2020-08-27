@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 	/* Eventually, programs wont be hardcoded */
 	const char *args1[] = {"/usr/bin/snake.exe"};
 	const char *args2[] = {"/usr/bin/clock.exe", "08:40"};
-	const char *args3[] = {"/usr/bin/sh.exe"};
+	const char *args3[] = {"/bin/cash.exe"};
 	const char *args4[] = {"/usr/bin/ball.exe"};
 	int window_width = 270;
 	int window_height = 270;
@@ -48,14 +48,14 @@ int main(int argc, char *argv[])
 	int x1 = 150;
 	int y1 = 150;
 	int dx1 = 4;
-	int dy1 = 1;
+	int dy1 = 3;
 	int dr = -1;
 	int dg = 2;
 
 	int padding = 4;
 	program programs[] = {
 		{.w = 55, .h = 25, .exec = "/usr/bin/clock.exe", .args = args2, .argc = 2},
-		{.w = 500, .h = 400, .exec = "/usr/bin/sh.exe", .args = args3, .argc = 3},
+		{.w = 500, .h = 400, .exec = "/bin/cash.exe", .args = args3, .argc = 3},
 		{.w = 200, .h = 200, .exec = "/usr/bin/snake.exe", .args = args1, .argc = 1},
 		{.w = 400, .h = 400, .exec = "/usr/bin/ball.exe", .args = args4, .argc = 1}};
 
@@ -64,8 +64,9 @@ int main(int argc, char *argv[])
 	syscall_object_size(WN_STDWINDOW, std_dims, 2);
 	renderWindow(WN_STDWINDOW);
 	/* The code below will not work */
-	setTextColor(r, g, b,0);
+	setTextColor(r, g, b, 0);
 	print(10, 10, "Cadex Shell UI");
+	renderWindow(WN_STDWINDOW);
 	/* End not working code*/
 	flush();
 
@@ -151,6 +152,9 @@ int main(int argc, char *argv[])
 
 	while (tin != '~')
 	{
+		renderWindow(WN_STDWINDOW);
+		draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 0, 0, 244);
+		flush();
 		if (pids[p_act] == 0)
 		{
 			p_act = (p_act + 1) % num_programs;
@@ -161,20 +165,27 @@ int main(int argc, char *argv[])
 		syscall_object_read(0, &tin, 1);
 		if (tin == '\t')
 		{
-			renderWindow(WN_STDWINDOW);
+
 			draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 255, 255, 255);
 			flush();
 			p_act = (p_act + 1) % num_programs;
-
+			setTextColor(WHITE, 100);
+			print(8, 0, "Cadex Shell UI");
+			renderWindow(WN_STDWINDOW);
 			/* Draw green window around active process and start it */
 			renderWindow(WN_STDWINDOW);
 			draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 0, 0, 255);
 			flush();
-			setTextColor(255, 255, 255,0);
+			setTextColor(255, 255, 255, 0);
 			continue;
 		}
+		else
+		{
+			/* code */
+			syscall_object_write(fds[p_act][0], &tin, 1);
+		}
+
 		/* Write 1 character to the correct pipe */
-		syscall_object_write(fds[p_act][0], &tin, 1);
 	}
 
 	/* Reap all children processes */
@@ -184,7 +195,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* Clean up the window */
-	setTextColor(255, 255, 255,0);
+	setTextColor(255, 255, 255, 0);
 	//clearScreen(0, 0, std_dims[0], std_dims[1]);
 	flush();
 	return 0;
@@ -262,7 +273,7 @@ void merge(program *arr, int l, int m, int r)
 
 void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
 {
-	setTextColor(r, b, g,0);
+	setTextColor(r, b, g, 0);
 	drawRect(x, y, w, thickness);
 	drawRect(x, y, thickness, h);
 	drawRect(x + w - thickness, y, thickness, h);

@@ -26,13 +26,12 @@ int main(int argc, char *argv[])
         syscall_object_close(fd);
         printf("\n");
         _process_exit(0);
-    } else
+    }
+    else
     {
         printf("usage: cat [parent-dir] [filename]\n");
         return 0;
     }
-    
-    
 
     return 0;
 }

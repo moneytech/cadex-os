@@ -107,8 +107,8 @@ int main(int argc, const char *argv[])
                         }
                     }
                     printf("\n");
-                } 
-                 
+                }
+
                 else if (!strcmp(cargv[0], "@ASM86"))
                 {
                     printf("[INFO] Assembly mode enabled\n");
@@ -117,16 +117,18 @@ int main(int argc, const char *argv[])
                 else if (!strcmp(cargv[0], "@END_ASM86"))
                 {
                     assembly = 0;
-                } else if (!strcmp(cargv[0], "mov"))
+                }
+                else if (!strcmp(cargv[0], "mov"))
                 {
-                    if(assembly){
-
-                    } else
+                    if (assembly)
+                    {
+                    }
+                    else
                     {
                         printf("[ERR] Assembly mode is not enabled.");
                     }
                 }
-                
+
                 else if (!strcmp(cargv[0], "cls"))
                 {
                     int x1 = 12;

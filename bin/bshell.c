@@ -160,9 +160,11 @@ int main(int argc, const char *argv[])
                 drawRect(x, y, atoi(cargv[1]), atoi(cargv[2]));
                 flush();
                 flushScreen();
-            } else if (!strcmp(cargv[0], "setx"))
+            }
+            else if (!strcmp(cargv[0], "setx"))
             {
-                if(cargc > 1){
+                if (cargc > 1)
+                {
                     x = atoi(cargv[1]);
                 }
                 else
@@ -187,7 +189,8 @@ int main(int argc, const char *argv[])
                 {
                     x = atoi(cargv[1]);
                     y = atoi(cargv[2]);
-                } else
+                }
+                else
                 {
                     printf("Syntax: setxy <x> <y>\n");
                 }
@@ -218,7 +221,7 @@ int main(int argc, const char *argv[])
                         flushScreen();
                         flush();
                     }
-                    
+
                     else if (!strcmp(cargv[1], "white"))
                     {
                         setTextColor(WHITE, 0);

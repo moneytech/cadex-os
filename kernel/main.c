@@ -59,7 +59,7 @@ int kernel_main()
 	diskfs_init();
 	serial_init(0x3f8);
 	kshell_mount("atapi", 2, "cdromfs");
-	printf("\n>>>>>> Cadex OS Version %s | beta-%s <<<<<<\n", SYS_VER, SYS_BUILD);
+	printf("\n>>>>>> Cadex OS %s | beta-%s <<<<<<\n", SYS_VER, SYS_BUILD);
 	kshell_launch();
 
 	while(1) {

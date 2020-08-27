@@ -30,15 +30,19 @@ password:
 
 int main(int argc, const char *argv[])
 {
-    if(argc > 0){
-        if(!strcmp(argv[0], "-i")){
+    if (argc > 0)
+    {
+        if (!strcmp(argv[0], "-i"))
+        {
             getAuth();
             printf("\n");
-        } else
+        }
+        else
         {
             printf("sudo: invalid option: %s", argv[0]);
         }
-    } else
+    }
+    else
     {
         printf("usage: sudo -i\n");
     }

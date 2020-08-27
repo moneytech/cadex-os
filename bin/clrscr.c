@@ -1,7 +1,8 @@
 #include <library/stdio.h>
 #include <library/color.h>
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[])
+{
     int x1 = 12;
     int y1 = 12;
     int dims[2];

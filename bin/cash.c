@@ -12,7 +12,7 @@ int tmp1 = 0;
 extern int getAuth()
 {
 	char *passwd[1024];
-	
+
 password:
 	printf("sudo: password for root: ");
 	scanf(passwd, sizeof(passwd));
@@ -23,7 +23,8 @@ password:
 	else
 	{
 		printf("Wrong password\n");
-		if(tmp1 > 2){
+		if (tmp1 > 2)
+		{
 			printf("Max tries exceeded\n");
 			return 1;
 		}
@@ -31,7 +32,6 @@ password:
 		goto password;
 	}
 }
-
 
 void print_directory(char *d, int length)
 {
@@ -188,11 +188,14 @@ int do_command(char *line)
 	{
 		_process_exit(0);
 		return 0;
-	} else if (pch && !strcmp(pch, "sudo"))
+	}
+	else if (pch && !strcmp(pch, "sudo"))
 	{
-		if(getAuth() == 0){
+		if (getAuth() == 0)
+		{
 			printf("got root permission\n");
-		} else
+		}
+		else
 		{
 			printf("E: getting root permission failed!\n");
 		}

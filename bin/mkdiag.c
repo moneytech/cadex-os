@@ -9,7 +9,6 @@ See the file LICENSE for details.
 #include <library/color.h>
 #include <library/types.h>
 
-
 int main(int argc, char const *argv[])
 {
     int r = 255;
@@ -36,14 +35,14 @@ int main(int argc, char const *argv[])
     //     // If length of command-line arguments is lesser than 0
     //     printf("MKDiag version 0.2\nUsage: mkdiag.exe [OPTION]... (title|bgcolor|fgcolor|button)\n\nThis program is a part of Cadex OSUtils v0.11");
     // }
-    setTextColor(GRAY,0);
+    setTextColor(GRAY, 0);
     drawRect(x1, y1, 190, 80);
     setTextColor(WHITE, 0);
     print(x1 + 10, y1 + 10, "Example dialog message");
     setTextColor(BLUE, 0);
-    drawRect(x1+60, y1+50, 60, 20);
+    drawRect(x1 + 60, y1 + 50, 60, 20);
     setTextColor(WHITE, 0);
-    print(x1+62, y1+52+3, "OK");
+    print(x1 + 62, y1 + 52 + 3, "OK");
     resetColor();
     flush();
     return 0;

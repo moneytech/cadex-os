@@ -8,6 +8,6 @@
 
 #include <truegl/truegl.h>
 
-int drawButton(int x, int y, int w, int h, char *label){
-    
+int drawButton(int x, int y, int w, int h, char *label)
+{
 }

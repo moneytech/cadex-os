@@ -9,7 +9,8 @@
 #include <library/math.h>
 #include <library/rand.h>
 
-void __assert_func(const char * file, int line, const char * func, const char * failedexpr) {
- printf("Assertion failed in %s:%d (%s): %s\n"/*, file, line, func, failedexpr*/);
- // void
+void __assert_func(const char *file, int line, const char *func, const char *failedexpr)
+{
+    printf("Assertion failed in %s:%d (%s): %s\n" /*, file, line, func, failedexpr*/);
+    // void
 }
