@@ -349,8 +349,7 @@ void draw_window_border(int x, int y, int w, int h, int thickness, int r, int g,
 	drawRect(x + w - thickness, y, thickness, h);
 	drawRect(x, y + h - thickness, w, thickness);
 }
-void draw_cadex_logo(){
-	int x=10, y = 10;
+void draw_cadex_logo(int x, int y){
 	renderWindow(WN_STDWINDOW);
 	drawRect(x, y, 50, 50);
 	setTextColor(GREEN,0);

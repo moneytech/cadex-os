@@ -96,7 +96,7 @@ extern void flushScreen();
 extern int getWindowDimens(char *s);
 extern void system(char *program, int argc, char **argv);
 extern void resetColor();
-extern void draw_cadex_logo();
+extern void draw_cadex_logo(int x, int y);
 extern void draw_window_border(int x, int y, int w, int h, int thickness, int r, int g, int b);
 
 extern FILE *fopen(const char *path, const char *mode);
