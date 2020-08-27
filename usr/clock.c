@@ -55,7 +55,10 @@ int main(int argc, char *argv[])
 		syscall_object_read_nonblock(0, &c, 1);
 		sleepThread(2000);
 		syscall_system_rtc(&time);
+		renderWindow(WN_STDWINDOW);
+		draw_border(0, 0, CLOCK_W, CLOCK_H, thickness, 255, 255, 255);
 		draw_clock(time.hour, time.minute, timezone, military, 0, 0, 2 * thickness, 255, 255, 255);
+		renderWindow(WN_STDWINDOW);
 		flush();
 	}
 

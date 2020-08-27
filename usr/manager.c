@@ -59,13 +59,30 @@ int main(int argc, char *argv[])
 		{.w = 200, .h = 200, .exec = "/usr/bin/snake.exe", .args = args1, .argc = 1},
 		{.w = 400, .h = 400, .exec = "/usr/bin/ball.exe", .args = args4, .argc = 1}};
 
+	/* Run the splash screen before setting up the window */
+	int pid = fork();
+
+	if (pid == 0)
+	{
+		// printf("Process %d started.\n", syscall_process_self());
+		const char *args[] = {"/usr/bin/splash.exe"};
+		system("/usr/bin/splash.exe", 1, args);
+	}
+	else
+	{
+		//printf("hello world, I am the parent %d.\n", syscall_process_self());
+		struct process_info info;
+		syscall_process_wait(&info, -1);
+		syscall_process_reap(info.pid);
+	}
 	/* Setup the window */
 	int std_dims[2];
 	syscall_object_size(WN_STDWINDOW, std_dims, 2);
 	renderWindow(WN_STDWINDOW);
 	/* The code below will not work */
+	clearScreen(0, 0, std_dims[0], std_dims[1]);
 	setTextColor(r, g, b, 0);
-	print(10, 10, "Cadex Shell UI");
+	print(10, 0, "Cadex Shell UI");
 	renderWindow(WN_STDWINDOW);
 	/* End not working code*/
 	flush();
@@ -165,7 +182,7 @@ int main(int argc, char *argv[])
 		syscall_object_read(0, &tin, 1);
 		if (tin == '\t')
 		{
-
+			renderWindow(WN_STDWINDOW);
 			draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 255, 255, 255);
 			flush();
 			p_act = (p_act + 1) % num_programs;
@@ -179,11 +196,9 @@ int main(int argc, char *argv[])
 			setTextColor(255, 255, 255, 0);
 			continue;
 		}
-		else
-		{
-			/* code */
-			syscall_object_write(fds[p_act][0], &tin, 1);
-		}
+
+		/* code */
+		syscall_object_write(fds[p_act][0], &tin, 1);
 
 		/* Write 1 character to the correct pipe */
 	}
@@ -191,12 +206,12 @@ int main(int argc, char *argv[])
 	/* Reap all children processes */
 	for (int i = 0; i < num_programs; ++i)
 	{
-		//syscall_process_reap(pids[i]);
+		syscall_process_reap(pids[i]);
 	}
 
 	/* Clean up the window */
 	setTextColor(255, 255, 255, 0);
-	//clearScreen(0, 0, std_dims[0], std_dims[1]);
+	clearScreen(0, 0, std_dims[0], std_dims[1]);
 	flush();
 	return 0;
 }

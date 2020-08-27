@@ -63,7 +63,7 @@ typedef struct
  * @param x X position to move to
  * @param Y Y position to move to
 */
-void moveSprite(Sprite *sprite, int x, int y);
+void move_sprite(Sprite *sprite, int x, int y);
 
 /**
  * Resises the specified sprite to the specified width and height
@@ -71,4 +71,6 @@ void moveSprite(Sprite *sprite, int x, int y);
  * @param width Width of the sprite to resize to
  * @param height Height of the sprite to resize to
 */
-void resizeSprite(Sprite *sprite, int width, int height);
+void resize_sprite(Sprite *sprite, int width, int height);
+
+void draw_pixel(int x, int y, int r, int g, int b, int a);
