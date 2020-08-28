@@ -110,6 +110,17 @@ char *promptsym[] = {
 };
 char *curdir = "";
 int prompt = 0;
+
+int strEndsWith(const char *str, const char *suffix)
+{
+	if (!str || !suffix)
+		return false;
+	size_t lenstr = strlen(str);
+	size_t lensuffix = strlen(suffix);
+	if (lensuffix > lenstr)
+		return false;
+	return strncmp(str + lenstr - lensuffix, suffix, lensuffix) == 0;
+}
 int kshell_mount(const char *devname, int unit, const char *fs_type)
 {
 	struct device *dev = device_open(devname, unit);
@@ -267,10 +278,24 @@ static int kshell_printdir(const char *d, int length)
 {
 	while (length > 0)
 	{
+		struct graphics_color *c;
 		if (!strcmp(d, ".") || !strcmp(d, ".."))
 		{
 			printf("%s\n", d);
 		}
+		else if (strEndsWith(d, ".exe"))
+		{
+			c->r = 0;
+			c->g = 255;
+			c->b = 0;
+			graphics_fgcolor(&graphics_root, *c);
+			printf("%s   ", d);
+			c->r = 255;
+			c->g = 255;
+			c->b = 255;
+			graphics_fgcolor(&graphics_root, *c);
+		}
+
 		else
 		{
 			printf("%s   ", d);
@@ -313,7 +338,7 @@ static int kshell_listdir(const char *path)
 		}
 		else
 		{
-			printf("ls: root directory not found. Possible causes:\n\n * CD-ROM not mounted\n * Hard-Disk error\n * Other filesystem error\n\nTry running 'mount atapi 2 cdromfs' if you are running this OS from a CD-ROM\n");
+			printf("ls: root directory not found.");
 		}
 	}
 
@@ -614,7 +639,7 @@ static int kshell_execute(int argc, const char **argv)
 		{
 			printf("cd ver 0.0.3\nUsage: cd <directory>\n\n");
 		}
-	} 	
+	}
 	else if (!strcmp(cmd, "time"))
 	{
 		struct rtc_time time;
