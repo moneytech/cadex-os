@@ -19,7 +19,15 @@
       "stdexcept": "c",
       "system_error": "c",
       "typeinfo": "c",
-      "ctime": "c"
+      "ctime": "c",
+      "chrono": "c",
+      "limits": "c",
+      "numeric": "c",
+      "ratio": "c",
+      "streambuf": "c",
+      "tuple": "c",
+      "type_traits": "c",
+      "utility": "c"
     }
   }
 }

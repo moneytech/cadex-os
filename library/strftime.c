@@ -5,9 +5,10 @@ See the file LICENSE for details.
 */
 
 #include <stddef.h>
-#include <time.h>
-#include <sys/time.h>
 #include <stdio.h>
+#include <library/types.h>
+#include <fcntl.h>
+#include <assert.h>
 
 static char * weekdays[] = {
 	"Sunday",
@@ -42,7 +43,7 @@ static char * months_short[] = {
 	"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"
 };
 
-size_t strftime(char *s, size_t max, const char *fmt, const struct tm *tm) {
+size_t strftime(char *s, size_t max, const char *fmt, const struct tm tm) {
 	if (!tm) {
 		return sprintf(s, "[tm is null]");
 	}
