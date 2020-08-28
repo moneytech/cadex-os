@@ -1,3 +1,10 @@
+/*
+Copyright (C) 2019-2020 OpenCreeck
+This software is distributed under the GNU General Public License.
+See the file LICENSE for details.
+*/
+
+/* I/O wait functions */
 #include <wait.h>
 
 static char stdio_buffer[PAGE_SIZE] = {0};

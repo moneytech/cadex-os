@@ -1,4 +1,10 @@
-/* Random Number Library | Math.h | Header File */
+/*
+Copyright (C) 2019-2020 OpenCreeck
+This software is distributed under the GNU General Public License.
+See the file LICENSE for details.
+*/
+
+/* Random library */
 #include <library/rand.h>
 
 static uint32_t x = 123456789;

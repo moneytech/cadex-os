@@ -1,10 +1,8 @@
-/* vim: tabstop=4 shiftwidth=4 noexpandtab
- * This file is part of ToaruOS and is released under the terms
- * of the NCSA / University of Illinois License - see LICENSE.md
- * Copyright (C) 2011-2018 K. Lange
- *
- * General-purpose list implementations.
- */
+/*
+Copyright (C) 2019-2020 OpenCreeck
+This software is distributed under the GNU General Public License.
+See the file LICENSE for details.
+*/
 
 #ifdef _KERNEL_
 #include <kernel/system.h>

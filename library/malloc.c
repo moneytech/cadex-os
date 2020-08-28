@@ -1,3 +1,9 @@
+/*
+Copyright (C) 2019-2020 OpenCreeck
+This software is distributed under the GNU General Public License.
+See the file LICENSE for details.
+*/
+
 /* The next parts are all for configuring dlmalloc to work with cadex kernel */
 #define ENOMEM 0
 #define LACKS_TIME_H 1

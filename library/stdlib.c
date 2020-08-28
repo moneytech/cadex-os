@@ -1,3 +1,9 @@
+/*
+Copyright (C) 2019-2020 OpenCreeck
+This software is distributed under the GNU General Public License.
+See the file LICENSE for details.
+*/
+
 #include <kernel/gfxstream.h>
 #include <kernel/types.h>
 #include <library/stdio.h>
@@ -8,10 +14,4 @@
 #include <library/assert.h>
 #include "stdarg.h"
 
-// Executes specified file with specified argc and argv.
-// int system(string *program, int argc, string **argv)
-// {
-//     exec(program, argc, argv);
-//     return false;
-// }
-// ^^^^^ -> Commented because it is defined in stdio.c
+// TODO: Move some code from stdio.c to stdlib.c
