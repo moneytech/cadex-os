@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <algorithm.h>
 
 #define MAX_SIZE 100
 
