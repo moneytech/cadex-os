@@ -8,6 +8,8 @@
 
 #include <truegl/truegl.h>
 
+/**
+ * Draws a UI button at the specified x and y */
 int drawButton(int x, int y, int w, int h, char *label)
 {
     if(w > 0){
