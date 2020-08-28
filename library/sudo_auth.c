@@ -11,7 +11,7 @@ extern int getAuth()
     char *passwd[1024];
 password:
     printf("sudo: password for root: ");
-    scanf(passwd, sizeof(passwd));
+    passwd_scanf(passwd, sizeof(passwd));
     if (!strcmp(passwd, "root"))
     {
         _process_exit(0);

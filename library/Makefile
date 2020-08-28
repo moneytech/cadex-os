@@ -1,6 +1,23 @@
 include ../Makefile.config
 
-LIBRARY_OBJECTS=errno.o objno.o syscall.o syscalls.o string.o stdio.o malloc.o math.o qsort.o scanf.o assert.o _ctype.o toupper.o tolower.o wait.o truegl/truegl.o truegl/ui_button.o
+LIBRARY_OBJECTS=errno.o \
+				_ctype.o \
+				objno.o \
+				syscalls.o \
+				syscall.o \
+				string.o \
+				stdio.o \
+				malloc.o \
+				math.o \
+				qsort.o \
+				scanf.o \
+				assert.o \
+				toupper.o \
+				tolower.o \
+				wait.o \
+				algorithm/print_array.o \
+				truegl/truegl.o \
+				truegl/ui_button.o
 
 all: user-start.o baselib.a rand.o
 
