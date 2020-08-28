@@ -1,8 +1,7 @@
 # The Cadex OS
 [![Travis CI Build Status](https://travis-ci.org/OpenCreeck/Cadex-OS-Official.svg?branch=master)](https://travis-ci.org/OpenCreeck/Cadex-OS-Official)
 
-Cadex OS is a simple operating system kernel originally made by Prof. Douglas Thain at the University of Notre Dame and a variety of students including
-Jack Mazanec, Douglas Smith, Ethan Williams, Jon Westhoff, and Kevin Wern. And now maintained by HyperCreeck. This is a fork of the repo https://github.com/dthain/basekernel
+Cadex OS is a Unix-like Linux-based operating system. Cadex OS is Unix-like because some of the code in libc are from the source code of Unix (Minix), and Cadex OS is Linux-based because some of the core components used like the ELF parser and some of the lbraries are from older versions of Linux (2.1 and 0.1). This is a fork of the repo https://github.com/dthain/basekernel
 
 If you want to build apps for something _**different**_ than Windows, Linux, or MacOS,
 Cadex OS may be a good place to try out your new ideas. Cadex OS has all the libraries and APIs to create your own app.
