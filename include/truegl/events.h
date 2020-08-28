@@ -1,5 +1,3 @@
-#include <truegl/truegl.h>
-
 typedef enum mouse_button
 {
     BUTTON_LEFT,
