@@ -42,13 +42,7 @@ image: kernel/cadex.img $(USER_PROGRAMS) $(SYSTEM_BIN_FILES)
 	rm -rf image
 	mkdir image image/boot image/usr image/data image/usr/bin image/bin image/sys image/usr/share image/etc image/var image/tmp
 	cp kernel/cadex.img image/boot
-	cp usr/kevin.txt image/usr/share/
-	cp basefs/sys/sys.json image/sys/reg.json
-	cp basefs/etc/sudoers image/etc/sudoers
-	cp basefs/etc/cash.config image/etc/cash.config
-	cp basefs/etc/passwd image/etc/passwd
-	cp basefs/etc/sysinfo.b86 image/etc/sysinfo.b86
-	cp basefs/etc/sysfile image/etc/sysfile
+	cd basefs && make
 	cp $(USER_PROGRAMS) image/usr/bin
 	cp $(SYSTEM_BIN_FILES) image/bin
 	head -2000 /usr/share/dict/words > image/data/words
