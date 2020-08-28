@@ -20,6 +20,7 @@ From there, it's your job to write user-level programs and expand the system.
  - Cadex OS will be useful if you are a beginner in C programming lanhguage and you want to write small programs.
  - Cadex OS has a small graphics library called TrueGL. TrueGL is also a UI library
  - Cadex OS has many useful string functions defined at `library/string.c`
+ - Cadex OS uses some code from Musl libc for the libc in Cadex OS. Libraries that are from Musl libc should contain a license header on the top.
 
 This repo was made by HyperCreeck and actively maintained by HyperCreeck and people in this Organisation.
 
