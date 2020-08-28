@@ -11,4 +11,4 @@ baselib.a: ${LIBRARY_OBJECTS}
 	${AR} rv $@ ${LIBRARY_OBJECTS}
 
 clean:
-	rm -rf *.a *.o
+	rm -rf *.a ./*/*.o
