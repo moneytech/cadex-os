@@ -104,7 +104,7 @@ int elf_load(struct process *p, const char *filename, addr_t * entry)
 	actual = fs_dirent_read(d, (char *) &header, sizeof(header), 0);
 	if(actual != sizeof(header))
 		goto noload;
-
+		
 	if(strncmp(header.ident, "\177ELF", 4) || header.machine != ELF_HEADER_MACHINE_I386 || header.version != ELF_HEADER_VERSION)
 		goto noexec;
 
@@ -112,7 +112,7 @@ int elf_load(struct process *p, const char *filename, addr_t * entry)
 	if(actual != sizeof(program))
 		goto noload;
 
-	//printf("elf: text %x bytes from offset %x at address %x length %x\n",program.file_size,program.offset,program.vaddr,program.memory_size);
+//	printf("elf: text %x bytes from offset %x at address %x length %x\n",program.file_size,program.offset,program.vaddr,program.memory_size);
 
 	if(program.type != ELF_PROGRAM_TYPE_LOADABLE || program.vaddr < PROCESS_ENTRY_POINT || program.memory_size > 0x8000000 || program.memory_size != program.file_size)
 		goto noexec;

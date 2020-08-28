@@ -1,2 +1,3 @@
-!SYSFILE
-BASIC=10
+#!/bin/basic
+
+print: Hello World :end
