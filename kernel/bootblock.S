@@ -149,7 +149,7 @@ bios_putchar:				# routine to print a single char
 loadmsg:
         .asciz "Loading system..."
 bootmsg:
-	.asciz "\r\nBooting Cadex OS............\r\n"
+	.asciz "\r\nBooting Cadex OS............\r\n"  # Boot message to show before booting Cadex OS
 
 disk_number:
 	.byte 0
