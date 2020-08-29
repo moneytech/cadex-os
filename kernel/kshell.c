@@ -286,7 +286,7 @@ static int kshell_printdir(const char *d, int length)
 		else if (strEndsWith(d, ".exe"))
 		{
 			c->r = 0;
-			c->g = 255;
+			c->g = 233;
 			c->b = 0;
 			graphics_fgcolor(&graphics_root, *c);
 			printf("%s   ", d);
@@ -788,36 +788,15 @@ static int kshell_execute(int argc, const char **argv)
 			/* [root@cadex]# */
 			prompt = 0;
 		}
-		else if (!strcmp(argv[1], "linux-3"))
+		else if (!strcmp(argv[1], "linux"))
 		{
 			/* [root@cadex]% */
 			prompt = 2;
 		}
 		else
 		{
-			printf("\nCadex chprompt. Utility to change shell prompt symbol.\nAvailable symbols are:\n $ : chprompt bash\n # : chprompt rootbash\n \% : chprompt linux-3\n\n");
+			printf("\nUtility to change shell prompt symbol.\nusage: chprompt [symbol]\n\nAvailable symbols are:\n $ : bash\n # : rootbash\n \% : linux\n\n");
 		}
-	}
-	else if (!strcmp(cmd, "serial"))
-	{
-		static struct mouse_event *state;
-		printf("Mouse activated.\n");
-		mouse_init();
-		while (1)
-		{
-			mouse_read(state);
-			//printChar(state->x, state->y, "hi");
-			printf("%d", state->x);
-			//ps2_clear_buffer();
-		}
-	}
-	else if (!strcmp(cmd, "mkdiag"))
-	{
-		int pid = sys_process_run("/bin/mkdiag.exe", argc - 1, &argv[1]);
-		process_yield();
-		struct process_info info;
-		process_wait_child(pid, &info, -1);
-		process_reap(info.pid);
 	}
 	else if (!strcmp(cmd, "clear"))
 	{
