@@ -1,5 +1,4 @@
 # The Cadex OS
-[![Travis CI Build Status](https://travis-ci.org/OpenCreeck/Cadex-OS-Official.svg?branch=master)](https://travis-ci.org/OpenCreeck/Cadex-OS-Official)
 
 Cadex OS is a Unix-like Linux-based operating system. Cadex OS is Unix-like because some of the code in libc are from the source code of Unix (Minix), and Cadex OS is Linux-based because some of the core components used like the ELF parser and some of the lbraries are from older versions of Linux (2.1 and 0.1). This is a fork of the repo https://github.com/dthain/basekernel
 
