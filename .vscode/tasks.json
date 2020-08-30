@@ -3,8 +3,10 @@
         {
             "type": "shell",
             "label": "C/C++: i686-elf-gcc build active file",
-            "command": "C:\\Users\\User\\Documents\\GitHub\\Cadex-OS-Official\\cross\\bin\\i686-elf-gcc",
+            "command": "wsl",
             "args": [
+                "-c",
+                "i686-elf-gcc",
                 "-g",
                 "${file}",
                 "-o",
