@@ -16,9 +16,11 @@ USER_PROGRAMS= mkdiag.exe \
 all: $(USER_PROGRAMS)
 
 %.o: %.c
-	${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
+	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
+	@echo "[BUILD] bin/$<"
+
 %.exe: %.o ../library/user-start.o ../library/baselib.a
-	${LD} ${KERNEL_LDFLAGS} -Ttext 0x80000000 ../library/user-start.o $< ../library/baselib.a -o $@
+	@${LD} ${KERNEL_LDFLAGS} -Ttext 0x80000000 ../library/user-start.o $< ../library/baselib.a -o $@
 
 clean:
-	rm -rf *.exe *.o
+	@rm -rf *.exe *.o

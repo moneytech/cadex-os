@@ -40,25 +40,27 @@ KERNEL_OBJECTS=kernelcore.o \
 			   acpi.o
 
 cadex.img: bootblock kernel
-	cat bootblock kernel /dev/zero | head -c 1474560 > cadex.img
+	@cat bootblock kernel /dev/zero | head -c 1474560 > cadex.img
 
 kernel: kernel.elf
-	${OBJCOPY} -O binary $< $@
+	@${OBJCOPY} -O binary $< $@
 
 bootblock: bootblock.elf
-	${OBJCOPY} -O binary $< $@
+	@${OBJCOPY} -O binary $< $@
 
 kernel.elf: ${KERNEL_OBJECTS}
-	${LD} ${KERNEL_LDFLAGS} -Ttext 0x10000 ${KERNEL_OBJECTS} -o $@
+	@${LD} ${KERNEL_LDFLAGS} -Ttext 0x10000 ${KERNEL_OBJECTS} -o $@
 
 bootblock.elf: bootblock.o
-	${LD} ${KERNEL_LDFLAGS} -Ttext 0 $< -o $@
+	@${LD} ${KERNEL_LDFLAGS} -Ttext 0 $< -o $@
 
 %.o: %.c
-	${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
+	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
+	@echo "[BUILD] kernel/$<"
 
 %.o: %.S
-	${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
+	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
+	@echo "[BUILD] kernel/$<"
 
 clean:
-	rm -rf cadex.img *.o *.elf kernel bootblock bootblock.o
+	@rm -rf cadex.img *.o *.elf kernel bootblock bootblock.o

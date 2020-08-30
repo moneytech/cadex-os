@@ -24,10 +24,12 @@ LIBRARY_OBJECTS=errno.o \
 all: user-start.o baselib.a rand.o
 
 %.o: %.c
-	${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
+	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
+	@echo "[BUILD] library/$<"
 
 baselib.a: ${LIBRARY_OBJECTS}
-	${AR} rv $@ ${LIBRARY_OBJECTS}
+	@${AR} rv $@ ${LIBRARY_OBJECTS}
+	@echo "[BUILD] Creating baselib.a..."
 
 clean:
-	rm -rf *.a ./*/*.o *.o
+	@rm -rf *.a ./*/*.o *.o

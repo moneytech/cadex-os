@@ -749,40 +749,32 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else if (!strcmp(argv[1], "-c"))
 		{
-			printf("Tackling Turbo");
+			printf("Gorgeous Gorilla");
 		}
 		else if (!strcmp(argv[1], "-a"))
 		{
-			printf("Cadex OS Version 0.0.1 B-DEB\nTackling Turbo\n 0.0.1\n");
+			printf("Cadex OS v0.1.4 cadex-genuine CNL/Cadex\n");
 		}
 		else if (!strcmp(argv[1], "-v"))
 		{
-			printf("0.0.1\n");
+			printf("0.1.4\n");
 		}
 		else
 		{
 			printf("Usage: uname <options>\nOptions:\n -v: Version Number\n -b: Build number\n -c: Codename\n -a: All information\n");
 		}
 	}
-	else if (!strcmp(cmd, "dectohex"))
+	/* Start CBasic Interpreter. NOTE: CBasic will be deprecated and removed in the next release of Cadex OS. Use BASIC86 instead */
+	else if (!strcmp(cmd, "cbasic"))
 	{
-		decToHex();
-	}
-	else if (!strcmp(cmd, "cdmount"))
-	{
-		printf("atapi: mounting disk with unit 2 with filesystem cdromfs\n");
-		kshell_mount("atapi", 2, "cdromfs");
-	}
-	else if (!strcmp(cmd, "cbas"))
-	{
-
 		cbasic();
-	} else if (!strcmp(cmd, "shutdown"))
+	}
+	/* Shutdown using ACPI */
+	else if (!strcmp(cmd, "shutdown"))
 	{
 		acpi_power_down();
 	}
-	
-	else if (!strcmp(cmd, "chprompt"))
+	else if (!strcmp(cmd, "prompt"))
 	{
 		/* This is a very good customisation feature. Ability to change prompt symbol. */
 		if (!strcmp(argv[1], "bash"))
@@ -802,9 +794,10 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else
 		{
-			printf("\nUtility to change shell prompt symbol.\nusage: chprompt [symbol]\n\nAvailable symbols are:\n $ : bash\n # : rootbash\n \% : linux\n\n");
+			printf("\nUtility to change shell prompt symbol.\nusage: prompt [symbol]\n\nAvailable symbols are:\n $ : bash\n # : rootbash\n \% : linux\n\n");
 		}
 	}
+	/* Clears the screen */
 	else if (!strcmp(cmd, "clear"))
 	{
 		int pid = sys_process_run("/bin/clrscr.exe", argc - 1, &argv[1]);
