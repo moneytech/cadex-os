@@ -12,9 +12,11 @@ LIBRARY_OBJECTS=errno.o \
 				qsort.o \
 				scanf.o \
 				assert.o \
+				stdlib.o \
 				toupper.o \
 				tolower.o \
 				wait.o \
+				stdlib/sudopasswd.o \
 				algorithm/print_array.o \
 				truegl/truegl.o \
 				truegl/ui_button.o
@@ -28,4 +30,4 @@ baselib.a: ${LIBRARY_OBJECTS}
 	${AR} rv $@ ${LIBRARY_OBJECTS}
 
 clean:
-	rm -rf *.a ./*/*.o
+	rm -rf *.a ./*/*.o *.o
