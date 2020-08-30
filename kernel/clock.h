@@ -9,10 +9,11 @@ See the file LICENSE for details.
 
 #include "kernel/types.h"
 
-typedef struct {
+typedef struct clock_t{
 	uint32_t seconds;
 	uint32_t millis;
-} clock_t;
+}
+clock_t;
 
 void clock_init();
 clock_t clock_read();

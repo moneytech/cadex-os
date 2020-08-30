@@ -36,6 +36,7 @@ See the file LICENSE for details.
 #include "scanf.h"
 #include "cbasic.h"
 #include "serial.h"
+#include "acpi.h"
 
 #define BASEPORT 0x0060 /* lp1 */
 
@@ -120,6 +121,10 @@ int strEndsWith(const char *str, const char *suffix)
 	if (lensuffix > lenstr)
 		return false;
 	return strncmp(str + lenstr - lensuffix, suffix, lensuffix) == 0;
+}
+void KPANIC(char *str)
+{
+	printf("[PANIC]: %s\n", str);
 }
 int kshell_mount(const char *devname, int unit, const char *fs_type)
 {
@@ -650,18 +655,16 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		reboot();
 	}
-	else if (!strcmp(cmd, "shutdown"))
+	else if (!strcmp(cmd, "bios_shutdown"))
 	{
-		for (const char *s = "Shutdown"; *s; ++s)
+		for (const char *s = "shutdown"; *s; ++s)
 		{
 			outb(0x8900, *s);
 		}
-		printf("Shutting down...\n");
 		// Uncomment the line below if you are running this on VirtualBox
 		//sleep(150);
-		sleep(5);
 		outb(0xf4, 0x00);
-		printf("Your device BIOS does not support shutdown by 'outb(0xF4, 0x00);'\n");
+		KPANIC("Emulator doesn't support shutdown");
 	}
 	else if (!strcmp(cmd, "beep"))
 	{
@@ -774,7 +777,11 @@ static int kshell_execute(int argc, const char **argv)
 	{
 
 		cbasic();
+	} else if (!strcmp(cmd, "shutdown"))
+	{
+		acpi_power_down();
 	}
+	
 	else if (!strcmp(cmd, "chprompt"))
 	{
 		/* This is a very good customisation feature. Ability to change prompt symbol. */

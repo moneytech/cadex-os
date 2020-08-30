@@ -16,3 +16,4 @@ kernel/*.elf
 .vs
 test.txt
 .vscode
+settings.json

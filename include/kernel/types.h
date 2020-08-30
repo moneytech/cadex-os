@@ -17,9 +17,25 @@
 #define MIN(x,y) ( ((x)<(y)) ? (x) : (y) )
 #define MAX(x,y) ( ((x)>(y)) ? (x) : (y) )
 
-#define true 1
+#ifndef NULL
+#define NULL (void *)0
+#endif
+
+#ifndef false
 #define false 0
-#define null 0
+#endif
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+#ifndef true
+#define true 1
+#endif
+
+#ifndef TRUE
+#define TRUE 1
+#endif
 
 typedef long long int64_t;
 typedef int int32_t;

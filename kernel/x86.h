@@ -17,6 +17,7 @@ See the file LICENSE for details.
 #define X86_SEGMENT_USER_DATA    X86_SEGMENT_SELECTOR(4,3)
 #define X86_SEGMENT_TSS          X86_SEGMENT_SELECTOR(5,0)
 
+
 struct x86_eflags {
 	unsigned carry:1;
 	unsigned reserved0:1;
@@ -46,7 +47,7 @@ struct x86_eflags {
 	unsigned id:1;
 };
 
-struct x86_regs {
+typedef struct x86_regs {
 	int32_t eax;
 	int32_t ebx;
 	int32_t ecx;
@@ -54,7 +55,14 @@ struct x86_regs {
 	int32_t esi;
 	int32_t edi;
 	int32_t ebp;
-};
+}x86_regs_t;
+typedef struct
+{
+	uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
+	uint32_t gs, fs, es, ds;
+	uint32_t intn, err_code;
+	uint32_t eip, cs, eflags, useresp, ss;
+} int_regs_t;
 
 struct x86_stack {
 	struct x86_regs regs2;
@@ -136,5 +144,11 @@ struct x86_gdt_init {
 	int16_t size;
 	struct x86_segment *base;
 };
-
+typedef int (*isr_call_t)(int_regs_t *);
+typedef isr_call_t isr_call_vector_t[256];
+typedef struct
+{
+	unsigned gate;
+	isr_call_t isr_call;
+} isr_vector_t;
 #endif

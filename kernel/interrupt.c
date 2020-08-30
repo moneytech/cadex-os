@@ -181,6 +181,7 @@ void outb(uint16_t port, uint8_t data)
 				 :
 				 : "a"(data), "Nd"(port));
 }
+
 void wait_for_io(uint32_t timer_count)
 {
 	while (1)

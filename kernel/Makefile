@@ -36,7 +36,8 @@ KERNEL_OBJECTS=kernelcore.o \
 			   pipe.o \
 			   bcache.o \
 			   printf.o \
-			   is_valid.o
+			   is_valid.o \
+			   acpi.o
 
 cadex.img: bootblock kernel
 	cat bootblock kernel /dev/zero | head -c 1474560 > cadex.img
