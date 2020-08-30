@@ -9,8 +9,6 @@ USER_PROGRAMS=$(USER_SOURCES:c=exe)
 SYSTEM_BIN_FILES=$(SYSTEM_BIN_SOURCES:c=exe)
 KERNEL_SOURCES=$(wildcard kernel/*.[chS])
 
-.PHONY: clean
-
 all: clear clean cadex.iso success # run # Uncomment this run command to run the OS after you've built the OS
 
 run: cadex.iso # hddimg

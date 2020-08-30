@@ -17,7 +17,7 @@ all: $(USER_PROGRAMS)
 
 %.o: %.c
 	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
-	@echo "[BUILD] bin/$<"
+	@echo "CC     bin/$<"
 
 %.exe: %.o ../library/user-start.o ../library/baselib.a
 	@${LD} ${KERNEL_LDFLAGS} -Ttext 0x80000000 ../library/user-start.o $< ../library/baselib.a -o $@
