@@ -79,6 +79,22 @@ typedef struct
 {
     long long quot, rem;
 } lldiv_t;
+#define WNOHANG 1
+#define WUNTRACED 2
+
+#define WEXITSTATUS(s) (((s)&0xff00) >> 8)
+#define WTERMSIG(s) ((s)&0x7f)
+#define WSTOPSIG(s) WEXITSTATUS(s)
+#define WIFEXITED(s) (!WTERMSIG(s))
+#define WIFSTOPPED(s) ((short)((((s)&0xffff) * 0x10001) >> 8) > 0x7f00)
+#define WIFSIGNALED(s) (((s)&0xffff) - 1U < 0xffu)
+int posix_memalign(void **, size_t, size_t);
+int mkstemp(char *);
+int mkostemp(char *, int);
+char *mkdtemp(char *);
+int getsubopt(char **, char *const *, char **);
+int rand_r(unsigned *);
+
 extern div_t div(int numerator, int denominator);
 extern ldiv_t ldiv(long numerator, long denominator);
 
