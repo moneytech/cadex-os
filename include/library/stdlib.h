@@ -1,3 +1,5 @@
+#ifndef LIBRARY_STDLIB_H
+#define LIBRARY_STDLIB_H
 #pragma once
 
 #include <library/_cheader.h>
@@ -37,6 +39,21 @@ extern void abort(void);
 
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
+int atoi(const char *);
+long atol(const char *);
+long long atoll(const char *);
+double atof(const char *);
+
+float strtof(const char *__restrict, char **__restrict);
+double strtod(const char *__restrict, char **__restrict);
+long double strtold(const char *__restrict, char **__restrict);
+int abs(int);
+long labs(long);
+long long llabs(long long);
+long strtol(const char *__restrict, char **__restrict, int);
+unsigned long strtoul(const char *__restrict, char **__restrict, int);
+long long strtoll(const char *__restrict, char **__restrict, int);
+unsigned long long strtoull(const char *__restrict, char **__restrict, int);
 
 extern void *bsearch(const void *key, const void *base, size_t nmemb, size_t size,
                      int (*compar)(const void *, const void *));
@@ -68,5 +85,5 @@ extern char *realpath(const char *path, char *resolved_path);
 
 // PANIC function
 extern void PANIC(char *sender, char *str);
-int abs(int a);
 _End_C_Header
+#endif

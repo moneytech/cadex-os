@@ -9,6 +9,8 @@ LIBRARY_OBJECTS=errno.o \
 				stdlib/strtod.o \
 				stdlib/atoll.o \
 				stdlib/atof.o \
+				stdlib/panic.o \
+				stdlib/llabs.o \
 				objno.o \
 				syscalls.o \
 				syscall.o \

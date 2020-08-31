@@ -22,6 +22,7 @@ See the file LICENSE for details.
 #include <library/ascii.h>
 #include <library/stdint.h>
 #include <library/_cheader.h>
+#include <stdlib.h>
 
 extern uintptr_t initial_esp;
 

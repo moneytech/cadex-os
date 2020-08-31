@@ -33,7 +33,6 @@ void printf(const char *s, ...);
 void printf_putstring(char *str);
 void reverseSentence();
 // int scanf(char *s);
-int atoi(char *s);
 int strEndsWith(const char *str, const char *suffix);
 int strStartsWith(const char *pre, const char *str);
 #endif

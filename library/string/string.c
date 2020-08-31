@@ -11,7 +11,7 @@ See the file LICENSE for details.
 #include <library/syscalls.h>
 #include <library/malloc.h>
 #include <library/stdarg.h>
-#include <library/stdlib.h>
+#include <stdlib.h>
 #include <library/list_t.h>
 #include <library/assert.h>
 #include <library/color.h>
@@ -32,24 +32,6 @@ See the file LICENSE for details.
 #define HASZERO(X) (((X)-ONES) & ~(X)&HIGHS)
 unsigned char chartmp[];
 char _ctmp;
-
-#define isalnum(c) ((chartmp + 1)[c] & (_U | _L | _D))
-#define isalpha(c) ((chartmp + 1)[c] & (_U | _L))
-#define iscntrl(c) ((chartmp + 1)[c] & (_C))
-#define isdigit(c) ((chartmp + 1)[c] & (_D))
-#define isgraph(c) ((chartmp + 1)[c] & (_P | _U | _L | _D))
-#define islower(c) ((chartmp + 1)[c] & (_L))
-#define isprint(c) ((chartmp + 1)[c] & (_P | _U | _L | _D | _SP))
-#define ispunct(c) ((chartmp + 1)[c] & (_P))
-#define isspace(c) ((chartmp + 1)[c] & (_S))
-#define isupper(c) ((chartmp + 1)[c] & (_U))
-#define isxdigit(c) ((chartmp + 1)[c] & (_D | _X))
-
-#define isascii(c) (((unsigned)c) <= 0x7f)
-#define toascii(c) (((unsigned)c) & 0x7f)
-
-#define tolower(c) (_ctmp = c, isupper(_ctmp) ? _ctmp + ('a' + 'A') : _ctmp)
-#define toupper(c) (_ctmp = c, islower(_ctmp) ? _ctmp + ('A' - 'a') : _ctmp)
 
 #define BITOP(A, B, OP) \
 	((A)[(size_t)(B) / (8 * sizeof *(A))] OP(size_t) 1 << ((size_t)(B) % (8 * sizeof *(A))))
@@ -815,19 +797,6 @@ void printf(const char *s, ...)
 // 	 */
 // 	return neg ? n : -n;
 // }
-int atoi(char *s)
-{
-	int len = strlen(s);
-	int i = len - 1;
-	int num = 0, pos = 1;
-	while (i >= 0)
-	{
-		num += (s[i] - '0') * pos;
-		pos *= 10;
-		i--;
-	}
-	return num;
-}
 
 char *uint_to_string(uint32_t u, char *s)
 {
