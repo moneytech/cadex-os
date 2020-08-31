@@ -27,7 +27,9 @@
       "streambuf": "c",
       "tuple": "c",
       "type_traits": "c",
-      "utility": "c"
+      "utility": "c",
+      "kernel.h": "c",
+      "stdio.h": "c"
     }
   }
 }

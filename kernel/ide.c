@@ -20,6 +20,7 @@
 #include "printf.h"
 #include "ata.h"
 #include "bitmap.h"
+#include "pci.h"
 
 #define SECTOR_COUNT 2
 #define LBA_LOW 3
