@@ -23,7 +23,8 @@ LIBRARY_OBJECTS=errno.o \
 				truegl/truegl.o \
 				truegl/ui_button.o \
 				truegl/ui_textbox.o \
-				truegl/movable_scanf.o
+				truegl/movable_scanf.o \
+				truegl/ui_window.o
 
 all: baselib.a
 
