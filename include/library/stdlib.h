@@ -26,18 +26,6 @@ extern int setenv(const char *name, const char *value, int overwrite);
 extern int unsetenv(const char *str);
 
 extern double strtod(const char *nptr, char **endptr);
-// extern float strtof(const char *nptr, char **endptr);
-// extern double atof(const char *nptr);
-// ///extern int atoi(const char *nptr);
-// extern long atol(const char *nptr);
-// extern long int labs(long int j);
-// extern long int strtol(const char *s, char **endptr, int base);
-// extern long long int strtoll(const char *nptr, char **endptr, int base);
-// extern unsigned long int strtoul(const char *nptr, char **endptr, int base);
-// extern unsigned long long int strtoull(const char *nptr, char **endptr, int base);
-
-// extern void srand(unsigned int);
-// extern int rand(void);
 
 #define ATEXIT_MAX 32
 extern int atexit(void (*h)(void));
@@ -78,4 +66,6 @@ extern ldiv_t ldiv(long numerator, long denominator);
 #define NAME_MAX 255
 extern char *realpath(const char *path, char *resolved_path);
 
+// PANIC function
+extern void PANIC(char *sender, char *str);
 _End_C_Header

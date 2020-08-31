@@ -8,3 +8,4 @@ copy:
 	@cp etc/passwd ../image/etc/passwd
 	@cp etc/sysinfo.b86 ../image/etc/sysinfo.b86
 	@cp etc/sysfile ../image/etc/sysfile
+	@cp sys/sysenv.env ../image/etc/sysenv.env
