@@ -68,4 +68,5 @@ extern char *realpath(const char *path, char *resolved_path);
 
 // PANIC function
 extern void PANIC(char *sender, char *str);
+int abs(int a);
 _End_C_Header

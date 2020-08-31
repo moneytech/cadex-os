@@ -4,6 +4,8 @@ LIBRARY_OBJECTS=errno.o \
 				ctype/_ctype.o \
 				ctype/isalpha.o \
 				ctype/isblank.o \
+				stdlib/abs.o \
+				stdlib/atol.o \
 				objno.o \
 				syscalls.o \
 				syscall.o \
