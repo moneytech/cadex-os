@@ -6,7 +6,7 @@ LIBRARY_OBJECTS=errno.o \
 				syscalls.o \
 				syscall.o \
 				string.o \
-				stdio.o \
+				stdio/stdio.o \
 				malloc.o \
 				math.o \
 				qsort.o \
