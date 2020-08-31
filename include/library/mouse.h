@@ -17,5 +17,12 @@ struct mouse_event {
 
 //void mouse_read(struct mouse_event *e);
 //void mouse_init();
-
+uint8_t ps2_read_data();
+void ps2_write_data(uint8_t data);
+void ps2_write_command(uint8_t data);
+void ps2_clear_buffer();
+void ps2_mouse_command(uint8_t command);
+static void mouse_interrupt(int i, int code);
+void mouse_read(struct mouse_event *e);
+//void mouse_init();
 #endif

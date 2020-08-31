@@ -291,9 +291,9 @@ static int kshell_printdir(const char *d, int length)
 		}
 		else if (strEndsWith(d, ".exe"))
 		{
-			c->r = 0;
-			c->g = 233;
-			c->b = 0;
+			c->r = 130;
+			c->g = 244;
+			c->b = 130;
 			graphics_fgcolor(&graphics_root, *c);
 			printf("%s   ", d);
 			c->r = 255;

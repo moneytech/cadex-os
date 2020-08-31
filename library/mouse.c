@@ -186,10 +186,10 @@ static void mouse_interrupt(int i, int code)
 		state.x = 0;
 	if(state.y < 0)
 		state.y = 0;
-	if(state.x >= video_xres)
-		state.x = video_xres - 1;
-	if(state.y >= video_yres)
-		state.y = video_yres - 1;
+	// if(state.x >= video_xres)
+	// 	state.x = video_xres - 1;
+	// if(state.y >= video_yres)
+	// 	state.y = video_yres - 1;
 }
 
 /*

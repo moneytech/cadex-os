@@ -24,7 +24,7 @@ int syscall_process_yield()
 {
 	return syscall(SYSCALL_PROCESS_YIELD, 0, 0, 0, 0, 0);
 }
-int mouse_read(struct mouse_event *m)
+int dev_mouse_read(struct mouse_event *m)
 {
 	return syscall(SYSCALL_MOUSE_READ, m, 0, 0, 0, 0);
 }
@@ -226,4 +226,9 @@ int syscall_device_driver_stats(char *name, void *stats)
 int syscall_chdir(const char *path)
 {
 	return syscall(SYSCALL_CHDIR, (uint32_t)path, 0, 0, 0, 0);
+}
+
+int gui_set_bgcolor(int r, int g, int b, int a)
+{
+	return syscall(SYSCALL_BGCOLOR, r, g, b, a, 0);
 }

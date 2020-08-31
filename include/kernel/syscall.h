@@ -56,6 +56,7 @@ typedef enum {
 	SYSCALL_DEVICE_DRIVER_STATS,
 	SYSCALL_CHDIR,
 	SYSCALL_MOUSE_READ,
+	SYSCALL_BGCOLOR,
 	MAX_SYSCALL		// must be the last element in the enum
 } syscall_t;
 

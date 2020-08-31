@@ -458,6 +458,17 @@ int sys_object_dup(int fd1, int fd2)
 	return fd2;
 }
 
+int gui_set_bgcolor(int r, int g, int b, int a){
+	struct graphics_color c;
+	c.r = r;
+	c.g = g;
+	c.b = b;
+	c.a = a;
+	graphics_bgcolor(&graphics_root, c);
+	graphics_clear(&graphics_root, 0, 0, 1024, 768);
+	return 0;
+}
+
 int sys_object_read(int fd, void *data, int length)
 {
 	if(!is_valid_object(fd)) return KERROR_INVALID_OBJECT;
@@ -718,6 +729,8 @@ int32_t syscall_handler(syscall_t n, uint32_t a, uint32_t b, uint32_t c, uint32_
 		return sys_chdir((const char *) a);
 	case SYSCALL_MOUSE_READ:
 		return mouse_dev_read((struct mouse_event *)a);
+	case SYSCALL_BGCOLOR:
+		return gui_set_bgcolor((int)a, (int)b, (int)c, (int)d);
 	default:
 		return KERROR_INVALID_SYSCALL;
 	}

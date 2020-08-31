@@ -29,6 +29,9 @@ int sleepThread(unsigned int ms);
 int syscall_process_stats(struct process_stats *s, unsigned int pid);
 extern void *syscall_process_heap(int a);
 
+/* Syscalls that manupulates the GUI Console state */
+int gui_set_bgcolor(int r, int g, int b, int a);
+
 /* Syscalls that open or create new kernel objects for this process. */
 
 int syscall_open_file(const char *path, int mode, kernel_flags_t flags);

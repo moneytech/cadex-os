@@ -33,5 +33,6 @@ int main(int argc, const char *argv[])
     setTextColor(GREEN, 0);
     print(14, 35, "1");
     movable_scanf(18, 35, line, sizeof(line));
+    //gui_set_bgcolor(GREEN, 100);
     return 0;
 }

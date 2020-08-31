@@ -19,6 +19,8 @@ LIBRARY_OBJECTS=errno.o \
 				user-start.o \
 				rand.o \
 				stdlib/sudopasswd.o \
+				mouse.o \
+				interrupt.o \
 				algorithm/print_array.o \
 				truegl/truegl.o \
 				truegl/ui_button.o \
