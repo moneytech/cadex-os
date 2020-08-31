@@ -75,6 +75,10 @@ typedef struct
     long int rem;
 } ldiv_t;
 
+typedef struct
+{
+    long long quot, rem;
+} lldiv_t;
 extern div_t div(int numerator, int denominator);
 extern ldiv_t ldiv(long numerator, long denominator);
 
