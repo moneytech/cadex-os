@@ -37,6 +37,7 @@ See the file LICENSE for details.
 #include "cbasic.h"
 #include "serial.h"
 #include "acpi.h"
+#include "module.h"
 
 #define BASEPORT 0x0060 /* lp1 */
 
@@ -665,7 +666,11 @@ static int kshell_execute(int argc, const char **argv)
 		//sleep(150);
 		outb(0xf4, 0x00);
 		KPANIC("Emulator doesn't support shutdown");
+	} else if (!strcmp(cmd, "loadmodule"))
+	{
+		module_load("/bin/basic.exe", "/bin/basic.exe");
 	}
+	
 	else if (!strcmp(cmd, "beep"))
 	{
 		/* A simple beep implementation. See https://wiki.osdev.org/PC_Speaker#Sample_Code/ /**Code by HyperCreeck**/
