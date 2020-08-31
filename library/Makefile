@@ -2,6 +2,8 @@ include ../Makefile.config
 
 LIBRARY_OBJECTS=errno.o \
 				ctype/_ctype.o \
+				ctype/isalpha.o \
+				ctype/isblank.o \
 				objno.o \
 				syscalls.o \
 				syscall.o \
@@ -19,7 +21,7 @@ LIBRARY_OBJECTS=errno.o \
 				user-start.o \
 				rand.o \
 				stdlib/sudopasswd.o \
-				algorithm/print_array.o \
+				alg/print_array.o \
 				truegl/truegl.o \
 				truegl/ui_button.o \
 				truegl/ui_textbox.o \
