@@ -1,6 +1,3 @@
-#ifndef IDE_H
-#define IDE_H
-
 #include <kernel/ascii.h>
 #include <kernel/types.h>
 #include <kernel/syscall.h>
@@ -23,8 +20,5 @@
 #include "printf.h"
 #include "ata.h"
 #include "bitmap.h"
-#include "pci.h"
 
-void ide(void);
-
-#endif // !IDE_H
+void PANIC(char *sender, char *str);
