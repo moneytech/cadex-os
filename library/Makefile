@@ -6,6 +6,9 @@ LIBRARY_OBJECTS=errno.o \
 				ctype/isblank.o \
 				stdlib/abs.o \
 				stdlib/atol.o \
+				stdlib/strtod.o \
+				stdlib/atoll.o \
+				stdlib/atof.o \
 				objno.o \
 				syscalls.o \
 				syscall.o \
