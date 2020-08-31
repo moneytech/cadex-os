@@ -1,7 +1,7 @@
 include ../Makefile.config
 
 LIBRARY_OBJECTS=errno.o \
-				_ctype.o \
+				ctype/_ctype.o \
 				objno.o \
 				syscalls.o \
 				syscall.o \
