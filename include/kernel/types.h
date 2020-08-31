@@ -37,6 +37,9 @@
 #define TRUE 1
 #endif
 
+#ifndef BOOL
+#define BOOL int
+#endif // !BOOL
 typedef long long int64_t;
 typedef int int32_t;
 typedef short int16_t;

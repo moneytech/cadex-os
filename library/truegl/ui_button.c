@@ -17,7 +17,7 @@ int drawButton(int x, int y, int w, int h, char *label)
         print(x + 5, y + 2, label); 
     } else
     {
-        drawRect(x, y, strlen(label) + 3, 15);
+        drawRect(x, y, strlen(label) * 2, 15);
         print(x + 5, y + 2, label);
     }
 }

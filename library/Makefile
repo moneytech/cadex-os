@@ -1,6 +1,6 @@
 include ../Makefile.config
 
-LIBRARY_OBJECTS=                errno.o \
+LIBRARY_OBJECTS=errno.o \
 				_ctype.o \
 				objno.o \
 				syscalls.o \
@@ -21,7 +21,9 @@ LIBRARY_OBJECTS=                errno.o \
 				stdlib/sudopasswd.o \
 				algorithm/print_array.o \
 				truegl/truegl.o \
-				truegl/ui_button.o
+				truegl/ui_button.o \
+				truegl/ui_textbox.o \
+				truegl/movable_scanf.o
 
 all: baselib.a
 

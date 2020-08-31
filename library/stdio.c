@@ -147,7 +147,7 @@ void drawLine(int x, int y, int w, int h)
 // Prints text on screen on the specified x and y axis.
 void print(int x, int y, char *s)
 {
-	draw_set_buffer(GRAPHICS_TEXT, x, y, (int)s, 0);
+	draw_set_buffer(GRAPHICS_TEXT, x, y, s, 0);
 	flushScreen();
 	flush();
 }
@@ -348,6 +348,8 @@ void draw_window_border(int x, int y, int w, int h, int thickness, int r, int g,
 	drawRect(x, y, thickness, h);
 	drawRect(x + w - thickness, y, thickness, h);
 	drawRect(x, y + h - thickness, w, thickness);
+	flush();
+	flushScreen();
 }
 void draw_cadex_logo(int x, int y){
 	renderWindow(WN_STDWINDOW);

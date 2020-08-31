@@ -74,3 +74,6 @@ void move_sprite(Sprite *sprite, int x, int y);
 void resize_sprite(Sprite *sprite, int width, int height);
 
 void draw_pixel(int x, int y, int r, int g, int b, int a);
+int movable_scanf(int x, int y, char *line, int length);
+void create_edittext(int x, int y, int w, int h, char *placeholder, char *line);
+int drawButton(int x, int y, int w, int h, char *label);
