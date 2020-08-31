@@ -21,6 +21,12 @@
 #include "ata.h"
 #include "bitmap.h"
 #include "pci.h"
+#include "ioports.h"
+
+#undef PCI_CONFIG
+#define PCI_CONFIG 0xCF8
+#undef PCI_DATA
+#define PCI_DATA 0xCFC
 
 uint32_t
 pci_read(uint32_t bus, uint32_t device, uint32_t function, uint32_t offset)
@@ -32,9 +38,9 @@ pci_read(uint32_t bus, uint32_t device, uint32_t function, uint32_t offset)
     reg |= (function & 0x7) << 8;
     reg |= (offset & 0xFF) & 0xFC;
 
-    outportl(PCI_CONFIG, reg);
+    outl(PCI_CONFIG, reg);
 
-    return inportl(PCI_DATA);
+    return inl(PCI_DATA);
 }
 
 void pci_write(uint32_t bus, uint32_t device, uint32_t function, uint32_t offset, uint32_t data)
@@ -46,8 +52,8 @@ void pci_write(uint32_t bus, uint32_t device, uint32_t function, uint32_t offset
     reg |= (function & 0x7) << 8;
     reg |= offset & 0xFC;
 
-    outportl(PCI_CONFIG, reg);
-    outportl(PCI_DATA, data);
+    outl(PCI_CONFIG, reg);
+    outl(PCI_DATA, data);
 }
 
 uint8_t
