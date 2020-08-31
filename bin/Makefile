@@ -12,8 +12,7 @@ USER_PROGRAMS= mkdiag.exe \
 			   basic.exe \
 			   sudo.exe \
 			   text.exe \
-			   dim.exe \
-			   mte.exe 
+			   dim.exe 
 
 all: $(USER_PROGRAMS)
 
