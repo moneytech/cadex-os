@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 		printf("%d: Reading...\n", syscall_process_self());
 		int r;
 		char buf[10];
-		while (!(r = syscall_object_read(w, buf, 10)))
+		while (!(r = fgets(w, buf, 10)))
 		{
 			syscall_process_yield();
 		}

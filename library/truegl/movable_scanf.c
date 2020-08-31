@@ -14,7 +14,7 @@ extern int movable_scanf(int x, int y, char *line, int length)
     char c;
     while (1)
     {
-        syscall_object_read(0, &c, 1);
+        fgets(0, &c, 1);
         if (c == ASCII_CR)
         {
             print(x, y, c);

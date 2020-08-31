@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 		drawRect(x1, y1, 100, 100);
 		flush();
 		sleepThread(35);
-		syscall_object_read_nonblock(KNO_STDIN, &stop, 1);
+		fgets_nonblock(KNO_STDIN, &stop, 1);
 	}
 	clearScreen(0, 0, width, height);
 	setTextColor(255, 255, 255, 0);

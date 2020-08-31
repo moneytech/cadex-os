@@ -15,7 +15,7 @@ extern int scanf(char *line, int length)
     char c;
     while (1)
     {
-        syscall_object_read(0, &c, 1);
+        fgets(0, &c, 1);
         if (c == ASCII_CR)
         {
             printf_putchar(c);
@@ -53,7 +53,7 @@ extern int passwd_scanf(char *line, int length)
     char c;
     while (1)
     {
-        syscall_object_read(0, &c, 1);
+        fgets(0, &c, 1);
         if (c == ASCII_CR)
         {
             //printf_putchar(c);

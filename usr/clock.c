@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 	char c = 0;
 	while (c != 'q')
 	{
-		syscall_object_read_nonblock(0, &c, 1);
+		fgets_nonblock(0, &c, 1);
 		sleepThread(2000);
 		syscall_system_rtc(&time);
 		renderWindow(WN_STDWINDOW);
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 
 void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
 {
-	setTextColor(r, b, g,0);
+	setTextColor(r, b, g, 0);
 	drawRect(x, y, w, thickness);
 	drawRect(x, y, thickness, h);
 	drawRect(x + w - thickness, y, thickness, h);
@@ -76,7 +76,7 @@ void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
 
 void draw_clock(uint32_t hour, uint32_t minute, int timezone, int military, int x, int y, int padding, int r, int g, int b)
 {
-	setTextColor(r, b, g,0);
+	setTextColor(r, b, g, 0);
 
 	char h_str[100];
 	char m_str[100];

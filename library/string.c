@@ -62,24 +62,32 @@ void strcpy(char *d, const char *s)
 	}
 	*d = 0;
 }
-void * memchr(const void * src, int c, size_t n) {
-	const unsigned char * s = src;
+void *memchr(const void *src, int c, size_t n)
+{
+	const unsigned char *s = src;
 	c = (unsigned char)c;
-	for (; ((uintptr_t)s & (ALIGN - 1)) && n && *s != c; s++, n--);
-	if (n && *s != c) {
-		const size_t * w;
+	for (; ((uintptr_t)s & (ALIGN - 1)) && n && *s != c; s++, n--)
+		;
+	if (n && *s != c)
+	{
+		const size_t *w;
 		size_t k = ONES * c;
-		for (w = (const void *)s; n >= sizeof(size_t) && !HASZERO(*w^k); w++, n -= sizeof(size_t));
-		for (s = (const void *)w; n && *s != c; s++, n--);
+		for (w = (const void *)s; n >= sizeof(size_t) && !HASZERO(*w ^ k); w++, n -= sizeof(size_t))
+			;
+		for (s = (const void *)w; n && *s != c; s++, n--)
+			;
 	}
 	return n ? (void *)s : 0;
 }
-void * memrchr(const void * m, int c, size_t n) {
-	const unsigned char * s = m;
+void *memrchr(const void *m, int c, size_t n)
+{
+	const unsigned char *s = m;
 	c = (unsigned char)c;
-	while (n--) {
-		if (s[n] == c) {
-			return (void*)(s+n);
+	while (n--)
+	{
+		if (s[n] == c)
+		{
+			return (void *)(s + n);
 		}
 	}
 	return 0;
@@ -138,8 +146,8 @@ char *strchrnul(const char *s, int c)
 
 // char *strchr(const char *s, int c)
 // {
-	// char *r = strchrnul(s, c);
-	// return *(unsigned char *)r == (unsigned char)c ? r : 0;
+// char *r = strchrnul(s, c);
+// return *(unsigned char *)r == (unsigned char)c ? r : 0;
 // }
 
 char *strrchr(const char *s, int c)
@@ -696,7 +704,7 @@ int memcmp(const void *cs, const void *ct, size_t count)
 int strStartsWith(const char *pre, const char *str)
 {
 	size_t lenpre = strlen(pre),
-		lenstr = strlen(str);
+		   lenstr = strlen(str);
 	return lenstr < lenpre ? false : memcmp(pre, str, lenpre) == 0;
 }
 int strEndsWith(const char *str, const char *suffix)
@@ -705,7 +713,7 @@ int strEndsWith(const char *str, const char *suffix)
 		return false;
 	size_t lenstr = strlen(str);
 	size_t lensuffix = strlen(suffix);
-	if (lensuffix >  lenstr)
+	if (lensuffix > lenstr)
 		return false;
 	return strncmp(str + lenstr - lensuffix, suffix, lensuffix) == 0;
 }
@@ -717,7 +725,8 @@ int strncasecmp(const char *s1, const char *s2, size_t len)
 	if (!len)
 		return 0;
 
-	do {
+	do
+	{
 		c1 = *s1++;
 		c2 = *s2++;
 		if (!c1 || !c2)
@@ -741,13 +750,17 @@ void printf(const char *s, ...)
 
 	va_start(args, s);
 
-	while (*s) {
-		if (*s != '%') {
+	while (*s)
+	{
+		if (*s != '%')
+		{
 			printf_putchar(*s);
 		}
-		else {
+		else
+		{
 			s++;
-			switch (*s) {
+			switch (*s)
+			{
 			case 'd':
 				i = va_arg(args, int32_t);
 				printf_putint(i);
@@ -779,7 +792,7 @@ void printf(const char *s, ...)
 		s++;
 	}
 	va_end(args);
-}  
+}
 
 // int atoi(const char * s) {
 // 	int n = 0;
@@ -851,7 +864,7 @@ char *uint_to_string(uint32_t u, char *s)
 //{	int i = 0;
 //    while (i < (length - 1))
 //    {
-//        char c;		syscall_object_read(0, &line, sizeof(&line));
+//        char c;		fgets(0, &line, sizeof(&line));
 //        if (c == ASCII_CR)
 //        {
 //            line[i] = 0;

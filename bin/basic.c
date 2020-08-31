@@ -52,7 +52,7 @@ int main(int argc, const char *argv[])
     if (strEndsWith(argv[0], ".b86"))
     {
         printf("FILE: %s\n\n", argv[0]);
-        while ((n = syscall_object_read(fd, buffer, 100)) > 0)
+        while ((n = fgets(fd, buffer, 100)) > 0)
         {
             buffer[n] = 0;
 

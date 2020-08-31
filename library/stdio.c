@@ -20,10 +20,11 @@ See the file LICENSE for details.
 #include <library/assert.h>
 #include "stdarg.h"
 
-struct _FILE {
+struct _FILE
+{
 	int fd;
 
-	char * read_buf;
+	char *read_buf;
 	int available;
 	int offset;
 	int read_from;
@@ -31,10 +32,10 @@ struct _FILE {
 	int eof;
 	int bufsiz;
 	long last_read_start;
-	char * _name;
+	char *_name;
 };
 
-FILE _stdin ={
+FILE _stdin = {
 	.fd = 0,
 	.read_buf = NULL,
 	.available = 0,
@@ -46,7 +47,7 @@ FILE _stdin ={
 	.bufsiz = BUFSIZ,
 };
 
-FILE _stdout ={
+FILE _stdout = {
 	.fd = 1,
 	.read_buf = NULL,
 	.available = 0,
@@ -58,7 +59,7 @@ FILE _stdout ={
 	.bufsiz = BUFSIZ,
 };
 
-FILE _stderr ={
+FILE _stderr = {
 	.fd = 2,
 	.read_buf = NULL,
 	.available = 0,
@@ -70,14 +71,14 @@ FILE _stderr ={
 	.bufsiz = BUFSIZ,
 };
 
-FILE * stdin = &_stdin;
-FILE * stdout = &_stdout;
-FILE * stderr = &_stderr;
-static char stdio_buffer[PAGE_SIZE] ={ 0 };
+FILE *stdin = &_stdin;
+FILE *stdout = &_stdout;
+FILE *stderr = &_stderr;
+static char stdio_buffer[PAGE_SIZE] = {0};
 
 static uint32_t stdio_buffer_index = 0;
 
-static struct graphics_command graphics_buffer[PAGE_SIZE] ={ { 0 } };
+static struct graphics_command graphics_buffer[PAGE_SIZE] = {{0}};
 
 static uint32_t graphics_buffer_index = 0;
 
@@ -90,9 +91,9 @@ void flushScreen()
 	stdio_buffer[0] = 0;
 }
 
-static void draw_set_buffer(int t, int a0, int a1, int a2, int a3)
+static void draw_set_buffer(int t, int a0, int a1, char *a2, int a3)
 {
-	struct graphics_command c ={ t, { a0, a1, a2, a3 } };
+	struct graphics_command c = {t, {a0, a1, a2, a3}};
 	graphics_buffer[graphics_buffer_index++] = c;
 }
 
@@ -125,9 +126,11 @@ void drawRect(int x, int y, int w, int h)
 {
 	draw_set_buffer(GRAPHICS_RECT, x, y, w, h);
 	flushScreen();
+	renderWindow(WN_STDWINDOW);
 }
 
-void drawTriangle(int x, int y, int w, int h) {
+void drawTriangle(int x, int y, int w, int h)
+{
 	draw_set_buffer(GRAPHICS_RECT, x, y, w, h);
 	flushScreen();
 }
@@ -156,7 +159,8 @@ void print(int x, int y, char *s)
 // 	fprintf(stderr, "%s: %s\n", s, strerror(errno));
 // }
 
-int puts(const char *s) {
+int puts(const char *s)
+{
 	/* eof? */
 	printf(s);
 	return 0;
@@ -165,10 +169,10 @@ int puts(const char *s) {
 // Prints text on screen on the specified x and y axis.
 void print_debug(int x, int y, char *s)
 {
-	#ifdef DEBUG
+#ifdef DEBUG
 	draw_set_buffer(GRAPHICS_TEXT, x, y, (int)s, 0);
 	flushScreen();
-	#endif // DEBUG
+#endif // DEBUG
 }
 
 // Get data from specified port.
@@ -176,8 +180,8 @@ uint8_t inb(uint16_t port)
 {
 	uint8_t data;
 	asm volatile("inb %1, %0"
-		: "=a"(data)
-		: "Nd"(port));
+				 : "=a"(data)
+				 : "Nd"(port));
 	return data;
 }
 
@@ -185,8 +189,8 @@ uint8_t inb(uint16_t port)
 void outb(uint16_t port, uint8_t data)
 {
 	asm volatile("outb %0, %1"
-		:
-	: "a"(data), "Nd"(port));
+				 :
+				 : "a"(data), "Nd"(port));
 }
 void wait_for_io(uint32_t timer_count)
 {
@@ -201,9 +205,11 @@ void wait_for_io(uint32_t timer_count)
 
 static void printf_buffer(char *s, unsigned len)
 {
-	while (len) {
+	while (len)
+	{
 		unsigned l = len % (PAGE_SIZE - 1);
-		if (l > PAGE_SIZE - stdio_buffer_index - 1) {
+		if (l > PAGE_SIZE - stdio_buffer_index - 1)
+		{
 			flush();
 			flushScreen();
 		}
@@ -219,7 +225,7 @@ void printf_putchar(char c)
 	printf_buffer(&c, 1);
 	if (c == '\n')
 		flush();
-		flushScreen();
+	flushScreen();
 }
 
 void printf_putstring(char *s)
@@ -295,7 +301,8 @@ void system(char *program, int argc, char **argv)
 {
 	exec(program, argc, argv);
 }
-void __stdio_init_buffers(void) {
+void __stdio_init_buffers(void)
+{
 	_stdin.read_buf = malloc(BUFSIZ);
 	//_stdout.read_buf = malloc(BUFSIZ);
 	//_stderr.read_buf = malloc(BUFSIZ);
@@ -303,12 +310,16 @@ void __stdio_init_buffers(void) {
 	_stdout._name = strdup("stdout");
 	_stderr._name = strdup("stderr");
 }
-int setvbuf(FILE * stream, char * buf, int mode, size_t size) {
-	if (mode != _IOLBF) {
+int setvbuf(FILE *stream, char *buf, int mode, size_t size)
+{
+	if (mode != _IOLBF)
+	{
 		return -1; /* Unsupported */
 	}
-	if (buf) {
-		if (stream->read_buf) {
+	if (buf)
+	{
+		if (stream->read_buf)
+		{
 			dlfree(stream->read_buf);
 		}
 		stream->read_buf = buf;
@@ -316,18 +327,20 @@ int setvbuf(FILE * stream, char * buf, int mode, size_t size) {
 	}
 	return 0;
 }
-FILE * fopen(const char *path, const char *mode) {
+FILE *fopen(const char *path, const char *mode)
+{
 
 	int flags, mask;
 	//parse_mode(mode, &flags, &mask);
 	int fd = syscall_open_file(path, mode, flags);
 
-	if (fd < 0) {
+	if (fd < 0)
+	{
 		errno = -fd;
 		return NULL;
 	}
 
-	FILE * out = malloc(sizeof(FILE));
+	FILE *out = malloc(sizeof(FILE));
 	memset(out, 0, sizeof(struct _FILE));
 	out->fd = fd;
 	out->read_buf = malloc(BUFSIZ);
@@ -350,13 +363,15 @@ void draw_window_border(int x, int y, int w, int h, int thickness, int r, int g,
 	drawRect(x, y + h - thickness, w, thickness);
 	flush();
 	flushScreen();
+	//resetColor();
 }
-void draw_cadex_logo(int x, int y){
+void draw_cadex_logo(int x, int y)
+{
 	renderWindow(WN_STDWINDOW);
 	drawRect(x, y, 50, 50);
-	setTextColor(GREEN,0);
+	setTextColor(GREEN, 0);
 	drawRect(x, y, 40, 40);
-	setTextColor(CLEAR_RED,0);
+	setTextColor(CLEAR_RED, 0);
 	drawRect(x, y, 30, 30);
 	setTextColor(BLUE, 0);
 	drawRect(x, y, 20, 20);

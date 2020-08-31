@@ -179,7 +179,7 @@ int main(int argc, char *argv[])
 		}
 
 		/* If tab entered, go to the next process */
-		syscall_object_read(0, &tin, 1);
+		fgets(0, &tin, 1);
 		if (tin == '\t')
 		{
 			renderWindow(WN_STDWINDOW);

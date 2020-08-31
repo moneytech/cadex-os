@@ -24,7 +24,8 @@ int syscall_process_yield()
 {
 	return syscall(SYSCALL_PROCESS_YIELD, 0, 0, 0, 0, 0);
 }
-int mouse_read(struct mouse_event *m){
+int mouse_read(struct mouse_event *m)
+{
 	return syscall(SYSCALL_MOUSE_READ, m, 0, 0, 0, 0);
 }
 int proc_run(const char *cmd, int argc, const char **argv)
@@ -127,12 +128,12 @@ int syscall_object_dup(int fd1, int fd2)
 	return syscall(SYSCALL_OBJECT_DUP, fd1, fd2, 0, 0, 0);
 }
 
-int syscall_object_read(int fd, void *data, int length)
+int fgets(int fd, void *data, int length)
 {
 	return syscall(SYSCALL_OBJECT_READ, fd, (uint32_t)data, length, 0, 0);
 }
 
-int syscall_object_read_nonblock(int fd, void *data, int length)
+int fgets_nonblock(int fd, void *data, int length)
 {
 	return syscall(SYSCALL_OBJECT_READ_NONBLOCK, fd, (uint32_t)data, length, 0, 0);
 }
