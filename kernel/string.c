@@ -9,7 +9,7 @@ See the file LICENSE for details.
 #include "kernel/ascii.h"
 #include "kmalloc.h"
 
-#include "stdarg.h"
+//#include "stdarg.h"
 #include "console.h"
 
 #define _U 0x01	 /* upper */
