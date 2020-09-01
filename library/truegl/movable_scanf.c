@@ -11,7 +11,7 @@
 extern int movable_scanf(int x, int y, char *line, int length)
 {
     int i = 0;
-    char c;
+    char *c[1024];
     while (1)
     {
         fgets(0, &c, 1);

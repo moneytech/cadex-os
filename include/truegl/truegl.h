@@ -7,6 +7,8 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <library/scanf.h>
 #include <library/_cheader.h>
 #include <library/color.h>
