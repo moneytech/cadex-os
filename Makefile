@@ -58,4 +58,4 @@ clean:
 	@cd bin && make clean
 
 clear:
-	@clear || @cls
+	@clear
