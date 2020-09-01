@@ -15,7 +15,7 @@ extern "C" {
 #define __NEED_locale_t
 #endif
 
-#include <bits/alltypes.h>
+#include <kernel/types.h>
 
 typedef const int * wctrans_t;
 
