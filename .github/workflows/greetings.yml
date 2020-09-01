@@ -1,0 +1,13 @@
+name: Greetings
+
+on: [pull_request, issues]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-message: 'Welcome to the Cadex OS GitHub repository! This is the first time you are opening an issue on this repository'
+        pr-message: 'Welcome to the Cadex OS GitHub repository! This is the first time you are opening an pull-request on this repository'
