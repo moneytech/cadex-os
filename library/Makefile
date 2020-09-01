@@ -11,6 +11,8 @@ LIBRARY_OBJECTS=errno.o \
 				stdlib/atof.o \
 				stdlib/panic.o \
 				stdlib/llabs.o \
+				stdlib/div.o \
+				stdlib/ldiv.o \
 				objno.o \
 				syscalls.o \
 				syscall.o \
