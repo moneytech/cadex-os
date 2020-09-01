@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <library/scanf.h>
 #include <auth.h>
-#include <stdlib.h>
+#include <library/stdlib.h>
 
 #define MAX_INPUT_CHARS 1024
 #define pass continue

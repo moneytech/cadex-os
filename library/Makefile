@@ -4,15 +4,34 @@ LIBRARY_OBJECTS=errno.o \
 				ctype/_ctype.o \
 				ctype/isalpha.o \
 				ctype/isblank.o \
+				ctype/isspace.o \
+				ctype/isdigit.o \
+				ctype/isascii.o \
+				ctype/iscntrl.o \
+				ctype/islower.o \
+				ctype/isupper.o \
+				ctype/isalnum.o \
+				ctype/isprint.o \
+				ctype/ispunct.o \
+				ctype/isgraph.o \
+				ctype/toupper.o \
+				ctype/tolower.o \
 				stdlib/abs.o \
-				stdlib/atol.o \
-				stdlib/strtod.o \
-				stdlib/atoll.o \
+				stdlib/atoi.o \
 				stdlib/atof.o \
-				stdlib/panic.o \
-				stdlib/llabs.o \
+				stdlib/atol.o \
+				stdlib/atoll.o \
+				stdlib/bsearch.o \
+				stdlib/qsort.o \
 				stdlib/div.o \
+				stdlib/fcvt.o \
+				stdlib/ecvt.o \
+				stdlib/labs.o \
 				stdlib/ldiv.o \
+				stdlib/lldiv.o \
+				stdlib/llabs.o \
+				stdlib/panic.o \
+				stdlib/strtod.o \
 				objno.o \
 				syscalls.o \
 				syscall.o \

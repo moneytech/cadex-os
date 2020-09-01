@@ -8,6 +8,7 @@
 
 #ifndef _STDINT_H
 #define _STDINT_H
+#include <kernel/types.h>
 
 #ifdef __cplusplus
 extern "C"
