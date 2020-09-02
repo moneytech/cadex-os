@@ -7,7 +7,7 @@
 #endif
 
 #ifndef __cplusplus
-#define int bool
+typedef int bool;
 #endif // !__cplusplus
 
 typedef int boolean;
