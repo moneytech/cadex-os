@@ -20,11 +20,11 @@ See the file LICENSE for details.
 #include <library/stdbool.h>
 #include <library/stddef.h>
 #include <library/ascii.h>
-#include <library/stdint.h>
+//#include <library/stdint.h>
 #include <library/_cheader.h>
 #include <stdlib.h>
 
-extern uintptr_t initial_esp;
+//extern uint8_t initial_esp;
 
 typedef struct _FILE FILE;
 #define __DEFINED_FILE
@@ -84,7 +84,7 @@ typedef int (*irq_handler_chain_t)(struct asm_regs *);
 #define SHM_START 0xB0000000
 void printf_putchar(char c);
 #define WN_STDWINDOW 3
-extern void printf_putstring(char *s);
+void printf_putstring(char *s);
 extern void flush();
 extern void renderWindow(int wd);
 extern void setTextColor(int r, int g, int b, int a);
