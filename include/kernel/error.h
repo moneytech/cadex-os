@@ -4,7 +4,7 @@
 #include "kernel/types.h"
 
 typedef enum {
-	KERROR_NOT_FOUND = -1,
+	KERROR_NOT_FOUND = 1,
 	KERROR_INVALID_REQUEST = -2,
 	KERROR_PERMISSION_DENIED = -3,
 	KERROR_NOT_IMPLEMENTED = -4,

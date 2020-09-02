@@ -4,11 +4,11 @@
 
 #include <library/_cheader.h>
 #include <library/stddef.h>
+#include <library/types.h>
 
 _Begin_C_Header
 
-    // extern void
-    // exit(int status);
+extern void exit(int status);
 extern char *getenv(const char *name);
 
 // extern void *malloc(size_t size);
@@ -93,7 +93,8 @@ int mkstemp(char *);
 int mkostemp(char *, int);
 char *mkdtemp(char *);
 int getsubopt(char **, char *const *, char **);
-int rand_r(unsigned *);
+uint32_t rand(uint32_t min, uint32_t max);
+void srand(unsigned int seed);
 
 extern div_t div(int numerator, int denominator);
 extern ldiv_t ldiv(long numerator, long denominator);

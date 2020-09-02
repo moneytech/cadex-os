@@ -1,8 +1,3 @@
-#include <library/errno.h>
-#include <library/string.h>
-#include <library/objno.h>
-#include <library/malloc.h>
-#include <library/stdio.h>
 #include <kernel/ascii.h>
 #include <kernel/types.h>
 #include <kernel/syscall.h>

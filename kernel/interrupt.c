@@ -62,57 +62,58 @@ static void unknown_exception(int i, int code)
 		// we are accessing neither the stack nor the heap, or we are accessing both. If so, error
 		if (page_already_present || !(data_access ^ stack_access))
 		{
-			// set graphics
-			struct graphics_color *g;
-			// set blue as a background. i dont know why but when i set red to 200 it appears like blue.
-			g->r = 200;
-			// we dont need green or blue. blue is 0 but when the error occurs, it is blue.
-			g->b = 0;
-			g->g = 0;
-			// set alpha to 90
-			g->a = 90;
-			// set background color to blue. it will look like windows BSOD :)
-			graphics_bgcolor(&graphics_root, *g);
-			graphics_clear(&graphics_root, 0, 0, 1024, 768);
-			// we need this loop to fill the screen with new lines. So it will look like Windows BSOD :)
-			for (int i = 0; i > 1024; i++)
-			{
-				// print newlines
-				printf("\n");
-			}
-			// clear the screen
-			graphics_clear(&graphics_root, 0, 0, 1024, 768);
-			// print the problem and the vaddr contents
-			printf("\n     Segmentation fault: Illegal page access at vaddr 0x%x\n\n     PRESS ANY KEY TO CONTINUE.\n", vaddr);
-			keyboard_read(0);
-			g->r = 50;
-			// we dont need green or blue. blue is 0 but when the error occurs, it is blue.
-			g->b = 50;
-			g->g = 50;
-			// set alpha to 90
-			g->a = 100;
-			graphics_bgcolor(&graphics_root, *g);
-			for (int i = 0; i > 1024; i++)
-			{
-				// print newlines
-				printf("\n\n");
-			}
-			wait_for_io(1000);
-			graphics_clear(&graphics_root, 0, 0, 1024, 768);
-			wait_for_io(1000);
-			graphics_clear(&graphics_root, 0, 0, 1024, 768);
-			wait_for_io(1000);
-			graphics_clear(&graphics_root, 0, 0, 1024, 768);
-			wait_for_io(1000);
-			graphics_clear(&graphics_root, 0, 0, 1024, 768);
-			wait_for_io(1000);
-			graphics_clear(&graphics_root, 0, 0, 1024, 768);
-			wait_for_io(1000);
-			graphics_clear(&graphics_root, 0, 0, 1024, 768);
-			wait_for_io(1000);
-			graphics_clear(&graphics_root, 0, 0, 1024, 768);
-			wait_for_io(1000);
-			graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			// // set graphics
+			// struct graphics_color *g;
+			// // set blue as a background. i dont know why but when i set red to 200 it appears like blue.
+			// g->r = 200;
+			// // we dont need green or blue. blue is 0 but when the error occurs, it is blue.
+			// g->b = 0;
+			// g->g = 0;
+			// // set alpha to 90
+			// g->a = 90;
+			// // set background color to blue. it will look like windows BSOD :)
+			// graphics_bgcolor(&graphics_root, *g);
+			// graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			// // we need this loop to fill the screen with new lines. So it will look like Windows BSOD :)
+			// for (int i = 0; i > 1024; i++)
+			// {
+			// 	// print newlines
+			// 	printf("\n");
+			// }
+			// // clear the screen
+			// graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			// // print the problem and the vaddr contents
+			// printf("\n     Segmentation fault: Illegal page access at vaddr 0x%x\n\n     PRESS ANY KEY TO CONTINUE.\n", vaddr);
+			// keyboard_read(0);
+			// g->r = 50;
+			// // we dont need green or blue. blue is 0 but when the error occurs, it is blue.
+			// g->b = 50;
+			// g->g = 50;
+			// // set alpha to 90
+			// g->a = 100;
+			// graphics_bgcolor(&graphics_root, *g);
+			// for (int i = 0; i > 1024; i++)
+			// {
+			// 	// print newlines
+			// 	printf("\n\n");
+			// }
+			// wait_for_io(1000);
+			// graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			// wait_for_io(1000);
+			// graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			// wait_for_io(1000);
+			// graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			// wait_for_io(1000);
+			// graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			// wait_for_io(1000);
+			// graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			// wait_for_io(1000);
+			// graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			// wait_for_io(1000);
+			// graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			// wait_for_io(1000);
+			// graphics_clear(&graphics_root, 0, 0, 1024, 768);
+			printf("Segmentation fault (Core dumped)\n");
 			// dump current process
 			//process_dump(current);
 			//process_exit(0);

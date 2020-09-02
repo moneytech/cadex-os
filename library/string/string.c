@@ -30,6 +30,8 @@ See the file LICENSE for details.
 #define ONES ((size_t)-1 / UCHAR_MAX)
 #define HIGHS (ONES * (UCHAR_MAX / 2 + 1))
 #define HASZERO(X) (((X)-ONES) & ~(X)&HIGHS)
+
+#define TAB_SIZE 4
 unsigned char chartmp[];
 char _ctmp;
 
@@ -583,7 +585,7 @@ int str2int(const char *s, int *d)
 	return 1;
 }
 
-void memset(void *vd, char value, unsigned length)
+int memset(void *vd, char value, unsigned length)
 {
 	char *d = vd;
 	while (length)
@@ -722,7 +724,7 @@ int strncasecmp(const char *s1, const char *s2, size_t len)
 	} while (--len);
 	return (int)c1 - (int)c2;
 }
-void printf(const char *s, ...)
+int printf(const char *s, ...)
 {
 	va_list args;
 
@@ -762,6 +764,12 @@ void printf(const char *s, ...)
 			case 'c':
 				u = va_arg(args, int32_t);
 				printf_putchar(u);
+				break;
+			case 't':
+				for (size_t x = 0; x = TAB_SIZE; x++)
+				{
+					printf_putchar(' ');
+				}
 				break;
 			case 0:
 				return;

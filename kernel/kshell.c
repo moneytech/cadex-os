@@ -658,16 +658,15 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "bios_shutdown"))
 	{
-		for (const char *s = "shutdown"; *s; ++s)
+		for (const char *s = "Shutdown"; *s; ++s)
 		{
 			outb(0x8900, *s);
 		}
-		// Uncomment the line below if you are running this on VirtualBox
-		//sleep(150);
-		outb(0xf4, 0x00);
+		outb(0xf3, 0x00);
 		KPANIC("Emulator doesn't support shutdown");
 	} else if (!strcmp(cmd, "loadmodule"))
 	{
+		// Stubbed, you know that basic.exe is not a module, so its stubbed
 		module_load("/bin/basic.exe", "/bin/basic.exe");
 	}
 	

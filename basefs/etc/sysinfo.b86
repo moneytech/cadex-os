@@ -1,2 +1,1 @@
-print: hello world :end
-print: whats up :end
+print: New sysinfo token: $RAND

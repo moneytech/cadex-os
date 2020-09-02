@@ -1,10 +1,15 @@
 #ifndef STDBOOL_H
 #define STDBOOL_H
 
+#ifndef __cplusplus
 #define true 1
 #define false 0
+#endif
 
-typedef int bool;
+#ifndef __cplusplus
+#define int bool
+#endif // !__cplusplus
+
 typedef int boolean;
 typedef int Boolean;
 typedef int bool_byte;

@@ -13,7 +13,6 @@ See the file LICENSE for details.
 #include <library/qsort.h>
 #include <library/malloc.h>
 #include <library/math.h>
-#include <library/rand.h>
 
 void __assert_func(const char *file, int line, const char *func, const char *failedexpr)
 {

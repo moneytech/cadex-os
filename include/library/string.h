@@ -26,10 +26,10 @@ int str2int(const char *s, int *d);
 
 const char *strchr(const char *s, char ch);
 
-void memset(void *d, char value, unsigned length);
+int memset(void *d, char value, unsigned length);
 void memcpy(void *d, const void *s, unsigned length);
 
-void printf(const char *s, ...);
+int printf(const char *s, ...);
 void printf_putstring(char *str);
 void reverseSentence();
 // int scanf(char *s);

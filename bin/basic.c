@@ -14,6 +14,7 @@
 
 #define MAX_INPUT_CHARS 1024
 
+int x, y, w, h, fd;
 int check_semicolon(char *string[])
 {
     return strEndsWith(string, ";");
@@ -43,7 +44,7 @@ int main(int argc, const char *argv[])
     int dir_fd = syscall_open_file("/", 0, 0);
     // syscall_object_set_tag(dir_fd, "ROOT");
     // printf("Opened root directory\n");
-    int fd = syscall_open_file(argv[0], 0, 0);
+    fd = syscall_open_file(argv[0], 0, 0);
     char buffer[1000];
     int n;
     //printf("reading file...\n");
@@ -54,6 +55,7 @@ int main(int argc, const char *argv[])
         printf("FILE: %s\n\n", argv[0]);
         while ((n = fgets(fd, buffer, 100)) > 0)
         {
+            start:
             buffer[n] = 0;
 
             cargc = 0;
@@ -67,18 +69,17 @@ int main(int argc, const char *argv[])
             }
             if (cargc > 0)
             {
-                if (!strcmp(cargv[0], "print_help"))
+                if (!strcmp(cargv[0], "help"))
                 {
                     printf("List of available commands:\n");
                     printf(" * PRINT: Prints text to the screen\n");
+                    printf(" * INPUT: Gets input from the user and print the prompt if specified\n");
                     printf(" * EXIT: Exits the commander\n");
                     printf(" * END: Ends the current command input stream\n");
                     printf(" * CLS: Clears the screen\n");
                     printf(" * EXECUTE: Executes the specified file\n");
                     printf(" * CMDREGISTER: Adds a new command to the command list. [NOTE: This commander can only store one custom command]\n");
                     printf("\nList of available Annotations (Attributes):\n");
-                    printf(" * @ASM86: Enables x86 Assembly input mode\n");
-                    printf(" * @END_ASM86: Disables x86 Assembly input mode\n");
                     printf(" * @CMD: Enables command definition mode\n");
                     printf(" * @END_CMD: Disables command definition mode\n");
                 }
@@ -101,34 +102,27 @@ int main(int argc, const char *argv[])
                         {
                             break;
                         }
+                        else if (!strcmp(cargv[i], "\\n"))
+                        {
+                            printf("\n");
+                        }
+                        else if (!strcmp(cargv[i], "\\t"))
+                        {
+                            printf("   ");
+                        }
+                        else if (!strcmp(cargv[i], "$RAND"))
+                        {
+                            printf("%d", rand(1, 10000));
+                        }
+
                         else
                         {
                             printf("%s ", cargv[i]);
+                            goto start;
                         }
                     }
                     printf("\n");
                 }
-
-                else if (!strcmp(cargv[0], "@ASM86"))
-                {
-                    printf("[INFO] Assembly mode enabled\n");
-                    assembly = 1;
-                }
-                else if (!strcmp(cargv[0], "@END_ASM86"))
-                {
-                    assembly = 0;
-                }
-                else if (!strcmp(cargv[0], "mov"))
-                {
-                    if (assembly)
-                    {
-                    }
-                    else
-                    {
-                        printf("[ERR] Assembly mode is not enabled.");
-                    }
-                }
-
                 else if (!strcmp(cargv[0], "cls"))
                 {
                     int x1 = 12;
@@ -145,6 +139,7 @@ int main(int argc, const char *argv[])
                     clearScreen(0, 0, width, height);
                     flushScreen();
                     flush();
+                    goto start;
                 }
                 else if (!strcmp(cargv[0], "cmdregister"))
                 {
@@ -169,9 +164,131 @@ int main(int argc, const char *argv[])
                         syscall_process_reap(info.pid);
                     }
                 }
+                else if (!strcmp(cargv[0], "drawrect"))
+                {
+                    int dims[2];
+                    syscall_object_size(WN_STDWINDOW, dims, 2);
+
+                    int width = dims[0];
+                    int height = dims[1];
+
+                    renderWindow(WN_STDWINDOW);
+                    //clearScreen(0, 0, width, height);
+                    flush();
+                    drawRect(x, y, atoi(cargv[1]), atoi(cargv[2]));
+                    flush();
+                    flushScreen();
+                }
+                else if (!strcmp(cargv[0], "setx"))
+                {
+                    if (cargc > 1)
+                    {
+                        x = atoi(cargv[1]);
+                    }
+                    else
+                    {
+                        printf("Syntax: setx <x>\n");
+                    }
+                }
+                else if (!strcmp(cargv[0], "sety"))
+                {
+                    if (cargc > 1)
+                    {
+                        y = atoi(cargv[1]);
+                    }
+                    else
+                    {
+                        printf("Syntax: sety <y>\n");
+                    }
+                }
+                else if (!strcmp(cargv[0], "setxy"))
+                {
+                    if (cargc > 2)
+                    {
+                        x = atoi(cargv[1]);
+                        y = atoi(cargv[2]);
+                    }
+                    else
+                    {
+                        printf("Syntax: setxy <x> <y>\n");
+                    }
+                }
+
+                else if (!strcmp(cargv[0], "setcolor"))
+                {
+                    if (cargc > 1)
+                    {
+                        if (!strcmp(cargv[1], "red"))
+                        {
+                            setTextColor(CLEAR_RED, 0);
+                            renderWindow(WN_STDWINDOW);
+                            flushScreen();
+                            flush();
+                        }
+                        else if (!strcmp(cargv[1], "green"))
+                        {
+                            setTextColor(GREEN, 0);
+                            renderWindow(WN_STDWINDOW);
+                            flushScreen();
+                            flush();
+                        }
+                        else if (!strcmp(cargv[1], "blue"))
+                        {
+                            setTextColor(BLUE, 0);
+                            renderWindow(WN_STDWINDOW);
+                            flushScreen();
+                            flush();
+                        }
+
+                        else if (!strcmp(cargv[1], "white"))
+                        {
+                            setTextColor(WHITE, 0);
+                            renderWindow(WN_STDWINDOW);
+                            flushScreen();
+                            flush();
+                        }
+                        else
+                        {
+                            printf("%s is not a valid color code\n", cargv[1]);
+                        }
+                    }
+                }
+
+                else if (!strcmp(cargv[0], "input:"))
+                {
+                    char *line[1024];
+                    scargv = cargc;
+                    for (size_t i = 1; i < scargv; i++)
+                    {
+                        if (!strcmp(cargv[i], ":end"))
+                        {
+                            break;
+                        }
+                        else if (!strcmp(cargv[i], "\\n"))
+                        {
+                            printf("\n");
+                        }
+                        else
+                        {
+                            printf("%s ", cargv[i]);
+                        }
+                    }
+                    scanf(line, sizeof(line));
+                }
+                else if (!strcmp(cargv[0], "loop"))
+                {
+                    if (cargc > 2)
+                    {
+                        for (int io = 0; io > atoi(cargv[1]); io++)
+                        {
+                            printf(cargv[2]);
+                        }
+                    }
+                }
+
                 else
                 {
-                    printf("[ERR] Syntax error: no command named '%s' exists in the current instance\n", cargv[0]);
+                    printf("Syntax error: no command named '%s' exists in the current instance\n", cargv[0]);
                 }
             }
         }
@@ -182,5 +299,6 @@ int main(int argc, const char *argv[])
         _process_exit(0);
         return 0;
     }
+    syscall_object_close(fd);
     return 0;
 }

@@ -11,10 +11,14 @@
 #include <library/scanf.h>
 #include <auth.h>
 #include <library/stdlib.h>
+#include <library/math.h>
+#include <stddef.h>
 
 #define MAX_INPUT_CHARS 1024
 #define pass continue
 
+int a, b, c, d, e, f, g, h, sd, dd, dx, ax, ac, edx, ecd, ecx, rbp;
+char *rsp;
 int check_semicolon(char *string[])
 {
     return strEndsWith(string, ";");
@@ -99,6 +103,14 @@ int main(int argc, const char *argv[])
                     {
                         printf("\n");
                     }
+                    else if (!strcmp(cargv[i], "\\t"))
+                    {
+                        printf("   ");
+                    }
+                    else if (!strcmp(cargv[i], "$RAND"))
+                    {
+                        printf("%d", rand(1, 10000));
+                    }
 
                     else
                     {
@@ -107,6 +119,19 @@ int main(int argc, const char *argv[])
                 }
                 printf("\n");
             }
+            else if (!strcmp(cargv[1], "="))
+            {
+                if (cargc > 2)
+                {
+                    rsp = cargv[0];
+                }
+            }
+            else if (!strcmp(cargv[0], rsp))
+            {
+
+                printf("%s", rsp);
+            }
+
             else if (!strcmp(cargv[0], "cls"))
             {
                 int x1 = 12;
