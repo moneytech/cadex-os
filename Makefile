@@ -1,13 +1,15 @@
 # Cadex OS Build Makefile for i386 architecture.
 include Makefile.config
 
-LIBRARY_SOURCES=$(wildcard library/*.c)
-LIBRARY_HEADERS=$(wildcard library/*.h)
+LIBRARY_SOURCES=$(wildcard libc/*.c)
+LIBRARY_HEADERS=$(wildcard libc/*.h)
 USER_SOURCES=$(wildcard usr/*.c)
 SYSTEM_BIN_SOURCES=$(wildcard bin/*.c)
 USER_PROGRAMS=$(USER_SOURCES:c=exe)
 SYSTEM_BIN_FILES=$(SYSTEM_BIN_SOURCES:c=exe)
 KERNEL_SOURCES=$(wildcard kernel/*.[chS])
+
+MAKEFLAGS += --no-print-directory
 
 all: clear clean cadex.iso success # run # Uncomment this run command to run the OS after you've built the OS
 
@@ -22,17 +24,17 @@ debug: cadex.iso hddimg
 hddimg:
 	qemu-img create -f qcow2 disk.img 1G
 
-library/baselib.a: $(LIBRARY_SOURCES) $(LIBRARY_HEADERS)
-	@cd library && make
+libc/baselib.a: $(LIBRARY_SOURCES) $(LIBRARY_HEADERS)
+	@cd libc && make ${MAKEFLAGS}
 
-$(USER_PROGRAMS): $(USER_SOURCES) library/baselib.a $(LIBRARY_HEADERS)
-	@cd usr && make
+$(USER_PROGRAMS): $(USER_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)
+	@cd usr && make ${MAKEFLAGS}
 
-$(SYSTEM_BIN_FILES): $(SYSTEM_BIN_SOURCES) library/baselib.a $(LIBRARY_HEADERS)
-	@cd bin && make
+$(SYSTEM_BIN_FILES): $(SYSTEM_BIN_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)
+	@cd bin && make ${MAKEFLAGS}
 
 kernel/cadex.img: $(KERNEL_SOURCES) $(LIBRARY_HEADERS)
-	@cd kernel && make
+	@cd kernel && make ${MAKEFLAGS}
 
 image: kernel/cadex.img $(USER_PROGRAMS) $(SYSTEM_BIN_FILES)
 	@rm -rf image
@@ -45,15 +47,14 @@ image: kernel/cadex.img $(USER_PROGRAMS) $(SYSTEM_BIN_FILES)
 
 cadex.iso: image
 	@${ISOGEN} -input-charset utf-8 -iso-level 2 -J -R -o $@ -b boot/cadex.img image
-	@echo "[BUILD] Building ISO image..."
+	@echo "Building ISO image..."
+	@rm -rf image
 success:
-	@echo "----------------------------------------------------"
-	@echo "Successfully compiled kernel. Type 'make run' to run"
-	@echo "----------------------------------------------------"
+	@echo "\nBuild finished. Type 'make run' to run\n"
 clean:
 	@rm -rf cadex.iso image
 	@cd kernel && make clean
-	@cd library && make clean
+	@cd libc && make clean
 	@cd usr && make clean
 	@cd bin && make clean
 
