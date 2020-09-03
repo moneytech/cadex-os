@@ -86,6 +86,6 @@ int kernel_main()
 		// we need this for the kshell or it will just show text and we can't type anything into it
 		console_putchar(&console_root,keyboard_read(a));
 	}
-
+	
 	return 0;
 }

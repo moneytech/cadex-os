@@ -14,20 +14,25 @@ See the file LICENSE for details.
 
 static struct fs *fs_list = 0;
 
-static struct kobject * find_kobject_by_tag( const char *tag )
+static struct kobject *find_kobject_by_tag(const char *tag)
 {
 	int i;
 
 	// Check if tag is index-specified.
-	if(tag[0] == '#') {
+	if (tag[0] == '#')
+	{
 		str2int(&tag[1], &i);
 		return current->ktable[i];
-	} else {
+	}
+	else
+	{
 		// Find an tag matching the tag.
 		int max = process_object_max(current);
-		for(i=0;i<max;i++) {
+		for (i = 0; i < max; i++)
+		{
 			struct kobject *k = current->ktable[i];
-			if(k && !strcmp(k->tag,tag)) {
+			if (k && !strcmp(k->tag, tag))
+			{
 				return k;
 			}
 		}
@@ -39,18 +44,20 @@ static struct kobject * find_kobject_by_tag( const char *tag )
 struct fs_dirent *fs_resolve(const char *path)
 {
 	// If the path begins with a slash, navigate from the root directory.
-	if(path[0] == '/') {
+	if (path[0] == '/')
+	{
 		return fs_dirent_traverse(current->root_dir, &path[1]);
 	}
 
 	// If the path contains a colon, we are dealing with a tag.
-	const char *colon = strchr(path,':');
-	if(colon) {
+	const char *colon = strchr(path, ':');
+	if (colon)
+	{
 		// Length of tag is distance from colon to beginning.
 		int length = colon - path;
 
 		// Rest of path starts after the colon.
-		const char *rest = colon+1;
+		const char *rest = colon + 1;
 
 		// Make a temporary string with the tag.
 		char *tagstr = strdup(path);
@@ -59,18 +66,27 @@ struct fs_dirent *fs_resolve(const char *path)
 		// Look up the object associated with that tag
 		struct kobject *tagobj = find_kobject_by_tag(tagstr);
 		kfree(tagstr);
-		if(!tagobj) return 0;
+		if (!tagobj)
+		{
+// Let's just print a Windows-style file not found error message!
+#ifndef __kshell_ignore_errmsg
+			printf("The system cannot find the path/file specified\n");
+#endif
+			return 0;
+		}
 		// XXX KERROR_NOT_FOUND;
 
 		// Make sure it is really a directory.
-		if(kobject_get_type(tagobj)!=KOBJECT_DIR) return 0;
+		if (kobject_get_type(tagobj) != KOBJECT_DIR)
+			return 0;
 		// XXX KERROR_NOT_A_DIRECTORY;
 
 		// If there is no remaining path, just return that object.
-		if(!*rest) return fs_dirent_addref(tagobj->data.dir);
+		if (!*rest)
+			return fs_dirent_addref(tagobj->data.dir);
 
 		// Otherwise, navigate from that object.
-		return fs_dirent_traverse(tagobj->data.dir,path);
+		return fs_dirent_traverse(tagobj->data.dir, path);
 	}
 
 	// If there was no tag, then navigate from the current working directory.
@@ -87,31 +103,34 @@ struct fs *fs_lookup(const char *name)
 {
 	struct fs *f;
 
-	for(f = fs_list; f; f = f->next) {
-		if(!strcmp(name, f->name)) {
+	for (f = fs_list; f; f = f->next)
+	{
+		if (!strcmp(name, f->name))
+		{
 			return f;
 		}
 	}
 	return 0;
 }
 
-int fs_volume_format(struct fs *f, struct device *d )
+int fs_volume_format(struct fs *f, struct device *d)
 {
 	const struct fs_ops *ops = f->ops;
-	if(!ops->volume_format)
+	if (!ops->volume_format)
 		return KERROR_NOT_IMPLEMENTED;
 	return f->ops->volume_format(d);
 }
 
-struct fs_volume *fs_volume_open(struct fs *f, struct device *d )
+struct fs_volume *fs_volume_open(struct fs *f, struct device *d)
 {
 	const struct fs_ops *ops = f->ops;
 
-	if(!ops->volume_open)
+	if (!ops->volume_open)
 		return 0;
 
 	struct fs_volume *v = f->ops->volume_open(d);
-	if(v) {
+	if (v)
+	{
 		v->fs = f;
 		v->device = device_addref(d);
 	}
@@ -127,11 +146,12 @@ struct fs_volume *fs_volume_addref(struct fs_volume *v)
 int fs_volume_close(struct fs_volume *v)
 {
 	const struct fs_ops *ops = v->fs->ops;
-	if(!ops->volume_close)
+	if (!ops->volume_close)
 		return KERROR_NOT_IMPLEMENTED;
 
 	v->refcount--;
-	if(v->refcount==0) {
+	if (v->refcount == 0)
+	{
 		v->fs->ops->volume_close(v);
 		bcache_flush_device(v->device);
 		device_close(v->device);
@@ -144,7 +164,7 @@ int fs_volume_close(struct fs_volume *v)
 struct fs_dirent *fs_volume_root(struct fs_volume *v)
 {
 	const struct fs_ops *ops = v->fs->ops;
-	if(!ops->volume_root)
+	if (!ops->volume_root)
 		return 0;
 
 	struct fs_dirent *d = v->fs->ops->volume_root(v);
@@ -155,7 +175,7 @@ struct fs_dirent *fs_volume_root(struct fs_volume *v)
 int fs_dirent_list(struct fs_dirent *d, char *buffer, int buffer_length)
 {
 	const struct fs_ops *ops = d->volume->fs->ops;
-	if(!ops->list)
+	if (!ops->list)
 		return KERROR_NOT_IMPLEMENTED;
 	return ops->list(d, buffer, buffer_length);
 }
@@ -164,22 +184,26 @@ static struct fs_dirent *fs_dirent_lookup(struct fs_dirent *d, const char *name)
 {
 	const struct fs_ops *ops = d->volume->fs->ops;
 
-	if(!ops->lookup)
+	if (!ops->lookup)
 		return 0;
 
-	if(!strcmp(name,".")) {
+	if (!strcmp(name, "."))
+	{
 		// Special case: . refers to the containing directory.
 		return fs_dirent_addref(d);
-	} else {
+	}
+	else
+	{
 		struct fs_dirent *r = ops->lookup(d, name);
-		if(r) r->volume = fs_volume_addref(d->volume);
+		if (r)
+			r->volume = fs_volume_addref(d->volume);
 		return r;
 	}
 }
 
 struct fs_dirent *fs_dirent_traverse(struct fs_dirent *parent, const char *path)
 {
-	if(!parent || !path)
+	if (!parent || !path)
 		return 0;
 
 	char *lpath = kmalloc(strlen(path) + 1);
@@ -188,13 +212,17 @@ struct fs_dirent *fs_dirent_traverse(struct fs_dirent *parent, const char *path)
 	struct fs_dirent *d = parent;
 
 	char *part = strtok(lpath, "/");
-	while(part) {
+	while (part)
+	{
 		struct fs_dirent *n = fs_dirent_lookup(d, part);
 
-		if(d!=parent) fs_dirent_close(d);
+		if (d != parent)
+			fs_dirent_close(d);
 
-		if(!n) {
+		if (!n)
+		{
 			// KERROR_NOT_FOUND
+			printf("The system cannot find the path/file specified\n");
 			kfree(lpath);
 			return 0;
 		}
@@ -214,11 +242,12 @@ struct fs_dirent *fs_dirent_addref(struct fs_dirent *d)
 int fs_dirent_close(struct fs_dirent *d)
 {
 	const struct fs_ops *ops = d->volume->fs->ops;
-	if(!ops->close)
+	if (!ops->close)
 		return KERROR_NOT_IMPLEMENTED;
 
 	d->refcount--;
-	if(d->refcount==0) {
+	if (d->refcount == 0)
+	{
 		ops->close(d);
 		// This close is paired with the addref in fs_dirent_lookup
 		fs_volume_close(d->volume);
@@ -234,39 +263,47 @@ int fs_dirent_read(struct fs_dirent *d, char *buffer, uint32_t length, uint32_t 
 	int bs = d->volume->block_size;
 
 	const struct fs_ops *ops = d->volume->fs->ops;
-	if(!ops->read_block)
+	if (!ops->read_block)
 		return KERROR_INVALID_REQUEST;
 
-	if(offset > d->size) {
+	if (offset > d->size)
+	{
 		return 0;
 	}
 
-	if(offset + length > d->size) {
+	if (offset + length > d->size)
+	{
 		length = d->size - offset;
 	}
 
 	char *temp = page_alloc(0);
-	if(!temp)
+	if (!temp)
 		return -1;
 
-	while(length > 0) {
+	while (length > 0)
+	{
 
 		int blocknum = offset / bs;
 		int actual = 0;
 
-		if(offset % bs) {
+		if (offset % bs)
+		{
 			actual = ops->read_block(d, temp, blocknum);
-			if(actual != bs)
+			if (actual != bs)
 				goto failure;
 			actual = MIN(bs - offset % bs, length);
 			memcpy(buffer, &temp[offset % bs], actual);
-		} else if(length >= bs) {
+		}
+		else if (length >= bs)
+		{
 			actual = ops->read_block(d, buffer, blocknum);
-			if(actual != bs)
+			if (actual != bs)
 				goto failure;
-		} else {
+		}
+		else
+		{
 			actual = ops->read_block(d, temp, blocknum);
-			if(actual != bs)
+			if (actual != bs)
 				goto failure;
 			actual = length;
 			memcpy(buffer, temp, actual);
@@ -281,20 +318,22 @@ int fs_dirent_read(struct fs_dirent *d, char *buffer, uint32_t length, uint32_t 
 	page_free(temp);
 	return total;
 
-      failure:
+failure:
 	page_free(temp);
-	if(total == 0)
+	if (total == 0)
 		return -1;
 	return total;
 }
 
-struct fs_dirent * fs_dirent_mkdir(struct fs_dirent *d, const char *name)
+struct fs_dirent *fs_dirent_mkdir(struct fs_dirent *d, const char *name)
 {
 	const struct fs_ops *ops = d->volume->fs->ops;
-	if(!ops->mkdir) return 0;
+	if (!ops->mkdir)
+		return 0;
 
 	struct fs_dirent *n = ops->mkdir(d, name);
-	if(n) {
+	if (n)
+	{
 		n->volume = fs_volume_addref(d->volume);
 		return n;
 	}
@@ -302,13 +341,15 @@ struct fs_dirent * fs_dirent_mkdir(struct fs_dirent *d, const char *name)
 	return 0;
 }
 
-struct fs_dirent * fs_dirent_mkfile(struct fs_dirent *d, const char *name)
+struct fs_dirent *fs_dirent_mkfile(struct fs_dirent *d, const char *name)
 {
 	const struct fs_ops *ops = d->volume->fs->ops;
-	if(!ops->mkfile) return 0;
+	if (!ops->mkfile)
+		return 0;
 
 	struct fs_dirent *n = ops->mkfile(d, name);
-	if(n) {
+	if (n)
+	{
 		n->volume = fs_volume_addref(d->volume);
 		return n;
 	}
@@ -319,7 +360,7 @@ struct fs_dirent * fs_dirent_mkfile(struct fs_dirent *d, const char *name)
 int fs_dirent_remove(struct fs_dirent *d, const char *name)
 {
 	const struct fs_ops *ops = d->volume->fs->ops;
-	if(!ops->remove)
+	if (!ops->remove)
 		return 0;
 	return ops->remove(d, name);
 }
@@ -330,47 +371,53 @@ int fs_dirent_write(struct fs_dirent *d, const char *buffer, uint32_t length, ui
 	int bs = d->volume->block_size;
 
 	const struct fs_ops *ops = d->volume->fs->ops;
-	if(!ops->write_block || !ops->read_block)
+	if (!ops->write_block || !ops->read_block)
 		return KERROR_INVALID_REQUEST;
 
 	char *temp = page_alloc(0);
 
 	// if writing past the (current) end of the file, resize the file first
-	if (offset + length > d->size) {
-		ops->resize(d, offset+length);
+	if (offset + length > d->size)
+	{
+		ops->resize(d, offset + length);
 	}
 
-	while(length > 0) {
+	while (length > 0)
+	{
 
 		int blocknum = offset / bs;
 		int actual = 0;
 
-		if(offset % bs) {
+		if (offset % bs)
+		{
 			actual = ops->read_block(d, temp, blocknum);
-			if(actual != bs)
+			if (actual != bs)
 				goto failure;
 
 			actual = MIN(bs - offset % bs, length);
 			memcpy(&temp[offset % bs], buffer, actual);
 
 			int wactual = ops->write_block(d, temp, blocknum);
-			if(wactual != bs)
+			if (wactual != bs)
 				goto failure;
-
-		} else if(length >= bs) {
+		}
+		else if (length >= bs)
+		{
 			actual = ops->write_block(d, buffer, blocknum);
-			if(actual != bs)
+			if (actual != bs)
 				goto failure;
-		} else {
+		}
+		else
+		{
 			actual = ops->read_block(d, temp, blocknum);
-			if(actual != bs)
+			if (actual != bs)
 				goto failure;
 
 			actual = length;
 			memcpy(temp, buffer, actual);
 
 			int wactual = ops->write_block(d, temp, blocknum);
-			if(wactual != bs)
+			if (wactual != bs)
 				goto failure;
 		}
 
@@ -383,9 +430,9 @@ int fs_dirent_write(struct fs_dirent *d, const char *buffer, uint32_t length, ui
 	page_free(temp);
 	return total;
 
-      failure:
+failure:
 	page_free(temp);
-	if(total == 0)
+	if (total == 0)
 		return -1;
 	return total;
 }
@@ -395,57 +442,69 @@ int fs_dirent_size(struct fs_dirent *d)
 	return d->size;
 }
 
-int fs_dirent_isdir( struct fs_dirent *d )
+int fs_dirent_isdir(struct fs_dirent *d)
 {
 	return d->isdir;
 }
 
-int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth )
+int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth)
 {
 	char *buffer = page_alloc(1);
 
 	int length = fs_dirent_list(src, buffer, PAGE_SIZE);
-	if (length <= 0) goto failure;
+	if (length <= 0)
+		goto failure;
 
 	char *name = buffer;
-	while (name && (name - buffer) < length) {
+	while (name && (name - buffer) < length)
+	{
 
 		// Skip relative directory entries.
-		if (strcmp(name,".") == 0 || (strcmp(name, "..") == 0)) {
+		if (strcmp(name, ".") == 0 || (strcmp(name, "..") == 0))
+		{
 			goto next_entry;
 		}
 
 		struct fs_dirent *new_src = fs_dirent_lookup(src, name);
-		if(!new_src) {
-			printf("couldn't lookup %s in directory!\n",name);
+		if (!new_src)
+		{
+			printf("couldn't lookup %s in directory!\n", name);
 			goto next_entry;
 		}
 
 		int i;
-		for(i=0;i<depth;i++) printf(">");
+		for (i = 0; i < depth; i++)
+			printf(">");
 
-		if(fs_dirent_isdir(new_src)) {
+		if (fs_dirent_isdir(new_src))
+		{
 			printf("%s (dir)\n", name);
-			struct fs_dirent *new_dst = fs_dirent_mkdir(dst,name);
-			if(!new_dst) {
-				printf("couldn't create %s!\n",name);
+			struct fs_dirent *new_dst = fs_dirent_mkdir(dst, name);
+			if (!new_dst)
+			{
+				printf("couldn't create %s!\n", name);
 				fs_dirent_close(new_src);
 				goto next_entry;
 			}
-			int res = fs_dirent_copy(new_src, new_dst,depth+1);
+			int res = fs_dirent_copy(new_src, new_dst, depth + 1);
 			fs_dirent_close(new_dst);
-			if(res<0) goto failure;
-		} else {
-			printf("%s (%d bytes)\n", name,fs_dirent_size(new_src));
+			if (res < 0)
+				goto failure;
+		}
+		else
+		{
+			printf("%s (%d bytes)\n", name, fs_dirent_size(new_src));
 			struct fs_dirent *new_dst = fs_dirent_mkfile(dst, name);
-			if(!new_dst) {
-				printf("couldn't create %s!\n",name);
+			if (!new_dst)
+			{
+				printf("couldn't create %s!\n", name);
 				fs_dirent_close(new_src);
 				goto next_entry;
 			}
 
-			char * filebuf = page_alloc(0);
-			if (!filebuf) {
+			char *filebuf = page_alloc(0);
+			if (!filebuf)
+			{
 				fs_dirent_close(new_src);
 				fs_dirent_close(new_dst);
 				goto failure;
@@ -454,10 +513,11 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth )
 			uint32_t file_size = fs_dirent_size(new_src);
 			uint32_t offset = 0;
 
-			while(offset<file_size) {
-				uint32_t chunk = MIN(PAGE_SIZE,file_size-offset);
-				fs_dirent_read(new_src, filebuf, chunk, offset );
-				fs_dirent_write(new_dst, filebuf, chunk, offset );
+			while (offset < file_size)
+			{
+				uint32_t chunk = MIN(PAGE_SIZE, file_size - offset);
+				fs_dirent_read(new_src, filebuf, chunk, offset);
+				fs_dirent_write(new_dst, filebuf, chunk, offset);
 				offset += chunk;
 			}
 
@@ -468,7 +528,7 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth )
 
 		fs_dirent_close(new_src);
 
-		next_entry:
+	next_entry:
 		name += strlen(name) + 1;
 	}
 
@@ -477,5 +537,6 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth )
 
 failure:
 	page_free(buffer);
-	return KERROR_NOT_FOUND;
+	printf("The system cannot find the path/fidle specified\n");
+	return 0;
 }

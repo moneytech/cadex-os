@@ -99,7 +99,8 @@ int elf_load(struct process *p, const char *filename, addr_t * entry)
 
 	struct fs_dirent *d = fs_resolve(filename);
 	if(!d)
-		return KERROR_NOT_FOUND;
+		// We return -1 because KERROR_NOT_FOUND gives us a segmentation fault
+		return -1;
 
 	actual = fs_dirent_read(d, (char *) &header, sizeof(header), 0);
 	if(actual != sizeof(header))
@@ -424,10 +425,10 @@ uint8_t elf32_check(void *image, uint8_t type)
 {
 	elf_file_t *elf = (elf_file_t *)image;
 
-	if (elf->magic != ELF_SIGNATURE)
+	if (elf->magic != ELF_HEADER_TYPE_EXECUTABLE)
 		return 0;
 
-	if (elf->bitness != 1 || elf->endian != 1 || elf->elf_ver_1 != 1 || elf->file_type != type || elf->machine != 3 || elf->elf_ver_2 != 1)
+	if (elf->bitness != 1 || elf->endian != 1 || elf->elf_ver_1 != ELF_HEADER_VERSION || elf->file_type != type || elf->machine != ELF_HEADER_MACHINE_I386 || elf->elf_ver_2 != 1)
 		return 0;
 
 	return 1;

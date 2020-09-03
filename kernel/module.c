@@ -1,5 +1,7 @@
+/**
+ * module.c: module-related functions
+*/
 #include "module.h"
-
 
 extern void module_load(const char *name, uint8_t *elf)
 {
@@ -21,6 +23,7 @@ extern void module_load(const char *name, uint8_t *elf)
         c = (module_init_callback_t)((uint32_t)elf + s[0]->value);
         // c();
     }
+    // test module
     if (elf32_search_symbol(elf, "foo", -1, s))
     {
         if (elf32_get_section_i(elf, s[0]->section, sect))
