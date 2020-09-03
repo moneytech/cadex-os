@@ -9,7 +9,9 @@ See the file LICENSE for details.
 
 #include <library/types.h>
 
-//extern "C" {
+#ifdef __cplusplus
+extern "C" {
+#endif
     void strcpy(char *d, const char *s);
     void strncpy(char *d, const char *s, unsigned length);
     char *strdup(const char *s);
@@ -37,4 +39,7 @@ See the file LICENSE for details.
     int strEndsWith(const char *str, const char *suffix);
     int strStartsWith(const char *pre, const char *str);
 //}
+#ifdef __cplusplus
+}
+#endif
 #endif

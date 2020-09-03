@@ -9,3 +9,4 @@ copy:
 	@cp etc/sysinfo.b86 ../image/etc/sysinfo.b86
 	@cp etc/sysfile ../image/etc/sysfile
 	@cp sys/sysenv.env ../image/etc/sysenv.env
+	@cp etc/cexample.exe ../image/etc/cexample.exe
