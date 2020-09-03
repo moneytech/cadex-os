@@ -305,3 +305,6 @@ void list_merge(list_t *target, list_t *source)
     target->length += source->length;
     free(source);
 }
+
+
+/* EOF */
