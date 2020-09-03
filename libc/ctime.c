@@ -8,3 +8,6 @@ See the file LICENSE for details.
 char * ctime(const time_t * timep) {
     return asctime(localtime(timep));
 }
+
+
+/* EOF */
