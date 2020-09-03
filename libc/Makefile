@@ -55,7 +55,8 @@ LIBRARY_OBJECTS=errno.o \
 				truegl/ui_textbox.o \
 				truegl/movable_scanf.o \
 				truegl/ui_window.o \
-				stdclib/cadex_version.o
+				stdclib/cadex_version.o \
+				stdclib/contty.o
 
 all: baselib.a
 
