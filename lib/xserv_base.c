@@ -6,3 +6,6 @@
 #include <library/malloc.h>
 
 int xs_open_server(){}
+
+
+/* EOF */
