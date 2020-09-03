@@ -360,16 +360,16 @@ int sys_open_dir( int fd, const char *path, kernel_flags_t flags )
 
 int sys_open_file(const char *path, int mode, kernel_flags_t flags)
 {
-	if(!is_valid_path(path)) return KERROR_INVALID_PATH;
+	if(!is_valid_path(path)) return -1;
 
 	int newfd = process_available_fd(current);
-	if(newfd<0) return KERROR_OUT_OF_OBJECTS;
+	if(newfd<0) return -1;
 
 	struct fs_dirent *d = fs_resolve(path);
 
 	if(fs_dirent_isdir(d)) {
 		fs_dirent_close(d);
-		return KERROR_NOT_A_FILE;
+		return -1;
 	}
 
 	if(d) {
@@ -377,7 +377,7 @@ int sys_open_file(const char *path, int mode, kernel_flags_t flags)
 		return newfd;
 	} else {
 		// XXX propagate better error
-		return KERROR_NOT_FOUND;
+		return -1;
 	}
 }
 

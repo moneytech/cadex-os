@@ -15,17 +15,18 @@ int main(int argc, char *argv[])
         char buffer[1000];
         int n;
         //printf("reading file...\n");
-        while ((n = fgets(fd, buffer, 100)) > 0)
+        if (fd > 0)
         {
-            buffer[n] = 0;
-            printf("%s", buffer);
-            flush();
+            while ((n = fgets(fd, buffer, 100)) > 0)
+            {
+                buffer[n] = 0;
+                printf("%s", buffer);
+                flush();
+            }
         }
-        n = fgets(fd, buffer, 100);
-        buffer[n] = 0;
         syscall_object_close(fd);
         printf("\n");
-        _process_exit(0);
+        exit(0);
     }
     else
     {

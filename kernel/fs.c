@@ -70,7 +70,7 @@ struct fs_dirent *fs_resolve(const char *path)
 		{
 // Let's just print a Windows-style file not found error message!
 #ifndef __kshell_ignore_errmsg
-			printf("The system cannot find the path/file specified\n");
+			printf("The system cannot find the path specified\n");
 #endif
 			return 0;
 		}
@@ -222,7 +222,7 @@ struct fs_dirent *fs_dirent_traverse(struct fs_dirent *parent, const char *path)
 		if (!n)
 		{
 			// KERROR_NOT_FOUND
-			printf("The system cannot find the path/file specified\n");
+			printf("The system cannot find the path/files specified\n");
 			kfree(lpath);
 			return 0;
 		}

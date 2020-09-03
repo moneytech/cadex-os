@@ -123,6 +123,22 @@ int strEndsWith(const char *str, const char *suffix)
 		return false;
 	return strncmp(str + lenstr - lensuffix, suffix, lensuffix) == 0;
 }
+int memcmp(const void *cs, const void *ct, size_t count)
+{
+	const unsigned char *su1, *su2;
+	int res = 0;
+
+	for (su1 = cs, su2 = ct; 0 < count; ++su1, ++su2, count--)
+		if ((res = *su1 - *su2) != 0)
+			break;
+	return res;
+}
+int strStartsWith(const char *pre, const char *str)
+{
+	size_t lenpre = strlen(pre),
+		   lenstr = strlen(str);
+	return lenstr < lenpre ? false : memcmp(pre, str, lenpre) == 0;
+}
 void KPANIC(char *str)
 {
 	printf("[PANIC]: %s\n", str);
@@ -828,7 +844,7 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else
 	{
-		if (argc > 0)
+		if (argc > 0 && strStartsWith(".", argv[0]))
 		{
 			int pid = sys_process_run(argv[0], argc - 1, &argv[1]);
 			if (pid > 0)
@@ -843,12 +859,11 @@ static int kshell_execute(int argc, const char **argv)
 				printf("process %d exited with status %d\n", info.pid, info.exitcode);
 #endif // DEBUG
 				process_reap(info.pid);
-			}
+			}}
 			else
 			{
 				printf("%s: command/program not found\n", argv[0]);
 			}
-		}
 	}
 	return 0;
 }
