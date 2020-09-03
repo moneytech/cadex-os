@@ -104,7 +104,7 @@ static uint32_t diskfs_data_block_alloc( struct fs_volume *v )
 		}
 	}
 
-	printf("[ERR]:[DISKFS] Cannot perform action. Disk full.\n");
+	printf("diskfs: error: cannot perform action: disk full.\n");
 
 	page_free(b);
 	return 0;
