@@ -4,9 +4,9 @@ include Makefile.config
 LIBRARY_SOURCES=$(wildcard libc/*.c)
 LIBRARY_HEADERS=$(wildcard libc/*.h)
 USER_SOURCES=$(wildcard usr/*.c)
-SYSTEM_BIN_SOURCES=$(wildcard bin/*.cc)
+SYSTEM_BIN_SOURCES=$(wildcard bin/*.c)
 USER_PROGRAMS=$(USER_SOURCES:c=exe)
-SYSTEM_BIN_FILES=$(SYSTEM_BIN_SOURCES:cc=exe)
+SYSTEM_BIN_FILES=$(SYSTEM_BIN_SOURCES:c=exe)
 KERNEL_SOURCES=$(wildcard kernel/*.[chS])
 
 MAKEFLAGS += --no-print-directory

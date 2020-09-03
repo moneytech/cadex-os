@@ -12,8 +12,7 @@ USER_PROGRAMS= mkdiag.exe \
 			   basic.exe \
 			   sudo.exe \
 			   text.exe \
-			   dim.exe \
-			   ccexample.exe
+			   dim.exe 
 
 all: $(USER_PROGRAMS)
 
@@ -21,9 +20,9 @@ all: $(USER_PROGRAMS)
 	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
 	@echo "CC     bin/$<"
 
-%.o: %.cc
-	@${CPP} -m32 -Wall -c -ffreestanding -nostdlib -nodefaultlibs -fno-pie -fno-builtin -fno-use-cxa-atexit -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings -fpermissive -g -I ../include -o $@ $<
-	@echo "CPP     bin/$<"
+# %.o: %.cc
+# 	@${CPP} -m32 -Wall -c -ffreestanding -nostdlib -nodefaultlibs -fno-pie -fno-builtin -fno-use-cxa-atexit -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings -fpermissive -g -I ../include -o $@ $<
+# 	@echo "CPP     bin/$<"
 
 %.exe: %.o ../libc/user-start.o ../libc/baselib.a
 	@i686-elf-ld -melf_i386 -Ttext 0x80000000 ../libc/user-start.o $< ../libc/baselib.a -o $@
