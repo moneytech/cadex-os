@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os, sys
 
 def append_end_note(line, string, file):
