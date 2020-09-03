@@ -31,18 +31,20 @@ LIBRARY_OBJECTS=errno.o \
 				stdlib/lldiv.o \
 				stdlib/llabs.o \
 				stdlib/panic.o \
+				stdlib/sudopasswd.o \
 				stdlib/strtod.o \
 				string/index.o \
 				string/bzero.o \
 				string/explicit_bzero.o \
 				string/swab.o \
+				string/strverscmp.o \
+				string/string.o \
 				objno.o \
 				syscalls.o \
 				syscall.o \
-				string/string.o \
 				stdio/stdio.o \
 				malloc.o \
-				math.o \
+				math/math.o \
 				qsort.o \
 				scanf.o \
 				assert.o \
@@ -52,8 +54,7 @@ LIBRARY_OBJECTS=errno.o \
 				wait.o \
 				user-start.o \
 				rand.o \
-				stdlib/sudopasswd.o \
-				alg/print_array.o \
+				algorithm/print_array.o \
 				truegl/truegl.o \
 				truegl/ui_button.o \
 				truegl/ui_textbox.o \
