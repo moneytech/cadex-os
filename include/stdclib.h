@@ -8,10 +8,22 @@
 // some cadex-specific attributes
 #define __cdx_attrtib __INSERT_CDX_ATTRIBUTE()
 
-// cadex_version.c
+//! cadex_version.c
+/**
+ * Get the system version
+ * @return char
+*/
 char *get_system_version();
 
-// contty.c
-int get_console_width(int window);
-int get_console_height(int window);
+//! contty.c
+/**
+ * Get the console width
+ * @return int
+*/
+int get_console_width();
+/**
+ * Get the console height
+ * @return int
+*/
+int get_console_height();
 #endif // !STDCLIB_H

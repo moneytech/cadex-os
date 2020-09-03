@@ -15,5 +15,5 @@ See the file LICENSE for details.
 // Return UTS_RELEASE constant defined in 'library/version.h'
 char *get_system_version(){
     // Return UTS_RELEASE
-    return UTS_RELEASE;
+    return LTS_RELEASE;
 }

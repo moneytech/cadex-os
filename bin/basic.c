@@ -15,6 +15,7 @@
 #define MAX_INPUT_CHARS 1024
 
 int x, y, w, h, fd;
+
 int check_semicolon(char *string[])
 {
     return strEndsWith(string, ";");
