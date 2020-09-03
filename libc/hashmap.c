@@ -273,3 +273,6 @@ int hashmap_is_empty(hashmap_t *map)
     }
     return 1;
 }
+
+
+/* EOF */
