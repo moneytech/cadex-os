@@ -55,3 +55,6 @@ const char * strerror(kernel_error_t err_code) {
 		return "Unknown error";
 	}
 }
+
+
+/* EOF */
