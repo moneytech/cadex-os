@@ -1,7 +1,7 @@
 
 include ../Makefile.config
 
-USER_PROGRAMS= mkdiag.exe \
+USER_PROGRAMS= sdlg.exe \
 			   whoami.exe \
 			   uname.exe \
 			   bounce.exe \
@@ -11,7 +11,7 @@ USER_PROGRAMS= mkdiag.exe \
 			   bshell.exe \
 			   basic.exe \
 			   sudo.exe \
-			   text.exe \
+			   splash.exe \
 			   dim.exe 
 
 all: $(USER_PROGRAMS)

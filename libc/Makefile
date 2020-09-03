@@ -32,6 +32,10 @@ LIBRARY_OBJECTS=errno.o \
 				stdlib/llabs.o \
 				stdlib/panic.o \
 				stdlib/strtod.o \
+				string/index.o \
+				string/bzero.o \
+				string/explicit_bzero.o \
+				string/swab.o \
 				objno.o \
 				syscalls.o \
 				syscall.o \

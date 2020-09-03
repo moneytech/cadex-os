@@ -1,3 +1,7 @@
+/**
+ * Fake splash screen for Manager
+*/
+
 #include <stdio.h>
 #include <library/scanf.h>
 

@@ -27,14 +27,15 @@ int main(int argc, char const *argv[])
     int width = dims[0];
     int height = dims[1];
 
+    // Check if length of command-line arguments is lesser than 0
+    if(argc <= 0){
+    //     // If length of command-line arguments is lesser than 0
+       printf("usage: sdlg [options]... (title|bgcolor|fgcolor|button)\n");
+       exit(0);
+    }
     renderWindow(WN_STDWINDOW);
     clearScreen(0, 0, width, height);
     flush();
-    // Check if length of command-line arguments is lesser than 0
-    // if(sizeof(argc) < 0){
-    //     // If length of command-line arguments is lesser than 0
-    //     printf("MKDiag version 0.2\nUsage: mkdiag.exe [OPTION]... (title|bgcolor|fgcolor|button)\n\nThis program is a part of Cadex OSUtils v0.11");
-    // }
     setTextColor(GRAY, 0);
     drawRect(x1, y1, 190, 80);
     setTextColor(WHITE, 0);

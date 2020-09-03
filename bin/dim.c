@@ -27,7 +27,7 @@ int main(int argc, const char *argv[])
     renderWindow(WN_STDWINDOW);
     clearScreen(0, 0, width, height);
     draw_window_border(1, 1, width - 1, height - 1, 3, 255, 255, 255);
-    print(10, 10, "*Untitled - Cadex DIM");
+    print(10, 10, "*Untitled - dim");
     setTextColor(WHITE, 0);
     drawRect(0, 22, width, 3);
     setTextColor(GREEN, 0);
