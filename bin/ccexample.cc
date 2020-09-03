@@ -4,6 +4,6 @@
 
 int main(int argc, const char *argv[])
 {
-    printf("CSafe call");
+    printf("CPP: CSafe call\n");
     return 0;
 }

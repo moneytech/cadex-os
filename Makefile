@@ -4,9 +4,9 @@ include Makefile.config
 LIBRARY_SOURCES=$(wildcard libc/*.c)
 LIBRARY_HEADERS=$(wildcard libc/*.h)
 USER_SOURCES=$(wildcard usr/*.c)
-SYSTEM_BIN_SOURCES=$(wildcard bin/*.c)
+SYSTEM_BIN_SOURCES=$(wildcard bin/*.cc)
 USER_PROGRAMS=$(USER_SOURCES:c=exe)
-SYSTEM_BIN_FILES=$(SYSTEM_BIN_SOURCES:c=exe)
+SYSTEM_BIN_FILES=$(SYSTEM_BIN_SOURCES:cc=exe)
 KERNEL_SOURCES=$(wildcard kernel/*.[chS])
 
 MAKEFLAGS += --no-print-directory
@@ -49,8 +49,10 @@ cadex.iso: image
 	@${ISOGEN} -input-charset utf-8 -iso-level 2 -J -R -o $@ -b boot/cadex.img image
 	@echo "Building ISO image..."
 	@rm -rf image
+
 success:
 	@echo "\nBuild finished. Type 'make run' to run\n"
+
 clean:
 	@rm -rf cadex.iso image
 	@cd kernel && make clean

@@ -22,11 +22,11 @@ all: $(USER_PROGRAMS)
 	@echo "CC     bin/$<"
 
 %.o: %.cc
-	@gcc ${KERNEL_CPPFLAGS} -I ../include $< -o $@
+	@${CPP} -m32 -Wall -c -ffreestanding -nostdlib -nodefaultlibs -fno-pie -fno-builtin -fno-use-cxa-atexit -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings -fpermissive -g -I ../include -o $@ $<
 	@echo "CPP     bin/$<"
 
 %.exe: %.o ../libc/user-start.o ../libc/baselib.a
-	@${LD} ${KERNEL_LDFLAGS} -melf_i386 -Ttext 0x80000000 ../libc/user-start.o $< ../libc/baselib.a -o $@
+	@i686-elf-ld -melf_i386 -Ttext 0x80000000 ../libc/user-start.o $< ../libc/baselib.a -o $@
 
 clean:
 	@rm -rf *.exe *.o

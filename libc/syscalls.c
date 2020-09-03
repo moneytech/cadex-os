@@ -10,6 +10,11 @@ See the file LICENSE for details.
 #include <library/mouse.h>
 
 char buffsize[5000];
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void syscall_debug(const char *str)
 {
 	syscall(SYSCALL_DEBUG, (uint32_t)str, 0, 0, 0, 0);
@@ -232,3 +237,7 @@ int gui_set_bgcolor(int r, int g, int b, int a)
 {
 	return syscall(SYSCALL_BGCOLOR, r, g, b, a, 0);
 }
+
+#ifdef __cplusplus
+}
+#endif
