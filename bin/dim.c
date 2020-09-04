@@ -1,5 +1,9 @@
 /**
- * dim: A small text editor
+ * dim: A small text editor designed for Cadex OS
+ * 
+ * NOTE: Because the virtual filesysten is not implemented, you cannot access
+ * the cdrom and the hard disk at the same time. Because of that, you cannot access
+ * dim.exe when the hard disk is mounted
 */
 #include <stdio.h>
 #include <library/scanf.h>
