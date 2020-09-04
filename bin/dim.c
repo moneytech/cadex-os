@@ -31,8 +31,8 @@ int main(int argc, const char *argv[])
     setTextColor(WHITE, 0);
     drawRect(0, 22, width, 3);
     setTextColor(GREEN, 0);
-    print(14, 35, "1");
-    movable_scanf(18, 35, line, sizeof(line));
+    printf("    1 ");
+    scanf(line, sizeof(line));
     //gui_set_bgcolor(GREEN, 100);
     return 0;
 }

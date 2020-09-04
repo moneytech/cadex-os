@@ -12,7 +12,8 @@ USER_PROGRAMS= sdlg.exe \
 			   basic.exe \
 			   sudo.exe \
 			   splash.exe \
-			   dim.exe 
+			   dim.exe \
+			   touch.exe
 
 all: $(USER_PROGRAMS)
 
