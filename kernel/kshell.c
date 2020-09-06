@@ -38,6 +38,8 @@ See the file LICENSE for details.
 #include "serial.h"
 #include "acpi.h"
 #include "module.h"
+#include "kernel/sysinfo.h"
+#include <library/version.h>
 
 #define BASEPORT 0x0060 /* lp1 */
 
@@ -746,15 +748,7 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else
 		{
-			printf("Long Char Test Ver 0.0.1\nUsage: longtest <speed>\n-s for slow and -f for fast\n");
-		}
-	}
-	else if (!strcmp(cmd, "unexpected"))
-	{
-
-		while (1)
-		{
-			printf("\-/-\-/");
+			printf("usage: longtest <speed>\nOptions: -s for slow and -f for fast\n");
 		}
 	}
 
@@ -765,7 +759,7 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else if (!strcmp(argv[1], "-b"))
 		{
-			printf("0.0.1B-D");
+			printf("0.1.5");
 		}
 		else if (!strcmp(argv[1], "-c"))
 		{
@@ -773,11 +767,11 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else if (!strcmp(argv[1], "-a"))
 		{
-			printf("Cadex OS v0.1.4 cadex-genuine CNL/Cadex\n");
+			printf("Cadex OS v0.1.5 genuine-cadex ckernel:1.5 Gorgeous-Gorilla\n");
 		}
 		else if (!strcmp(argv[1], "-v"))
 		{
-			printf("0.1.4\n");
+			printf("0.1.5\n");
 		}
 		else
 		{
@@ -826,6 +820,7 @@ static int kshell_execute(int argc, const char **argv)
 		process_wait_child(pid, &info, -1);
 		process_reap(info.pid);
 	}
+	/* cat utility: output the contents of a file to the console */
 	else if (!strcmp(cmd, "cat"))
 	{
 		int pid = sys_process_run("/bin/cat.exe", argc - 1, &argv[1]);
@@ -834,6 +829,7 @@ static int kshell_execute(int argc, const char **argv)
 		process_wait_child(pid, &info, -1);
 		process_reap(info.pid);
 	}
+	/* standard, not-so-secure version of sudo */
 	else if (!strcmp(cmd, "sudo"))
 	{
 		int pid = sys_process_run("/bin/sudo.exe", argc - 1, &argv[1]);
@@ -844,7 +840,7 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else
 	{
-		if (argc > 0 && strStartsWith(".", argv[0]))
+		if (argc > 0 && strStartsWith("./", argv[0]))
 		{
 			int pid = sys_process_run(argv[0], argc - 1, &argv[1]);
 			if (pid > 0)
