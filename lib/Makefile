@@ -2,7 +2,10 @@ include ../Makefile.config
 
 LIBRARY_OBJECTS=WindowCompositor.o\
 				widgets/Button.o \
-				widgets/WidgetBase.o
+				widgets/WidgetBase.o \
+				io/ostream.o \
+				io/istream.o \
+				io/iostream.o
 
 all: stdcpplib.a
 

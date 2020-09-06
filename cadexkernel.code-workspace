@@ -32,7 +32,8 @@
       "kernel.h": "c",
       "stdio.h": "c",
       "cctype": "c",
-      "graphics": "cpp"
+      "graphics": "cpp",
+      "iostream": "cpp"
     }
   }
 }

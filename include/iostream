@@ -1,0 +1,17 @@
+#ifndef IOSTREAM
+#define IOSTREAM
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <algorithm.h>
+#include <library/malloc.h>
+#include <library/math.h>
+#include <library/scanf.h>
+
+namespace std
+{
+    void cout(char *string);
+    void cin(char *string);
+}
+
+#endif // !IOSTREAM
