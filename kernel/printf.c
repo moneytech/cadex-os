@@ -10,6 +10,8 @@ See the file LICENSE for details.
 #include "keyboard.h"
 #include <stdarg.h>
 
+#define DEBUG 0
+
 static void printf_putchar( char c )
 {
 	console_putchar(&console_root,c);
@@ -131,3 +133,8 @@ void printf(const char *s, ...)
 	va_end(args);
 }
 
+void dbg_print(char *s){
+	#if DEBUG
+	printf("%s\n", s);
+	#endif
+}

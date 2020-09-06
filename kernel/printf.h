@@ -10,5 +10,6 @@ See the file LICENSE for details.
 char getchar();
 void putchar( char c );
 void printf( const char *s, ... );
+void dbg_print(char *s);
 
 #endif

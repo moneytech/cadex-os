@@ -602,9 +602,9 @@ int diskfs_volume_format( struct device *device )
 
 	page_free(b);
 
-	printf("diskfs: flushing buffer cache\n");
+	printf("diskfs: flushing buffer cache...");
 	bcache_flush_device(device);
-
+	printf("\n");
 	return 0;
 }
 
@@ -634,6 +634,7 @@ struct fs disk_fs = {
 
 int diskfs_init(void)
 {
+	dbg_print("Registering filesystem...");
 	fs_register(&disk_fs);
 	return 0;
 }
