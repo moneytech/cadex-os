@@ -1,16 +1,18 @@
 include ../Makefile.config
 
-LIBRARY_OBJECTS=
+LIBRARY_OBJECTS=WindowCompositor.o\
+				widgets/Button.o \
+				widgets/WidgetBase.o
 
-all: libdev_drivers.a
+all: stdcpplib.a
 
-%.o: %.c
-	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
-	@echo "CC    lib/$<"
+%.o: %.cpp
+	@${CPP} -m32 -Wall -c -ffreestanding -nostdlib -nodefaultlibs -fno-pie -fno-builtin -fno-use-cxa-atexit -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings -fpermissive -g -I ../include -o $@ $<
+	@echo "CPP    lib/$<"
 
-libdev_drivers.a: ${LIBRARY_OBJECTS}
+stdcpplib.a: ${LIBRARY_OBJECTS}
 	@${AR} r $@ ${LIBRARY_OBJECTS}
-	@echo "Creating libdev_drivers.a..."
+	@echo "Creating stdcpplib.a..."
 
 clean:
 	@rm -rf *.a ./*/*.o *.o

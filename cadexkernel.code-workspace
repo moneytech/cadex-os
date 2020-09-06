@@ -7,6 +7,7 @@
   "settings": {
     "files.associations": {
       "*.config": "plaintext",
+      "*.h": "c",
       "*.def": "c",
       "*.tcc": "c",
       "cstring": "cpp",
@@ -30,7 +31,8 @@
       "utility": "c",
       "kernel.h": "c",
       "stdio.h": "c",
-      "cctype": "c"
+      "cctype": "c",
+      "graphics": "cpp"
     }
   }
 }
