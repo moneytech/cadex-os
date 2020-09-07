@@ -70,6 +70,8 @@ clean:
 	@cd libc && make clean
 	@cd usr && make clean
 	@cd bin && make clean
+	@cd lib && make clean
+	@cd apps && make clean
 
 clear:
 	@clear
