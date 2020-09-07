@@ -25,6 +25,13 @@ This repo was made by HyperCreeck and actively maintained by HyperCreeck and peo
 
 To learn more, see the __[Cadex OS Wiki](https://github.com/opencreeck/Cadex-OS-Official/wiki).__
 
+# Project structure
+ * ***apps***: Sources for C++ apps
+ * ***basefs***: Base filesystem folder that goes into the ISO image
+ * ***bin***: Sources for standard system binaries (i.e, `/usr/bin` folder)
+ * ***docs***: Documentation about used drivers and APIs
+ 
+
 ## Instructions for building Cadex OS
 
 #### Installing the toolchain
