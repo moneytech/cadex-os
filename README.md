@@ -24,8 +24,8 @@ From there, it's your job to write user-level programs and expand the system.
 This repo was made by HyperCreeck and actively maintained by HyperCreeck and people in this Organisation.
 
 To learn more, see the __[Cadex OS Wiki](https://github.com/opencreeck/Cadex-OS-Official/wiki).__
- 
-## Quick Start Instructions
+
+## Instructions for building Cadex OS
 
 #### Installing the toolchain
 
