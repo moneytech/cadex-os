@@ -837,7 +837,12 @@ static int kshell_execute(int argc, const char **argv)
 		struct process_info info;
 		process_wait_child(pid, &info, -1);
 		process_reap(info.pid);
+	} else if (!strcmp(cmd, "wok"))
+	{
+		w_ok_status("Started wok service.");
+		w_fail_status("Error starting wok service.");
 	}
+	
 	else
 	{
 		if (argc > 0 && strStartsWith("./", argv[0]))

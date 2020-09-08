@@ -138,3 +138,39 @@ void dbg_print(char *s){
 	printf("%s\n", s);
 	#endif
 }
+
+/* Systemd like success messages */
+void w_ok_status(char *s){
+	struct graphics_color g;
+	g.a = 0;
+	g.b = 10;
+	g.g = 200;
+	g.r = 10;
+	printf("[ ");
+	graphics_fgcolor(&graphics_root, g);
+	printf("OK");
+	g.a = 0;
+	g.b = 255;
+	g.g = 255;
+	g.r = 255;
+	graphics_fgcolor(&graphics_root, g);
+	printf(" ]  %s\n", s);
+}
+
+void w_fail_status(char *s)
+{
+	struct graphics_color g;
+	g.a = 0;
+	g.b = 10;
+	g.g = 10;
+	g.r = 250;
+	printf("[ ");
+	graphics_fgcolor(&graphics_root, g);
+	printf("FAIL");
+	g.a = 0;
+	g.b = 255;
+	g.g = 255;
+	g.r = 255;
+	graphics_fgcolor(&graphics_root, g);
+	printf(" ]  %s\n", s);
+}

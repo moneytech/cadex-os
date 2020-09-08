@@ -311,11 +311,11 @@ int sys_object_list( int fd, char *buffer, int length)
 
 int sys_open_file_relative( int fd, const char *path, int mode, kernel_flags_t flags)
 {
-	if(!is_valid_object(fd)) return KERROR_INVALID_OBJECT;
-	if(!is_valid_path(path)) return KERROR_INVALID_PATH;
+	if(!is_valid_object(fd)) return -1;
+	if(!is_valid_path(path)) return -1;
 
 	int newfd = process_available_fd(current);
-	if(newfd<0) return KERROR_OUT_OF_OBJECTS;
+	if(newfd<0) return -1;
 
 	struct kobject *newobj;
 	int result = kobject_lookup(current->ktable[fd],path,&newobj);

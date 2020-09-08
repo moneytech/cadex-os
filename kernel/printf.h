@@ -11,5 +11,6 @@ char getchar();
 void putchar( char c );
 void printf( const char *s, ... );
 void dbg_print(char *s);
-
+void w_ok_status(char *s);
+void w_fail_status(char *s);
 #endif

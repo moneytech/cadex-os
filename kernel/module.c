@@ -17,7 +17,7 @@ extern void module_load(const char *name, uint8_t *elf)
         return;
     }
 
-    if (elf32_search_symbol(elf, "init", -1, s))
+    if (elf32_search_symbol(elf, "_start", -1, s))
     {
         printf("init @ 0x%x ", (uint32_t)elf + s[0]->value);
         c = (module_init_callback_t)((uint32_t)elf + s[0]->value);
