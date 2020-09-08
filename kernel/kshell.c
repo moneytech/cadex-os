@@ -682,12 +682,13 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		outb(0xf3, 0x00);
 		KPANIC("Emulator doesn't support shutdown");
-	} else if (!strcmp(cmd, "loadmodule"))
+	}
+	else if (!strcmp(cmd, "loadmodule"))
 	{
 		// Stubbed, you know that basic.exe is not a module, so its stubbed
 		module_load("/bin/basic.exe", "/bin/basic.exe");
 	}
-	
+
 	else if (!strcmp(cmd, "beep"))
 	{
 		/* A simple beep implementation. See https://wiki.osdev.org/PC_Speaker#Sample_Code/ /**Code by HyperCreeck**/
@@ -837,14 +838,10 @@ static int kshell_execute(int argc, const char **argv)
 		struct process_info info;
 		process_wait_child(pid, &info, -1);
 		process_reap(info.pid);
-	} else if (!strcmp(cmd, "wok"))
-	{
-		w_ok_status("Started wok service.");
-		w_fail_status("Error starting wok service.");
 	}
-	
 	else
 	{
+		// strStartsWith is required or every time you type a wrong command, it will say file not found
 		if (argc > 0 && strStartsWith("./", argv[0]))
 		{
 			int pid = sys_process_run(argv[0], argc - 1, &argv[1]);
@@ -860,11 +857,12 @@ static int kshell_execute(int argc, const char **argv)
 				printf("process %d exited with status %d\n", info.pid, info.exitcode);
 #endif // DEBUG
 				process_reap(info.pid);
-			}}
-			else
-			{
-				printf("%s: command/program not found\n", argv[0]);
 			}
+		}
+		else
+		{
+			printf("%s: command/program not found\n", argv[0]);
+		}
 	}
 	return 0;
 }

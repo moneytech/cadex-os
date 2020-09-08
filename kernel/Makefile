@@ -41,7 +41,8 @@ KERNEL_OBJECTS=kernelcore.o \
 			   module.o \
 			   pci.o \
 			   ide.o \
-			   service.o
+			   service.o \
+			   cmos.o
 
 cadex.img: bootblock kernel
 	@cat bootblock kernel /dev/zero | head -c 1474560 > cadex.img

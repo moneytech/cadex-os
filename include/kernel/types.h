@@ -37,6 +37,9 @@
 #define TRUE 1
 #endif
 
+#define asm __asm__
+#define volatile __volatile__
+
 #ifndef BOOL
 #define BOOL int
 #endif // !BOOL
@@ -84,5 +87,10 @@ typedef enum {
 	KERNEL_FLAGS_DIRECT=8
 } kernel_flags_t;
 
+struct timeval
+{
+	uint32_t tv_sec;
+	uint32_t tv_usec;
+};
 
 #endif

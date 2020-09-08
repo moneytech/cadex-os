@@ -1,8 +1,7 @@
 
 include ../Makefile.config
 
-USER_PROGRAMS= example.exe \
-	       pam.exe
+USER_PROGRAMS= example.exe
 
 all: $(USER_PROGRAMS)
 
