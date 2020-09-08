@@ -3,7 +3,6 @@
 #include <library/_cheader.h>
 #include <library/hashmap.h>
 #include <library/list_t.h>
-// #include <toaru/list_t>
 
 _Begin_C_Header
 

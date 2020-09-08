@@ -28,6 +28,8 @@ extern "C" {
 #endif
 
 #include <library/stddef.h>		/* for size_t */
+#include <library/types.h>
+#include <library/const.h>
 
 #ifndef ONLY_MSPACES
 #define ONLY_MSPACES 0		/* define to a value */

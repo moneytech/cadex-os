@@ -85,7 +85,11 @@ typedef struct{
     /* Window border color */
     gui_color_t *border_color;
 } tgl_window_t;
+
+/* Get window and objects */
 #define getObject(w) ((struct GameObject *)w)
+#define getWindow(w) ((tgl_window_t *) w)
+
 /**
  * Moves the specivied sprite to the specified X and Y location
  * 
