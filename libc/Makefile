@@ -33,6 +33,7 @@ LIBRARY_OBJECTS=errno.o \
 				stdlib/panic.o \
 				stdlib/sudopasswd.o \
 				stdlib/strtod.o \
+				stdlib/cppdefs.o \
 				string/index.o \
 				string/bzero.o \
 				string/explicit_bzero.o \
