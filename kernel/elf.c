@@ -163,6 +163,7 @@ int elf_load(struct process *p, const char *filename, addr_t * entry)
 uint8_t elf32_get_section_by_name(void *image, char *sect_name, elf_sect_t **sect)
 {
 	elf_file_t *elf = (elf_file_t *)image;
+	//struct fs_dirent *d = fs_resolve(image);
 	elf_sect_t /**sect_table,*/ *str_sect;
 	int8_t *strings;
 	uint32_t i, index;

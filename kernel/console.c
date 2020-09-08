@@ -9,6 +9,7 @@ See the file LICENSE for details.
 #include "graphics.h"
 #include "kmalloc.h"
 #include "string.h"
+#include "interrupt.h"
 
 struct console {
 	struct graphics *gx;
