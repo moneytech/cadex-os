@@ -27,6 +27,8 @@ See the file LICENSE for details.
 #include "diskfs.h"
 #include "serial.h"
 #include <sysinfo.h>
+#include "printf.h"
+#include "service.h"
 
 /*
 This is the C initialization point of the Cadex OS.
@@ -80,7 +82,7 @@ int kernel_main()
 	printf("\nCadex OS %sb-%s <<<<<<\n", SYS_VER, SYS_BUILD); // #define debug to enable version info
 	#endif
 	// start the necessary services
-	
+	service_start("/bin/dbusctl.exe", 0, 0, "dbus");
 	// launch shell
 	kshell_launch();
 
@@ -88,6 +90,6 @@ int kernel_main()
 		// we need this for the kshell or it will just show text and we can't type anything into it
 		console_putchar(&console_root,keyboard_read(a));
 	}
-	
+
 	return 0;
 }

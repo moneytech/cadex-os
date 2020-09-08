@@ -154,7 +154,7 @@ void w_ok_status(char *s){
 	g.g = 255;
 	g.r = 255;
 	graphics_fgcolor(&graphics_root, g);
-	printf(" ]  %s\n", s);
+	printf(" ]  %s", s);
 }
 
 void w_fail_status(char *s)
@@ -172,5 +172,5 @@ void w_fail_status(char *s)
 	g.g = 255;
 	g.r = 255;
 	graphics_fgcolor(&graphics_root, g);
-	printf(" ]  %s\n", s);
+	printf(" ]  %s", s);
 }

@@ -13,7 +13,8 @@ USER_PROGRAMS= sdlg.exe \
 			   sudo.exe \
 			   splash.exe \
 			   dim.exe \
-			   touch.exe
+			   touch.exe \
+			   dbusctl.exe
 
 all: $(USER_PROGRAMS)
 
