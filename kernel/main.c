@@ -79,6 +79,8 @@ int kernel_main()
 	#ifdef DEBUG
 	printf("\nCadex OS %sb-%s <<<<<<\n", SYS_VER, SYS_BUILD); // #define debug to enable version info
 	#endif
+	// start the necessary services
+	
 	// launch shell
 	kshell_launch();
 
