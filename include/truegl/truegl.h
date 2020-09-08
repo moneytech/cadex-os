@@ -67,6 +67,24 @@ typedef struct
     char *label;
 } UIElement;
 
+typedef struct{
+    /* Window size */
+    uint32_t width;
+    uint32_t height;
+
+    /* Window backing buffer */
+    char *buffer;
+    
+    /* Window focused flag */
+    uint8_t focused;
+
+    /* Window position */
+    int32_t x;
+    int32_t y;
+
+    /* Window border color */
+    gui_color_t *border_color;
+} tgl_window_t;
 #define getObject(w) ((struct GameObject *)w)
 /**
  * Moves the specivied sprite to the specified X and Y location
