@@ -765,15 +765,6 @@ int printf(const char *s, ...)
 				u = va_arg(args, int32_t);
 				printf_putchar(u);
 				break;
-			case 't':
-				for (size_t x = 0; x = TAB_SIZE; x++)
-				{
-					printf_putchar(' ');
-				}
-				break;
-			case 0:
-				return;
-				break;
 			default:
 				printf_putchar(*s);
 				break;
@@ -836,32 +827,3 @@ char *uint_to_string(uint32_t u, char *s)
 //         printf("%c", c);
 //     }
 // }
-/* Work in progress */
-//int scanf(char *line)
-//{	int i = 0;
-//    while (i < (length - 1))
-//    {
-//        char c;		fgets(0, &line, sizeof(&line));
-//        if (c == ASCII_CR)
-//        {
-//            line[i] = 0;
-//            printf("\n");
-//            return 1;
-//        }
-//        else if (c == ASCII_BS)
-//        {
-//            if (i > 0)
-//            {
-//                putchar(c);
-//                i--;
-//            }
-//        }
-//        else if (c >= 0x20 && c <= 0x7E)
-//        {
-//            putchar(c);
-//            line[i] = c;
-//            i++;
-//        }
-//    }
-//    return 0;
-//}

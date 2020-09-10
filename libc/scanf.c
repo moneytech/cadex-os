@@ -21,7 +21,6 @@ extern int scanf(char *line, int length)
             printf_putchar(c);
             flushScreen();
             flush();
-            line[i] = 0;
             return i;
         }
         else if (c == ASCII_BS)
@@ -38,7 +37,6 @@ extern int scanf(char *line, int length)
         {
             if (i < (length - 1))
             {
-                line[i] = c;
                 i++;
                 printf_putchar(c);
                 flushScreen();

@@ -58,7 +58,7 @@ int mouse_dev_read(struct mouse_event *m){
 int sys_debug(const char *str)
 {
 	if(!is_valid_string(str)) return KERROR_INVALID_ADDRESS;
-	printf("%s", str);
+	printf("debug: %s", str);
 	return 0;
 }
 

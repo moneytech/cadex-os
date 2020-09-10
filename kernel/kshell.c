@@ -842,7 +842,7 @@ static int kshell_execute(int argc, const char **argv)
 	else
 	{
 		// strStartsWith is required or every time you type a wrong command, it will say file not found
-		if (argc > 0 && strStartsWith("./", argv[0]))
+		if (argc > 0 && strStartsWith(".", argv[0]))
 		{
 			int pid = sys_process_run(argv[0], argc - 1, &argv[1]);
 			if (pid > 0)

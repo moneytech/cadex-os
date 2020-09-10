@@ -68,10 +68,6 @@ struct fs_dirent *fs_resolve(const char *path)
 		kfree(tagstr);
 		if (!tagobj)
 		{
-// Let's just print a Windows-style file not found error message!
-#ifndef __kshell_ignore_errmsg
-			printf("The system cannot find the path specified\n");
-#endif
 			return 0;
 		}
 		// XXX KERROR_NOT_FOUND;

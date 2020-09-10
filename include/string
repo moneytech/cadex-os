@@ -1,0 +1,49 @@
+#ifndef _STRING
+#define _STRING
+
+#include <string.h>
+#include <library/malloc.h>
+
+namespace std
+{
+    /* C++ String Class */
+    class string
+    {
+    private:
+        char *str;
+
+    public:
+        /* Properties */
+        int length;
+
+        bool endsWith(char *suffix)
+        {
+            return strEndsWith(str, suffix);
+        }
+
+        bool startsWith(char *prefix)
+        {
+            return strStartsWith(prefix, str);
+        }
+        
+        int getLength()
+        {
+            return strlen(str);
+        }
+        // Constructor
+        string(char *a)
+        {
+            // Set the value of 'str' to the value of 'a'
+            this->str = a;
+        }
+
+        // Destructor
+        ~string()
+        {
+            // Free the memory
+            // free(str);
+        }
+    };
+} // namespace std
+
+#endif
