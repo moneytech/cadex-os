@@ -32,6 +32,10 @@ namespace std
         {
             return strlen(str);
         }
+
+        void setValue(char *a){
+            str = a;
+        }
         // Constructor
         string(char *a)
         {

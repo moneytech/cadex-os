@@ -365,6 +365,12 @@ void draw_window_border(int x, int y, int w, int h, int thickness, int r, int g,
 	flushScreen();
 	//resetColor();
 }
+
+/**
+ * Draw the Cadex OS Logo to the console
+ * @param x The x position of logo
+ * @param y The y position of the logo
+*/
 void draw_cadex_logo(int x, int y)
 {
 	renderWindow(WN_STDWINDOW);
@@ -379,4 +385,14 @@ void draw_cadex_logo(int x, int y)
 	drawRect(x, y, 10, 10);
 	flushScreen();
 	flush();
+}
+
+/**
+ * Get a line from a file
+ * @param fd The file to read
+ * @param buffer The buffer to save to. (Probably a char *[])
+ * 
+*/
+int fgets(int fd, char *buffer[], int length){
+	return read_object(fd, buffer, length);
 }
