@@ -24,7 +24,7 @@ int filereads()
       fd[2] = syscall_open_file("bin/saver.exe", 0, 0);
       for (j = 0; j < 3; j++)
       {
-        while ((n = fgets(fd[j], buffer, 1024)) > 0)
+        while ((n = read_object(fd[j], buffer, 1024)) > 0)
         {
         }
       }

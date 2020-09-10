@@ -17,5 +17,6 @@ int service_start(char *path, int argc, char *argv[], char *s_name)
         w_ok_status("Started service ");
         printf("%s\n", s_name);
     }
+    process_reap(pid);
     return 0;
 }

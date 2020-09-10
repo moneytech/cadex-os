@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 	{
 		char buffer[4096];
 		int n;
-		while ((n = fgets(fd, buffer, 4096 - 1)) > 0)
+		while ((n = read_object(fd, buffer, 4096 - 1)) > 0)
 		{
 			buffer[n] = 0;
 			printf("%s");

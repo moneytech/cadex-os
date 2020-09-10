@@ -68,6 +68,7 @@ struct fs_dirent *fs_resolve(const char *path)
 		kfree(tagstr);
 		if (!tagobj)
 		{
+			printf("%s: No such file or directory\n", path);
 			return 0;
 		}
 		// XXX KERROR_NOT_FOUND;
@@ -218,7 +219,7 @@ struct fs_dirent *fs_dirent_traverse(struct fs_dirent *parent, const char *path)
 		if (!n)
 		{
 			// KERROR_NOT_FOUND
-			printf("The system cannot find the path/files specified\n");
+			printf("%s: No such file or directory\n", path);
 			kfree(lpath);
 			return 0;
 		}
@@ -533,6 +534,6 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth)
 
 failure:
 	page_free(buffer);
-	printf("The system cannot find the path/fidle specified\n");
+	printf("No such file or directory");
 	return 0;
 }

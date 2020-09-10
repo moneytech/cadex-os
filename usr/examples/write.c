@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 	char buffer[1000];
 	int n;
 	printf("reading file...\n");
-	while ((n = fgets(fd, buffer, 999)) > 0)
+	while ((n = read_object(fd, buffer, 999)) > 0)
 	{
 		buffer[n] = 0;
 		printf("%s");

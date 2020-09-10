@@ -71,7 +71,7 @@ See the file LICENSE for details.
     int syscall_##fn(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5)                                                                   \
     {                                                                                                                     \
         int __res;                                                                                                        \
-        __asm__ __volatile__("push %%ebx; movl %2,%%ebx; int $48; pop %%ebx"                                            \
+        __asm__ __volatile__("push %%ebx; movl %2,%%ebx; int $48; pop %%ebx"                                              \
                              : "=a"(__res)                                                                                \
                              : "0"(num), "r"((int)(p1)), "c"((int)(p2)), "d"((int)(p3)), "S"((int)(p4)), "D"((int)(p5))); \
         return __res;                                                                                                     \
@@ -112,7 +112,7 @@ int syscall_open_pipe();
 
 int syscall_object_type(int fd);
 int syscall_object_dup(int fd1, int fd2);
-int fgets(int fd, void *data, int length);
+int read_object(int fd, void *data, int length);
 int fgets_nonblock(int fd, void *data, int length);
 int syscall_object_list(int fd, char *buffer, int buffer_len);
 int syscall_object_write(int fd, void *data, int length);
@@ -144,6 +144,5 @@ and need to be reworked to fit the kernel object model.
 */
 
 int syscall_chdir(const char *path);
-
 
 #endif

@@ -54,9 +54,9 @@ int main(int argc, const char *argv[])
     if (strEndsWith(argv[0], ".b86"))
     {
         printf("FILE: %s\n\n", argv[0]);
-        while ((n = fgets(fd, buffer, 100)) > 0)
+        while ((n = read_object(fd, buffer, 100)) > 0)
         {
-            start:
+        start:
             buffer[n] = 0;
 
             cargc = 0;

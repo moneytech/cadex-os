@@ -179,7 +179,7 @@ int main(int argc, char *argv[])
 		}
 
 		/* If tab entered, go to the next process */
-		fgets(0, &tin, 1);
+		read_object(0, &tin, 1);
 		if (tin == '\t')
 		{
 			renderWindow(WN_STDWINDOW);

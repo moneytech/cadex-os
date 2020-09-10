@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
         //printf("reading file...\n");
         if (fd > 0)
         {
-            while ((n = fgets(fd, buffer, 100)) > 0)
+            while ((n = read_object(fd, buffer, 100)) > 0)
             {
                 buffer[n] = 0;
                 printf("%s", buffer);

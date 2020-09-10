@@ -46,16 +46,16 @@ int kernel_main()
 	console_init(g);
 	// add reference to console_root
 	console_addref(&console_root);
-	
+
 	// print the screen resolution
 	printf("[SYS] video: %d x %d\n", video_xres, video_yres, video_xbytes);
-	// print the kernel size 
+	// print the kernel size
 	printf("[SYS] kernel: %d bytes\n", kernel_size);
 
 	// init paging
 	page_init();
 	// init kernel memory allocator
-	kmalloc_init((char *) KMALLOC_START, KMALLOC_LENGTH);
+	kmalloc_init((char *)KMALLOC_START, KMALLOC_LENGTH);
 	// init interrupt manager
 	interrupt_init();
 	// init realtime clock
@@ -78,17 +78,18 @@ int kernel_main()
 	serial_init(0x3f8);
 	// mount atapi device with unit 2
 	kshell_mount("atapi", 2, "cdromfs");
-	#ifdef DEBUG
+#ifdef DEBUG
 	printf("\nCadex OS %sb-%s <<<<<<\n", SYS_VER, SYS_BUILD); // #define debug to enable version info
-	#endif
+#endif
 	// start the necessary services
 	service_start("/bin/dbusctl.exe", 0, 0, "dbus");
 	// launch shell
 	kshell_launch();
 
-	while(1) {
+	while (1)
+	{
 		// we need this for the kshell or it will just show text and we can't type anything into it
-		console_putchar(&console_root,keyboard_read(a));
+		console_putchar(&console_root, keyboard_read(a));
 	}
 
 	return 0;

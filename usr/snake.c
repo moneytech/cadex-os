@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
 	print(thick * 3, thick * 20, "b: left");
 	flush();
 
-	fgets(0, &tin, 1);
+	read_object(0, &tin, 1);
 	if (tin != 'm' && tin != 'n')
 	{
 		in = 'm';
@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 			print(thick * 3, thick * 8, "Enter q to quit");
 			print(thick * 3, thick * 12, "Press any key to start");
 			flush();
-			fgets(0, &tin, 1);
+			read_object(0, &tin, 1);
 			if (tin == 'q')
 			{
 				printf("Snake exiting\n");
