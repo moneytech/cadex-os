@@ -354,6 +354,11 @@ FILE *fopen(const char *path, const char *mode)
 
 	return out;
 }
+/**
+ * Draws a border with the specified dimensions and color
+ * @param x
+ * @param y
+*/
 void draw_window_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
 {
 	setTextColor(r, b, g, 0);
