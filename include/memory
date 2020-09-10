@@ -1,0 +1,18 @@
+#ifndef _MEMORY
+#define _MEMORY
+
+#include <library/malloc.h>
+
+namespace std
+{
+    class MemoryManager
+    {
+    protected:
+    /* :) */
+    private:
+    public:
+    };
+
+} // namespace std
+
+#endif

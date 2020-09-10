@@ -4,6 +4,8 @@
 #include <string.h>
 #include <library/malloc.h>
 
+#include <memory>
+
 namespace std
 {
     /* C++ String Class */
@@ -25,7 +27,7 @@ namespace std
         {
             return strStartsWith(prefix, str);
         }
-        
+
         int getLength()
         {
             return strlen(str);
@@ -37,11 +39,26 @@ namespace std
             this->str = a;
         }
 
+        // Get the value of string
+        char *getValue(){
+            return str;
+        }
+
         // Destructor
         ~string()
         {
             // Free the memory
             // free(str);
+        }
+
+        void *operator new(unsigned int a)
+        {
+            return malloc(a);
+        }
+
+        void operator delete(void *a)
+        {
+            return free(a);
         }
     };
 } // namespace std

@@ -10,8 +10,32 @@
 
 namespace std
 {
-    void cout(char *string);
-    void cin(char *string);
-}
+    class Console
+    {
+    public:
+        Console()
+        {
+        }
+
+        ~Console()
+        {
+        }
+
+        static void Write(char *str)
+        {
+            printf("%s", str);
+        }
+
+        static void WriteLine(char *str)
+        {
+            printf("%s\n", str);
+        }
+
+        void ReadLine(char *str)
+        {
+            scanf(str, sizeof(str));
+        }
+    };
+} // namespace std
 
 #endif // !IOSTREAM

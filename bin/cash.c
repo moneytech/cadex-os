@@ -182,7 +182,7 @@ int do_command(char *line)
 	}
 	else if (pch && !strcmp(pch, "help"))
 	{
-		printf("Commands:\necho <text>\nrun <path>\nmount <unit_no> <fs_type>\nlist\nstart <path>\nkill <pid>\nreap <pid>\nwait\nhelp\nexit\n");
+		printf("Commands:\n - echo <text>\n - run <path>\n - mount <unit_no> <fs_type>\n - list\n - start <path>\n - kill <pid>\n - reap <pid>\n - wait\n - help\n - exit\n");
 	}
 	else if (pch && !strcmp(pch, "exit"))
 	{
@@ -213,7 +213,7 @@ int readline(char *line, int length)
 	char c;
 	while (1)
 	{
-		fgets(0, &c, 1);
+		read_object(0, &c, 1);
 		if (c == ASCII_CR)
 		{
 			printf_putchar(c);
@@ -249,7 +249,7 @@ int main(int argc, char *argv[])
 
 	while (1)
 	{
-		printf("(root:cadex)~: ");
+		printf("(root@cadex)# ");
 		flush();
 		if (readline(line, sizeof(line)))
 		{

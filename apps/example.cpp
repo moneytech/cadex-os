@@ -30,9 +30,10 @@ example::~example()
 
 int main(int argc, const char *argv[])
 {
-    printf("This is a small C++ program!\n");
+    printf("This is a small C++ program! If you see this message, that means you can make apps for Cadex OS with C++!\n");
     example *ex;
-    ex->a_string = "hello";
-    printf("%s", ex->a_string);
+    string *mystring = new string("Hello");
+    Console::Write(mystring->getValue());
+    printf("%s", mystring->getValue());
     return 0;
 }
