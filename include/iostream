@@ -1,3 +1,6 @@
+/**
+ * iostream: Header-only iostream library for Cadex OS
+*/
 #ifndef IOSTREAM
 #define IOSTREAM
 
@@ -26,6 +29,10 @@ namespace std
             printf("%s", str);
         }
 
+        /**
+         * Writes a line to console
+         * @param str String to write to console
+        */
         static void WriteLine(char *str)
         {
             printf("%s\n", str);
