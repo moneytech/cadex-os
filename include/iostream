@@ -1,9 +1,11 @@
+
 /**
  * iostream: Header-only iostream library for Cadex OS
 */
 #ifndef IOSTREAM
 #define IOSTREAM
 
+// We need these header files because the standard I/O functions and the types are defined here
 #include <stdio.h>
 #include <stdlib.h>
 #include <algorithm.h>
@@ -13,17 +15,39 @@
 
 namespace std
 {
+    /**
+     * The base console class
+     * @author HyperCreeck (@asiawin)
+    */
     class Console
     {
     public:
+        /**
+         * Create a console on WN_STDWINDOW
+        */
         Console()
         {
         }
 
+        /**
+         * Creates a console on specified window
+         * @param window The window to initialize the console
+        */
+        Console(int window)
+        {
+        }
+
+        /**
+         * Delete the console object
+        */
         ~Console()
         {
         }
 
+        /**
+         * Writes the specified string to the console
+         * @param str The string to write to the console
+        */
         static void Write(char *str)
         {
             printf("%s", str);
@@ -38,6 +62,10 @@ namespace std
             printf("%s\n", str);
         }
 
+        /**
+         * Read a line from the STDIN
+         * @param str The string to store the input to
+        */
         void ReadLine(char *str)
         {
             scanf(str, sizeof(str));
