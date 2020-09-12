@@ -65,7 +65,8 @@
       "iosfwd": "cpp",
       "new": "cpp",
       "thread": "cpp",
-      "cinttypes": "cpp"
+      "cinttypes": "cpp",
+      "widget": "cpp"
     }
   }
 }
