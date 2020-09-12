@@ -1,4 +1,10 @@
 /**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+*/
+
+/**
  * Example program demonstrating how to make apps for Cadex OS in C++
 */
 #include <iostream>
@@ -18,17 +24,20 @@ public:
     ~example();
 };
 
+// TEST: Constructor
 example::example()
 {
-    printf("Constructor\n");
+    printf("\nConstructor\n");
     printf("%d\n", example::a);
 }
 
+// TEST: Destructor
 example::~example()
 {
-    printf("Destructor\n");
+    printf("\nDestructor\n");
 }
 
+// TEST: Method
 auto example::example_function() -> void
 {
     Console::WriteLine("Calling from a function!");
@@ -36,10 +45,18 @@ auto example::example_function() -> void
 
 int main(int argc, const char *argv[])
 {
-    Console::Write("This is a small C++ program! If you see this message, that means you can make apps for Cadex OS with C++!");
+    Console::Write("C++ Test");
+
+    // TEST: Class init
     example ex = example();
+
+    // TEST: String creation
     String *mystring = new String("Hello\n");
+
+    // TEST: Output the value of mystring to the console
     Console::Write(mystring->getValue());
+
+    // TEST: Function call from example class
     ex.example_function();
     return 0;
 }
