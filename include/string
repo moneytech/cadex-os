@@ -9,7 +9,7 @@
 namespace std
 {
     /* C++ String Class */
-    class string
+    class String
     {
     private:
         char *str;
@@ -18,44 +18,77 @@ namespace std
         /* Properties */
         int length;
 
-        bool endsWith(char *suffix)
+        /**
+         * Returns 1 if the string ends with the specified suffix
+         * @param suffix The suffix to check
+        */
+        auto endsWith(char *suffix) -> int
         {
             return strEndsWith(str, suffix);
         }
 
-        bool startsWith(char *prefix)
+        /**
+         * Returns 1 if the string starts with the specified prefix
+         * @param prefix The prefix to check
+        */
+        auto startsWith(char *prefix) -> int
         {
             return strStartsWith(prefix, str);
         }
 
-        int getLength()
+        /**
+         * Returns the length of the string
+        */
+        auto getLength() -> int
         {
             return strlen(str);
         }
 
-        void setValue(char *a){
+        /**
+         * Sets the value of the string
+        */
+        auto setValue(char *a) -> void
+        {
             str = a;
         }
-        // Constructor
-        string(char *a)
+
+        /**
+         * Creates a new String object with the specified value
+         * @param a The value to store in the String object
+        */
+        String(char *a)
         {
             // Set the value of 'str' to the value of 'a'
-            this->str = a;
+            str = a;
         }
 
-        // Get the value of string
-        char *getValue(){
+        /**
+         * Creates a new String object with an empty string
+        */
+        String()
+        {
+            str = "";
+        }
+
+        /**
+         * Returns the value of the stored string
+        */
+        auto getValue() -> char *
+        {
             return str;
         }
 
-        // Destructor
-        ~string()
+        /**
+         * Default destructor
+        */
+        ~String()
         {
             // Free the memory
             // free(str);
         }
 
-        void *operator new(unsigned int a)
+        /* Operators */
+        auto operator new(unsigned int a) -> void *
         {
             return malloc(a);
         }

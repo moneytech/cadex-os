@@ -13,11 +13,12 @@ private:
 
 public:
     char *a_string;
-    example(/* args */);
+    example();
+    auto example_function() -> void;
     ~example();
 };
 
-example::example(/* args */)
+example::example()
 {
     printf("Constructor\n");
     printf("%d\n", example::a);
@@ -28,12 +29,17 @@ example::~example()
     printf("Destructor\n");
 }
 
+auto example::example_function() -> void
+{
+    Console::WriteLine("Calling from a function!");
+}
+
 int main(int argc, const char *argv[])
 {
-    printf("This is a small C++ program! If you see this message, that means you can make apps for Cadex OS with C++!\n");
-    example *ex;
-    string *mystring = new string("Hello");
+    Console::Write("This is a small C++ program! If you see this message, that means you can make apps for Cadex OS with C++!");
+    example ex = example();
+    String *mystring = new String("Hello\n");
     Console::Write(mystring->getValue());
-    printf("%s", mystring->getValue());
+    ex.example_function();
     return 0;
 }

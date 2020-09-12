@@ -6,7 +6,7 @@ USER_PROGRAMS= example.exe
 all: $(USER_PROGRAMS)
 
 %.o: %.cpp
-	@gcc -m32 -Wall -c -ffreestanding -nostdlib -nodefaultlibs -fno-pie -fno-builtin -fno-use-cxa-atexit -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings -fpermissive -g -I ../include -o $@ $<
+	@gcc -m32 -Wall -c -std=c++14 -ffreestanding -nostdlib -nodefaultlibs -fno-pie -fno-builtin -fno-use-cxa-atexit -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings -fpermissive -g -I ../include -o $@ $<
 	@echo "CPP    apps/$<"
 
 %.exe: %.o ../libc/user-start.o ../libc/baselib.a ../lib/stdcpplib.a
