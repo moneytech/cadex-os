@@ -53,6 +53,22 @@ namespace std
         }
 
         /**
+         * Splits the string with the specified delimeter
+         * @param a The delimeter to use for splitting the string
+        */
+        auto split(char *a) -> char *
+        {
+            return strtok(str, a);
+        }
+
+        /**
+         * Converts the string to Integer with the atoi function
+        */
+        auto toInt() -> int
+        {
+            return atoi(str);
+        }
+        /**
          * Creates a new String object with the specified value
          * @param a The value to store in the String object
         */
