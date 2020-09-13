@@ -15,6 +15,18 @@
 
 namespace std
 {
+    class ostream
+    {
+    private:
+    public:
+        ostream()
+        {
+        }
+        ~ostream()
+        {
+        }
+    };
+
     /**
      * The base console class
      * @author HyperCreeck (@asiawin)

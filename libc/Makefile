@@ -53,7 +53,7 @@ LIBRARY_OBJECTS=errno.o \
 				toupper.o \
 				tolower.o \
 				wait.o \
-				user-start.o \
+				crt0.o \
 				rand.o \
 				algorithm/print_array.o \
 				truegl/truegl.o \

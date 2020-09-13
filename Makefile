@@ -3,8 +3,6 @@ include Makefile.config
 
 LIBRARY_SOURCES=$(wildcard libc/*.c)
 LIBRARY_HEADERS=$(wildcard libc/*.h)
-LIBCPP_SOURCES=$(wildcard lib/*.cpp)
-LIBCPP_HEADERS=$(wildcard lib/*.h)
 USER_SOURCES=$(wildcard usr/*.c)
 APPS_SOURCES=$(wildcard apps/*.cpp)
 SYSTEM_BIN_SOURCES=$(wildcard bin/*.c)
@@ -31,16 +29,13 @@ hddimg:
 libc/baselib.a: $(LIBRARY_SOURCES) $(LIBRARY_HEADERS)
 	@cd libc && make ${MAKEFLAGS}
 
-lib/stdcpplib.a: $(LIBCPP_SOURCES) $(LIBCPP_HEADERS)
-	@cd lib && make ${MAKEFLAGS}
-
 $(USER_PROGRAMS): $(USER_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)
 	@cd usr && make ${MAKEFLAGS}
 
 $(SYSTEM_BIN_FILES): $(SYSTEM_BIN_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)
 	@cd bin && make ${MAKEFLAGS}
 
-$(APPS_BINARIES): $(APPS_SOURCES) libc/baselib.a lib/stdcpplib.a $(LIBRARY_HEADERS) $(LIBCPP_HEADERS)
+$(APPS_BINARIES): $(APPS_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)
 	@cd apps && make ${MAKEFLAGS}
 
 kernel/cadex.img: $(KERNEL_SOURCES) $(LIBRARY_HEADERS)
@@ -70,7 +65,6 @@ clean:
 	@cd libc && make clean
 	@cd usr && make clean
 	@cd bin && make clean
-	@cd lib && make clean
 	@cd apps && make clean
 
 clear:
