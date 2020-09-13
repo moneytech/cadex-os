@@ -1,7 +1,8 @@
 
 include ../Makefile.config
 
-USER_PROGRAMS= tests.exe
+USER_PROGRAMS= tests.exe \
+			   intlang.exe
 
 all: $(USER_PROGRAMS)
 
