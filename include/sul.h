@@ -11,5 +11,12 @@
 #define SUL_H
 
 #include <sul/base64.h>
+#include <sul/urlparser.h>
 
+#ifdef __cplusplus
+namespace std::sul
+{
+
+} // namespace std::sul
+#endif
 #endif // !SUL_H

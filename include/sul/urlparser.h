@@ -23,8 +23,8 @@
 /**
  * Taken from https://github.com/jacketizer/libyuarel/
 */
-#ifndef INC_YUAREL_H
-#define INC_YUAREL_H
+#ifndef YUAREL_H
+#define YUAREL_H
 
 #ifdef __cplusplus
 extern "C"
