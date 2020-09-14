@@ -9,10 +9,71 @@
 #define _CONFIG
 
 /* Definitions for library namespaces */
-#define _LIBCXX_HEADER_BEGIN namespace std {
-#define _LIBCXX_HEADER_END }
+#define _LIBCXX_NAMESPACE_STD_BEGIN \
+    namespace std                   \
+    {
+#define _LIBCXX_NAMESPACE_STD_END }
 
-#define _LIBC_HEADER_BEGIN extern "C"{
-#define _LIBC_HEADER_END }
-    
+#define _LIBC_EXTERN_HEADER_BEGIN \
+    extern "C"                    \
+    {
+#define _LIBC_EXTERN_HEADER_END }
+
+/* LIBCPP Standard version */
+#ifndef _LIBCPP_STD_VER
+#if __cplusplus <= 201103L
+#define _LIBCPP_STD_VER 11
+#elif __cplusplus <= 201402L
+#define _LIBCPP_STD_VER 14
+#elif __cplusplus <= 201703L
+#define _LIBCPP_STD_VER 17
+#else
+#define _LIBCPP_STD_VER 18 // current year, or date of c++2a ratification
+#endif
+#endif
+
+/* Executable format */
+#if defined(__ELF__)
+#define _LIBCPP_OBJECT_FORMAT_ELF 1
+#elif defined(__MACH__)
+#define _LIBCPP_OBJECT_FORMAT_MACHO 1
+#elif defined(_WIN32)
+#define _LIBCPP_OBJECT_FORMAT_COFF 1
+#elif defined(__wasm__)
+#define _LIBCPP_OBJECT_FORMAT_WASM 1
+#else
+#error Unknown object file format
+#endif
+
+#if defined(_WIN32)
+#error Cannot compile in win32 mode.
+#endif
+
+#ifndef __has_attribute
+#define __has_attribute(__x) 0
+#endif
+
+#ifndef __has_builtin
+#define __has_builtin(__x) 0
+#endif
+
+#ifndef __has_extension
+#define __has_extension(__x) 0
+#endif
+
+#ifndef __has_feature
+#define __has_feature(__x) 0
+#endif
+
+#ifndef __has_cpp_attribute
+#define __has_cpp_attribute(__x) 0
+#endif
+
+#if defined(__arm__)
+#error ARM compiler not supported. Please use i686 or x86 GCC and G++
+#endif
+#if defined(_LIBCPP_COMPILER_GCC) && __cplusplus < 201103L
+#error "libc++ does not support using GCC with C++03. Please enable C++11"
+#endif
+
 #endif
