@@ -67,7 +67,8 @@
       "thread": "cpp",
       "cinttypes": "cpp",
       "widget": "cpp",
-      "__config": "cpp"
+      "__config": "cpp",
+      "color": "cpp"
     }
   }
 }

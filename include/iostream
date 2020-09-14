@@ -9,13 +9,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <algorithm.h>
+#include <color>
 #include <library/malloc.h>
 #include <library/math.h>
 #include <library/scanf.h>
 
 namespace std
 {
-    
+
     /**
      * The base console class
      * @author HyperCreeck (@asiawin)
@@ -70,6 +71,15 @@ namespace std
         void ReadLine(char *str)
         {
             scanf(str, sizeof(str));
+        }
+
+        /**
+         * Sets the foreground color of the console
+         * @param color The color to use
+        */
+        auto SetForegroundColor(Colors::Color *color) -> void
+        {
+            setTextColor(color->r, color->g, color->b, color->a);
         }
     };
 } // namespace std
