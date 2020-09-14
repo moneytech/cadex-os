@@ -18,3 +18,4 @@ test.txt
 .vscode
 settings.json
 installed.txt
+llvm-project/*

@@ -1,0 +1,4 @@
+#ifndef _CONFIG
+#define _CONFIG
+
+#endif
