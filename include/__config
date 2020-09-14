@@ -1,4 +1,18 @@
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+ * 
+ * NOTE: Some parts of this code is taken from the LLVM project while others look like they are taken from LLVM but they are written from scratch
+*/
 #ifndef _CONFIG
 #define _CONFIG
 
+/* Definitions for library namespaces */
+#define _LIBCXX_HEADER_BEGIN namespace std {
+#define _LIBCXX_HEADER_END }
+
+#define _LIBC_HEADER_BEGIN extern "C"{
+#define _LIBC_HEADER_END }
+    
 #endif
