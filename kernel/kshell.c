@@ -686,7 +686,7 @@ static int kshell_execute(int argc, const char **argv)
 	else if (!strcmp(cmd, "loadmodule"))
 	{
 		// Stubbed, you know that basic.exe is not a module, so its stubbed
-		module_load("/bin/basic.exe", "/bin/basic.exe");
+		module_load(argv[1], argv[2]);
 	}
 
 	else if (!strcmp(cmd, "beep"))
@@ -713,11 +713,7 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "help"))
 	{
-		printf("Cadex Shell Commands:\n\n* whoami\n* longtest\n* cbas\n* chprompt <args>\n* mkdiag\n* clear\n* uname <args>\n* run <path> <args>\n* pman install <package>\n* pman remove <package>\n* pman reinit\n* pman upgrade <pacgage>\n* whoami\n* start <path> <args>\n* kill <pid>\n* reap <pid>\n* wait\n* ls\n* mount <device> <unit> <fstype>\n* umount\n* format <device> <unit><fstype>\n* install <srcunit> <dstunit>\n* cd <path>\n* mkdir <path>\n* rm <path>\n* time\n* bcache_stats\n* bcache_flush\n* reboot\n* shutdown\n* help\n\n");
-	}
-	else if (!strcmp(cmd, "pman"))
-	{
-		printf(">>>>>>>>> Cadex Package Manager <<<<<<<<<<<<\n\nUsage:\n pman install <package name>\n pman remove <package name>\n pman reinit\n pman upgrade <package name>");
+		printf("Cadex OS v0.1.6 Brave Bear\nAvailable commands :\n\n* whoami\n* longtest\n* basic86 <args>\n* prompt <args>\n* sdlg <args>\n* clear\n* uname <args>\n* run <path> <args>\n* whoami\n* start <path> <args>\n* kill <pid>\n* reap <pid>\n* wait\n* ls\n* mount <device> <unit> <fstype>\n* umount\n* format <device> <unit><fstype>\n* install <srcunit> <dstunit>\n* cd <path>\n* mkdir <path>\n* rm <path>\n* time\n* bcache_stats\n* bcache_flush\n* reboot\n* shutdown\n* help\n\n");
 	}
 	else if (!strcmp(cmd, "whoami"))
 	{
@@ -760,29 +756,30 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else if (!strcmp(argv[1], "-b"))
 		{
-			printf("0.1.5");
+			printf("0.1.6");
 		}
 		else if (!strcmp(argv[1], "-c"))
 		{
-			printf("Gorgeous Gorilla");
+			printf("Brave Bear");
 		}
 		else if (!strcmp(argv[1], "-a"))
 		{
-			printf("Cadex OS v0.1.5 genuine-cadex ckernel:1.5 Gorgeous-Gorilla\n");
+			printf("Cadex OS v0.1.6 generic-cadex ckernel:1.5 Brave Bear\n");
 		}
 		else if (!strcmp(argv[1], "-v"))
 		{
-			printf("0.1.5\n");
+			printf("0.1.6\n");
 		}
 		else
 		{
-			printf("Usage: uname <options>\nOptions:\n -v: Version Number\n -b: Build number\n -c: Codename\n -a: All information\n");
+			printf("usage: uname <options>\nOptions:\n -v: Version Number\n -b: Build number\n -c: Codename\n -a: All information\n");
 		}
 	}
 	/* Start CBasic Interpreter. NOTE: CBasic will be deprecated and removed in the next release of Cadex OS. Use BASIC86 instead */
 	else if (!strcmp(cmd, "cbasic"))
 	{
-		cbasic();
+		// DEPRECATED. Won't do anything
+		printf("warn: cbasic is deprecated. Use BASIC86 instead\n");
 	}
 	/* Shutdown using ACPI */
 	else if (!strcmp(cmd, "shutdown"))
@@ -809,7 +806,7 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else
 		{
-			printf("\nUtility to change shell prompt symbol.\nusage: prompt [symbol]\n\nAvailable symbols are:\n $ : bash\n # : rootbash\n \% : linux\n\n");
+			printf("\nusage: prompt [symbol]\n\nAvailable symbols are:\n $ : bash\n # : rootbash\n \% : linux\n\n");
 		}
 	}
 	/* Clears the screen */
