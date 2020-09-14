@@ -45,7 +45,7 @@ Building toolchain from source is recommended, but prebuilt binaries are availab
 #### Building the OS
 
 If you are building on a Linux-x86 machine
-and have the QEMU virtual machine installed:
+and have the QEMU installed, run:
 
 ```
 git clone https://github.com/opencreeck/Cadex-OS-Official
