@@ -20,10 +20,11 @@ From there, it's your job to write user-level programs and expand the system.
  - Cadex OS has a small graphics library called TrueGL. TrueGL is also a UI library
  - Cadex OS has many useful string functions defined at `library/string.c`
  - Cadex OS uses some code from Musl libc for the libc in Cadex OS. Libraries that are from Musl libc should contain a license header on the top.
+ - Cadex OS supports C++ apps and thus it has a C++ library. The C++ library is implemented as a header-only library (Note that the C++ library used in this project is completely written from scratch and thus it may not be complaint to the C++ standards)
 
 This repo was made by HyperCreeck and actively maintained by HyperCreeck and people in this Organisation.
 
-To learn more, see the __[Cadex OS Wiki](https://github.com/opencreeck/Cadex-OS-Official/wiki).__
+To learn more, see the __[Cadex OS Wiki](http://cadex-os-wiki.rf.gd).__
 
 # Project structure
  * ***apps***: Sources for C++ apps
@@ -38,7 +39,7 @@ To learn more, see the __[Cadex OS Wiki](https://github.com/opencreeck/Cadex-OS-
 
 For building Cadex OS, you need to install the toolchain. 
 Building toolchain from source is recommended, but prebuilt binaries are available.
- - If you are building toolcahin from source, visit [this](https://hypercreeck.cf/cadex/os/toolchain.php) site
+ - If you are building toolcahin from source, visit [this]http://cadex-os-wiki.rf.gd/Toolchain#Building) site
  - If you don't wish to build the toolchain from source (not recommended), you can download prebuilt binaies for ubuntu from [here](https://hypercreeck.cf/cadex/os/toolchain.php)
  
 #### Building the OS
@@ -57,33 +58,33 @@ And you should see something like this:
 
 <img src=screenshot.png align=center>
 
-After some initial boot messages, you will see the kernel shell prompt.
+After some initial boot messages, you will see the kshell prompt.
 This allows you to take some simple actions before running the first
-user level program.  For example, read the boot messages to see
+user-level program.  For example, read the boot messages to see
 which atapi unit the cdrom is mounted on.  Then, use the `mount` command
 to mount the cdrom filesystem on that unit:
 
 <pre>
-mount atapi 2 cdromfs
+mount atapi <unit> cdromfs
 </pre>
 
-Use the `list` command to examine the root directory:
+Use the `ls` command to examine the root directory:
 
 <pre>
 list /
 </pre>
 
-And use the `run` command to run a program (for example, a simple screensaver):
+And use the `./` prefix to run a program (For example, a simple screensaver):
 
 <pre>
-run /usr/bin/saver.exe
+./usr/bin/saver.exe
 </pre>
 
 ## Cross-Compiling Instructions
 
-If you are building on any other type of machine,
+If you are building on any other type of machine (i.e, on WSL or any non-linux machine),
 you will probably need to build a cross-compiler
-using `./crosscompiler.sh` and then edit
+using `./scripts/crosscompiler.sh` and then edit
 `Makefile.config` to use the cross compiler binaries,
 then execute `make` to create `cadex.iso`
 
