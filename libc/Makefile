@@ -63,7 +63,8 @@ LIBRARY_OBJECTS=errno.o \
 				truegl/ui_window.o \
 				cadex/cadex_version.o \
 				cadex/contty.o \
-				sul/base64_encode.o
+				sul/base64_encode.o \
+				sul/url_parser.o
 
 all: baselib.a
 
