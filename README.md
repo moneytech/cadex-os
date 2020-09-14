@@ -7,10 +7,10 @@ Cadex OS may be a good place to try out your new ideas. Cadex OS has all the lib
 
 Cadex OS can boot an Intel PC-compatible virtual machine in 32-bit protected
 mode, with support for VESA framebuffer graphics, ATA hard disks, ATAPI optical
-devices, process management, memory protection, simple graphics, and basic filesystem.
+devices, process management, memory protection, small graphics, and basic filesystem (DFS).
 From there, it's your job to write user-level programs and expand the system.
 
-## Features of Cadex OS
+## Some useful info about Cadex OS
  - Cadex OS supports a small subset of libc, and more functions and libraries from libc need to be implemented.
  - Cadex OS has a small BASIC interpreter that can be used to write small programs.
  - Cadex OS supports graphical and text-based applications
@@ -22,16 +22,20 @@ From there, it's your job to write user-level programs and expand the system.
  - Cadex OS uses some code from Musl libc for the libc in Cadex OS. Libraries that are from Musl libc should contain a license header on the top.
  - Cadex OS supports C++ apps and thus it has a C++ library. The C++ library is implemented as a header-only library (Note that the C++ library used in this project is completely written from scratch and thus it may not be complaint to the C++ standards)
 
-This repo was made by HyperCreeck and actively maintained by HyperCreeck and people in this Organisation.
+This repo was made by HyperCreeck and actively maintained by HyperCreeck and contributors.
 
 To learn more, see the __[Cadex OS Wiki](http://cadex-os-wiki.rf.gd).__
 
 # Project structure
  * ***apps***: Sources for C++ apps
  * ***basefs***: Base filesystem folder that goes into the ISO image
- * ***bin***: Sources for standard system binaries (i.e, `/usr/bin` folder)
+ * ***bin***: Sources for standard system binaries (i.e, `/bin` folder)
  * ***docs***: Documentation about used drivers and APIs
- 
+ * ***include***: Header files for libc and libcxx libraries
+ * ***kernel***: The core kernel source
+ * ***libc***: Source files for libc
+ * ***scripts***: Scripts for generating ramfs image and other purposes
+ * ***usr***: Programs that go into `/usr/bin` folder
 
 ## Instructions for building Cadex OS
 
