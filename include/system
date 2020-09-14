@@ -1,0 +1,31 @@
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+*/
+
+#ifndef _SYSTEM
+#define _SYSTEM
+
+namespace std::system
+{
+    /**
+     * Base process management functions
+     * @author HyperCreeck (@asiawin)x
+    */
+    class ProcessManager
+    {
+    private:
+        /* data */
+    public:
+        /**
+         * Returns current process PID
+        */
+        static auto getCurrentProcessPid() -> void
+        {
+
+        }
+    };
+
+} // namespace std::system
+#endif

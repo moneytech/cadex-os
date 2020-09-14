@@ -36,10 +36,10 @@ int main(int argc, const char *argv[])
     {
         if (!strcmp(argv[0], "-c"))
         {
-            dbg_printf("compile mode enabled");
+            // dbg_printf("compile mode enabled");
         } else if (!strcmp(argv[0], "-e"))
         {
-            dbg_printf("interpreter mode enabled");
+            // dbg_printf("interpreter mode enabled");
         }
         
     }

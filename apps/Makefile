@@ -7,7 +7,7 @@ USER_PROGRAMS= tests.exe \
 all: $(USER_PROGRAMS)
 
 %.o: %.cpp
-	@gcc -m32 -Wall -c -std=c++14 -ffreestanding -nostdlib -nodefaultlibs -fno-pie -fno-builtin -fno-use-cxa-atexit -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings -fpermissive -g -I ../include -o $@ $<
+	@gcc -m32 -Wall -c -std=c++17 -ffreestanding -nostdlib -nodefaultlibs -fno-pie -fno-builtin -fno-use-cxa-atexit -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings -fpermissive -g -I ../include -o $@ $<
 	@echo "CPP    apps/$<"
 
 %.exe: %.o ../libc/crt0.o ../libc/baselib.a
