@@ -71,7 +71,7 @@ char *base64_encode(char input_str[], int len_str)
         res_str[k++] = '=';
     }
 
-    res_str[k] = '\0;';
+    res_str[k] = '\0';
 
     return res_str;
 }

@@ -14,7 +14,8 @@ USER_PROGRAMS= sdlg.exe \
 			   splash.exe \
 			   dim.exe \
 			   touch.exe \
-			   dbusctl.exe
+			   dbusctl.exe \
+			   base64.exe
 
 all: $(USER_PROGRAMS)
 
