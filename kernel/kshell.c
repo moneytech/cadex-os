@@ -40,6 +40,7 @@ See the file LICENSE for details.
 #include "module.h"
 #include "kernel/sysinfo.h"
 #include <library/version.h>
+#include <bits/cwd.h>
 
 #define BASEPORT 0x0060 /* lp1 */
 
@@ -114,6 +115,20 @@ char *promptsym[] = {
 };
 char *curdir = "";
 int prompt = 0;
+char *history[1024];
+
+void print_array(char arr[], int start, int len)
+{
+	/* Recursion base condition */
+	if (start >= len)
+		return;
+
+	/* Prints the current array element */
+	printf("%s, ", arr[start]);
+
+	/* Recursively call print_array to print next element in array */
+	print_array(arr, start - 1, len);
+}
 
 int strEndsWith(const char *str, const char *suffix)
 {
@@ -581,7 +596,7 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else
 		{
-			printf("mkdir ver 0.0.3\nUsage: mkdir <parent-dir> <dirname>\n");
+			printf("usage: mkdir <parent-dir> <dirname>\n");
 		}
 	}
 	else if (!strcmp(cmd, "format"))
@@ -650,18 +665,20 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else
 		{
-			printf("rm ver 0.0.5\nUsage: rm <parent-dir> <filename>\n\n");
+			printf("usage: rm <parent-dir> <filename>\n\n");
 		}
 	}
 	else if (!strcmp(cmd, "cd"))
 	{
 		if (argc == 2)
 		{
-			sys_chdir(argv[1]);
+			if(sys_chdir(argv[1]) == KERROR_INVALID_PATH){
+				printf("%s: invalid path specified\n", argv[1]);
+			}
 		}
 		else
 		{
-			printf("cd ver 0.0.3\nUsage: cd <directory>\n\n");
+			printf("usage: cd <dir>\n\n");
 		}
 	}
 	else if (!strcmp(cmd, "time"))
@@ -681,7 +698,7 @@ static int kshell_execute(int argc, const char **argv)
 			outb(0x8900, *s);
 		}
 		outb(0xf3, 0x00);
-		KPANIC("Emulator doesn't support shutdown");
+		KPANIC("emulators (QEMU) doesn't support shutdown");
 	}
 	else if (!strcmp(cmd, "loadmodule"))
 	{
@@ -809,6 +826,11 @@ static int kshell_execute(int argc, const char **argv)
 			printf("\nusage: prompt [symbol]\n\nAvailable symbols are:\n $ : bash\n # : rootbash\n \% : linux\n\n");
 		}
 	}
+	else if (!strcmp(cmd, "history"))
+	{
+		print_array(history, 0, 2);
+	}
+
 	/* Clears the screen */
 	else if (!strcmp(cmd, "clear"))
 	{
@@ -906,16 +928,19 @@ uint32_t random(uint32_t min, uint32_t max)
 
 int kshell_launch()
 {
+
+	int i = 0;
 	char line[1024];
 	const char *argv[100];
 	int argc;
 start:
 	printf("\n");
 	while (1)
-	{
-		printf("[root@cadex:/%s]%s ", curdir, promptsym[prompt]);
+	{ 
+		printf("[root@cadex:%s]%s ", curentworkingdirectory, promptsym[prompt]);
 		kshell_readline(line, sizeof(line));
-
+		history[i] = line;
+		i++;
 		argc = 0;
 		argv[argc] = strtok(line, " ");
 		while (argv[argc])
