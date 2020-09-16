@@ -29,6 +29,7 @@ See the file LICENSE for details.
 #include "is_valid.h"
 #include "bcache.h"
 #include "mouse.h"
+#include <bits/cwd.h> 
 
 /*
 syscall_handler() is responsible for decoding system calls
@@ -208,7 +209,7 @@ int sys_process_exec(const char *path, int argc, const char **argv)
 	if(!is_valid_path(path)) return KERROR_INVALID_PATH;
 
 	addr_t entry;
-
+ 
 	/* Duplicate the arguments into kernel space */
 	char **copy_argv = argv_copy(argc, argv);
 
@@ -628,6 +629,7 @@ int sys_chdir(const char *path)
 	if(d) {
 		fs_dirent_close(current->current_dir);
 		current->current_dir = d;
+		curentworkingdirectory = path;
 		return 0;
 	} else {
 		// XXX get error back from namei

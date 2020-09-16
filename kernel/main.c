@@ -77,7 +77,7 @@ int kernel_main()
 	// init serialports
 	serial_init(0x3f8);
 	// mount atapi device with unit 2
-	kshell_mount("atapi", 2, "cdromfs");
+	kshell_mount("atapi", 2, "cdfs");
 #ifdef DEBUG
 	printf("\nCadex OS %sb-%s <<<<<<\n", SYS_VER, SYS_BUILD); // #define debug to enable version info
 #endif

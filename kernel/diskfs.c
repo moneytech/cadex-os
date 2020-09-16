@@ -627,7 +627,7 @@ struct fs_ops diskfs_ops = {
 
 
 struct fs disk_fs = {
-	"diskfs",
+	"dfs",
 	&diskfs_ops,
 	0
 };

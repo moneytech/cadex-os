@@ -151,7 +151,7 @@ int elf_load(struct process *p, const char *filename, addr_t * entry)
 	return KERROR_NOT_FOUND;
 
       noexec:
-	printf("elf: %s is not a valid i386 ELF executable\n", filename);
+	printf("%s is not a valid i386 ELF executable\n", filename);
 	fs_dirent_close(d);
 	return KERROR_NOT_EXECUTABLE;
 
