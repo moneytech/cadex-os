@@ -5,6 +5,9 @@
 
 /**
  * Prints an array recursively within a given range
+ * @param arr The array to print
+ * @param start The start index
+ * @param len Length of string
 */
 void print_array(int arr[], int start, int len)
 {

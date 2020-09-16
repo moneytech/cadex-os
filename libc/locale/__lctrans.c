@@ -1,5 +1,4 @@
 #include <locale.h>
-#include "locale_impl.h"
 
 static const char *dummy(const char *msg, const struct __locale_map *lm)
 {

@@ -55,13 +55,15 @@ struct lconv *localeconv(void);
 
 
 #if defined(_POSIX_SOURCE) || defined(_POSIX_C_SOURCE) \
- || defined(_XOPEN_SOURCE) || defined(_GNU_SOURCE) || defined(_BSD_SOURCE)
+ || defined(_XOPEN_SOURCE) || defined(_GNU_SOURCE) || defined(_BSD_SOURCE) || defined(_CAKE_SOURCE)
 
 #define __NEED_locale_t
 
 #include <bits/alltypes.h>
 
 #define LC_GLOBAL_LOCALE ((locale_t)-1)
+
+struct locale_t *cur_loc;
 
 #define LC_CTYPE_MASK    (1<<LC_CTYPE)
 #define LC_NUMERIC_MASK  (1<<LC_NUMERIC)
@@ -70,11 +72,13 @@ struct lconv *localeconv(void);
 #define LC_MONETARY_MASK (1<<LC_MONETARY)
 #define LC_MESSAGES_MASK (1<<LC_MESSAGES)
 #define LC_ALL_MASK      0x7fffffff
+#define CURRENT_LOCALE cur_loc
 
 locale_t duplocale(locale_t);
 void freelocale(locale_t);
 locale_t newlocale(int, const char *, locale_t);
 locale_t uselocale(locale_t);
+
 
 #endif
 

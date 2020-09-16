@@ -1,3 +1,12 @@
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+*/
+
+/**
+ * A shell designed for simplicity
+*/
 #include "library/string.h"
 #include "library/syscalls.h"
 #include "kernel/types.h"
@@ -170,12 +179,12 @@ int do_command(char *line)
 			print_directory(buffer, length);
 		}
 	}
-	else if (pch && !strcmp(pch, "chdir"))
+	else if (pch && !strcmp(pch, "cd"))
 	{
 		char *path = strtok(0, " ");
 		if (!path)
 		{
-			printf("Incorrect arguments, usage: chdir <path>\n");
+			printf("usage: cd <path>\n");
 			return 1;
 		}
 		syscall_chdir(path);

@@ -1,3 +1,12 @@
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+*/
+
+/**
+ * The traditional cat command.
+*/
 #include <stdio.h>
 
 #define TAG_BUFFER_SIZE 256

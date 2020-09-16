@@ -25,13 +25,14 @@ int main(int argc, const char *argv[])
             // to exclude '\0' character
             // len_str -= 1;
 
-            printf("Input string is : %s\n", input_str);
-            printf("Encoded string is : %s\n", base64_encode(input_str, len_str));
+            printf("Input: %s\n", input_str);
+            printf("base64: %s\n", base64_encode(input_str, len_str));
         } else {
             printf("base64: unknown option: %s", argv[0]);
         }
     } else
     {
+        // print the usage if lengthOf(argc < 0)
         printf("usage: base64 [--encode|--decode] <string> <?output>\n\nOptions:\n --encode: Encode the specified string\n --decode: Decode the specified string\n");
     }
     

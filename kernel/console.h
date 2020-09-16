@@ -20,7 +20,10 @@ startup before memory allocation is available.
 */
 
 extern struct console console_root;
-struct console * console_init( struct graphics *g );
+extern struct graphics_color fgcolor;
+extern struct graphics_color bgcolor;
+
+struct console *console_init(struct graphics *g);
 
 /*
 Any number of other consoles can be created and manipulated
