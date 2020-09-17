@@ -15,7 +15,9 @@ USER_PROGRAMS= sdlg.exe \
 			   dim.exe \
 			   touch.exe \
 			   dbusctl.exe \
-			   base64.exe
+			   base64.exe \
+			   bfk.exe \
+			   wakquz.exe
 
 all: $(USER_PROGRAMS)
 
