@@ -672,7 +672,8 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		if (argc == 2)
 		{
-			if(sys_chdir(argv[1]) == KERROR_INVALID_PATH){
+			if (sys_chdir(argv[1]) == KERROR_INVALID_PATH)
+			{
 				printf("%s: invalid path specified\n", argv[1]);
 			}
 		}
@@ -700,21 +701,6 @@ static int kshell_execute(int argc, const char **argv)
 		outb(0xf3, 0x00);
 		KPANIC("emulators (QEMU) doesn't support shutdown");
 	}
-	else if (!strcmp(cmd, "loadmodule"))
-	{
-		// Stubbed, you know that basic.exe is not a module, so its stubbed
-		module_load(argv[1], argv[2]);
-	}
-
-	else if (!strcmp(cmd, "beep"))
-	{
-		/* A simple beep implementation. See https://wiki.osdev.org/PC_Speaker#Sample_Code/ /**Code by HyperCreeck**/
-		/* May not work in emulators */
-		beep();
-		printf('\a');
-		printf("\n");
-	}
-
 	else if (!strcmp(cmd, "bcache_stats"))
 	{
 		struct bcache_stats stats;
@@ -730,7 +716,7 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "help"))
 	{
-		printf("Cadex OS v0.1.6 Brave Bear\nAvailable commands :\n\n* whoami\n* longtest\n* basic86 <args>\n* prompt <args>\n* sdlg <args>\n* clear\n* uname <args>\n* run <path> <args>\n* whoami\n* start <path> <args>\n* kill <pid>\n* reap <pid>\n* wait\n* ls\n* mount <device> <unit> <fstype>\n* umount\n* format <device> <unit><fstype>\n* install <srcunit> <dstunit>\n* cd <path>\n* mkdir <path>\n* rm <path>\n* time\n* bcache_stats\n* bcache_flush\n* reboot\n* shutdown\n* help\n\n");
+		printf("Cadex OS v0.1.6 Lean Llama\nAvailable commands :\n\n* whoami\n* longtest\n* basic86 <args>\n* prompt <args>\n* sdlg <args>\n* clear\n* uname <args>\n* run <path> <args>\n* whoami\n* start <path> <args>\n* kill <pid>\n* reap <pid>\n* wait\n* ls\n* mount <device> <unit> <fstype>\n* umount\n* format <device> <unit><fstype>\n* install <srcunit> <dstunit>\n* cd <path>\n* mkdir <path>\n* rm <path>\n* time\n* bcache_stats\n* bcache_flush\n* reboot\n* shutdown\n* help\n\n");
 	}
 	else if (!strcmp(cmd, "whoami"))
 	{
@@ -777,11 +763,11 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else if (!strcmp(argv[1], "-c"))
 		{
-			printf("Brave Bear");
+			printf("Lean Llama");
 		}
 		else if (!strcmp(argv[1], "-a"))
 		{
-			printf("Cadex OS v0.1.6 generic-cadex ckernel:1.5 Brave Bear\n");
+			printf("Cadex OS v0.1.6 generic-cadex ckernel:1.5 Lean Llama\n");
 		}
 		else if (!strcmp(argv[1], "-v"))
 		{
@@ -791,12 +777,6 @@ static int kshell_execute(int argc, const char **argv)
 		{
 			printf("usage: uname <options>\nOptions:\n -v: Version Number\n -b: Build number\n -c: Codename\n -a: All information\n");
 		}
-	}
-	/* Start CBasic Interpreter. NOTE: CBasic will be deprecated and removed in the next release of Cadex OS. Use BASIC86 instead */
-	else if (!strcmp(cmd, "cbasic"))
-	{
-		// DEPRECATED. Won't do anything
-		printf("warn: cbasic is deprecated. Use BASIC86 instead\n");
 	}
 	/* Shutdown using ACPI */
 	else if (!strcmp(cmd, "shutdown"))
@@ -823,7 +803,7 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else
 		{
-			printf("\nusage: prompt [symbol]\n\nAvailable symbols are:\n $ : bash\n # : rootbash\n \% : linux\n\n");
+			printf("\nusage: prompt [symbol]\n\nAvailable symbols are:\n $ : bash\n # : rootbash\n % : linux\n\n");
 		}
 	}
 	else if (!strcmp(cmd, "history"))
@@ -877,7 +857,15 @@ static int kshell_execute(int argc, const char **argv)
 #endif // DEBUG
 				process_reap(info.pid);
 			}
+		}else if (!strcmp(cmd, "bkick"))
+		{
+			int pid = sys_process_run("/bin/brainkick.exe", argc - 1, &argv[1]);
+			process_yield();
+			struct process_info info;
+			process_wait_child(pid, &info, -1);
+			process_reap(info.pid);
 		}
+		
 		else
 		{
 			printf("%s: command/program not found\n", argv[0]);
@@ -936,7 +924,7 @@ int kshell_launch()
 start:
 	printf("\n");
 	while (1)
-	{ 
+	{
 		printf("[root@cadex:%s]%s ", curentworkingdirectory, promptsym[prompt]);
 		kshell_readline(line, sizeof(line));
 		history[i] = line;

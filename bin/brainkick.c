@@ -4,12 +4,12 @@
  * See the file LICENSE for details
 */
 /**
- * Wakuz - A simple programming language
+ * Brainkick - A simple programming language
 */
 
 #include <stdio.h>
 
-#define BASIC_ADD "+++->&>"
+#define BASIC_ADD "+++-"
 
 void interpret(char *program)
 {
@@ -42,19 +42,20 @@ void interpret(char *program)
         {
             counter--;
         }
-
         else if (*ipc == '>')
         {
             printf("%d\n", counter);
         }
+
         *ipc++;
     }
 }
 
 int main(int argc, char const *argv[])
 {
-    char *prg = BASIC_ADD;
-
-    interpret(prg);
+    char *prg;
+    if(argc > 0){
+        interpret(argv[0]);
+    }
     return 0;
 }
