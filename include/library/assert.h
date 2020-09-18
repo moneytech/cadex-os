@@ -1,3 +1,9 @@
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+*/
+
 #pragma once
 
 #include <library/_cheader.h>

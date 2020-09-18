@@ -1,3 +1,9 @@
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+*/
+
 #ifndef ERRNO_H
 #define ERRNO_H
 
@@ -133,6 +139,8 @@ const char *strerror( kernel_error_t err_code);\
 #define EOWNERDEAD 142        /* Previous owner died */
 #define ESTRPIPE 143          /* Streams pipe error */
 #define EWOULDBLOCK EAGAIN    /* Operation would block */
+#define ESUDOERR 144          /* Sudo returned with code 1 */
+#define ESEGFAULT 145         /* Segmentation fault */
 
 extern int errno;
 // #define __sets_errno(...) int ret = __VA_ARGS__; if (ret < 0) { errno = -ret; ret = -1; } return ret
