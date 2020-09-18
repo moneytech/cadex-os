@@ -40,6 +40,8 @@ LIBRARY_OBJECTS=errno.o \
 				string/swab.o \
 				string/strverscmp.o \
 				string/string.o \
+				unistd/chdir.o \
+				unistd/close.o \
 				objno.o \
 				syscalls.o \
 				syscall.o \
@@ -66,7 +68,7 @@ LIBRARY_OBJECTS=errno.o \
 				sul/base64_encode.o \
 				sul/url_parser.o
 
-all: baselib.a
+all: alert baselib.a
 
 %.o: %.c
 	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
@@ -74,7 +76,9 @@ all: baselib.a
 
 baselib.a: ${LIBRARY_OBJECTS}
 	@${AR} r $@ ${LIBRARY_OBJECTS}
-	@echo "Creating baselib.a..."
+	@echo "Creating library archive..."
 
+alert:
+	@echo "Building userspace libraries and libc..."
 clean:
 	@rm -rf *.a ./*/*.o *.o

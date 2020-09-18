@@ -1,9 +1,6 @@
 #include <unistd.h>
-#include <syscall.h>
-#include <syscall_nums.h>
-
-DEFN_SYSCALL1(close, SYS_CLOSE, int);
+#include <library/syscalls.h>
 
 int close(int file) {
-	return syscall_close(file);
+	return syscall_object_close(file);
 }

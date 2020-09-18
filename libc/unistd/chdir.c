@@ -1,9 +1,12 @@
-#include <unistd.h>
-#include <syscall.h>
-#include <syscall_nums.h>
-#include <errno.h>
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+*/
 
-DEFN_SYSCALL1(chdir, SYS_CHDIR, char *);
+#include <unistd.h>
+#include <library/syscalls.h>
+#include <errno.h>
 
 int chdir(const char *path) {
 	__sets_errno(syscall_chdir((char*)path));

@@ -17,7 +17,8 @@ USER_PROGRAMS= sdlg.exe \
 			   dbusctl.exe \
 			   base64.exe \
 			   bfk.exe \
-			   brainkick.exe
+			   brainkick.exe \
+			   cd.exe 
 
 all: $(USER_PROGRAMS)
 

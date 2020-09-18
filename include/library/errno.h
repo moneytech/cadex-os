@@ -143,5 +143,5 @@ const char *strerror( kernel_error_t err_code);\
 #define ESEGFAULT 145         /* Segmentation fault */
 
 extern int errno;
-// #define __sets_errno(...) int ret = __VA_ARGS__; if (ret < 0) { errno = -ret; ret = -1; } return ret
+#define __sets_errno(...) int ret = __VA_ARGS__; if (ret < 0) { errno = -ret; ret = -1; } return ret
 #endif

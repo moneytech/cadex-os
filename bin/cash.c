@@ -15,6 +15,8 @@
 #include "library/errno.h"
 
 #define MAX_LINE_LENGTH 1024
+#define CASH_BUILD "beta"
+#define CASH_VERSION "1.0.17"
 
 int tmp1 = 0;
 // Basic implementation of sudo
@@ -191,7 +193,7 @@ int do_command(char *line)
 	}
 	else if (pch && !strcmp(pch, "help"))
 	{
-		printf("Commands:\n - echo <text>\n - run <path>\n - mount <unit_no> <fs_type>\n - list\n - start <path>\n - kill <pid>\n - reap <pid>\n - wait\n - help\n - exit\n");
+		printf("Cadex Shell (CaSh) version %s-%s (x86-pc-cadex)\nThese shell commands are defined internally (inbuilt). Type 'help' to see this list \n - echo <text>\n - run <path>\n - mount <unit_no> <fs_type>\n - list\n - start <path>\n - kill <pid>\n - reap <pid>\n - wait\n - help\n - exit\n", CASH_VERSION, CASH_BUILD);
 	}
 	else if (pch && !strcmp(pch, "exit"))
 	{
