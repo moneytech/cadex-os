@@ -40,6 +40,9 @@ LIBRARY_OBJECTS=errno.o \
 				string/swab.o \
 				string/strverscmp.o \
 				string/string.o \
+				stdio/fopen.o \
+				stdio/putchar.o \
+				stdio/puts.o \
 				unistd/chdir.o \
 				unistd/close.o \
 				objno.o \

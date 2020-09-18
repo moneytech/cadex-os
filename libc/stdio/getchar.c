@@ -1,7 +1,8 @@
 #include <stdio.h>
-#include "getc.h"
 
 int getchar(void)
 {
-	return do_getc(stdin);
+	int x;
+	read_object(0, x, 1);
+	return x;
 }

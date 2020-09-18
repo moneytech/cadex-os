@@ -98,9 +98,9 @@ int elf_load(struct process *p, const char *filename, addr_t * entry)
 	uint32_t actual;
 
 	struct fs_dirent *d = fs_resolve(filename);
-	if(!d)
+	if(!d || d == KERROR_NOT_FOUND)
 		// We return -1 because KERROR_NOT_FOUND gives us a segmentation fault
-		return -1;
+		return -2;
 
 	actual = fs_dirent_read(d, (char *) &header, sizeof(header), 0);
 	if(actual != sizeof(header))

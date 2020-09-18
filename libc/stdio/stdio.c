@@ -301,6 +301,7 @@ void system(char *program, int argc, char **argv)
 {
 	exec(program, argc, argv);
 }
+
 void __stdio_init_buffers(void)
 {
 	_stdin.read_buf = malloc(BUFSIZ);

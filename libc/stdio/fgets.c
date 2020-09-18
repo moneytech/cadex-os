@@ -3,7 +3,7 @@
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
-char *read_object(char *restrict s, int n, FILE *restrict f)
+char *fgets(char *restrict s, int n, FILE *restrict f)
 {
 	char *p = s;
 	unsigned char *z;

@@ -1,7 +1,6 @@
 #include <stdio.h>
-#include "putc.h"
 
-int putchar(int c)
+void putchar(char c)
 {
-	return do_putc(c, stdout);
+	return printf_putchar(c);
 }

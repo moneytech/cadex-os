@@ -5,14 +5,11 @@
 */
 
 /**
- * A shell designed for simplicity
+ * A shell interpreter designed for simplicity; CaSh means Cadex Shell 
 */
-#include "library/string.h"
-#include "library/syscalls.h"
-#include "kernel/types.h"
-#include "library/stdio.h"
-#include "kernel/ascii.h"
-#include "library/errno.h"
+#include <string.h>
+#include <stdio.h>
+#include <bits/cwd.h>
 
 #define MAX_LINE_LENGTH 1024
 #define CASH_BUILD "beta"
@@ -88,7 +85,7 @@ int do_command(char *line)
 			}
 		}
 		else
-			printf("start: missing argument\n");
+			printf("cash: start: missing argument\n");
 	}
 	else if (pch && !strcmp(pch, "run"))
 	{
@@ -104,23 +101,23 @@ int do_command(char *line)
 				argv[i++] = next;
 			}
 			int pid = proc_run(argv[0], i, &argv[0]);
-			if (pid > 0)
+			if (pid > 1)
 			{
-				printf("started process %d\n", pid);
+				printf("cash: started process %d\n", pid);
 				syscall_process_yield();
 				struct process_info info;
 				syscall_process_wait(&info, -1);
-				printf("process %d exited with status %d\n", info.pid, info.exitcode);
+				printf("cash: process %d exited with status %d\n", info.pid, info.exitcode);
 				syscall_process_reap(info.pid);
 			}
 			else
 			{
-				printf("couldn't run %s: %s\n", argv[0], strerror(pid));
+				printf("cash: could not run '%s': %s\n", argv[0], strerror(pid));
 			}
 		}
 		else
 		{
-			printf("run: requires argument\n");
+			printf("cash: run: requires argument\n");
 		}
 	}
 	else if (pch && !strcmp(pch, "reap"))
@@ -170,10 +167,10 @@ int do_command(char *line)
 			}
 		}
 	}
-	else if (pch && !strcmp(pch, "list"))
+	else if (pch && !strcmp(pch, "ls"))
 	{
 		char buffer[1024];
-		int fd = syscall_open_file(".", 0, 0);
+		int fd = syscall_open_file("/", 0, 0);
 		if (fd >= 0)
 		{
 			int length = syscall_object_list(fd, buffer, 1024);
@@ -193,7 +190,7 @@ int do_command(char *line)
 	}
 	else if (pch && !strcmp(pch, "help"))
 	{
-		printf("Cadex Shell (CaSh) version %s-%s (x86-pc-cadex)\nThese shell commands are defined internally (inbuilt). Type 'help' to see this list \n - echo <text>\n - run <path>\n - mount <unit_no> <fs_type>\n - list\n - start <path>\n - kill <pid>\n - reap <pid>\n - wait\n - help\n - exit\n", CASH_VERSION, CASH_BUILD);
+		printf("Cadex Shell (CaSh) version %s-%s (x86-pc-cadex)\nThese shell commands are defined internally (inbuilt). Type 'help' to see this list \n - echo <text>\n - run <path>\n - mount <unit_no> <fs_type>\n - ls <path>\n - cd <path>\n - start <path>\n - kill <pid>\n - reap <pid>\n - wait\n - help\n - exit\n", CASH_VERSION, CASH_BUILD);
 	}
 	else if (pch && !strcmp(pch, "exit"))
 	{
@@ -260,7 +257,7 @@ int main(int argc, char *argv[])
 
 	while (1)
 	{
-		printf("(root@cadex)# ");
+		printf("(root@cadex:%s)# ", curentworkingdirectory);
 		flush();
 		if (readline(line, sizeof(line)))
 		{

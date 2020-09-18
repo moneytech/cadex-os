@@ -69,7 +69,7 @@ struct fs_dirent *fs_resolve(const char *path)
 		if (!tagobj)
 		{
 			printf("%s: No such file or directory\n", path);
-			return 0;
+			return KERROR_NOT_FOUND;
 		}
 		// XXX KERROR_NOT_FOUND;
 

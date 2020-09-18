@@ -838,13 +838,21 @@ static int kshell_execute(int argc, const char **argv)
 		process_wait_child(pid, &info, -1);
 		process_reap(info.pid);
 	}
+	else if (!strcmp(cmd, "bkick"))
+	{
+		int pid = sys_process_run("/bin/brainkick.exe", argc - 1, &argv[1]);
+		process_yield();
+		struct process_info info;
+		process_wait_child(pid, &info, -1);
+		process_reap(info.pid);
+	}
 	else
 	{
 		// strStartsWith is required or every time you type a wrong command, it will say file not found
 		if (argc > 0 && strStartsWith(".", argv[0]))
 		{
 			int pid = sys_process_run(argv[0], argc - 1, &argv[1]);
-			if (pid > 0)
+			if (pid > 1)
 			{
 #ifdef DEBUG
 				printf("started process %d\n", pid);
@@ -857,13 +865,6 @@ static int kshell_execute(int argc, const char **argv)
 #endif // DEBUG
 				process_reap(info.pid);
 			}
-		}else if (!strcmp(cmd, "bkick"))
-		{
-			int pid = sys_process_run("/bin/brainkick.exe", argc - 1, &argv[1]);
-			process_yield();
-			struct process_info info;
-			process_wait_child(pid, &info, -1);
-			process_reap(info.pid);
 		}
 		
 		else

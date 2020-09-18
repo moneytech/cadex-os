@@ -144,7 +144,11 @@ int sys_process_run(const char *path, int argc, const char **argv)
 	if(r < 0) {
 		if(r == KERROR_EXECUTION_FAILED) {
 			process_delete(p);
+		} else if (r == -2)
+		{
+			return KERROR_NOT_FOUND;
 		}
+		
 		return r;
 	}
 
@@ -217,7 +221,7 @@ int sys_process_exec(const char *path, int argc, const char **argv)
 	int r = elf_load(current, path, &entry);
 
 	/* On failure, return only if our address space is not corrupted. */
-	if(r < 0) {
+	if(r < 0 || r == KERROR_NOT_FOUND) {
 		if(r == KERROR_EXECUTION_FAILED) {
 			process_kill(current->pid);
 		}
@@ -241,7 +245,7 @@ int sys_process_exec(const char *path, int argc, const char **argv)
 	 */
 
 	process_yield();
-
+	
 	/* NOTREACHED */
 	return 0;
 }
