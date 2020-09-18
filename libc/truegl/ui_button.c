@@ -10,7 +10,7 @@
 
 /**
  * Draws a UI button at the specified x and y */
-int drawButton(int x, int y, int w, int h, char *label)
+int draw_button(int x, int y, int w, int h, char *label)
 {
     if(w > 0){
         drawRect(x, y, w, 15);
