@@ -5,7 +5,7 @@ USER_PROGRAMS= sdlg.exe \
 			   whoami.exe \
 			   uname.exe \
 			   bounce.exe \
-			   clrscr.exe \
+			   cls.exe \
 			   cat.exe \
 			   cash.exe \
 			   bshell.exe \
@@ -16,11 +16,7 @@ USER_PROGRAMS= sdlg.exe \
 			   touch.exe \
 			   dbusctl.exe \
 			   base64.exe \
-			   bfk.exe \
-			   brainkick.exe \
-			   cd.exe \
-			   bitmap.exe \
-			   box.exe
+			   cd.exe 
 
 all: $(USER_PROGRAMS)
 

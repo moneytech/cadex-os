@@ -45,6 +45,7 @@ auto example::example_function() -> void
     Console::WriteLine("Function call: example::example_function()");
 }
 
+
 int main(int argc, const char *argv[])
 {
 
@@ -60,7 +61,7 @@ int main(int argc, const char *argv[])
     delete ex;
 
     // TEST: String creation
-    String *mystring = new String("Test: String: This is a string\n");
+    String *mystring = new String("Test: String:  This is a string\n");
 
     // TEST: Output the value of mystring to the console
     Console::Write(mystring);
