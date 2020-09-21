@@ -26,11 +26,10 @@
             "compilerPath": "C:\\Users\\User\\Documents\\GitHub\\Cadex-OS-Official\\cross\\bin\\i686-elf-gcc",
             "compilerArgs": [
                 "Wall",
-                "-c",
-                "-ffreestanding",
-                "-fno-pie ",
-                "-g ",
-                "-std=gnu99"
+                "c",
+                "ffreestanding",
+                "fno-pie ",
+                "g"
             ],
             "intelliSenseMode": "gcc-x86",
             "cStandard": "gnu99",

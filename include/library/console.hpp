@@ -33,6 +33,7 @@ namespace std
         */
         Console()
         {
+            renderWindow(WN_STDWINDOW);
         }
 
         /**
@@ -41,10 +42,11 @@ namespace std
         */
         Console(int window)
         {
+            renderWindow(window);
         }
 
         /**
-         * Delete the console object
+         * Deletes the console object
         */
         ~Console()
         {
@@ -106,11 +108,21 @@ namespace std
 
         /**
          * Prints a hexadecimal value to the console
-         * @param vaule The value to print to the console
+         * @param value The value to print to the console
         */
         auto PutHex(uint32_t value) -> void
         {
             printf("%x", value);
+        }
+
+        /**
+         * Reads data from the keyboard with the specified length
+         * @param output The variable to store the read data
+         * @param length The length of data (i.e keystrokes) to be read from the keyboard
+        */
+        auto Read(int *output, int length) -> void
+        {
+            read_object(STDIN, &output, length);
         }
     };
 } // namespace std

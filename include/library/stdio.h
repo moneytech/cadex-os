@@ -49,6 +49,10 @@ extern FILE *stdin;
 extern FILE *stdout;
 extern FILE *stderr;
 
+#define STDIN 0
+#define STDOUT 1
+#define STDERR 2
+
 #define EOF (-1)
 
 #define SEEK_SET 0
