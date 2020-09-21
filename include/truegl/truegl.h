@@ -87,8 +87,8 @@ typedef struct{
 } tgl_window_t;
 
 /* Get window and objects */
-#define getObject(w) ((struct GameObject *)w)
-#define getWindow(w) ((tgl_window_t *) w)
+#define get_object(w) ((struct GameObject *)w)
+#define get_window(w) ((tgl_window_t *) w)
 
 /**
  * Moves the specivied sprite to the specified X and Y location

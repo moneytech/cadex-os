@@ -7,13 +7,21 @@
 
 // We need these header files because the standard I/O functions and the types are defined here
 #include <stdio.h>
+#include <library/syscalls.h>
 #include <stdlib.h>
 #include <algorithm.h>
 #include <color>
-#include <library/malloc.h>
 #include <library/math.h>
-#include <library/scanf.h>
 #include <library/console.hpp>
+#include <__config>
+#include <ostream>
+#include <istream>
 
+namespace std
+{
+    extern ostream cout;
+    extern ostream cerr;
+    extern istream cin;
+} // namespace std
 
 #endif // !IOSTREAM

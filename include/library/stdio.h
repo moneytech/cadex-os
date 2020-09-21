@@ -25,7 +25,21 @@ See the file LICENSE for details.
 #include <stdlib.h>
 
 //extern uint8_t initial_esp;
+struct _FILE
+{
+    int fd;
 
+    char *read_buf;
+    int available;
+    int offset;
+    int read_from;
+    int ungetc;
+    int eof;
+    int bufsiz;
+    long last_read_start;
+    char *_name;
+    char *path;
+};
 typedef struct _FILE FILE;
 #define __DEFINED_FILE
 
@@ -100,7 +114,7 @@ extern void resetColor();
 extern void draw_cadex_logo(int x, int y);
 extern void draw_window_border(int x, int y, int w, int h, int thickness, int r, int g, int b);
 
-extern FILE *fopen(const char *path, const char *mode);
+extern int fopen(const char *path, int mode);
 extern int fclose(FILE * stream);
 extern int fseek(FILE * stream, long offset, int whence);
 extern long ftell(FILE * stream);

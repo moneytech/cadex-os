@@ -113,6 +113,9 @@ char *promptsym[] = {
 	"$",
 	"%",
 };
+
+char *comd = "nullcommand";
+char *excpath = "";
 char *curdir = "";
 int prompt = 0;
 char *history[1024];
@@ -508,7 +511,36 @@ static int kshell_execute(int argc, const char **argv)
 		{
 			printf("reap: requires argument\n");
 		}
+	}else if (!strcmp(cmd, "bmp"))
+	{
+		int pid = sys_process_run("/bin/bitmap.exe", argc - 1, &argv[1]);
+		process_yield();
+		struct process_info info;
+		process_wait_child(pid, &info, -1);
+		process_reap(info.pid);
 	}
+	
+	else if (!strcmp(cmd, "addcmd"))
+	{
+		if (argc > 2)
+		{
+			comd = argv[1];
+			excpath = argv[2];
+		} else {
+			printf("usage: addcmd <command> <path>");
+		}
+	}
+	else if (!strcmp(cmd, comd))
+	{
+		if(strcmp(excpath, "")){
+			int pid = sys_process_run(excpath, argc - 1, &argv[1]);
+			process_yield();
+			struct process_info info;
+			process_wait_child(pid, &info, -1);
+			process_reap(info.pid);
+		}
+	}
+	
 	else if (!strcmp(cmd, "kill"))
 	{
 		if (argc > 1)
@@ -866,7 +898,7 @@ static int kshell_execute(int argc, const char **argv)
 				process_reap(info.pid);
 			}
 		}
-		
+
 		else
 		{
 			printf("%s: command/program not found\n", argv[0]);

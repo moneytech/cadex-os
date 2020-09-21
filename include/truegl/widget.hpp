@@ -31,7 +31,6 @@ namespace TGL
             height = 0;
             label = "";
         }
-
         ~TWidget()
         {
             free(label);

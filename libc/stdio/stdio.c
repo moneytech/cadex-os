@@ -20,20 +20,7 @@ See the file LICENSE for details.
 #include <library/assert.h>
 #include "stdarg.h"
 
-struct _FILE
-{
-	int fd;
 
-	char *read_buf;
-	int available;
-	int offset;
-	int read_from;
-	int ungetc;
-	int eof;
-	int bufsiz;
-	long last_read_start;
-	char *_name;
-};
 
 FILE _stdin = {
 	.fd = 0,
@@ -109,6 +96,7 @@ void renderWindow(int wd)
 {
 	window_fd = wd;
 	flushScreen();
+	flush();
 }
 
 // Sets the text/cursor color
@@ -116,16 +104,20 @@ void setTextColor(int r, int g, int b, int a)
 {
 	draw_set_buffer(GRAPHICS_COLOR, r, g, b, a);
 	flushScreen();
+	flush();
+	renderWindow(WN_STDWINDOW);
 }
 void resetColor()
 {
 	draw_set_buffer(GRAPHICS_COLOR, 255, 255, 255, 0);
+	flush();
 }
 // Draws a rectangle on screen with specified dimensions
 void drawRect(int x, int y, int w, int h)
 {
 	draw_set_buffer(GRAPHICS_RECT, x, y, w, h);
 	flushScreen();
+	flush();
 	renderWindow(WN_STDWINDOW);
 }
 
@@ -133,18 +125,21 @@ void drawTriangle(int x, int y, int w, int h)
 {
 	draw_set_buffer(GRAPHICS_RECT, x, y, w, h);
 	flushScreen();
+	flush();
 }
 // Clears the screen
 void clearScreen(int x, int y, int w, int h)
 {
 	draw_set_buffer(GRAPHICS_CLEAR, x, y, w, h);
 	flushScreen();
+	flush();
 }
 // Draws a line on screen on the specified x and y axis with the specified width and height.
 void drawLine(int x, int y, int w, int h)
 {
 	draw_set_buffer(GRAPHICS_LINE, x, y, w, h);
 	flushScreen();
+	flush();
 }
 
 // Prints text on screen on the specified x and y axis.
@@ -328,33 +323,33 @@ int setvbuf(FILE *stream, char *buf, int mode, size_t size)
 	}
 	return 0;
 }
-FILE *fopen(const char *path, const char *mode)
-{
+// FILE *fopen(const char *path, const char *mode)
+// {
 
-	int flags, mask;
-	//parse_mode(mode, &flags, &mask);
-	int fd = syscall_open_file(path, mode, flags);
+// 	int flags, mask;
+// 	//parse_mode(mode, &flags, &mask);
+// 	int fd = syscall_open_file(path, mode, flags);
 
-	if (fd < 0)
-	{
-		errno = -fd;
-		return NULL;
-	}
+// 	if (fd < 0)
+// 	{
+// 		errno = -fd;
+// 		return NULL;
+// 	}
 
-	FILE *out = malloc(sizeof(FILE));
-	memset(out, 0, sizeof(struct _FILE));
-	out->fd = fd;
-	out->read_buf = malloc(BUFSIZ);
-	out->bufsiz = BUFSIZ;
-	out->available = 0;
-	out->read_from = 0;
-	out->offset = 0;
-	out->ungetc = -1;
-	out->eof = 0;
-	out->_name = strdup(path);
+// 	FILE *out = malloc(sizeof(FILE));
+// 	memset(out, 0, sizeof(struct _FILE));
+// 	out->fd = fd;
+// 	out->read_buf = malloc(BUFSIZ);
+// 	out->bufsiz = BUFSIZ;
+// 	out->available = 0;
+// 	out->read_from = 0;
+// 	out->offset = 0;
+// 	out->ungetc = -1;
+// 	out->eof = 0;
+// 	out->_name = strdup(path);
 
-	return out;
-}
+// 	return out;
+// }
 /**
  * Draws a border with the specified dimensions and color
  * @param x

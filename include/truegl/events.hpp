@@ -10,6 +10,12 @@
 #ifndef _TRUEGL_EVENTS
 #define _TRUEGL_EVENTS
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stddef.h>
+#include <__config>
+
 namespace TGL
 {
     class TEvent
@@ -22,3 +28,5 @@ namespace TGL
         }
     };
 } // namespace TGL
+
+#endif

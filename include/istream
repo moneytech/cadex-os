@@ -3,11 +3,13 @@
  * This software is distributed under the GNU General Public License
  * See the file LICENSE for details
 */
+
 /**
- * Basic Output Stream functions
+ * Basic Input stream functions
 */
-#ifndef _OSTREAM
-#define _OSTREAM
+
+#ifndef _ISTREAM
+#define _ISTREAM
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,23 +19,22 @@
 
 namespace std
 {
-    class ostream
+    class istream
     {
     private:
         /* data */
     public:
-        ostream(/* args */);
-        ~ostream();
+        istream(/* args */);
+        ~istream();
     };
-    
-    ostream::ostream(/* args */)
-    {
-    }
-    
-    ostream::~ostream()
-    {
-    }
-    
-} // namespace std
 
-#endif
+    istream::istream(/* args */)
+    {
+    }
+
+    istream::~istream()
+    {
+    }
+
+} // namespace std
+#endif // !_ISTREAM
