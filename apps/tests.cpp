@@ -9,6 +9,7 @@
 */
 #include <iostream>
 #include <string>
+#include <memory>
 #include <sul/urlparser.h>
 
 using namespace std;
@@ -67,7 +68,7 @@ int main(int argc, const char *argv[])
     Console::WriteLine("-- C++ tests completed.");
     Console::WriteLine("-- LibC Test");
     Console::WriteLine("?? Yuarel URL Parsing Library tests ??");
-    
+
     int p;
     struct yuarel url;
     struct yuarel_param params[3];
@@ -103,5 +104,6 @@ int main(int argc, const char *argv[])
         printf("Param %s = %s\n", params[p].key, params[p].val);
     }
     Console::WriteLine("-- Yuarel tests completed. ");
+    Console::WriteLine("-- All tests completed. ");
     return 0;
 }
