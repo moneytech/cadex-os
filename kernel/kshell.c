@@ -539,8 +539,7 @@ static int kshell_execute(int argc, const char **argv)
 			process_wait_child(pid, &info, -1);
 			process_reap(info.pid);
 		}
-	}
-	
+	} 	
 	else if (!strcmp(cmd, "kill"))
 	{
 		if (argc > 1)

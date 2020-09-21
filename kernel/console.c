@@ -11,7 +11,8 @@ See the file LICENSE for details.
 #include "string.h"
 #include "interrupt.h"
 
-struct console {
+struct console
+{
 	struct graphics *gx;
 	int xsize;
 	int ysize;
@@ -23,12 +24,13 @@ struct console {
 
 struct console console_root = {0};
 
-struct graphics_color bgcolor = { 50, 50, 50 };
-struct graphics_color fgcolor = { 255, 255, 255 };
+struct graphics_color bgcolor = {50, 50, 50};
+struct graphics_color fgcolor = {255, 255, 255};
 
-static void console_reset( struct console *d )
+static void console_reset(struct console *d)
 {
-	if(!d || !d->gx) return;
+	if (!d || !d->gx)
+		return;
 	d->xpos = d->ypos = 0;
 	d->xsize = graphics_width(d->gx) / 8;
 	d->ysize = graphics_height(d->gx) / 8;
@@ -38,21 +40,23 @@ static void console_reset( struct console *d )
 	graphics_clear(d->gx, 0, 0, graphics_width(d->gx), graphics_height(d->gx));
 }
 
-void console_heartbeat( struct console *d )
+void console_heartbeat(struct console *d)
 {
 	char c = d->onoff ? ' ' : '_';
-	graphics_char(d->gx, d->xpos * 8, d->ypos * 8, c );
+	graphics_char(d->gx, d->xpos * 8, d->ypos * 8, c);
 	d->onoff = !d->onoff;
 }
 
-int console_write( struct console *d, const char *data, int size )
+int console_write(struct console *d, const char *data, int size)
 {
 	graphics_char(d->gx, d->xpos * 8, d->ypos * 8, ' ');
 
 	int i;
-	for(i = 0; i < size; i++) {
+	for (i = 0; i < size; i++)
+	{
 		char c = data[i];
-		switch (c) {
+		switch (c)
+		{
 		case 13:
 		case 10:
 			d->xpos = 0;
@@ -75,17 +79,20 @@ int console_write( struct console *d, const char *data, int size )
 			break;
 		}
 
-		if(d->xpos < 0) {
+		if (d->xpos < 0)
+		{
 			d->xpos = d->xsize - 1;
 			d->ypos--;
 		}
 
-		if(d->xpos >= d->xsize) {
+		if (d->xpos >= d->xsize)
+		{
 			d->xpos = 0;
 			d->ypos++;
 		}
 
-		if(d->ypos >= d->ysize) {
+		if (d->ypos >= d->ysize)
+		{
 			d->xpos = d->ypos = 0;
 			d->xsize = graphics_width(d->gx) / 8;
 			d->ysize = graphics_height(d->gx) / 8;
@@ -93,20 +100,24 @@ int console_write( struct console *d, const char *data, int size )
 			graphics_bgcolor(d->gx, bgcolor);
 			graphics_clear(d->gx, 0, 0, graphics_width(d->gx), graphics_height(d->gx));
 		}
-
 	}
 	graphics_char(d->gx, d->xpos * 8, d->ypos * 8, '_');
 	return i;
 }
 
-void console_putchar( struct console *c, char ch )
+int console_set_cursor_pos(struct console *c, int pos)
 {
-	console_write(c,&ch,1);
+	c->xpos = pos;
 }
 
-void console_putstring( struct console *c, const char *str)
+void console_putchar(struct console *c, char ch)
 {
-	console_write(c,str,strlen(str));
+	console_write(c, &ch, 1);
+}
+
+void console_putstring(struct console *c, const char *str)
+{
+	console_write(c, str, strlen(str));
 }
 
 struct console *console_create(struct graphics *g)
@@ -118,31 +129,33 @@ struct console *console_create(struct graphics *g)
 	return c;
 }
 
-struct console *console_addref( struct console *c )
+struct console *console_addref(struct console *c)
 {
 	c->refcount++;
 	return c;
 }
 
-void console_delete( struct console *c )
+void console_delete(struct console *c)
 {
 	c->refcount--;
-	if(c->refcount==0) {
+	if (c->refcount == 0)
+	{
 		graphics_delete(c->gx);
-		if (c != &console_root) kfree(c);
+		if (c != &console_root)
+			kfree(c);
 	}
 }
 
-void console_size( struct console *c, int *xsize, int *ysize )
+void console_size(struct console *c, int *xsize, int *ysize)
 {
 	*xsize = c->xsize;
 	*ysize = c->ysize;
 }
 
-struct console * console_init(struct graphics *g)
+struct console *console_init(struct graphics *g)
 {
 	console_root.gx = g;
 	console_reset(&console_root);
-	console_putstring(&console_root,"\n[SYS] console: console initialised\n");
+	console_putstring(&console_root, "\n[SYS] console: console initialised\n");
 	return &console_root;
 }

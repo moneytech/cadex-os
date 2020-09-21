@@ -74,7 +74,7 @@ namespace std
          * Read a line from the STDIN
          * @param str The string to store the input to
         */
-        void ReadLine(char *str)
+        static void ReadLine(char *str)
         {
             scanf(str, sizeof(str));
         }
@@ -83,7 +83,7 @@ namespace std
          * Sets the foreground color of the console
          * @param color The color to use
         */
-        auto SetForegroundColor(Colors::Color *color) -> void
+        static auto SetForegroundColor(Colors::Color *color) -> void
         {
             setTextColor(color->r, color->g, color->b, color->a);
         }
@@ -92,7 +92,7 @@ namespace std
          * Prints a character to the console
          * @param value The value to print to the console
         */
-        auto PutChar(char value) -> void
+        static auto PutChar(char value) -> void
         {
             printf_putchar(value);
         }
@@ -101,7 +101,7 @@ namespace std
          * Prints an integer value to the console
          * @param value The value to print to the console
         */
-        auto PutInt(int value) -> void
+        static auto PutInt(int value) -> void
         {
             printf("%d", value);
         }
@@ -110,7 +110,7 @@ namespace std
          * Prints a hexadecimal value to the console
          * @param value The value to print to the console
         */
-        auto PutHex(uint32_t value) -> void
+        static auto PutHex(uint32_t value) -> void
         {
             printf("%x", value);
         }
@@ -120,9 +120,9 @@ namespace std
          * @param output The variable to store the read data
          * @param length The length of data (i.e keystrokes) to be read from the keyboard
         */
-        auto Read(int *output, int length) -> void
+        static auto Read(void *output, int length) -> void
         {
-            read_object(STDIN, &output, length);
+            read_object(STDIN, output, length);
         }
     };
 } // namespace std
