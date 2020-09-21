@@ -5,6 +5,7 @@ See the file LICENSE for details.
 */
 
 /* An application to make graphical dialogs */
+
 #include <library/stdio.h>
 #include <library/color.h>
 #include <library/types.h>
@@ -34,11 +35,11 @@ int main(int argc, char const *argv[])
     setTextColor(GRAY, 0);
     drawRect(x1, y1, 190, 80);
     setTextColor(WHITE, 0);
-    print(x1 + 10, y1 + 10, "Example dialog message");
+    print(x1 + 10, y1 + 10, argv[0]);
     setTextColor(BLUE, 0);
     drawRect(x1 + 60, y1 + 50, 60, 20);
     setTextColor(WHITE, 0);
-    print(x1 + 62, y1 + 52 + 3, "OK");
+    print(x1 + 62, y1 + 52 + 3, argv[1]);
     resetColor();
     flush();
     return 0;

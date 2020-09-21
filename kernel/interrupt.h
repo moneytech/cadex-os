@@ -7,7 +7,7 @@ See the file LICENSE for details.
 #ifndef INTERRUPT_H
 #define INTERRUPT_H
 
-typedef void (*interrupt_handler_t) (int intr, int code);
+typedef void (*interrupt_handler_t)(int intr, int code);
 
 void interrupt_init();
 void interrupt_register(int i, interrupt_handler_t handler);
@@ -37,6 +37,5 @@ IRQ	Interrupt
 14	46	ATA 0
 15	47	ATA 1
 */
-
 
 #endif

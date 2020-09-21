@@ -11,7 +11,8 @@ See the file LICENSE for details.
 
 #pragma pack(1)
 
-struct iso_9660_directory_entry {
+struct iso_9660_directory_entry
+{
 	uint8_t descriptor_length;
 	uint8_t extended_sectors;
 	uint32_t first_sector_little;
@@ -34,10 +35,11 @@ struct iso_9660_directory_entry {
 	char ident[1];
 };
 
-#define ISO_9660_EXTENT_FLAG_HIDDEN     1
-#define ISO_9660_EXTENT_FLAG_DIRECTORY  2
+#define ISO_9660_EXTENT_FLAG_HIDDEN 1
+#define ISO_9660_EXTENT_FLAG_DIRECTORY 2
 
-struct iso_9660_time {
+struct iso_9660_time
+{
 	char year[4];
 	char month[2];
 	char mday[2];
@@ -54,7 +56,8 @@ struct iso_9660_time {
 #define ISO_9660_VOLUME_TYPE_PARTITION 3
 #define ISO_9660_VOLUME_TYPE_TERMINATOR 255
 
-struct iso_9660_volume_descriptor {
+struct iso_9660_volume_descriptor
+{
 	uint8_t type;
 	char magic[5];
 	char other[2];
