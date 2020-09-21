@@ -111,17 +111,6 @@ namespace std
             // Free the memory
             // free(str);
         }
-
-        /* Operators */
-        auto operator new(unsigned int a) -> void *
-        {
-            return malloc(a);
-        }
-
-        void operator delete(void *a)
-        {
-            return free(a);
-        }
     };
 } // namespace std
 

@@ -8,6 +8,8 @@
 #ifndef _CONFIG
 #define _CONFIG
 
+#include <sys/rt/cxx__rt.hpp>
+
 /* Definitions for library namespaces */
 #define _LIBCXX_NAMESPACE_STD_BEGIN \
     namespace std                   \

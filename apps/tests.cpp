@@ -50,7 +50,7 @@ int main(int argc, const char *argv[])
     Console::Write("-- C++ Test");
 
     // TEST: Class init
-    example ex = example();
+    example *ex = new example();
 
     // TEST: String creation
     String *mystring = new String("Hello\n");
@@ -59,7 +59,7 @@ int main(int argc, const char *argv[])
     Console::Write(mystring->getValue());
 
     // TEST: Function call from example class
-    ex.example_function();
+    ex->example_function();
 
     Console::WriteLine("-- C++ tests completed.");
 
@@ -100,5 +100,6 @@ int main(int argc, const char *argv[])
         printf("Param %s = %s\n", params[p].key, params[p].val);
     }
     Console::WriteLine("-- Yuarel tests completed. ");
+    delete ex;
     return 0;
 }
