@@ -52,15 +52,19 @@ int main(int argc, const char *argv[])
     // TEST: Class init
     example *ex = new example();
 
-    // TEST: String creation
-    String *mystring = new String("Hello\n");
-
-    // TEST: Output the value of mystring to the console
-    Console::Write(mystring->getValue());
-
     // TEST: Function call from example class
     ex->example_function();
 
+    // TEST: Deletion of example class
+    delete ex;
+
+    // TEST: String creation
+    String *mystring = new String("Test: String: This is a string\n");
+
+    // TEST: Output the value of mystring to the console
+    Console::Write(mystring);
+
+    
     Console::WriteLine("-- C++ tests completed.");
 
     Console::WriteLine("-- LibC Test");
@@ -100,6 +104,5 @@ int main(int argc, const char *argv[])
         printf("Param %s = %s\n", params[p].key, params[p].val);
     }
     Console::WriteLine("-- Yuarel tests completed. ");
-    delete ex;
     return 0;
 }

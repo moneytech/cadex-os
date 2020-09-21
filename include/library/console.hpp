@@ -13,10 +13,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <algorithm.h>
-#include <color>
 #include <library/malloc.h>
 #include <library/math.h>
 #include <library/scanf.h>
+
+#include <color>
+#include <string>
 
 namespace std
 {
@@ -59,6 +61,16 @@ namespace std
         static void Write(char *str)
         {
             printf("%s", str);
+        }
+
+        /**
+         * Writes the specified string to the console
+         * @param str The string to write to the console
+        */
+        static auto Write(String *str) -> void
+        {
+            char *tmp = str->getValue();
+            printf("%s", tmp);
         }
 
         /**
