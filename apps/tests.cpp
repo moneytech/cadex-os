@@ -64,11 +64,10 @@ int main(int argc, const char *argv[])
     // TEST: Output the value of mystring to the console
     Console::Write(mystring);
 
-    
     Console::WriteLine("-- C++ tests completed.");
-
     Console::WriteLine("-- LibC Test");
     Console::WriteLine("?? Yuarel URL Parsing Library tests ??");
+    
     int p;
     struct yuarel url;
     struct yuarel_param params[3];

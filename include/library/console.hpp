@@ -74,6 +74,16 @@ namespace std
         }
 
         /**
+         * Writes a line to the console
+         * @param str The string to write to the console
+        */
+        static auto WriteLine(String *str) -> void
+        {
+            char *tmp = str->getValue();
+            printf("%s", tmp);
+        }
+
+        /**
          * Writes a line to console
          * @param str String to write to console
         */
