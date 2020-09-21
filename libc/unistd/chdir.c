@@ -8,7 +8,14 @@
 #include <library/syscalls.h>
 #include <errno.h>
 
-int chdir(const char *path) {
-	__sets_errno(syscall_chdir((char*)path));
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+	int chdir(const char *path)
+	{
+		__sets_errno(syscall_chdir((char *)path));
+	}
+#ifdef __cplusplus
 }
-
+#endif

@@ -45,6 +45,7 @@ LIBRARY_OBJECTS=errno.o \
 				stdio/puts.o \
 				unistd/chdir.o \
 				unistd/close.o \
+				unistd/read.o \
 				objno.o \
 				syscalls.o \
 				syscall.o \
@@ -83,5 +84,6 @@ baselib.a: ${LIBRARY_OBJECTS}
 
 alert:
 	@echo "Building userspace libraries and libc..."
+
 clean:
 	@rm -rf *.a ./*/*.o *.o

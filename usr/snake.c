@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
 		sleepThread(100);
 
 		// Get users next input -- non-blocking
-		fgets_nonblock(0, &tin, 1);
+		read_object_nonblock(0, &tin, 1);
 
 		// Skip if the user goes reverse direction
 		if ((tin == 'b' && in == 'm') || (tin == 'm' && in == 'b') || (tin == 'j' && in == 'n') || (tin == 'n' && in == 'j'))

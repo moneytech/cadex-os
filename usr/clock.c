@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 	char c = 0;
 	while (c != 'q')
 	{
-		fgets_nonblock(0, &c, 1);
+		read_object_nonblock(0, &c, 1);
 		sleepThread(2000);
 		syscall_system_rtc(&time);
 		renderWindow(WN_STDWINDOW);

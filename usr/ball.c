@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 		print(x1, y1, "Ball is AWESOME!");
 		flush();
 		sleepThread(35);
-		fgets_nonblock(KNO_STDIN, &stop, 1);
+		read_object_nonblock(KNO_STDIN, &stop, 1);
 	}
 	clearScreen(0, 0, width, height);
 	setTextColor(255, 255, 255, 0);

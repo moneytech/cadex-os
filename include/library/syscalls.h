@@ -86,7 +86,7 @@ int syscall_process_yield();
 int proc_run(const char *cmd, int argc, const char **argv);
 int syscall_process_wrun(const char *cmd, int argc, const char **argv, int *fds, int fd_len);
 int syscall_process_fork();
-int exec(const char *path, int argc, const char **argv);
+void exec(const char *path, int argc, const char **argv);
 int syscall_process_self();
 int syscall_process_parent();
 int _process_kill(unsigned int pid);
@@ -113,7 +113,7 @@ int syscall_open_pipe();
 int syscall_object_type(int fd);
 int syscall_object_dup(int fd1, int fd2);
 int read_object(int fd, void *data, int length);
-int fgets_nonblock(int fd, void *data, int length);
+int read_object_nonblock(int fd, void *data, int length);
 int syscall_object_list(int fd, char *buffer, int buffer_len);
 int syscall_object_write(int fd, void *data, int length);
 int syscall_object_seek(int fd, int offset, int whence);
@@ -136,7 +136,7 @@ int syscall_bcache_flush();
 int syscall_system_time(uint32_t *t);
 int syscall_system_rtc(struct rtc_time *t);
 
-int syscall_device_driver_stats(char *name, struct device_driver_stats *stats);
+int syscall_device_driver_stats(char *name, void *stats);
 
 /*
 These system calls are carryovers from Unix-like thinking

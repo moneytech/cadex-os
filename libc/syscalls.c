@@ -8,6 +8,7 @@ See the file LICENSE for details.
 #include "kernel/stats.h"
 #include "kernel/gfxstream.h"
 #include <library/mouse.h>
+#include <library/syscalls.h>
 
 char buffsize[5000];
 
@@ -139,7 +140,7 @@ extern "C"
 		return syscall(SYSCALL_OBJECT_READ, fd, (uint32_t)data, length, 0, 0);
 	}
 
-	int fgets_nonblock(int fd, void *data, int length)
+	int read_object_nonblock(int fd, void *data, int length)
 	{
 		return syscall(SYSCALL_OBJECT_READ_NONBLOCK, fd, (uint32_t)data, length, 0, 0);
 	}

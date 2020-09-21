@@ -45,16 +45,16 @@ typedef struct _FILE FILE;
 
 #define BUFSIZ 8192
 
-extern FILE * stdin;
-extern FILE * stdout;
-extern FILE * stderr;
+extern FILE *stdin;
+extern FILE *stdout;
+extern FILE *stderr;
 
 #define EOF (-1)
 
 #define SEEK_SET 0
 #define SEEK_CUR 1
 #define SEEK_END 2
-#define KNO_STDIN  0
+#define KNO_STDIN 0
 #define KNO_STDOUT 1
 #define KNO_STDERR 2
 #define PAUSE                \
@@ -79,8 +79,7 @@ extern FILE * stderr;
 #define _X 0x40  /* hex digit */
 #define _SP 0x80 /* hard space (0x20) */
 
-_Begin_C_Header
-char _ctmp;
+_Begin_C_Header char _ctmp;
 extern char *boot_arg; /* Argument to pass to init */
 extern char *boot_arg_extra;
 struct asm_regs
@@ -115,55 +114,53 @@ extern void draw_cadex_logo(int x, int y);
 extern void draw_window_border(int x, int y, int w, int h, int thickness, int r, int g, int b);
 
 extern int fopen(const char *path, int mode);
-extern int fclose(FILE * stream);
-extern int fseek(FILE * stream, long offset, int whence);
-extern long ftell(FILE * stream);
-extern FILE * fdopen(int fd, const char *mode);
-extern FILE * freopen(const char *path, const char *mode, FILE * stream);
+extern int fclose(FILE *stream);
+extern int fseek(FILE *stream, long offset, int whence);
+extern long ftell(FILE *stream);
+extern FILE *fdopen(int fd, const char *mode);
+extern FILE *freopen(const char *path, const char *mode, FILE *stream);
 
-extern size_t fread(void *ptr, size_t size, size_t nmemb, FILE * stream);
-extern size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE * stream);
+extern size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
+extern size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
 
-extern int fileno(FILE * stream);
-extern int fflush(FILE * stream);
+extern int fileno(FILE *stream);
+extern int fflush(FILE *stream);
 
 extern int sprintf(char *buf, const char *fmt, ...);
 extern int fprintf(FILE *stream, const char *fmt, ...);
-extern int snprintf(char * buf, size_t size, const char * fmt, ...);
+extern int snprintf(char *buf, size_t size, const char *fmt, ...);
 
 extern void rewind(FILE *stream);
-extern void setbuf(FILE * stream, char * buf);
+extern void setbuf(FILE *stream, char *buf);
 
 extern void perror(const char *s);
 
-extern int ungetc(int c, FILE * stream);
+extern int ungetc(int c, FILE *stream);
 
-extern int feof(FILE * stream);
-extern void clearerr(FILE * stream);
-extern int ferror(FILE * stream);
+extern int feof(FILE *stream);
+extern void clearerr(FILE *stream);
+extern int ferror(FILE *stream);
 
-extern int _fwouldblock(FILE * stream);
+extern int _fwouldblock(FILE *stream);
 
-extern FILE * tmpfile(void);
+extern FILE *tmpfile(void);
 
-extern int setvbuf(FILE * stream, char * buf, int mode, size_t size);
+extern int setvbuf(FILE *stream, char *buf, int mode, size_t size);
 
-extern int remove(const char * pathname);
-extern int rename(const char * oldpath, const char * newpath);
+extern int remove(const char *pathname);
+extern int rename(const char *oldpath, const char *newpath);
 
 #define _IONBF 0
 #define _IOLBF 1
 #define _IOFBF 2
 
-extern char * tmpnam(char * s);
+extern char *tmpnam(char *s);
 #define L_tmpnam 256
-
 
 typedef long fpos_t;
 
 extern int fgetpos(FILE *stream, fpos_t *pos);
 extern int fsetpos(FILE *stream, const fpos_t *pos);
-
 
 _End_C_Header;
 #endif

@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 		drawLine(x1, y1, x2 - x1, y2 - y1);
 		flush();
 		sleepThread(1);
-		fgets_nonblock(KNO_STDIN, &stop, 1);
+		read_object_nonblock(KNO_STDIN, &stop, 1);
 	}
 	clearScreen(0, 0, width, height);
 	setTextColor(255, 255, 255, 0);

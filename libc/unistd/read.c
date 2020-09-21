@@ -1,10 +1,21 @@
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+*/
+
 #include <unistd.h>
 #include <errno.h>
-#include <syscall.h>
-#include <syscall_nums.h>
+#include <library/syscalls.h>
 
-DEFN_SYSCALL3(read,  SYS_READ, int, char *, int);
+#ifdef __cplusplus
+extern "C"{
+#endif
 
 int read(int file, void *ptr, size_t len) {
-	__sets_errno(syscall_read(file,ptr,len));
+	__sets_errno(read_object(file, ptr, len));
 }
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus

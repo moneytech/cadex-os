@@ -161,7 +161,7 @@ void run_stats(struct stat_args *args)
   while (1)
   {
     /* Check to exit */
-    fgets_nonblock(0, &quit, 1);
+    read_object_nonblock(0, &quit, 1);
     if (quit == 'q')
       break;
 
