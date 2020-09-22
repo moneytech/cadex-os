@@ -3,24 +3,22 @@
  * This software is distributed under the GNU General Public License
  * See the file LICENSE for details
 */
+#ifndef _HASHMAP_H
+#define _HASHMAP_H
 
-#pragma once
-
-#include <library/_cheader.h>
-
-#ifdef _KERNEL_
-#include <kernel/system.h>
-#else
 #include <library/string.h>
 #include <library/stddef.h>
 #include <library/stdlib.h>
-#endif
-
 #include <library/list_t.h>
 
-_Begin_C_Header
+#define COS_SOURCE // Define that this is Cadex-OS source
 
-    typedef unsigned int (*hashmap_hash_t)(void *key);
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+typedef unsigned int (*hashmap_hash_t)(void *key);
 typedef int (*hashmap_comp_t)(void *a, void *b);
 typedef void (*hashmap_free_t)(void *);
 typedef void *(*hashmap_dupe_t)(void *);
@@ -52,10 +50,12 @@ extern int hashmap_has(hashmap_t *map, void *key);
 extern list_t *hashmap_keys(hashmap_t *map);
 extern list_t *hashmap_values(hashmap_t *map);
 extern void hashmap_free(hashmap_t *map);
-
 extern unsigned int hashmap_string_hash(void *key);
 extern int hashmap_string_comp(void *a, void *b);
 extern void *hashmap_string_dupe(void *key);
 extern int hashmap_is_empty(hashmap_t *map);
 
-_End_C_Header
+#ifdef __cplusplus
+}
+#endif
+#endif

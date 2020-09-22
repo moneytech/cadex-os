@@ -7,6 +7,8 @@
 #ifndef _CTYPE_H
 #define _CTYPE_H
 
+#define COS_SOURCE // Define that this is Cadex-OS source
+
 #define _U	0x01	/* upper */
 #define _L	0x02	/* lower */
 #define _D	0x04	/* digit */

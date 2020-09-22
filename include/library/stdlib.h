@@ -14,7 +14,8 @@
 
 _Begin_C_Header
 
-extern void exit(int status);
+    extern void
+    exit(int status);
 extern char *getenv(const char *name);
 
 // extern void *malloc(size_t size);

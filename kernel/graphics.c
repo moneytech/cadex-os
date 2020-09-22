@@ -132,6 +132,9 @@ int graphics_write(struct graphics *g, struct graphics_command *command)
 				graphics_char(g, command->args[0] + i * 8, command->args[1], str[i]);
 			}
 			break;
+		case GRAPHICS_SCROLLUP:
+			graphics_clear(g, command->args[0], command->args[1], command->args[2], command->args[3]);
+			break;
 		default:
 			break;
 		}

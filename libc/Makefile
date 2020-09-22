@@ -34,6 +34,7 @@ LIBRARY_OBJECTS=errno.o \
 				stdlib/sudopasswd.o \
 				stdlib/strtod.o \
 				stdlib/cppdefs.o \
+				stdlib/stdlib.o \
 				string/index.o \
 				string/bzero.o \
 				string/explicit_bzero.o \
@@ -55,9 +56,6 @@ LIBRARY_OBJECTS=errno.o \
 				qsort.o \
 				scanf.o \
 				assert.o \
-				stdlib.o \
-				toupper.o \
-				tolower.o \
 				wait.o \
 				crt0.o \
 				rand.o \
@@ -67,8 +65,8 @@ LIBRARY_OBJECTS=errno.o \
 				truegl/ui_textbox.o \
 				truegl/movable_scanf.o \
 				truegl/ui_window.o \
-				cadex/cadex_version.o \
-				cadex/contty.o \
+				sys/version.o \
+				sys/contty.o \
 				sul/base64_encode.o \
 				sul/url_parser.o
 

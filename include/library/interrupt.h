@@ -9,6 +9,7 @@
 
 #include <kernel/types.h>
 #include <stdio.h>
+#define COS_SOURCE // Define that this is Cadex-OS source
 
 void interrupt_disable(int i);
 void interrupt_enable(int i);

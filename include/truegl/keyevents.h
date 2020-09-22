@@ -7,6 +7,8 @@
 #include <library/stdio.h>
 #include <library/stdbool.h>
 
+#define COS_SOURCE // Define that this is Cadex-OS source
+
 typedef struct {
     int eventid;
     int eventType;

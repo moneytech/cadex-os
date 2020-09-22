@@ -11,12 +11,13 @@
 #include <library/stdio.h>
 #include <library/_cheader.h>
 
-_Begin_C_Header
+#ifdef __cplusplus
+extern "C"{
+#endif
+   
+#define PI 3.1415926
 
-#define M_PI 3.1415926
-
-    extern double
-    floor(double x);
+extern double floor(double x);
 extern int abs(int j);
 extern double pow(double x, double y);
 extern double exp(double x);
@@ -28,7 +29,7 @@ extern float fabsf(float x);
 extern double sin(double x);
 extern double cos(double x);
 
-double frexp(double x, int *exp);
+extern double frexp(double x, int *exp);
 
 #define HUGE_VAL (__builtin_huge_val())
 
@@ -51,4 +52,6 @@ extern double modf(double x, double *iptr);
 
 extern double hypot(double x, double y);
 
-_End_C_Header
+#ifdef __cplusplus
+}
+#endif

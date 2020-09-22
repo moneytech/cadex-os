@@ -7,6 +7,8 @@
 #ifndef _CONST_H
 #define _CONST_H
 
+#define COS_SOURCE // Define that this is Cadex-OS source
+
 #define BUFFER_END 0x200000
 
 #define I_TYPE          0170000

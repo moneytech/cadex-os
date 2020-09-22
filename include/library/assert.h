@@ -8,7 +8,12 @@
 
 #include <library/_cheader.h>
 
-_Begin_C_Header
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#define COS_SOURCE // Define that this is Cadex-OS source
 
 #ifndef NDEBUG
     extern void
@@ -18,4 +23,6 @@ _Begin_C_Header
 #define assert(statement) ((void)0)
 #endif
 
-_End_C_Header
+#ifdef __cplusplus
+}
+#endif

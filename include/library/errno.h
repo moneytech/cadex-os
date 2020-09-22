@@ -9,6 +9,8 @@
 
 #include "kernel/error.h"
 
+#define COS_SOURCE // Define that this is Cadex-OS source
+
 const char *strerror( kernel_error_t err_code);\
 
 /*

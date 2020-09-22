@@ -1,7 +1,20 @@
 /**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+*/
+
+/**
  * Version info about Cadex OS
 */
-#define LTS_RELEASE "0.1.5"
-#define CADEX_VERSION_CODE 122312
-#define KERNEL_VERSION(a, b, c) (((a) << 16) + ((b) << 8) + (c))
-#define KSHELL_VERSION "1.12.2"
+
+#define COS_SOURCE // Define that this is Cadex-OS source
+
+#define _LTS_REL_ "0.1.7"        // LTS release version; NULL if the version is not
+#define _K_VER_FMT "%d.%d.%d-%s" // This should be printable using the printf() function
+#define __KSHELL_VER_ "1.13.9"   // The Kernel shell version
+#define __VER_SUFFIX "beta"      // Version suffix; Valid values are: beta, prerelease, prebeta, alpha, prealpha
+#define _K_ARCH "i686"           // Kernel architecture
+
+extern char *__K_BUILD_DATE = __DATE__; // The date when this kernel was built from source
+extern char *__K_BUILD_TIME = __TIME__; // The time when this kernel was built from source
