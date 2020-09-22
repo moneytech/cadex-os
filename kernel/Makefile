@@ -4,7 +4,6 @@ KERNEL_OBJECTS=kernelcore.o \
 			   scanf.o \
 			   main.o \
 			   utils.o \
-			   cbasic.o \
 			   console.o \
 			   page.o \
 			   keyboard.o \

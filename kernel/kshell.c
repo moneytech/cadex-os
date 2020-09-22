@@ -34,7 +34,6 @@ See the file LICENSE for details.
 #include "font.h"
 #include "utils.h"
 #include "scanf.h"
-#include "cbasic.h"
 #include "serial.h"
 #include "acpi.h"
 #include "module.h"
@@ -806,29 +805,11 @@ static int kshell_execute(int argc, const char **argv)
 
 	else if (!strcmp(cmd, "uname"))
 	{
-		if (!strcmp(argv[1], "-v"))
-		{
-		}
-		else if (!strcmp(argv[1], "-b"))
-		{
-			printf("0.1.6");
-		}
-		else if (!strcmp(argv[1], "-c"))
-		{
-			printf("Lean Llama");
-		}
-		else if (!strcmp(argv[1], "-a"))
-		{
-			printf("Cadex OS v0.1.6 generic-cadex ckernel:1.5 Lean Llama\n");
-		}
-		else if (!strcmp(argv[1], "-v"))
-		{
-			printf("0.1.6\n");
-		}
-		else
-		{
-			printf("usage: uname <options>\nOptions:\n -v: Version Number\n -b: Build number\n -c: Codename\n -a: All information\n");
-		}
+		int pid = sys_process_run("/bin/uname.exe", argc - 1, &argv[1]);
+		process_yield();
+		struct process_info info;
+		process_wait_child(pid, &info, -1);
+		process_reap(info.pid);
 	}
 	/* Shutdown using ACPI */
 	else if (!strcmp(cmd, "shutdown"))
