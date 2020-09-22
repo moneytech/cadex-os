@@ -634,9 +634,13 @@ int sys_chdir(const char *path)
 	if(d) {
 		fs_dirent_close(current->current_dir);
 		current->current_dir = d;
-		curentworkingdirectory = path;
+		__cwd = path;
 		return 0;
-	} else {
+	} else if (d == KERROR_NOT_A_DIRECTORY)
+	{
+		return KERROR_NOT_A_DIRECTORY;
+	}
+	 else {
 		// XXX get error back from namei
 		return KERROR_NOT_FOUND;
 	}

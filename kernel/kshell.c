@@ -114,11 +114,15 @@ char *promptsym[] = {
 	"%",
 };
 
-char *comd = "nullcommand";
+char *comd = "null";
 char *excpath = "";
 char *curdir = "";
 int prompt = 0;
-char *history[1024];
+
+#define SHELL_HISTORY_ENTRIES 128
+char *kshell_history[SHELL_HISTORY_ENTRIES];
+size_t kshell_history_count = 0;
+size_t kshell_history_offset = 0;
 
 void print_array(char arr[], int start, int len)
 {
@@ -133,6 +137,32 @@ void print_array(char arr[], int start, int len)
 	print_array(arr, start - 1, len);
 }
 
+void kshell_history_insert(char *str)
+{
+	if (kshell_history_count == SHELL_HISTORY_ENTRIES)
+	{
+		kfree(kshell_history[kshell_history_offset]);
+		kshell_history[kshell_history_offset] = str;
+		kshell_history_offset = (kshell_history_offset + 1) % SHELL_HISTORY_ENTRIES;
+	}
+	else
+	{
+		kshell_history[kshell_history_count] = str;
+		kshell_history_count++;
+	}
+}
+
+char *
+kshell_history_get(size_t item)
+{
+	return kshell_history[(item + kshell_history_offset) % SHELL_HISTORY_ENTRIES];
+}
+
+char *
+kshell_history_prev(size_t item)
+{
+	return kshell_history_get(kshell_history_count - item);
+}
 int strEndsWith(const char *str, const char *suffix)
 {
 	if (!str || !suffix)
@@ -236,7 +266,7 @@ static int kshell_mount_nomsg(const char *devname, int unit, const char *fs_type
 					return -1;
 				}
 				fs_volume_close(v);
-			}
+			} 
 			else
 			{
 				return -1;
@@ -367,7 +397,7 @@ static int kshell_listdir(const char *path)
 			}
 			else
 			{
-				printf("ls: %s is not a directory\n", path);
+				printf("ls: %s: not a directory\n", path);
 			}
 			kfree(buffer);
 		}
@@ -518,20 +548,23 @@ static int kshell_execute(int argc, const char **argv)
 		{
 			comd = argv[1];
 			excpath = argv[2];
-		} else {
+		}
+		else
+		{
 			printf("usage: addcmd <command> <path>");
 		}
 	}
 	else if (!strcmp(cmd, comd))
 	{
-		if(strcmp(excpath, "")){
+		if (strcmp(excpath, ""))
+		{
 			int pid = sys_process_run(excpath, argc - 1, &argv[1]);
 			process_yield();
 			struct process_info info;
 			process_wait_child(pid, &info, -1);
 			process_reap(info.pid);
 		}
-	} 	
+	}
 	else if (!strcmp(cmd, "kill"))
 	{
 		if (argc > 1)
@@ -574,28 +607,11 @@ static int kshell_execute(int argc, const char **argv)
 			kshell_listdir(".");
 		}
 	}
-	else if (!strcmp(cmd, "stress"))
+	else if (!strcmp(cmd, "memstats"))
 	{
-		while (1)
-		{
-			const char *argv[] = {"test", "arg1", "arg2", "arg3", "arg4", "arg5", 0};
-			int pid = sys_process_run("/bin/test", 6, argv);
-			if (pid > 0)
-			{
-				struct process_info info;
-				process_wait_child(pid, &info, -1);
-				printf("process %d exited with status %d\n", info.pid, info.exitcode);
-				process_reap(pid);
-			}
-			else
-			{
-				printf("run failed\n");
-				clock_wait(1000);
-			}
-			uint32_t nfree, ntotal;
-			page_stats(&nfree, &ntotal);
-			printf("memory: %d/%d\n", nfree, ntotal);
-		}
+		uint32_t nfree, ntotal;
+		page_stats(&nfree, &ntotal);
+		printf("Memory info: %d/%d B\n", nfree, ntotal);
 	}
 	else if (!strcmp(cmd, "mkdir"))
 	{
@@ -695,11 +711,24 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		if (argc == 2)
 		{
-			if (sys_chdir(argv[1]) == KERROR_INVALID_PATH)
+			int cd_res = sys_chdir(argv[1]);
+			if (cd_res == KERROR_INVALID_PATH)
 			{
 				printf("%s: invalid path specified\n", argv[1]);
 			}
+			else if (cd_res == KERROR_NOT_FOUND)
+			{
+				printf("cd: %s: no such file or directory\n", argv[1]);
+			}
+			else if (cd_res == KERROR_NOT_A_DIRECTORY)
+			{
+				printf("cd: %s: not a directory\n", argv[1]);
+			}
+		} else if (argc == 1)
+		{
+			sys_chdir("/");
 		}
+		
 		else
 		{
 			printf("usage: cd <dir>\n\n");
@@ -831,7 +860,7 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "history"))
 	{
-		print_array(history, 0, 2);
+		print_array(kshell_history, 0, 2);
 	}
 
 	/* Clears the screen */
@@ -941,9 +970,9 @@ start:
 	printf("\n");
 	while (1)
 	{
-		printf("[root@cadex:%s]%s ", curentworkingdirectory, promptsym[prompt]);
+		printf("[root@cadex:%s]%s ", __cwd, promptsym[prompt]);
 		kshell_readline(line, sizeof(line));
-		history[i] = line;
+		kshell_history[i] = line;
 		i++;
 		argc = 0;
 		argv[argc] = strtok(line, " ");
