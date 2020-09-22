@@ -134,6 +134,10 @@ void clearScreen(int x, int y, int w, int h)
 	flushScreen();
 	flush();
 }
+
+void clear_screen(){
+	printf("\f");
+}
 // Draws a line on screen on the specified x and y axis with the specified width and height.
 void drawLine(int x, int y, int w, int h)
 {

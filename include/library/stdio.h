@@ -106,6 +106,7 @@ extern void renderWindow(int wd);
 extern void setTextColor(int r, int g, int b, int a);
 extern void drawRect(int x, int y, int w, int h);
 extern void clearScreen(int x, int y, int w, int h);
+extern void clear_screen();
 extern void drawLine(int x, int y, int w, int h);
 extern void printChar(int x, int y, char c);
 extern void print(int x, int y, char *s);

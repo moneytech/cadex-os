@@ -1,17 +1,15 @@
-#define _ITALIC "\033[3m"
-#define _END "\033[0m\n"
-
 #include <stdio.h>
+#include <library/version.h>
 
 int main(int argc, char const *argv[])
 {
     if (argv && !strcmp(argv[0], "-a"))
     {
-        printf("Cadex PC_GENERIC 0.1.3-b4.1-Official #Gorgeous-Gorrilla i386_32bit Generic-Unix/Generic-Linux\n");
+        printf("CadexOS version %s; Codename \"%s\" %s\n", _LTS_REL_, _K_CODENAME, _K_ARCH);
     }
     else if (argv && !strcmp(argv[0], "-v"))
     {
-        printf("0.1.3-b4.1-Official\n");
+        printf("%s-%s\n", _LTS_REL_, __VER_SUFFIX);
     }
     else
     {

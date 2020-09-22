@@ -85,9 +85,11 @@ int main(int argc, const char *argv[])
 
     char *line[1024];
     renderWindow(WN_STDWINDOW);
-    clearScreen(0, 0, dims[0], dims[1]);
+    clear_screen();
     draw_window_border(1, 1, dims[0] - 1, dims[1] - 1, 3, 255, 255, 255);
     printf("Dim text editor\n");
+    printf("\n");
     textarea(line, sizeof(line));
+    printf("\f");
     return 0;
 }
