@@ -35,6 +35,7 @@ extern "C"
 	{
 		return syscall(SYSCALL_MOUSE_READ, m, 0, 0, 0, 0);
 	}
+
 	int proc_run(const char *cmd, int argc, const char **argv)
 	{
 		return syscall(SYSCALL_PROCESS_RUN, (uint32_t)cmd, argc, (uint32_t)argv, 0, 0);

@@ -20,7 +20,6 @@ See the file LICENSE for details.
 #include <library/stdbool.h>
 #include <library/stddef.h>
 #include <library/ascii.h>
-//#include <library/stdint.h>
 #include <library/_cheader.h>
 #include <stdlib.h>
 

@@ -14,7 +14,7 @@ extern "C"
 #endif
 	int chdir(const char *path)
 	{
-		__sets_errno(syscall_chdir((char *)path));
+		strerror(syscall_chdir((char *)path));
 	}
 #ifdef __cplusplus
 }

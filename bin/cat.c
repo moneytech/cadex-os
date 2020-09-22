@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
         char buffer[1000];
         int n;
         //printf("reading file...\n");
-        if (fd > 0)
+        if (fd > 1 && fd != KERROR_NOT_FOUND)
         {
             while ((n = read_object(fd, buffer, 100)) > 0)
             {
@@ -32,10 +32,15 @@ int main(int argc, char *argv[])
                 printf("%s", buffer);
                 flush();
             }
+            syscall_object_close(fd);
         }
-        syscall_object_close(fd);
+        else
+        {
+            printf("cat: error reading %s: %s", argv[1], strerror(fd));
+        }
+
         printf("\n");
-        exit(0);
+        return 0;
     }
     else
     {

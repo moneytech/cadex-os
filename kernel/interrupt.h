@@ -9,6 +9,26 @@ See the file LICENSE for details.
 
 typedef void (*interrupt_handler_t)(int intr, int code);
 
+extern unsigned int __irq_sem;
+
+#define IRQ_OFF              \
+    {                        \
+        asm volatile("cli"); \
+        __irq_sem++;         \
+    }
+#define IRQ_ON                   \
+    {                            \
+        if (__irq_sem > 0)       \
+            __irq_sem--;         \
+        if (!__irq_sem)          \
+            asm volatile("sti"); \
+    }
+#define IRQ_RES              \
+    {                        \
+        __irq_sem = 0;       \
+        asm volatile("sti"); \
+    }
+
 void interrupt_init();
 void interrupt_register(int i, interrupt_handler_t handler);
 void interrupt_enable(int i);

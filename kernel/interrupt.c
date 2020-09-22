@@ -61,11 +61,16 @@ static void unknown_exception(int i, int code)
 		// Check if page is already mapped (which will result from violating the permissions on page) or that
 		// we are accessing neither the stack nor the heap, or we are accessing both. If so, error
 		if (page_already_present || !(data_access ^ stack_access))
-		{ // // set graphics
-			printf(!(data_access ^ stack_access) ? "Data access violation (core dumped)\n" : "Segmentation fault (Core dumped)\n");
-			// dump current process
-			//process_dump(current);
-			//process_exit(0);
+		{ 
+			printf("Sorry! The application crashed! The application will now exit.\n");
+			if(current->pid = 1){
+				// prevent the kernel from exiting
+			}
+			else
+			{
+				process_exit(0);
+			}
+			
 		}
 		else
 		{
@@ -86,7 +91,7 @@ static void unknown_exception(int i, int code)
 	}
 	else
 	{
-		printf("Segmentation fault (core dumped)\n");
+		printf("Sorry! The application crashed! The application will now exit.\n");
 		halt();
 	}
 }

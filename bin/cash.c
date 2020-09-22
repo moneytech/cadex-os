@@ -257,7 +257,7 @@ int main(int argc, char *argv[])
 
 	while (1)
 	{
-		printf("(root@cadex:%s)# ", curentworkingdirectory);
+		printf("(root@cadex:%s)# ", &curentworkingdirectory);
 		flush();
 		if (readline(line, sizeof(line)))
 		{

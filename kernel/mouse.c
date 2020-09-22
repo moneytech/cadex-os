@@ -223,3 +223,4 @@ void mouse_init()
 	interrupt_enable(44);
 	printf("[HARDWARE] mouse: ready\n");
 }
+

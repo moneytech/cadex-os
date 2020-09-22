@@ -51,6 +51,8 @@ const char * strerror(kernel_error_t err_code) {
 		return "Out of Objects";
 	case KERROR_OUT_OF_SPACE:
 		return "Out of Space";
+	case 0:
+		return "";
 	default:
 		return "Unknown error";
 	}

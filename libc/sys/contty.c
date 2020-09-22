@@ -50,3 +50,4 @@ int set_console_fgcolor(int r, int g, int b, int a){
     setTextColor(r, g, b, a);
     return 0;
 }
+

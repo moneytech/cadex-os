@@ -9,6 +9,7 @@ See the file LICENSE for details.
 
 #include "kernel/types.h"
 #include "kernel/stats.h"
+#include <library/mouse.h>
 
 #define DECL_SYSCALL0(fn) int syscall_##fn()
 #define DECL_SYSCALL1(fn, p1) int syscall_##fn(p1)
@@ -83,6 +84,8 @@ extern "C"
 #endif
 
     void syscall_debug(const char *str);
+
+    int dev_mouse_read(struct mouse_event *m);
 
     /* Syscalls that manipulate this process and its children. */
 
