@@ -117,7 +117,10 @@ void set_bg_color(int r, int g, int b, int a){
 void resetColor()
 {
 	draw_set_buffer(GRAPHICS_COLOR, 255, 255, 255, 0);
+	set_bg_color(50, 50, 50, 0);
+	renderWindow(WN_STDWINDOW);
 	flush();
+	flushScreen();
 }
 // Draws a rectangle on screen with specified dimensions
 void drawRect(int x, int y, int w, int h)

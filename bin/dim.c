@@ -22,7 +22,10 @@ int dims[2];
 
 void refresh(){
     draw_window_border(1, 1, dims[0] - 1, dims[1] - 1, 3, 255, 255, 255);
+    set_bg_color(WHITE, 0);
+    setTextColor(BLACK, 0);
     print(10, 1, "Dim text editor");
+    resetColor();
 }
 /* A specialised version of scanf() function for DIM */
 int textarea(char *line, int length)
@@ -77,8 +80,6 @@ int textarea(char *line, int length)
                     break;
                 } else
                 {
-                    setTextColor(BLUE, 0);
-                    set_bg_color(CLEAR_RED, 0);
                     refresh();
                     goto ask;
                 }
