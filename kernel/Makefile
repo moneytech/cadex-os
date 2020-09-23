@@ -43,7 +43,7 @@ KERNEL_OBJECTS=kernelcore.o \
 			   service.o \
 			   cmos.o
 
-cadex.img: bootblock kernel
+cadex.img: alert bootblock kernel
 	@cat bootblock kernel /dev/zero | head -c 1474560 > cadex.img
 
 kernel: kernel.elf
@@ -65,6 +65,9 @@ bootblock.elf: bootblock.o
 %.o: %.S
 	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
 	@echo "AS    kernel/$<"
+
+alert:
+	@echo "Building Kernel Sources..."
 
 clean:
 	@rm -rf cadex.img *.o *.elf kernel bootblock bootblock.o

@@ -2,8 +2,7 @@
 
 int service_start(char *path, int argc, char *argv[], char *s_name)
 {
-    printf("\nStarting %s...\n", s_name);
-    int pid = sys_process_run(path, argc, &argv);
+        int pid = sys_process_run(path, argc, &argv);
     process_yield();
     struct process_info info;
     process_wait_child(pid, &info, -1);

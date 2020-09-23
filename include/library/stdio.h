@@ -104,6 +104,7 @@ void printf_putstring(char *s);
 extern void flush();
 extern void renderWindow(int wd);
 extern void setTextColor(int r, int g, int b, int a);
+extern void set_bg_color(int r, int g, int b, int a);
 extern void drawRect(int x, int y, int w, int h);
 extern void clearScreen(int x, int y, int w, int h);
 extern void clear_screen();

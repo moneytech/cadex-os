@@ -103,9 +103,16 @@ void renderWindow(int wd)
 void setTextColor(int r, int g, int b, int a)
 {
 	draw_set_buffer(GRAPHICS_COLOR, r, g, b, a);
+	renderWindow(WN_STDWINDOW);
 	flushScreen();
 	flush();
+}
+
+void set_bg_color(int r, int g, int b, int a){
+	draw_set_buffer(GRAPHICS_BGCOLOR, r, g, b, a);
 	renderWindow(WN_STDWINDOW);
+	flushScreen();
+	flush();
 }
 void resetColor()
 {

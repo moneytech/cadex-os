@@ -81,8 +81,10 @@ int kernel_main()
 #ifdef DEBUG
 	printf("\nCadex OS %sb-%s <<<<<<\n", SYS_VER, SYS_BUILD); // #define debug to enable version info
 #endif
+	printf("\n");
 	// start the necessary services
-	service_start("/bin/dbusctl.exe", 0, 0, "dbus");
+	service_start("/bin/dbusctl.exe", 0, 0, "DBus Controller");
+	service_start("/bin/klog.exe", 0, 0, "Kernel logging helper");
 	// launch shell
 	kshell_launch();
 

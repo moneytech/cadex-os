@@ -10,6 +10,7 @@
  */
 #ifndef CXX__RT
 #define CXX__RT
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -43,28 +44,28 @@ extern "C" int __cxa_atexit(void (*func)(void *), void *arg, void *dso_handle)
     return 0;
 }
 
-extern "C" void __cxa_finalize(void *d)
-{
-    if (!d)
-    {
-        for (int i = refs_len - 1; i >= 0; --i)
-        {
-            if (refs[i].f)
-                refs[i].f(refs[i].arg);
-        }
-        return;
-    }
+// extern "C" void __cxa_finalize(void *d)
+// {
+//     if (!d)
+//     {
+//         for (int i = refs_len - 1; i >= 0; --i)
+//         {
+//             if (refs[i].f)
+//                 refs[i].f(refs[i].arg);
+//         }
+//         return;
+//     }
 
-    // else
-    for (int i = refs_len - 1; i >= 0; --i)
-    {
-        if (refs[i].f == d)
-        {
-            refs[i].f(refs[i].arg);
-            refs[i].f = NULL;
-        }
-    }
-}
+//     // else
+//     for (int i = refs_len - 1; i >= 0; --i)
+//     {
+//         if (refs[i].f == d)
+//         {
+//             refs[i].f(refs[i].arg);
+//             refs[i].f = NULL;
+//         }
+//     }
+// }
 
 // not thread safe
 // should add a mutex-like guard with a test-and-set primitive.

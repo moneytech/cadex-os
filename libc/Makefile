@@ -1,5 +1,6 @@
 include ../Makefile.config
 
+LIBRARY_OBJECTS_CPP=cxxrt0.o
 LIBRARY_OBJECTS=errno.o \
 				ctype/_ctype.o \
 				ctype/isalpha.o \
@@ -76,8 +77,12 @@ all: alert baselib.a
 	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
 	@echo "CC    libc/$<"
 
-baselib.a: ${LIBRARY_OBJECTS}
-	@${AR} r $@ ${LIBRARY_OBJECTS}
+%.o: %.cpp
+	@gcc -m32 -Wall -c -std=c++17 -ffreestanding -nostdlib -nodefaultlibs -fno-pie -fno-builtin -fno-exceptions -fno-leading-underscore -Wno-write-strings -fpermissive -I ../include -o $@ $<
+	@echo "CPP    libc/$<"
+
+baselib.a: ${LIBRARY_OBJECTS} ${LIBRARY_OBJECTS_CPP}
+	@${AR} r $@ ${LIBRARY_OBJECTS} ${LIBRARY_OBJECTS_CPP}
 	@echo "Creating library archive..."
 
 alert:

@@ -761,6 +761,10 @@ int printf(const char *s, ...)
 				str = va_arg(args, char *);
 				printf_putstring(str);
 				break;
+			case '%':
+				str = va_arg(args, char *);
+				printf_putchar('%');
+				break;
 			case 'c':
 				u = va_arg(args, int32_t);
 				printf_putchar(u);

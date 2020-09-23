@@ -10,7 +10,7 @@ all: $(USER_PROGRAMS)
 	@echo "CPP    apps/$<"
 
 %.exe: %.o ../libc/crt0.o ../libc/baselib.a
-	@i686-elf-ld -melf_i386 -Ttext 0x80000000 ../libc/crt0.o $< ../libc/baselib.a -o $@
+	@i686-elf-ld -melf_i386 -Ttext 0x80000000 ../libc/cxxrt0.o $< ../libc/baselib.a -o $@
 
 clean:
 	@rm -rf *.exe *.o
