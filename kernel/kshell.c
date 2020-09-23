@@ -859,7 +859,7 @@ static int kshell_execute(int argc, const char **argv)
 		process_yield();
 		struct process_info info;
 		process_wait_child(pid, &info, -1);
-		process_reap(info.pid);
+		process_reap(info.pid); 
 	}
 	
 	/* cat utility: output the contents of a file to the console */
