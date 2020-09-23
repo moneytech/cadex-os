@@ -18,15 +18,9 @@ int main(int argc, const char *argv[])
             char *arg1 = argv[1];
             char *input_str = arg1;
             int len_str;
-
             // calculates length of string
             len_str = sizeof(input_str) / sizeof(input_str[0]);
-
-            // to exclude '\0' character
-            // len_str -= 1;
-
-            printf("Input: %s\n", input_str);
-            printf("base64: %s\n", base64_encode(input_str, len_str));
+            printf("%s\n", base64_encode(input_str, len_str));
         } else {
             printf("base64: unknown option: %s", argv[0]);
         }

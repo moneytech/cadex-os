@@ -20,32 +20,32 @@
 */
 int dims[2];
 
-void refresh(){
+void refresh()
+{
     draw_window_border(1, 1, dims[0] - 1, dims[1] - 1, 3, 255, 255, 255);
     set_bg_color(WHITE, 0);
     setTextColor(BLACK, 0);
-    print(10, 1, "Dim text editor");
+    print(10, 1, "DiM text editor");
     resetColor();
 }
 /* A specialised version of scanf() function for DIM */
 int textarea(char *line, int length)
 {
-    int i = 0;
-    int x = 1;
-    printf("  %d ", x);
-    while (i < (length - 1))
-    {
-        char c;
-        refresh();
-        read_object(STDIN, &c, 1);
-        if (c == ASCII_CR)
-        {
-            //line[i] = 0;
-            printf("\n");
-            x++;
-            printf("  %d ", x);
-            refresh();
-        }
+    int i = 0;                            // Counter 'i'
+    int line_number = 1;                  // Set the line number to 1
+    printf("  %d ", line_number);         // Print the line number
+    while (i < (length - 1))              // 
+    {                                     //
+        char c;                           // C is for storing the character that will be read by read_object()
+        refresh();                        // Redraw the window border and title
+        read_object(STDIN, &c, 1);        // Read 1 character from the keyboard
+        if (c == ASCII_CR)                // Check if 'c' is ENTER
+        {                                 //
+            printf("\n");                 // Append a newline
+            line_number++;                // Increment the line number value
+            printf("  %d ", line_number); // Print the next line number
+            refresh();                    // Redraw the window border and title
+        }                                 //
         else if (c == ASCII_BS)
         {
             if (i > 0)
@@ -78,17 +78,17 @@ int textarea(char *line, int length)
                 else if (as == ASCII_ESC)
                 {
                     break;
-                } else
+                }
+                else
                 {
                     refresh();
                     goto ask;
                 }
-                
             }
             else
             {
                 printf("Invalid command: %s\n", command);
-                printf("  %d ", x);
+                printf("  %d ", line_number);
                 continue;
             }
         }
@@ -106,16 +106,14 @@ int textarea(char *line, int length)
 
 int main(int argc, const char *argv[]) // Main function
 {
-    int width = dims[0];                                                  // Variable declaration
-    int height = dims[1];                                                 // Variable declaration
-    syscall_object_size(WN_STDWINDOW, dims, 2);                           // Get the dimensions of the window; Likely to be removed in version 0.1.8
-    char *line[1024];                                                     // Declare the variable to which we will save the text data
-    renderWindow(WN_STDWINDOW);                                           // Render the window
-    clear_screen();                                                       // clear the screen; We are using clear_screen() which prints out '\f' which clears the screen
-    draw_window_border(1, 1, dims[0] - 1, dims[1] - 1, 3, 255, 255, 255); // Draw te border
-    print(10, 1, "Dim text editor");                                      // Print the title to the console
-    printf("\n\n");                                                       // Append two newlines to move the editor part down
-    textarea(line, sizeof(line));                                         // And now its time to start the editor part
-    clear_screen();                                                       // Clear the screen before exiting
-    return 0;                                                             // Return 0
+    int width = dims[0];                        // Variable declaration
+    int height = dims[1];                       // Variable declaration
+    syscall_object_size(WN_STDWINDOW, dims, 2); // Get the dimensions of the window; Likely to be removed in version 0.1.8
+    char *line[2048];                           // Declare the variable to which we will save the text data
+    renderWindow(WN_STDWINDOW);                 // Render the window
+    clear_screen();                             // clear the screen; We are using clear_screen() which prints out '\f' which clears the screen
+    printf("\n\n");                             // Append two newlines to move the editor part down
+    textarea(line, sizeof(line));               // And now its time to start the editor part
+    clear_screen();                             // Clear the screen before exiting
+    return 0;                                   // Return 0
 }
