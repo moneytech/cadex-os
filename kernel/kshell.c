@@ -853,6 +853,15 @@ static int kshell_execute(int argc, const char **argv)
 		process_wait_child(pid, &info, -1);
 		process_reap(info.pid);
 	}
+	else if (!strcmp(cmd, "dim"))
+	{
+		int pid = sys_process_run("/bin/dim.exe", argc - 1, &argv[1]);
+		process_yield();
+		struct process_info info;
+		process_wait_child(pid, &info, -1);
+		process_reap(info.pid);
+	}
+	
 	/* cat utility: output the contents of a file to the console */
 	else if (!strcmp(cmd, "cat"))
 	{
