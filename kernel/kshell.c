@@ -855,7 +855,7 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "dim"))
 	{
-		int pid = sys_process_run("/bin/dim.exe", argc - 1, &argv[1]);
+		int pid = sys_process_run("/bin/dim.exe", argc - 1, &argv[1]); 
 		process_yield();
 		struct process_info info;
 		process_wait_child(pid, &info, -1);
