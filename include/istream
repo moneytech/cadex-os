@@ -27,14 +27,5 @@ namespace std
         istream(/* args */);
         ~istream();
     };
-
-    istream::istream(/* args */)
-    {
-    }
-
-    istream::~istream()
-    {
-    }
-
 } // namespace std
 #endif // !_ISTREAM

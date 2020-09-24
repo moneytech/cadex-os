@@ -50,14 +50,17 @@ int main(int argc, char *argv[])
 		move(&g, &dg, 0, 255);
 		move(&b, &db, 0, 255);
 		setTextColor(r, g, b, 0);
-		print(x1, y1, "Ball is AWESOME!");
+		if (argc > 0)
+			print(x1, y1, argv[0]);
+		else
+			print(x1, y1, "Ball is Awesome!");
+
 		flush();
 		sleepThread(35);
 		read_object_nonblock(KNO_STDIN, &stop, 1);
 	}
-	clearScreen(0, 0, width, height);
-	setTextColor(255, 255, 255, 0);
-	flush();
+	clear_screen();
+	resetColor();
 	return 0;
 }
 

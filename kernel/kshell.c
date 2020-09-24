@@ -123,6 +123,14 @@ char *kshell_history[SHELL_HISTORY_ENTRIES];
 size_t kshell_history_count = 0;
 size_t kshell_history_offset = 0;
 
+void start_program(char *path, int argc, char *argv){
+	int pid = sys_process_run(path ? path : "/bin/klog.exe", argc - 1, &argv);
+	process_yield();
+	struct process_info info;
+	process_wait_child(pid, &info, -1);
+	process_reap(info.pid);
+}
+
 void print_array(char arr[], int start, int len)
 {
 	/* Recursion base condition */
@@ -855,14 +863,10 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "dim"))
 	{
-		int pid = sys_process_run("/bin/dim.exe", argc - 1, &argv[1]); 
-		process_yield();
-		struct process_info info;
-		process_wait_child(pid, &info, -1);
-		process_reap(info.pid); 
+		start_program("/bin/dim.exe", 0, &argv[1]);
 	}
-	
-	/* cat utility: output the contents of a file to the console */
+
+	/* cat: output the contents of a file to the console */
 	else if (!strcmp(cmd, "cat"))
 	{
 		int pid = sys_process_run("/bin/cat.exe", argc - 1, &argv[1]);

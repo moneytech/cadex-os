@@ -1,6 +1,7 @@
 include ../Makefile.config
 
 LIBRARY_OBJECTS_CPP=cxxrt0.o
+
 LIBRARY_OBJECTS=errno.o \
 				ctype/_ctype.o \
 				ctype/isalpha.o \

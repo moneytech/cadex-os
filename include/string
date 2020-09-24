@@ -11,8 +11,6 @@
 #define _STRING
 
 #include <string.h>
-#include <library/malloc.h>
-
 #include <memory>
 
 namespace std

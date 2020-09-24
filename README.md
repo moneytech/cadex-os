@@ -33,7 +33,7 @@ To learn more, see the __[Cadex OS Wiki](http://cadex-os-wiki.rf.gd).__
  * ***docs***: Documentation about used drivers and APIs
  * ***include***: Header files for libc and libcxx libraries
  * ***kernel***: The core kernel source
- * ***libc***: Source files for libc
+ * ***libc***: Source files for libc and libcxx (This includes the standard system libraries)
  * ***scripts***: Scripts for generating ramfs image and other purposes
  * ***usr***: Programs that go into `/usr/bin` folder
 

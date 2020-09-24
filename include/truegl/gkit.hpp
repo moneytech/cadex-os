@@ -14,7 +14,7 @@
 #define _TRUEGL_GKIT
 
 #include <iostream>
-#include <truegl/constants.hpp>
+#include <truegl/lib/constants.hpp>
 
 namespace TGL::GKit
 {

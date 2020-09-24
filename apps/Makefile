@@ -1,7 +1,7 @@
 
 include ../Makefile.config
 
-USER_PROGRAMS= tests.exe box.exe
+USER_PROGRAMS= tests.exe box.exe api_example.exe
 
 all: $(USER_PROGRAMS)
 

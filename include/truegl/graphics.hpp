@@ -18,11 +18,21 @@
 
 namespace TGL
 {
+    class GraphicsContext
+    {
+    private:
+        /* data */
+    public:
+        GraphicsContext(/* args */);
+        ~GraphicsContext();
+    };
+
     class GraphicsManager
     {
     private:
         int red, green, blue, alpha;
         int xpos, ypos;
+        static GraphicsContext current_context;
 
     public:
         GraphicsManager()
@@ -31,21 +41,34 @@ namespace TGL
         ~GraphicsManager()
         {
         }
-        auto draw_line(int x, int y, int width, int height) -> void
+        static auto draw_line(int x, int y, int width, int height) -> void
         {
             return drawLine(x, y, width, height);
         }
-        auto draw_rect(int x, int y, int width, int height) -> void
+        static auto draw_rect(int x, int y, int width, int height) -> void
         {
             return drawRect(x, y, width, height);
         }
-        auto set_graphics_context() -> void
+        static auto draw_string(int x, int y, char *str) -> void
         {
+            return print(x, y, str);
         }
-        auto set_fgcolor(int r, int g, int b, int a) -> void
+        static auto set_graphics_context(GraphicsContext ctx) -> void
+        {
+            current_context = ctx;
+        }
+        static auto set_fgcolor(int r, int g, int b, int a) -> void
         {
             return setTextColor(r, g, b, a);
         }
+        static auto set_bgcolor(int r, int g, int b, int a) -> void
+        {
+            return set_bg_color(r, g, b, a);
+        }
+
+        /* Properties */
+        static int is_window_created;
+        static int window_title;
     };
 } // namespace TGL
 #endif

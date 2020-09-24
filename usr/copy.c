@@ -13,7 +13,7 @@ See the file LICENSE for details.
 int main(int argc, char *argv[])
 {
 	if(argc!=3) {
-		printf("%s: <sourcepath> <destpath>\n");
+		printf("usage: copy <sourcepath> <destpath>\n");
 		return 1;
 	}
 

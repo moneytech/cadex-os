@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
         setTextColor(BLUE,0);
     }
     else {
-        printf("Usage: color.exe <color>");
+        printf("usage: color <color>");
     }
     flush();
     return 0;

@@ -20,7 +20,7 @@ namespace TGL
         static constexpr auto KEY_SPACE = ASCII_SP;
 
         /* Functions */
-        static auto isValidkeyCode(int k) -> bool
+        static auto is_valid_key_code(int k) -> bool
         {
             return k == KeyCode::KEY_A || k == KeyCode::KEY_D || k == KeyCode::KEY_ESCAPE || k == KeyCode::KEY_S || k == KeyCode::KEY_SPACE || k == KeyCode::KEY_W ? true : false;
         }

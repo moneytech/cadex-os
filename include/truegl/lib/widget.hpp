@@ -8,14 +8,24 @@
 #define _TRUEGL_WIDGET
 
 #include <string>
+#include <stdio.h>
 
 namespace TGL
 {
-    template <class T>
-    class TWidget
+    class WidgetBase
+    {
+    public:
+        WidgetBase(){}
+        WidgetBase(WidgetBase &&){}
+        ~WidgetBase(){}
+    
+    private:
+        
+    };
+
+    class TWidget : public WidgetBase
     {
     private:
-        T;
         int height;
         int width;
         int x;
@@ -23,7 +33,7 @@ namespace TGL
         char *label;
 
     public:
-        TWidget(T)
+        TWidget()
         {
             x = 0;
             y = 0;

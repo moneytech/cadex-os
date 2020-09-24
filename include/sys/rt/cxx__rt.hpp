@@ -96,7 +96,7 @@ void operator delete(void *ptr, size_t len)
     free(ptr);
 }
 
-void *operator new(size_t len)
+void *operator new(unsigned int len)
 {
     return malloc(len);
 }
@@ -106,7 +106,7 @@ void operator delete[](void *ptr)
     ::operator delete(ptr, sizeof(ptr));
 }
 
-void *operator new[](size_t len)
+void *operator new[](unsigned int len)
 {
     return ::operator new(len);
 }

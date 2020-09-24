@@ -19,20 +19,16 @@ namespace std
 {
     class ostream
     {
-    private:
-        /* data */
     public:
-        ostream(/* args */);
+        ostream();
+        ostream(ostream &&);
+        ostream(const ostream &);
+        ostream &operator<<(char* &&);
+        ostream &operator<<(const char* &);
         ~ostream();
+
+    private:
     };
-    
-    ostream::ostream(/* args */)
-    {
-    }
-    
-    ostream::~ostream()
-    {
-    }
     
 } // namespace std
 
