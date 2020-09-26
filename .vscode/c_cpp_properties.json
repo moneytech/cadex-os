@@ -4,7 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${default}"
+                "${default}",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/cross/lib/gcc/i686-elf/8.2.0/include"
             ],
             "defines": [
                 "_DEBUG",

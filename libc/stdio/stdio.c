@@ -160,6 +160,7 @@ void drawLine(int x, int y, int w, int h)
 void print(int x, int y, char *s)
 {
 	draw_set_buffer(GRAPHICS_TEXT, x, y, s, 0);
+	renderWindow(WN_STDWINDOW);
 	flushScreen();
 	flush();
 }

@@ -2,7 +2,7 @@
 #define CONSTANTS
 
 #include <iostream>
-#include <truegl/graphics.hpp>
+#include <truegl/lib/graphics.hpp>
 
 namespace TGL
 {

@@ -47,10 +47,12 @@ namespace TGL
         }
         static auto draw_rect(int x, int y, int width, int height) -> void
         {
+            renderWindow(WN_STDWINDOW);
             return drawRect(x, y, width, height);
         }
         static auto draw_string(int x, int y, char *str) -> void
         {
+            renderWindow(WN_STDWINDOW);
             return print(x, y, str);
         }
         static auto set_graphics_context(GraphicsContext ctx) -> void

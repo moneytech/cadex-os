@@ -54,10 +54,10 @@ int console_write(struct console *d, const char *data, int size)
 	int i;
 	for (i = 0; i < size; i++)
 	{
+		int tmp;
 		char c = data[i];
 		switch (c)
 		{
-		case 13:
 		case 10:
 			d->xpos = 0;
 			d->ypos++;
@@ -72,6 +72,13 @@ int console_write(struct console *d, const char *data, int size)
 			break;
 		case '\b':
 			d->xpos--;
+			break;
+		case '\r':
+			d->xpos = 0;
+			break;
+		case '\t':
+			console_putstring(&console_root, "    ");
+			d->xpos += 4;
 			break;
 		default:
 			graphics_char(d->gx, d->xpos * 8, d->ypos * 8, c);
