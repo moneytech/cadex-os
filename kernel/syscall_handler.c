@@ -53,6 +53,7 @@ indicates an error and the reason.
 */
 
 int mouse_dev_read(struct mouse_event *m){
+	mouse_interrupt(0,0);
 	mouse_read(m);
 	return 0;
 }

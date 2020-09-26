@@ -18,7 +18,7 @@ void warn(char *s)
     resetColor();
 }
 void crit(char *s)
-{
+{ 
     renderWindow(WN_STDWINDOW);
     setTextColor(CLEAR_RED, 0);
     printf("%s", s);

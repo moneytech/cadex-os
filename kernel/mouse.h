@@ -33,13 +33,17 @@ See the file LICENSE for details.
 #include "printf.h"
 #include "service.h"
 
-struct mouse_event {
-	uint8_t buttons;
+struct mouse_event
+{
 	int32_t x;
 	int32_t y;
+	uint8_t buttons;
 };
+uint8_t cycle;
+uint8_t buttons;
+int8_t buffer[3];
 
 void mouse_read(struct mouse_event *e);
 void mouse_init();
-
+void mouse_interrupt(int i, int code);
 #endif

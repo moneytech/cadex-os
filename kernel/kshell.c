@@ -123,7 +123,8 @@ char *kshell_history[SHELL_HISTORY_ENTRIES];
 size_t kshell_history_count = 0;
 size_t kshell_history_offset = 0;
 
-void start_program(char *path, int argc, char *argv){
+void start_program(char *path, int argc, char *argv)
+{
 	int pid = sys_process_run(path ? path : "/bin/klog.exe", argc - 1, &argv);
 	process_yield();
 	struct process_info info;
@@ -273,7 +274,7 @@ static int kshell_mount_nomsg(const char *devname, int unit, const char *fs_type
 					return -1;
 				}
 				fs_volume_close(v);
-			} 
+			}
 			else
 			{
 				return -1;
@@ -731,11 +732,12 @@ static int kshell_execute(int argc, const char **argv)
 			{
 				printf("cd: %s: not a directory\n", argv[1]);
 			}
-		} else if (argc == 1)
+		}
+		else if (argc == 1)
 		{
 			sys_chdir("/");
 		}
-		
+
 		else
 		{
 			printf("usage: cd <dir>\n\n");
@@ -863,26 +865,18 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "dim"))
 	{
-		start_program("/bin/dim.exe", 0, &argv[1]);
+		start_program("/bin/dim.exe", argc - 1, &argv[1]);
 	}
 
 	/* cat: output the contents of a file to the console */
 	else if (!strcmp(cmd, "cat"))
 	{
-		int pid = sys_process_run("/bin/cat.exe", argc - 1, &argv[1]);
-		process_yield();
-		struct process_info info;
-		process_wait_child(pid, &info, -1);
-		process_reap(info.pid);
+		start_program("/bin/cat.exe", argc - 1, &argv[1]);
 	}
 	/* standard, not-so-secure version of sudo */
 	else if (!strcmp(cmd, "sudo"))
 	{
-		int pid = sys_process_run("/bin/sudo.exe", argc - 1, &argv[1]);
-		process_yield();
-		struct process_info info;
-		process_wait_child(pid, &info, -1);
-		process_reap(info.pid);
+		start_program("/bin/sudo.exe", argc - 1, &argv[1]);
 	}
 	else
 	{

@@ -163,7 +163,7 @@ word, so we must assemble a twos-complement integer if needed.
 Finally, take those values and update the current mouse state.
 */
 
-static void mouse_interrupt(int i, int code)
+void mouse_interrupt(int i, int code)
 {
 	uint8_t m1 = inb(PS2_DATA_PORT);
 	uint8_t m2 = inb(PS2_DATA_PORT);
@@ -194,6 +194,7 @@ void mouse_read(struct mouse_event *e)
 	*e = state;
 	interrupt_enable(44);
 }
+
 
 /*
 Unlike the keyboard, the mouse is not automatically enabled

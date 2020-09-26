@@ -80,12 +80,11 @@ int main(int argc, char *argv[])
 	syscall_object_size(WN_STDWINDOW, std_dims, 2);
 	renderWindow(WN_STDWINDOW);
 	/* The code below will not work */
-	clearScreen(0, 0, std_dims[0], std_dims[1]);
-	setTextColor(r, g, b, 0);
+	clear_screen();
+	setTextColor(BLACK, 0);
+	set_bg_color(WHITE, 0);
 	print(10, 0, "Cadex Shell UI");
-	renderWindow(WN_STDWINDOW);
-	/* End not working code*/
-	flush();
+	resetColor();
 
 	/* Sort programs in order of biggest height to smallest with smaller width being tie breaker */
 	int left = 0;
@@ -144,8 +143,8 @@ int main(int argc, char *argv[])
 			continue;
 		}
 
-		fds[p_i][0] = syscall_open_pipe();
 		fds[p_i][3] = syscall_open_window(WN_STDWINDOW, placement[p_i][0], placement[p_i][1], programs[p_i].w, programs[p_i].h);
+		fds[p_i][0] = syscall_open_pipe();
 
 		// Standard output and error get console
 		fds[p_i][1] = syscall_open_console(fds[p_i][3]);
@@ -167,7 +166,7 @@ int main(int argc, char *argv[])
 	draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 0, 0, 244);
 	flush();
 
-	while (tin != '~')
+	while (tin != ASCII_ESC)
 	{
 		renderWindow(WN_STDWINDOW);
 		draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 0, 0, 244);
@@ -186,9 +185,10 @@ int main(int argc, char *argv[])
 			draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 255, 255, 255);
 			flush();
 			p_act = (p_act + 1) % num_programs;
-			setTextColor(WHITE, 100);
-			print(8, 0, "Cadex Shell UI");
-			renderWindow(WN_STDWINDOW);
+			setTextColor(BLACK, 0);
+			set_bg_color(WHITE, 0);
+			print(10, 0, "Cadex Shell UI");
+			resetColor();
 			/* Draw green window around active process and start it */
 			renderWindow(WN_STDWINDOW);
 			draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 0, 0, 255);
@@ -196,6 +196,7 @@ int main(int argc, char *argv[])
 			setTextColor(255, 255, 255, 0);
 			continue;
 		}
+		
 
 		/* code */
 		syscall_object_write(fds[p_act][0], &tin, 1);
@@ -210,9 +211,8 @@ int main(int argc, char *argv[])
 	}
 
 	/* Clean up the window */
-	setTextColor(255, 255, 255, 0);
-	clearScreen(0, 0, std_dims[0], std_dims[1]);
-	flush();
+	resetColor();
+	clear_screen();
 	return 0;
 }
 
