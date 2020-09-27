@@ -75,6 +75,25 @@ namespace std
         {
             return atoi(str);
         }
+
+        /**
+         * Join the value of the string to the specified string
+         * @param s The string to join with
+        */
+        auto join(char *s) -> void
+        {
+            strcat(str, s);
+        }
+
+        /**
+         * Join the value of the string to the specified string
+         * @param s The string to join with
+        */
+        static auto join(char *a, char *s) -> void
+        {
+            strcat(a, s);
+        }
+
         /**
          * Creates a new String object with the specified value
          * @param a The value to store in the String object

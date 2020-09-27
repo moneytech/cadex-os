@@ -183,17 +183,16 @@ int main(int argc, char *argv[])
 		{
 			renderWindow(WN_STDWINDOW);
 			draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 255, 255, 255);
-			flush();
 			p_act = (p_act + 1) % num_programs;
-			setTextColor(BLACK, 0);
-			set_bg_color(WHITE, 0);
-			print(10, 0, "Window Manager");
-			resetColor();
 			/* Draw green window around active process and start it */
 			renderWindow(WN_STDWINDOW);
 			draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 10, 10, 255);
 			flush();
-			setTextColor(255, 255, 255, 0);
+			resetColor();
+			set_bg_color(WHITE, 0);
+			setTextColor(BLACK, 0);
+			print(10, 0, "Window Manager");
+			resetColor();
 			continue;
 		}
 		

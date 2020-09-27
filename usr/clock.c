@@ -1,7 +1,7 @@
-/*
-Copyright (C) 2019-2020 OpenCreeck
-This software is distributed under the GNU General Public License.
-See the file LICENSE for details.
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
 */
 
 #include "library/syscalls.h"
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 
 	/* Set up window  */
 	renderWindow(WN_STDWINDOW);
-	clearScreen(0, 0, width, height);
+	clear_screen();
 	draw_border(0, 0, CLOCK_W, CLOCK_H, thickness, 255, 255, 255);
 	draw_clock(time.hour, time.minute, timezone, military, 0, 0, 2 * thickness, 255, 255, 255);
 	flush();
