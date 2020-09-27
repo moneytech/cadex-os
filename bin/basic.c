@@ -297,8 +297,7 @@ int main(int argc, const char *argv[])
     else
     {
         printf("Error: Specified file does not have '.b86' file extension. Cadex BASIC files must have '.b86' file extension.\n");
-        _process_exit(0);
-        return 0;
+        return 1;
     }
     syscall_object_close(fd);
     return 0;

@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 	clear_screen();
 	setTextColor(BLACK, 0);
 	set_bg_color(WHITE, 0);
-	print(10, 0, "Cadex Shell UI");
+	print(10, 0, "Window Manager");
 	resetColor();
 
 	/* Sort programs in order of biggest height to smallest with smaller width being tie breaker */
@@ -187,21 +187,20 @@ int main(int argc, char *argv[])
 			p_act = (p_act + 1) % num_programs;
 			setTextColor(BLACK, 0);
 			set_bg_color(WHITE, 0);
-			print(10, 0, "Cadex Shell UI");
+			print(10, 0, "Window Manager");
 			resetColor();
 			/* Draw green window around active process and start it */
 			renderWindow(WN_STDWINDOW);
-			draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 0, 0, 255);
+			draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 10, 10, 255);
 			flush();
 			setTextColor(255, 255, 255, 0);
 			continue;
 		}
 		
 
-		/* code */
+		/* Write 1 character to the correct pipe */
 		syscall_object_write(fds[p_act][0], &tin, 1);
 
-		/* Write 1 character to the correct pipe */
 	}
 
 	/* Reap all children processes */

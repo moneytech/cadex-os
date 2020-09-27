@@ -17,7 +17,8 @@ USER_PROGRAMS= sdlg.exe \
 			   dbusctl.exe \
 			   base64.exe \
 			   cd.exe \
-			   klog.exe
+			   klog.exe \
+			   check_fs.exe
 
 all: $(USER_PROGRAMS)
 

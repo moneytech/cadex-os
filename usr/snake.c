@@ -12,6 +12,9 @@ See the file LICENSE for details.
 
 typedef unsigned int uint32_t;
 
+// Snake speed in milliseconds
+uint16_t snake_speed = 700;
+
 /* Keeps track of coordinates */
 struct coords
 {
@@ -84,7 +87,7 @@ int main(int argc, char *argv[])
 	{
 		return 1;
 	}
-	print(thick * 4, thick * 2, "Snake");
+	print(thick * 4, thick * 2 - 4, "Snake Mania");
 	print(thick * 3, thick * 4, "Press any key to start");
 	print(thick * 3, thick * 8, "j: up");
 	print(thick * 3, thick * 12, "n: down");
@@ -108,7 +111,7 @@ int main(int argc, char *argv[])
 		draw_board(wd, thick, thick, game_width, game_height, x_steps, y_steps, snake_coords, apple, thick);
 
 		// Wait
-		sleepThread(100);
+		sleepThread(700);
 
 		// Get users next input -- non-blocking
 		read_object_nonblock(0, &tin, 1);
@@ -136,8 +139,8 @@ int main(int argc, char *argv[])
 			flush();
 			setTextColor(255, 255, 255, 0);
 			print(thick * 3, thick * 4, "You lose!");
-			print(thick * 3, thick * 8, "Enter q to quit");
-			print(thick * 3, thick * 12, "Press any key to start");
+			print(thick * 3, thick * 8, "Press 'Q' to quit");
+			print(thick * 3, thick * 12, "Press any key to continue");
 			flush();
 			read_object(0, &tin, 1);
 			if (tin == 'q')
@@ -241,14 +244,12 @@ int initialize_window(uint16_t x_b, uint16_t y_b, uint16_t w_b, uint16_t h_b, ui
 {
 	/* draw initial window */
 	renderWindow(WN_STDWINDOW);
-	clearScreen(0, 0, w_b, h_b);
+	clear_screen();
 	if (draw_border(0, 0, w_b, h_b, thick, r_b, g_b, b_b) < 0)
 	{
 		printf("Border create failed!\n");
 		return -1;
 	}
-	flush();
-
 	return WN_STDWINDOW;
 }
 
@@ -283,7 +284,7 @@ void draw_board(uint16_t wd, uint16_t x_0, uint16_t y_0, uint16_t game_width, ui
 	}
 
 	// Draw the apple
-	setTextColor(255, 0, 0, 0);
+	setTextColor(255, 10, 10, 0);
 	drawRect(apple.x_c * thick + x_0, apple.y_c * thick + y_0, thick, thick);
 
 	flush();
@@ -411,6 +412,16 @@ void update_snake(struct coords *snake_coords, uint16_t x_next, uint16_t y_next,
 		snake_coords[curr_i].x_c = x_next;
 		snake_coords[curr_i].y_c = y_next;
 	}
+
+	// Update the snake speed accordingly
+	if(snake_speed <= 0){
+		// check if speed is 0 , if so set it to 100 or the snake wont move
+		snake_speed += 100;
+	} else
+	{
+		snake_speed -= 100;
+	}
+	
 }
 
 void update_board(struct coords *snake_coords, uint8_t *board, uint16_t x_steps, uint16_t y_steps)

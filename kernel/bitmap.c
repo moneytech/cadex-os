@@ -1,7 +1,7 @@
-/*
-Copyright (C) 2019-2020 OpenCreeck
-This software is distributed under the GNU General Public License.
-See the file LICENSE for details.
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
 */
 
 #include "bitmap.h"
@@ -14,7 +14,7 @@ struct bitmap *bitmap_create_root()
 {
 	root_bitmap.width = video_xres;
 	root_bitmap.height = video_yres;
-	root_bitmap.format = BITMAP_FORMAT_RGB;
+	root_bitmap.format = BITMAP_FORMAT_RGBA;
 	root_bitmap.data = video_buffer;
 	return &root_bitmap;
 }

@@ -1,3 +1,9 @@
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+*/
+
 #include "acpi.h"
 #ifdef DEBUG
 #define debug_printf(a, ...) printf(a, ...)
@@ -9,7 +15,8 @@ void PANIC(char *str)
 {
     printf("[PANIC]: %s\n", str);
 }
-void ASSERT_PANIC(char *str){
+void ASSERT_PANIC(char *str)
+{
     PANIC(str);
 }
 void _page_map(uint32_t p_addr, uint32_t v_addr, uint32_t length)
@@ -38,8 +45,6 @@ void _page_map(uint32_t p_addr, uint32_t v_addr, uint32_t length)
         pages--;
     }
 }
-
-
 
 #define SCI_EN (1 << 0)
 #define SLP_EN (1 << 13)

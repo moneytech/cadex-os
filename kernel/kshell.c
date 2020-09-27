@@ -117,20 +117,13 @@ char *comd = "null";
 char *excpath = "";
 char *curdir = "";
 int prompt = 0;
+int last_run_proc_exitcode = 0;
+int last_process_run = 0;
 
 #define SHELL_HISTORY_ENTRIES 128
 char *kshell_history[SHELL_HISTORY_ENTRIES];
 size_t kshell_history_count = 0;
 size_t kshell_history_offset = 0;
-
-void start_program(char *path, int argc, char *argv)
-{
-	int pid = sys_process_run(path ? path : "/bin/klog.exe", argc - 1, &argv);
-	process_yield();
-	struct process_info info;
-	process_wait_child(pid, &info, -1);
-	process_reap(info.pid);
-}
 
 void print_array(char arr[], int start, int len)
 {
@@ -826,6 +819,36 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		acpi_power_down();
 	}
+	else if (!strcmp(cmd, "echo"))
+	{
+		for (size_t i = 1; i < argc; i++)
+		{
+			if (!strcmp(argv[i], "\\n"))
+			{
+				printf("\n");
+			}
+			else if (!strcmp(argv[i], "$1"))
+			{
+				printf("%d ", last_run_proc_exitcode);
+			}
+			else if (!strcmp(argv[i], "\""))
+			{
+				continue;
+			}
+			else if (!strStartsWith("\"", argv[i]) || !strEndsWith(argv[i], "\""))
+			{
+				printf("%s ", argv[i]);
+				continue;
+			}
+
+			else
+			{
+				printf("%s ", argv[i]);
+			}
+		}
+		printf("\n");
+	}
+
 	else if (!strcmp(cmd, "prompt"))
 	{
 		/* This is a very good customisation feature. Ability to change prompt symbol. */
@@ -865,37 +888,52 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "dim"))
 	{
-		start_program("/bin/dim.exe", argc - 1, &argv[1]);
+
+		int pid = sys_process_run("/bin/dim.exe", argc - 1, &argv);
+		process_yield();
+		struct process_info info;
+		process_wait_child(pid, &info, -1);
+		process_reap(info.pid);
 	}
 
 	/* cat: output the contents of a file to the console */
 	else if (!strcmp(cmd, "cat"))
 	{
-		start_program("/bin/cat.exe", argc - 1, &argv[1]);
+		int pid = sys_process_run("/bin/cat.exe", argc - 1, &argv);
+		process_yield();
+		struct process_info info;
+		process_wait_child(pid, &info, -1);
+		process_reap(info.pid);
 	}
 	/* standard, not-so-secure version of sudo */
 	else if (!strcmp(cmd, "sudo"))
 	{
-		start_program("/bin/sudo.exe", argc - 1, &argv[1]);
+		int pid = sys_process_run("/bin/sudo.exe", argc - 1, &argv);
+		process_yield();
+		struct process_info info;
+		process_wait_child(pid, &info, -1);
+		process_reap(info.pid);
 	}
 	else
 	{
 		// strStartsWith is required or every time you type a wrong command, it will say file not found
 		if (argc > 0 && strStartsWith(".", argv[0]))
 		{
+			// Try to run the process
 			int pid = sys_process_run(argv[0], argc - 1, &argv[1]);
 			if (pid > 1)
 			{
-#ifdef DEBUG
-				printf("started process %d\n", pid);
-#endif // DEBUG
 				process_yield();
 				struct process_info info;
 				process_wait_child(pid, &info, -1);
-#ifdef DEBUG
-				printf("process %d exited with status %d\n", info.pid, info.exitcode);
-#endif // DEBUG
 				process_reap(info.pid);
+				last_process_run = 1;
+				last_run_proc_exitcode = info.exitcode;
+			}
+			else if (pid == KERROR_NOT_FOUND)
+			{
+				// Handle the NOT_FOUND error
+				printf("%s: No such file or directory\n", argv[0]);
 			}
 		}
 

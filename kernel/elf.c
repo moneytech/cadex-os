@@ -146,17 +146,17 @@ int elf_load(struct process *p, const char *filename, addr_t * entry)
 	return 0;
 
       noload:
-	printf("elf: %s failed to load correctly\n", filename);
+	printf("%s failed to load correctly\n", filename);
 	fs_dirent_close(d);
 	return KERROR_NOT_FOUND;
 
       noexec:
-	printf("%s is not a valid i386 ELF executable\n", filename);
+	printf("%s isn't an ELF executable or isn't designed for i386 architecture\n", filename);
 	fs_dirent_close(d);
 	return KERROR_NOT_EXECUTABLE;
 
       mustdie:
-	printf("elf: %s did not load correctly\n", filename);
+	printf("%s did not load correctly\n", filename);
 	fs_dirent_close(d);
 	return KERROR_EXECUTION_FAILED;
 }
