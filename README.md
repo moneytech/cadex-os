@@ -1,13 +1,13 @@
 # The Cadex OS
 
-Cadex OS is a Unix-like Linux-based operating system. Cadex OS is Unix-like because some of the code in libc are from the source code of Unix (Minix), and Cadex OS is Linux-based because some of the core components used like the ELF parser and some of the lbraries are from older versions of Linux (2.1 and 0.1). This is based on the [basekernel](https://github.com/dthain/basekernel) project
+Cadex OS is a Unix-like based operating system targeting x86 systems. This project is based on the [basekernel](https://github.com/dthain/basekernel) project
 
 If you want to build apps for something _**different**_ than Windows, Linux, or MacOS,
 Cadex OS may be a good place to try out your new ideas. Cadex OS has all the libraries and APIs to create your own app.
 
 Cadex OS can boot an Intel PC-compatible virtual machine in 32-bit protected
 mode, with support for VESA framebuffer graphics, ATA hard disks, ATAPI optical
-devices, process management, memory protection, small graphics, and basic filesystem (DFS).
+devices, process management, memory protection, small graphics, a standard libc, c++ language support and basic filesystem (DFS).
 From there, it's your job to write user-level programs and expand the system.
 
 ## Some useful info about Cadex OS
@@ -21,6 +21,7 @@ From there, it's your job to write user-level programs and expand the system.
  - Cadex OS has many useful string functions defined at `library/string.c`
  - Cadex OS uses some code from Musl libc for the libc in Cadex OS. Libraries that are from Musl libc should contain a license header on the top.
  - Cadex OS supports C++ apps and thus it has a C++ library. The C++ library is implemented as a header-only library (Note that the C++ library used in this project is completely written from scratch and thus it may not be complaint to the C++ standards)
+ - Cadex OS is targeted on x86 systems and if you want it to run on ARM-based systems, you will need to rewrite the bootloader and some kernel-side code
 
 This repo was made by HyperCreeck and actively maintained by HyperCreeck and contributors.
 
@@ -75,7 +76,7 @@ mount atapi <unit> cdromfs
 Use the `ls` command to examine the root directory:
 
 <pre>
-list /
+ls /
 </pre>
 
 And use the `./` prefix to run a program (For example, a simple screensaver):
