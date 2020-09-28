@@ -64,4 +64,5 @@ struct fs_ops
 	int (*close)(struct fs_dirent *d);
 };
 
+static char *_cwd_ = "/";
 #endif

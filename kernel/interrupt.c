@@ -91,6 +91,7 @@ static void unknown_exception(int i, int code)
 	}
 	else
 	{
+		// This is the point when a segfault occurs
 		printf("Sorry! The application crashed! The application will now exit.\n");
 		halt();
 	}

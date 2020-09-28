@@ -18,6 +18,7 @@ See the file LICENSE for details.
 #include "process.h"
 #include "main.h"
 #include "fs.h"
+#include "fs_internal.h"
 #include "syscall_handler.h"
 #include "clock.h"
 #include "kernelcore.h"
@@ -724,7 +725,13 @@ static int kshell_execute(int argc, const char **argv)
 			else if (cd_res == KERROR_NOT_A_DIRECTORY)
 			{
 				printf("cd: %s: not a directory\n", argv[1]);
+			} else
+			{
+				__cwd = "";
+				if(!strStartsWith("/", argv[1]) && strcmp(argv[1], ".."))
+					__cwd = strcat("/", argv[1]);
 			}
+			
 		}
 		else if (argc == 1)
 		{
@@ -913,7 +920,11 @@ static int kshell_execute(int argc, const char **argv)
 		struct process_info info;
 		process_wait_child(pid, &info, -1);
 		process_reap(info.pid);
+	}	else if (!strcmp(cmd, "pwd"))
+	{  
+		printf("%s, %s", _cwd_, __cwd);
 	}
+	
 	else
 	{
 		// strStartsWith is required or every time you type a wrong command, it will say file not found

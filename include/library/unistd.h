@@ -25,12 +25,13 @@
 #include <library/syscalls.h>
 #include <library/strtoui.h>
 #include <library/stdbool.h>
+#include <sys/environ.h>
+#include <library/stdlib.h>
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-    extern char **environ;
 
     extern int getpid(void);
     extern int getppid(void);
@@ -110,6 +111,10 @@ extern "C"
 #define W_OK 2
 #define X_OK 1
 
+#define ERR_FAIL 1
+#define ERR_FATAL 2
+#define ERR_SERIOUS 3
+
     extern int gethostname(char *name, size_t len);
     extern int sethostname(const char *name, size_t len);
 
@@ -120,7 +125,6 @@ extern "C"
     extern unsigned int alarm(unsigned int seconds);
 
     extern void *sbrk(intptr_t increment);
-
 #ifdef __cplusplus
 }
 #endif

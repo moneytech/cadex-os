@@ -17,11 +17,11 @@ all: clear clean cadex.iso success # run # Uncomment this run command to run the
 
 run: cadex.iso
 					# See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
-	qemu-system-i386.exe -cdrom cadex.iso -m size=500M -drive 'file=disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04 || qemu-system-i386 -cdrom cadex.iso -m size=500M -drive 'file=disk.img,format=raw' -hda disk.img -device isa-debug-exit,iobase=0xf4,iosize=0x04
+	qemu-system-i386.exe -cdrom cadex.iso -m size=500M -drive 'file=disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04
 
 debug: cadex.iso hddimg
 					# See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
-	qemu-system-i386.exe -cdrom cadex.iso -s -S &
+	qemu-system-i386.exe -cdrom cadex.iso -s -S & gdb
 
 hddimg:
 	qemu-img create -f qcow2 disk.img 1G

@@ -8,8 +8,8 @@ all: $(USER_PROGRAMS)
 	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
 	@echo "CC     usr/$<"
 
-%.exe: %.o ../libc/crt0.o ../libc/baselib.a
-	@${LD} ${KERNEL_LDFLAGS} -Ttext 0x80000000 ../libc/crt0.o $< ../libc/baselib.a -o $@
+%.exe: %.o ../libc/rt/crt0.o ../libc/baselib.a
+	@${LD} ${KERNEL_LDFLAGS} -Ttext 0x80000000 ../libc/rt/crt0.o $< ../libc/baselib.a -o $@
 
 clean:
 	@rm -rf *.exe *.o

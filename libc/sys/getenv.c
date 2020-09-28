@@ -4,12 +4,11 @@
  * See the file LICENSE for details
 */
 
-#include <library/types.h>
-#include <stdio.h>
+#include <stdlib.h>
+#include <sys/environ.h>
+#include <string.h>
 
-char * ctime(const time_t * timep) {
-    return syscall_system_time(timep);
+extern char *getenvpath(){
+    char *tok = strtok(environ[0], ";");
+    return *tok;
 }
-
-
-/* EOF */

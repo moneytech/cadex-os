@@ -1,5 +1,5 @@
-#include "stdio_impl.h"
 #include <string.h>
+#include <stdio.h>
 
 #define MIN(a,b) ((a)<(b) ? (a) : (b))
 

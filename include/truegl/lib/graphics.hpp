@@ -50,6 +50,11 @@ namespace TGL
             renderWindow(WN_STDWINDOW);
             return drawRect(x, y, width, height);
         }
+        static auto draw_circle(int x, int y, int radius) -> void
+        {
+
+        }
+        
         static auto draw_string(int x, int y, char *str) -> void
         {
             renderWindow(WN_STDWINDOW);

@@ -45,5 +45,6 @@ int8_t buffer[3];
 
 void mouse_read(struct mouse_event *e);
 void mouse_init();
-void mouse_interrupt(int i, int code);
+float posx, posy;
+float xscale, yscale;
 #endif

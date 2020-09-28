@@ -1,9 +1,8 @@
 include ../Makefile.config
 
-LIBRARY_OBJECTS_CPP=cxxrt0.o
+LIBRARY_OBJECTS_CPP=rt/cxxrt0.o
 
-LIBRARY_OBJECTS=errno.o \
-				ctype/_ctype.o \
+LIBRARY_OBJECTS=ctype/_ctype.o \
 				ctype/isalpha.o \
 				ctype/isblank.o \
 				ctype/isspace.o \
@@ -18,6 +17,7 @@ LIBRARY_OBJECTS=errno.o \
 				ctype/isgraph.o \
 				ctype/toupper.o \
 				ctype/tolower.o \
+				stdlib/errno.o \
 				stdlib/abs.o \
 				stdlib/atoi.o \
 				stdlib/atof.o \
@@ -49,6 +49,7 @@ LIBRARY_OBJECTS=errno.o \
 				unistd/chdir.o \
 				unistd/close.o \
 				unistd/read.o \
+				unistd/open.o \
 				objno.o \
 				syscalls.o \
 				syscall.o \
@@ -59,7 +60,7 @@ LIBRARY_OBJECTS=errno.o \
 				scanf.o \
 				assert.o \
 				wait.o \
-				crt0.o \
+				rt/crt0.o \
 				rand.o \
 				algorithm/print_array.o \
 				truegl/truegl.o \

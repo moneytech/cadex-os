@@ -250,7 +250,7 @@ video_buffer:
 
 .align 4
 videomsg:
-	.asciz	"[ERR] fatal error: couldn't find suitable video mode!\r\n"
+	.asciz	"Fatal error: couldn't find suitable video mode!\r\n"
 
 ###########################
 # 32 BIT CODE BEGINS HERE #

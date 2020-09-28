@@ -17,6 +17,10 @@ must invoke the _process_exit() function to terminate the process.
 
 int main(int argc, const char *argv[]);
 
+char** environ={
+	"PATH","/bin/,/usr/bin"
+};
+
 void _start(int argc, const char **argv)
 {
 	_process_exit(main(argc, argv));
