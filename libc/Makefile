@@ -77,18 +77,18 @@ all: alert baselib.a
 
 %.o: %.c
 	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
-	@echo "CC    libc/$<"
+	@echo " CC    libc/$<"
 
 %.o: %.cpp
 	@gcc -m32 -Wall -c -std=c++17 -ffreestanding -nostdlib -nodefaultlibs -fno-pie -fno-builtin -fno-exceptions -fno-leading-underscore -Wno-write-strings -fpermissive -I ../include -o $@ $<
-	@echo "CPP    libc/$<"
+	@echo " CXX    libc/$<"
 
 baselib.a: ${LIBRARY_OBJECTS} ${LIBRARY_OBJECTS_CPP}
 	@${AR} r $@ ${LIBRARY_OBJECTS} ${LIBRARY_OBJECTS_CPP}
-	@echo "Creating library archive..."
+	@echo "-- Creating library archive..."
 
 alert:
-	@echo "Building userspace libraries and libc..."
+	@echo "-- Building userspace libraries and libc..."
 
 clean:
 	@rm -rf *.a ./*/*.o *.o

@@ -60,14 +60,14 @@ bootblock.elf: bootblock.o
 
 %.o: %.c
 	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
-	@echo "CC    kernel/$<"
+	@echo " CC    kernel/$<"
 
 %.o: %.S
 	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
-	@echo "AS    kernel/$<"
+	@echo " AS    kernel/$<"
 
 alert:
-	@echo "Building Kernel Sources..."
+	@echo "-- Building Kernel Sources..."
 
 clean:
 	@rm -rf cadex.img *.o *.elf kernel bootblock bootblock.o

@@ -61,7 +61,7 @@ qemu-system-i386 -cdrom cadex.iso
 
 And you should see something like this:
 
-<img src=screenshot.png align=center>
+<img src=docs/img/screenshot.png align=center>
 
 After some initial boot messages, you will see the kshell prompt.
 This allows you to take some simple actions before running the first

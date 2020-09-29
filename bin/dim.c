@@ -34,7 +34,7 @@ int textarea(char *line, int length)
     int i = 0;                            // Counter 'i'
     int line_number = 1;                  // Set the line number to 1
     printf("  %d ", line_number);         // Print the line number
-    while (i < (length - 1))              // 
+    while (i < (length - 1))              //
     {                                     //
         char c;                           // C is for storing the character that will be read by read_object()
         refresh();                        // Redraw the window border and title
@@ -87,7 +87,9 @@ int textarea(char *line, int length)
             }
             else
             {
-                printf("Invalid command: %s\n", command);
+                setTextColor(CLEAR_RED, 0);
+                printf("  Invalid command: %s\n", command);
+                resetColor();
                 printf("  %d ", line_number);
                 continue;
             }
@@ -106,14 +108,12 @@ int textarea(char *line, int length)
 
 int main(int argc, const char *argv[]) // Main function
 {
-    int width = dims[0];                        // Variable declaration
-    int height = dims[1];                       // Variable declaration
     syscall_object_size(WN_STDWINDOW, dims, 2); // Get the dimensions of the window; Likely to be removed in version 0.1.8
-    char *line[2048];                           // Declare the variable to which we will save the text data
+    char *input[2048];                          // Declare the variable to which we will save the text data
     renderWindow(WN_STDWINDOW);                 // Render the window
     clear_screen();                             // clear the screen; We are using clear_screen() which prints out '\f' which clears the screen
     printf("\n\n");                             // Append two newlines to move the editor part down
-    textarea(line, sizeof(line));               // And now its time to start the editor part
+    textarea(&input, sizeof(input));            // And now its time to start the editor part
     clear_screen();                             // Clear the screen before exiting
     return 0;                                   // Return 0
 }

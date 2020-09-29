@@ -8,10 +8,9 @@ CURRDIR=`pwd`
 PREFIX=$CURRDIR/cross
 WORKDIR=`mktemp -d`
 
-echo "Cross Compiler Builder Script for i386 Architecture"
-echo "---------------------------------------------------"
-echo "Installing cross-compiler to $PREFIX"
-echo "Building in directory $WORKDIR"
+echo "-- Cross compiler build script for Cadex OS (i386)"
+echo "-- Installing cross-compiler to $PREFIX"
+echo "-- Building in directory $WORKDIR"
 
 cd "$WORKDIR"
 
@@ -19,18 +18,21 @@ cd "$WORKDIR"
 
 if [ ! -d $BINUTILS ]
 then
+	echo "-- Downloading GNU Binutils sources..."
 	curl -O https://ftp.gnu.org/gnu/binutils/$BINUTILS.tar.gz
 	tar -zxf $BINUTILS.tar.gz
 fi
 
 if [ ! -d $GCC ]
 then
+	echo "-- Downloading GCC sources..."
 	curl -O https://ftp.gnu.org/gnu/gcc/$GCC/$GCC.tar.gz
 	tar -zxf $GCC.tar.gz
 fi
 
 if [ ! -d $GDB ]
 then
+	echo "-- Downloading GDB sources..."
 	curl -O http://ftp.gnu.org/gnu/gdb/$GDB.tar.gz
 	tar -zxf $GDB.tar.gz
 fi

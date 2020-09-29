@@ -11,20 +11,21 @@ SYSTEM_BIN_FILES=$(SYSTEM_BIN_SOURCES:c=exe)
 APPS_BINARIES=$(APPS_SOURCES:cpp=exe)
 KERNEL_SOURCES=$(wildcard kernel/*.[chS])
 
+ISO_FILENAME = cadexos-image.iso
+
 MAKEFLAGS += --no-print-directory
 
-all: clear clean cadex.iso success # run # Uncomment this run command to run the OS after you've built the OS
+all: clear clean ${ISO_FILENAME} success
 
 run: cadex.iso
-					# See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
-	qemu-system-i386.exe -cdrom cadex.iso -m size=500M -drive 'file=disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04
+	@echo " -- Using ${ISO_FILENAME}"
+	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04
 
 debug: cadex.iso hddimg
-					# See https://github.com/opencreeck/Cadex-OS-Official/wiki/WSLCompat
-	qemu-system-i386.exe -cdrom cadex.iso -s -S & gdb
+	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -s -S & gdb
 
 hddimg:
-	qemu-img create -f qcow2 disk.img 1G
+	@qemu-img create -f qcow2 hard_disk.img 1G
 
 libc/baselib.a: $(LIBRARY_SOURCES) $(LIBRARY_HEADERS)
 	@cd libc && make ${MAKEFLAGS}
@@ -51,16 +52,16 @@ image: kernel/cadex.img $(USER_PROGRAMS) $(SYSTEM_BIN_FILES) $(APPS_BINARIES)
 	@cp $(APPS_BINARIES) image/usr/apps
 	@head -2000 /usr/share/dict/words > image/data/words
 
-cadex.iso: image
+${ISO_FILENAME}: image
+	@echo "-- Building ISO image (${ISO_FILENAME})..."
 	@${ISOGEN} -input-charset utf-8 -iso-level 2 -J -R -o $@ -b boot/cadex.img image
-	@echo "Building ISO image..."
 	@rm -rf image
 
 success:
-	@echo "\nBuild finished. Type 'make run' to run\n"
+	@echo "\nBuild finished. Type 'make run' to run"
 
 clean:
-	@rm -rf cadex.iso image
+	@rm -rf ${ISO_FILENAME} image
 	@cd kernel && make clean
 	@cd libc && make clean
 	@cd usr && make clean

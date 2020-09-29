@@ -10,6 +10,9 @@
       "*.h": "c",
       "*.def": "c",
       "*.tcc": "c",
+	  "*.hpp": "cpp",
+	  "*.hxx": "cpp",
+	  "*.hh": "cpp",
       "cstring": "cpp",
       "string": "cpp",
       "string_view": "cpp",
@@ -68,7 +71,8 @@
       "cinttypes": "cpp",
       "widget": "cpp",
       "__config": "cpp",
-      "color": "cpp"
+      "color": "cpp",
+	  "types": "cpp"
     }
   }
 }
