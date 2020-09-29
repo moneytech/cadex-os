@@ -223,7 +223,7 @@ void mouse_init()
 	ps2_mouse_command(PS2_MOUSE_COMMAND_ENABLE_DEVICE);
 	ps2_mouse_command(PS2_MOUSE_COMMAND_ENABLE_STREAMING);
 
-	interrupt_register(44, mouse_interrupt);
-	interrupt_enable(44);
+	interrupt_register(12, mouse_interrupt);
+	interrupt_enable(12);
 	printf("[HARDWARE] mouse: ready\n");
 }

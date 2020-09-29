@@ -923,7 +923,12 @@ static int kshell_execute(int argc, const char **argv)
 	}	else if (!strcmp(cmd, "pwd"))
 	{  
 		printf("%s, %s", _cwd_, __cwd);
+	}else if (!strcmp(cmd, "mousetest"))
+	{
+		struct mouse_event m;
+		
 	}
+	
 	
 	else
 	{
@@ -1007,7 +1012,7 @@ start:
 	printf("\n");
 	while (1)
 	{
-		printf("[root@cadex:%s]%s ", __cwd, promptsym[prompt]);
+		printf("[root@cadex:/]%s ", promptsym[prompt]);
 		kshell_readline(line, sizeof(line));
 		kshell_history[i] = line;
 		i++;
