@@ -16,7 +16,7 @@
 #include "pipe.h"
 
 #include "kernel/error.h"
-
+ 
 static struct kobject *kobject_init()
 {
 	struct kobject *k = kmalloc(sizeof(*k));
