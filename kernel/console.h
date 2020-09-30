@@ -11,6 +11,7 @@ See the file LICENSE for details.
 #include "graphics.h"
 #include "device.h"
 #include "string.h"
+#include "serial.h"
 
 /*
 console_init creates the very first global console that
