@@ -33,4 +33,5 @@ void memcpy(void *d, const void *s, unsigned length);
 
 void printf(const char *s, ...);
 
+void itoa(int num, char *number);
 #endif

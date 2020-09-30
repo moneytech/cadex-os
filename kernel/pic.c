@@ -31,6 +31,7 @@ void pic_init(int pic0base, int pic1base)
 	outb(~0, pic_data[1]);
 
 	printf("[SYS] PIC: ready\n");
+	dbg_printf("[pic] initialised\n");
 }
 
 void pic_enable(uint8_t irq)

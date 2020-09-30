@@ -6,12 +6,13 @@
 /**
  * An application to clear the screen
 */
-#include <library/stdio.h>
-#include <library/color.h>
+#include <stdio.h>
+#include <debug.h>
 
 int main(int argc, char *argv[])
 {
     // Just print out '\f' and boom! The screen is cleared!
     printf("\f");
+    dbg_printf("[cls.exe] clearing the screen...\n");
     return 0;
 }

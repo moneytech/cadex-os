@@ -77,4 +77,5 @@ void clock_init()
 	interrupt_enable(32);
 
 	printf("[SYS] clock: ticking\n");
+	dbg_printf("[clock] clock is ticking\n");
 }

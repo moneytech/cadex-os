@@ -18,6 +18,5 @@ int main(int argc, char *argv[])
     {
         printf("usage: cd <path>\n");
     }
-    
     return 0;
 }

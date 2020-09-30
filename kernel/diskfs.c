@@ -105,7 +105,7 @@ static uint32_t diskfs_data_block_alloc( struct fs_volume *v )
 	}
 
 	printf("diskfs: error: cannot perform action: disk full.\n");
-
+	printf("[diskfs] cannot perform action: disk full\n");
 	page_free(b);
 	return 0;
 }
@@ -144,7 +144,7 @@ static int diskfs_inumber_alloc( struct fs_volume *v )
 	}
 
 	printf("diskfs: warning: out of inodes!\n");
-
+	printf("[diskfs] out of disk inodes\n");
 	page_free(b);
 	return 0;
 }
@@ -502,6 +502,7 @@ struct fs_volume * diskfs_volume_open( struct device *device )
 
 	if(sb->magic!=DISKFS_MAGIC) {
 		printf("diskfs: no filesystem found!\n");
+		printf("[diskfs] no filesystem found!\n");
 		page_free(b);
 		return 0;
 	}
@@ -580,6 +581,7 @@ int diskfs_volume_format( struct device *device )
 	}
 
 	printf("diskfs: creating root directory\n");
+	dbg_printf("[diskfs] creating root directory...\n");
 
 	// Mark the zeroth and first blocks as used.
 	b->data[0] = 0x03;
@@ -634,7 +636,7 @@ struct fs disk_fs = {
 
 int diskfs_init(void)
 {
-	dbg_printf("\x001b[31m[diskfs] Registering filesystem...\n");
+	dbg_printf("[diskfs] Registering filesystem...\n");
 	fs_register(&disk_fs);
 	return 0;
 }

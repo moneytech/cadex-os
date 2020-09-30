@@ -13,6 +13,9 @@ See the file LICENSE for details.
 extern "C"
 {
 #endif
+
+#define COS_SOURCE
+
 void strcpy(char *d, const char *s);
 void strncpy(char *d, const char *s, unsigned length);
 char *strdup(const char *s);

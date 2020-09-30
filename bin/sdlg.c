@@ -30,16 +30,16 @@ int main(int argc, char const *argv[])
         exit(0);
     }
     renderWindow(WN_STDWINDOW);
-    clearScreen(0, 0, width, height);
+    clear_screen();
     flush();
     setTextColor(GRAY, 0);
     drawRect(x1, y1, 190, 80);
     setTextColor(WHITE, 0);
-    print(x1 + 10, y1 + 10, argv[0]);
+    print(x1 + 10, y1 + 10, "SDLG is deprecated.");
     setTextColor(BLUE, 0);
     drawRect(x1 + 60, y1 + 50, 60, 20);
     setTextColor(WHITE, 0);
-    print(x1 + 62, y1 + 52 + 3, argv[1]);
+    print(x1 + 62, y1 + 52 + 3, "Okay!");
     resetColor();
     flush();
     return 0;

@@ -50,7 +50,7 @@ int kernel_main()
 	// print the screen resolution
 	printf("[SYS] video: %d x %d\n", video_xres, video_yres, video_xbytes);
 	// print the kernel size
-	printf("[SYS] kernel: %d bytes\n", kernel_size);
+	printf("[SYS] kernel size: %d KB\n", kernel_size / 1000);
 
 	// init paging
 	page_init();

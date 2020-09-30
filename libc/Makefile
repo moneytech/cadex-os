@@ -63,11 +63,12 @@ LIBRARY_OBJECTS=ctype/_ctype.o \
 				rt/crt0.o \
 				rand.o \
 				algorithm/print_array.o \
-				truegl/truegl.o \
+				truegl/tgl_base.o \
 				truegl/ui_button.o \
 				truegl/ui_textbox.o \
 				truegl/movable_scanf.o \
 				truegl/ui_window.o \
+				truegl/compositor.o \
 				sys/version.o \
 				sys/contty.o \
 				sul/base64_encode.o \

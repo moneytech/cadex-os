@@ -8,6 +8,7 @@
 
 #include <truegl/truegl.h>
 #include <truegl/events.h>
+#include <debug.h>
 
 /**
  * Moves the specivied sprite to the specified X and Y location
@@ -42,4 +43,10 @@ void draw_pixel(int x, int y, int r, int g, int b, int a)
 
 int get_mouse_down(){
     return 0;
+}
+
+void setup_window(){
+    renderWindow(WN_STDWINDOW);
+    clear_screen();
+    dbg_printf("<tgl> window set up\n");
 }

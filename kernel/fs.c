@@ -491,7 +491,7 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth)
 		}
 		else
 		{
-			printf("%s (%d bytes)\n", name, fs_dirent_size(new_src));
+			printf("%s (%d kB)\n", name, fs_dirent_size(new_src) / 1000); // Divide by 1000 to get kB value
 			struct fs_dirent *new_dst = fs_dirent_mkfile(dst, name);
 			if (!new_dst)
 			{

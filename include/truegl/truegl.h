@@ -112,3 +112,4 @@ void draw_pixel(int x, int y, int r, int g, int b, int a);
 void create_edittext(int x, int y, int w, int h, char *placeholder, char *line);
 int draw_button(int x, int y, int w, int h, char *label);
 int draw_static_Textarea(char *placeholder);
+void setup_window();

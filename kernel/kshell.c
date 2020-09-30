@@ -983,6 +983,7 @@ static int kshell_execute(int argc, const char **argv)
 				struct process_info info;
 				process_wait_child(pid, &info, -1);
 				process_reap(info.pid);
+				dbg_printf("\001b[32m[kshell]\001b[0m process %d exited with code %d\n", info.pid, info.exitcode);
 				last_process_run = 1;
 				last_run_proc_exitcode = info.exitcode;
 			}

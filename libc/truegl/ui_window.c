@@ -15,4 +15,4 @@ void create_window(char *title, int border_width, gui_color_t *border_color){
     drawRect(0, 22, width, 3);
     flushScreen();
     flush();
-}
+} 

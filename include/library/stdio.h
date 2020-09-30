@@ -82,7 +82,10 @@ extern FILE *stderr;
 #define _X 0x40  /* hex digit */
 #define _SP 0x80 /* hard space (0x20) */
 
-_Begin_C_Header char _ctmp;
+#define COS_SOURCE
+
+_Begin_C_Header 
+char _ctmp;
 extern char *boot_arg; /* Argument to pass to init */
 extern char *boot_arg_extra;
 struct asm_regs

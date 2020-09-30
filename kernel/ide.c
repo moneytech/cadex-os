@@ -14,7 +14,7 @@ void ide(void)
 
     if (!pci_find_class(0x1, 0x1, &ide_bus, &ide_dev, &ide_fun)) // find mass storage / scsi bus
         return;
-
+ 
     if ((ide_primary_io_base = pci_read(ide_bus, ide_dev, ide_fun, PCI_BAR0)) <= 1)
         ide_primary_io_base = 0x1F0;
 

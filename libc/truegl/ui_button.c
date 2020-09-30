@@ -19,5 +19,5 @@ int draw_button(int x, int y, int w, int h, char *label)
     {
         drawRect(x, y, strlen(label) * 2, 15);
         print(x + 5, y + 2, label);
-    }
+    } 
 }

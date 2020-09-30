@@ -195,13 +195,13 @@ static struct fs_volume *cdrom_volume_open( struct device *device )
 		return 0;
 	}
 
-	printf("[HARDWARE] cdromfs: scanning %s unit %d...\n",device_name(device),device_unit(device));
-
+	// printf("cdfs: scanning %s unit %d...\n",device_name(device),device_unit(device));
+	dbg_printf("[cdfs] scanning %s unit %d...\n", device_name(device), device_unit(device));
 	int j;
 
 	for(j = 0; j < 16; j++) {
-		printf("[HARDWARE] cdromfs: checking volume %d\n", j);
-
+		// printf("cdfs: checking volume %d\n", j);
+		dbg_printf("[cdfs] checking volume %d...\n", j);
 		bcache_read(device, (char*)d, 1, j + 16);
 		// XXX check reuslt
 
@@ -214,7 +214,7 @@ static struct fs_volume *cdrom_volume_open( struct device *device )
 			v->cdrom.total_sectors = d->nsectors_little;
 			v->device = device;
 
-			printf("[HARDWARE] cdromfs: mounted filesystem on %s-%d\n", device_name(v->device), device_unit(v->device));
+			printf("[HARDWARE] cdfs: mounted filesystem on %s-%d\n", device_name(v->device), device_unit(v->device));
 
 			page_free(d);
 
@@ -230,7 +230,8 @@ static struct fs_volume *cdrom_volume_open( struct device *device )
 	page_free(d);
 	cdrom_volume_close(v);
 
-	printf("[HARDWARE] cdromfs: no filesystem found\n");
+	printf("cdfs: no filesystem found\n");
+	dbg_printf("[cdfs] no filesystem found");
 	return 0;
 }
 
@@ -264,5 +265,6 @@ static struct fs cdrom_fs = {
 int cdrom_init()
 {
 	fs_register(&cdrom_fs);
+	dbg_printf("[cdfs] CDFS driver initialized\n");
 	return 0;
 }

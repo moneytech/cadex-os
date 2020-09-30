@@ -11,6 +11,8 @@ See the file LICENSE for details.
 #include "kernel/stats.h"
 #include <library/mouse.h>
 
+#define COS_SOURCE
+
 #define DECL_SYSCALL0(fn) int syscall_##fn()
 #define DECL_SYSCALL1(fn, p1) int syscall_##fn(p1)
 #define DECL_SYSCALL2(fn, p1, p2) int syscall_##fn(p1, p2)

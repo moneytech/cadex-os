@@ -156,7 +156,9 @@ void dbg_printf(const char *s, ...)
 			{
 			case 'd':
 				i = va_arg(args, int32_t);
-				serial_device_write(0, 1, sizeof(i), 0);
+				char *tmp;
+				itoa(i, tmp);
+				serial_device_write(0, tmp, strlen(tmp), 0);
 				break;
 			case 'u':
 				u = va_arg(args, uint32_t);

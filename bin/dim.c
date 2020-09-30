@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <library/scanf.h>
 #include <truegl/truegl.h>
+#include <debug.h>
 
 /**
  * NOTE: This file is well commented to understand how this works. Use wisely :)
@@ -22,6 +23,7 @@ int dims[2];
 
 void refresh()
 {
+    dbg_printf("[dim.exe] refreshing gui...\n");
     draw_window_border(1, 1, dims[0] - 1, dims[1] - 1, 3, 255, 255, 255);
     set_bg_color(WHITE, 0);
     setTextColor(BLACK, 0);
@@ -108,12 +110,15 @@ int textarea(char *line, int length)
 
 int main(int argc, const char *argv[]) // Main function
 {
-    syscall_object_size(WN_STDWINDOW, dims, 2); // Get the dimensions of the window; Likely to be removed in version 0.1.8
-    char *input[2048];                          // Declare the variable to which we will save the text data
-    renderWindow(WN_STDWINDOW);                 // Render the window
-    clear_screen();                             // clear the screen; We are using clear_screen() which prints out '\f' which clears the screen
-    printf("\n\n");                             // Append two newlines to move the editor part down
-    textarea(&input, sizeof(input));            // And now its time to start the editor part
-    clear_screen();                             // Clear the screen before exiting
-    return 0;                                   // Return 0
+    dbg_printf("[dim.exe] DiM version 0.1.2\n");  // Debug
+    syscall_object_size(WN_STDWINDOW, dims, 2);   // Get the dimensions of the window; Likely to be removed in version 0.1.8
+    char *input[2048];                            // Declare the variable to which we will save the text data
+    renderWindow(WN_STDWINDOW);                   // Render the window
+    clear_screen();                               // clear the screen; We are using clear_screen() which prints out '\f' which clears the screen
+    printf("\n\n");                               // Append two newlines to move the editor part down
+    dbg_printf("[dim.exe] textarea() started\n"); // Debug
+    textarea(&input, sizeof(input));              // And now its time to start the editor part
+    dbg_printf("[dim.exe] exiting DiM\n");        // Debug
+    clear_screen();                               // Clear the screen before exiting
+    return 0;                                     // Return 0
 }

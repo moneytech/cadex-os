@@ -11,6 +11,7 @@ See the file LICENSE for details.
 #include "kernelcore.h"
 #include "x86.h"
 #include "keyboard.h"
+#include "string.h"
 
 static interrupt_handler_t interrupt_handler_table[48];
 static uint32_t interrupt_count[48];
@@ -33,7 +34,8 @@ static const char *exception_names[] = {
 	"general protection fault",
 	"page fault",
 	"unknown",
-	"coprocessor error"};
+	"coprocessor error"
+};
 
 static void unknown_exception(int i, int code)
 {
@@ -61,21 +63,25 @@ static void unknown_exception(int i, int code)
 		// Check if page is already mapped (which will result from violating the permissions on page) or that
 		// we are accessing neither the stack nor the heap, or we are accessing both. If so, error
 		if (page_already_present || !(data_access ^ stack_access))
-		{ 
+		{
+			char *tmp_pid;
 			printf("Segmentation fault (core dumped)\n");
-			dbg_printf("Process %d crashed.", current->pid);
-			if(current->pid = 1){
+			itoa(current->pid, tmp_pid);
+			dbg_printf("[interrupt] process ");
+			dbg_printf(tmp_pid);
+			dbg_printf(" crashed\n");
+			if (current->pid = 1)
+			{
 				// prevent the kernel from exiting
 			}
 			else
 			{
 				process_exit(0);
 			}
-			
 		}
 		else
 		{
-			// XXX update process->vm_stack_size when growing the stack.
+			// TODO: update process->vm_stack_size when growing the stack.
 			pagetable_alloc(current->pagetable, vaddr, PAGE_SIZE, PAGE_FLAG_USER | PAGE_FLAG_READWRITE | PAGE_FLAG_CLEAR);
 			return;
 		}
@@ -86,15 +92,13 @@ static void unknown_exception(int i, int code)
 		process_dump(current);
 	}
 
-	if (current)
+	if (current->pid != 1)
 	{
 		process_exit(0);
 	}
 	else
 	{
-		// This is the point when a segfault occurs
-		printf("Segmentation fault (core dumped)\n");
-		halt();
+		// halt();
 	}
 }
 
@@ -216,6 +220,7 @@ void interrupt_init()
 	interrupt_unblock();
 
 	printf("[SYS] interrupt-manager: OK\n");
+	dbg_printf("[interrupt] initialized\n");
 }
 
 void interrupt_handler(int i, int code)
