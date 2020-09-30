@@ -694,18 +694,18 @@ static int kshell_execute(int argc, const char **argv)
 		{
 			printf("usage: serialsend <message>\n");
 		}
-	} else if (!strcmp(cmd, "serialrecv"))
+	}
+	else if (!strcmp(cmd, "serialrecv"))
 	{
 		char *data;
 		while (1)
 		{
-		serial_device_read(0, data, 1, 0);
+			serial_device_read(0, &data, 1, 0);
 			/* code */
-		printf("%c", data);
+			printf("%c", data);
 		}
-		
 	}
-	
+
 	else if (strEndsWith(cmd, "\\"))
 	{
 		char *line;
