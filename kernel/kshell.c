@@ -691,7 +691,7 @@ static int kshell_execute(int argc, const char **argv)
 			serial_device_write(0, argv[1], strlen(argv[1]), 0);
 		}
 		else
-		{
+		{ 
 			printf("usage: serialsend <message>\n");
 		}
 	}
