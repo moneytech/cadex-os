@@ -700,9 +700,9 @@ static int kshell_execute(int argc, const char **argv)
 		char *data;
 		while (1)
 		{
-			serial_device_read(0, &data, 1, 0);
+			serial_device_read(0, data, 1, 0);
 			/* code */
-			printf("%c", data);
+			printf("%s", data);
 		}
 	}
 
