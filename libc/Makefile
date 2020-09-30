@@ -71,6 +71,7 @@ LIBRARY_OBJECTS=ctype/_ctype.o \
 				truegl/compositor.o \
 				sys/version.o \
 				sys/contty.o \
+				sys/dbg_printf.o \
 				sul/base64_encode.o \
 				sul/url_parser.o
 

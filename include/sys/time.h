@@ -6,8 +6,6 @@ extern "C" {
 
 #include <features.h>
 
-#include <sys/select.h>
-
 int gettimeofday (struct timeval *__restrict, void *__restrict);
 
 #define ITIMER_REAL    0

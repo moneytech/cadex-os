@@ -91,6 +91,7 @@ int textarea(char *line, int length)
             {
                 setTextColor(CLEAR_RED, 0);
                 printf("  Invalid command: %s\n", command);
+                dbg_printf("[dim.exe] invalid command '%s'", command);
                 resetColor();
                 printf("  %d ", line_number);
                 continue;

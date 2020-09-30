@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
         else
         {
             // printf("cat: error reading %s: %s", argv[1], strerror(fd));
+            
         }
 
         printf("\n");

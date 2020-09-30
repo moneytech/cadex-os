@@ -823,11 +823,38 @@ char *uint_to_string(uint32_t u, char *s)
 	return s;
 }
 
-// void reverseSentence() {
-//     char c;
-//     scanf("%c", &c);
-//     if (c != '\n') {
-//         reverseSentence();
-//         printf("%c", c);
-//     }
-// }
+static uint32_t digit_count(int num)
+{
+	uint32_t count = 0;
+	if (num == 0)
+		return 1;
+	while (num > 0)
+	{
+		count++;
+		num = num / 10;
+	}
+	return count;
+}
+
+void itoa(int num, char *number)
+{
+	int dgcount = digit_count(num);
+	int index = dgcount - 1;
+	char x;
+	if (num == 0 && dgcount == 1)
+	{
+		number[0] = '0';
+		number[1] = '\0';
+	}
+	else
+	{
+		while (num != 0)
+		{
+			x = num % 10;
+			number[index] = x + '0';
+			index--;
+			num = num / 10;
+		}
+		number[dgcount] = '\0';
+	}
+}

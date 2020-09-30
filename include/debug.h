@@ -3,8 +3,12 @@
 
 #include <stdio.h>
 
-static inline void dbg_printf(const char *a){
-    syscall_debug(a);
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    extern void dbg_printf(const char *a, ...);
+#ifdef __cplusplus
 }
-
+#endif
 #endif // !__DEBUG__HH

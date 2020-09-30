@@ -9,6 +9,6 @@
 #include <string.h>
 
 extern char *getenvpath(){
-    char *tok = strtok(environ[0], ";");
+    char *tok = strtok(environ[0], ",");
     return *tok;
 }

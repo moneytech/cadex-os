@@ -1,7 +1,7 @@
-/*
-Copyright (C) 2019-2020 OpenCreeck
-This software is distributed under the GNU General Public License.
-See the file LICENSE for details.
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
 */
 
 #ifndef STRING_H
@@ -36,6 +36,7 @@ void printf_putstring(char *str);
 void reverseSentence();
 int strEndsWith(const char *str, const char *suffix);
 int strStartsWith(const char *pre, const char *str);
+void itoa(int num, char *number);
 #ifdef __cplusplus
 }
 #endif

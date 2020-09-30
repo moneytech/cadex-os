@@ -21,8 +21,6 @@ extern "C" {
 #define __seq seq
 #endif
 
-#include <bits/ipc.h>
-#include <bits/ipcstat.h>
 
 #define IPC_CREAT  01000
 #define IPC_EXCL   02000
