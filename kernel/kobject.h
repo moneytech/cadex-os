@@ -15,7 +15,7 @@
 #include "console.h"
 #include "pipe.h"
 
-struct kobject {
+struct kobject { 
 	union {
 		struct device *device;
 		struct fs_dirent *file;
