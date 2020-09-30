@@ -27,6 +27,12 @@ This repo was made by HyperCreeck and actively maintained by HyperCreeck and con
 
 To learn more, see the __[Cadex OS Wiki](http://cadex-os-wiki.rf.gd).__
 
+# Notable components
+ * ***kshell***: A small but efficient shell implemented on the kernel space
+ * ***DiM***: A very small text editor
+ * ***pam***: A package manager for Cadex OS (not implemented)
+ * ***CaSh**: A small bash-like shell implemented on the userspace
+
 # Project structure
  * ***apps***: Sources for C++ apps
  * ***basefs***: Base filesystem folder that goes into the ISO image
