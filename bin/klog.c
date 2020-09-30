@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
             crit(argv[1]);
         } else
         {
-            syscall(SYSCALL_KPANIC, "Panic!", 0, 0, 0, 0);
+            syscall_debug("[KLog] Initialized\n");
         }
     }
     return 0;

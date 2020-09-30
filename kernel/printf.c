@@ -133,10 +133,58 @@ void printf(const char *s, ...)
 	va_end(args);
 }
 
-void dbg_print(char *s){
-	#if DEBUG
-	printf("%s\n", s);
-	#endif
+void dbg_printf(const char *s, ...)
+{
+	va_list args;
+
+	uint32_t u;
+	int32_t i;
+	char *str;
+
+	va_start(args, s);
+
+	while (*s)
+	{
+		if (*s != '%')
+		{
+			serial_write(0, *s);
+		}
+		else
+		{
+			s++;
+			switch (*s)
+			{
+			case 'd':
+				i = va_arg(args, int32_t);
+				serial_device_write(0, 1, sizeof(i), 0);
+				break;
+			case 'u':
+				u = va_arg(args, uint32_t);
+				serial_device_write(0, u, sizeof(u), 0);
+				break;
+			case 'x':
+				u = va_arg(args, uint32_t);
+				serial_device_write(0, u, sizeof(u), 0);
+				break;
+			case 's':
+				str = va_arg(args, char *);
+				serial_device_write(0, str, strlen(str), 0);
+				break;
+			case 'c':
+				u = va_arg(args, int32_t);
+				serial_write(0, u);
+				break;
+			case 0:
+				return;
+				break;
+			default:
+				serial_write(0, *s);
+				break;
+			}
+		}
+		s++;
+	}
+	va_end(args);
 }
 
 /* Systemd like success messages */

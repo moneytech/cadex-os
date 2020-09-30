@@ -62,7 +62,8 @@ static void unknown_exception(int i, int code)
 		// we are accessing neither the stack nor the heap, or we are accessing both. If so, error
 		if (page_already_present || !(data_access ^ stack_access))
 		{ 
-			printf("Sorry! The application crashed! The application will now exit.\n");
+			printf("Segmentation fault (core dumped)\n");
+			dbg_printf("Process %d crashed.", current->pid);
 			if(current->pid = 1){
 				// prevent the kernel from exiting
 			}
@@ -92,7 +93,7 @@ static void unknown_exception(int i, int code)
 	else
 	{
 		// This is the point when a segfault occurs
-		printf("Sorry! The application crashed! The application will now exit.\n");
+		printf("Segmentation fault (core dumped)\n");
 		halt();
 	}
 }
@@ -101,7 +102,7 @@ static void unknown_hardware(int i, int code)
 {
 	if (!interrupt_spurious[i])
 	{
-		printf("interrupt: spurious interrupt %d\n", i);
+		dbg_printf("[interrupt] spurious interrupt\n");
 	}
 	interrupt_spurious[i]++;
 }

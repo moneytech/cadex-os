@@ -63,7 +63,7 @@ int sys_debug(const char *str)
 {
 	if (!is_valid_string(str))
 		return KERROR_INVALID_ADDRESS;
-	printf("[DEBUG]: %s", str);
+	serial_device_write(0, str, 1024, 0);
 	return 0;
 }
 

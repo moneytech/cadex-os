@@ -464,7 +464,8 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth)
 		struct fs_dirent *new_src = fs_dirent_lookup(src, name);
 		if (!new_src)
 		{
-			printf("couldn't lookup %s in directory!\n", name);
+			printf("cp: couldn't lookup %s in directory!\n", name);
+			dbg_printf("[fscopy] couldn't lookup %s in directory.\n", name);
 			goto next_entry;
 		}
 
@@ -479,6 +480,7 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth)
 			if (!new_dst)
 			{
 				printf("cp: couldn't create %s!\n", name);
+				dbg_printf("[fscopy] couldn't create %s.\n", name);
 				fs_dirent_close(new_src);
 				goto next_entry;
 			}

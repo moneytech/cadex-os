@@ -58,6 +58,8 @@ int kernel_main()
 	kmalloc_init((char *)KMALLOC_START, KMALLOC_LENGTH);
 	// init interrupt manager
 	interrupt_init();
+	// init serialports
+	serial_init();
 	// init realtime clock
 	rtc_init();
 	// init system clock
@@ -74,8 +76,6 @@ int kernel_main()
 	cdrom_init();
 	// init filesystem driver
 	diskfs_init();
-	// init serialports
-	serial_init();
 	// mount atapi device with unit 2
 	kshell_mount("atapi", 2, "cdfs");
 #ifdef DEBUG
@@ -87,7 +87,7 @@ int kernel_main()
 	service_start("/bin/klog.exe", 0, 0, "Kernel logging helper");
 	// launch shell
 	kshell_launch();
-
+	dbg_printf("[kmain] Launched kshell\n");
 	while (1)
 	{
 		// we need this for the kshell or it will just show text and we can't type anything into it

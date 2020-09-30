@@ -413,6 +413,7 @@ static int ata_probe_internal( int id, int kind, int *nblocks, int *blocksize, c
 	uint8_t t = inb(ata_base[id] + ATA_STATUS);
 	if(t == 0xff) {
 		printf("ata unit %d: nothing attached\n", id);
+		dbg_printf("[ata] nothing attached on unit %d\n", id);
 		return 0;
 	}
 
@@ -448,6 +449,7 @@ static int ata_probe_internal( int id, int kind, int *nblocks, int *blocksize, c
 
 	if(!result) {
 		printf("[SYS] ata unit %d: not connected\n", id);
+		dbg_printf("[ata] ata unit not connected\n");
 		return 0;
 	}
 
@@ -514,7 +516,7 @@ void ata_init()
 		counters.blocks_written[i] = 0;
 	}
 
-	printf("[VERB] ata: setting up interrupts\n");
+	dbg_printf("[ata] setting up interrupts\n");
 
 	interrupt_register(ATA_IRQ0, ata_interrupt);
 	interrupt_enable(ATA_IRQ0);
@@ -522,7 +524,7 @@ void ata_init()
 	interrupt_register(ATA_IRQ1, ata_interrupt);
 	interrupt_enable(ATA_IRQ1);
 
-	printf("[VERB] ata: probing devices\n");
+	dbg_printf("[ata] probing devices\n");
 
 	for(i = 0; i < 4; i++) {
 		ata_probe_internal(i, 0, &nblocks, &blocksize, longname);

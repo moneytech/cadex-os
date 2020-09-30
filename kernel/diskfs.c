@@ -634,7 +634,7 @@ struct fs disk_fs = {
 
 int diskfs_init(void)
 {
-	dbg_print("Registering filesystem...");
+	dbg_printf("[diskfs] Registering filesystem...\n");
 	fs_register(&disk_fs);
 	return 0;
 }
