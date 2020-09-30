@@ -290,24 +290,11 @@ static int kshell_mount_nomsg(const char *devname, int unit, const char *fs_type
 
 	return -1;
 }
-void move_cursor(uint16_t pos)
-{
-	outb(0x3D4, 14);
-	outb(0x3D5, ((pos >> 8) & 0x00FF));
-	outb(0x3D4, 15);
-	outb(0x3D5, pos & 0x00FF);
-}
 
-void move_cursor_next_line()
-{
-	cursor_pos = 80 * cursor_next_line_index;
-	cursor_next_line_index++;
-	move_cursor(cursor_pos);
-}
 /*
-Install software from the cdrom volume unit src
+Install Cadex OS and the softwares from the cdrom volume unit src
 to the disk volume dst by performing a recursive copy.
-XXX This needs better error checking.
+TODO: This needs better error checking.
 */
 
 int kshell_install(int src, int dst)
