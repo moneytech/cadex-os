@@ -22,6 +22,10 @@ extern "C"
 		syscall(SYSCALL_DEBUG, (uint32_t)str, 0, 0, 0, 0);
 	}
 
+	void syscall_debug_putc(const char a){
+		syscall(SYSCALL_DEBUG_PUTC, (uint32_t)a, 0, 0, 0, 0);
+	}
+	
 	void _process_exit(int status)
 	{
 		syscall(SYSCALL_PROCESS_EXIT, status, 0, 0, 0, 0);

@@ -86,7 +86,8 @@ extern "C"
 #endif
 
     void syscall_debug(const char *str);
-
+    void syscall_debug_putc(const char a);
+    
     int dev_mouse_read(struct mouse_event *m);
 
     /* Syscalls that manipulate this process and its children. */

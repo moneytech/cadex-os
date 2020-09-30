@@ -14,7 +14,7 @@ void dbg_printf(const char *a, ...){
     {
         if (*a != '%')
         {
-            syscall_debug(*a);
+            syscall_debug_putc(*a);
         }
         else
         {
@@ -38,18 +38,18 @@ void dbg_printf(const char *a, ...){
                 break;
             case 's':
                 str = va_arg(args, char *);
-                syscall_debug(tmp);
+                syscall_debug(str);
                 break;
             case '%':
                 str = va_arg(args, char *);
-                syscall_debug("%");
+                syscall_debug_putc('%');
                 break;
             case 'c':
                 u = va_arg(args, int32_t);
-                syscall_debug(u);
+                syscall_debug_putc(u);
                 break;
             default:
-                syscall_debug(*a);
+                syscall_debug_putc(*a);
                 break;
             }
         }

@@ -21,6 +21,7 @@ See the file LICENSE for details.
 #include <library/stddef.h>
 #include <library/ascii.h>
 #include <library/_cheader.h>
+#include <sys/root_usr.h>
 #include <stdlib.h>
 
 //extern uint8_t initial_esp;
@@ -35,9 +36,12 @@ struct _FILE
     int ungetc;
     int eof;
     int bufsiz;
+    int owner;
+    int fmode;
     long last_read_start;
     char *_name;
     char *path;
+
 };
 typedef struct _FILE FILE;
 #define __DEFINED_FILE
@@ -86,24 +90,15 @@ extern FILE *stderr;
 
 _Begin_C_Header 
 char _ctmp;
-extern char *boot_arg; /* Argument to pass to init */
-extern char *boot_arg_extra;
-struct asm_regs
-{
-    unsigned int gs, fs, es, ds;
-    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;
-    unsigned int int_no, err_code;
-    unsigned int eip, cs, eflags, useresp, ss;
-};
-typedef struct asm_regs regs_t;
-typedef void (*irq_handler_t)(struct asm_regs *);
-typedef int (*irq_handler_chain_t)(struct asm_regs *);
 #define USER_STACK_BOTTOM 0xAFF00000
 #define USER_STACK_TOP 0xB0000000
 #define SHM_START 0xB0000000
-void printf_putchar(char c);
+
+
 #define WN_STDWINDOW 3
-void printf_putstring(char *s);
+
+extern void printf_putchar(char c);
+extern void printf_putstring(char *s);
 extern void flush();
 extern void renderWindow(int wd);
 extern void setTextColor(int r, int g, int b, int a);
@@ -121,7 +116,7 @@ extern void resetColor();
 extern void draw_cadex_logo(int x, int y);
 extern void draw_window_border(int x, int y, int w, int h, int thickness, int r, int g, int b);
 
-extern int fopen(const char *path, int mode);
+extern FILE *fopen(const char *path, int mode);
 extern int fclose(FILE *stream);
 extern int fseek(FILE *stream, long offset, int whence);
 extern long ftell(FILE *stream);

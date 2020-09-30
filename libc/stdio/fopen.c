@@ -3,33 +3,20 @@
 #include <errno.h>
 #include <stdio.h>
 
-// FILE *_fopen_(const char *restrict filename, const char *restrict mode)
-// {
-// 	FILE *f;
-// 	int fd;
-// 	int flags;
+FILE *fopen(const char *restrict filename, int mode)
+{
+	FILE *f;
+	int fd;
+	int flags;
 
-// 	/* Check for valid initial mode character */
-// 	if (!strchr("rwa", *mode)) {
-// 		errno = EINVAL;
-// 		return 0;
-// 	}
-
-// 	/* Compute the flags to pass to open() */
-// 	flags = __fmodeflags(mode);
-
-// 	fd = sys_open(filename, flags, 0666);
-// 	if (fd < 0) return 0;
-// 	if (flags & O_CLOEXEC)
-// 		__syscall(SYS_fcntl, fd, F_SETFD, FD_CLOEXEC);
-
-// 	f = __fdopen(fd, mode);
-// 	if (f) return f;
-
-// 	__syscall(SYS_close, fd);
-// 	return 0;
-// }
-
-int fopen(const char* path, int mode){
-	return syscall_open_file(path, mode, 0);
+	int a = syscall_open_file(filename, mode, 0);
+	if (!a || a == KERROR_NOT_FOUND)
+	{
+		return;
+	}
+	if (strStartsWith("/bin", filename) || strStartsWith("/usr/bin", filename) || strStartsWith("/sys", filename) || strStartsWith("/boot", filename))
+		f->owner = SUPERUSER;
+	f->fmode = mode;
+	return f;
 }
+

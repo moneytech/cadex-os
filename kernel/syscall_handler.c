@@ -67,6 +67,10 @@ int sys_debug(const char *str)
 	return 0;
 }
 
+int sys_debug_putc(const char str){
+	serial_write(0, str);
+}
+
 int sys_kpanic(const char *str){
 	if (!is_valid_string(str))
 		return KERROR_INVALID_ADDRESS;
@@ -750,6 +754,8 @@ int32_t syscall_handler(syscall_t n, uint32_t a, uint32_t b, uint32_t c, uint32_
 	{
 	case SYSCALL_DEBUG:
 		return sys_debug((const char *)a);
+	case SYSCALL_DEBUG_PUTC:
+		return sys_debug_putc((const char)a);
 	case SYSCALL_PROCESS_YIELD:
 		return sys_process_yield();
 	case SYSCALL_PROCESS_EXIT:

@@ -27,6 +27,8 @@ See the file LICENSE for details.
 #define PROCESS_EXIT_NORMAL   0
 #define PROCESS_EXIT_KILLED   1
 
+#define USER_ROOT 3
+
 struct process {
 	struct list_node node;
 	int state;
@@ -45,6 +47,7 @@ struct process {
 	uint32_t vm_data_size;
 	uint32_t vm_stack_size;
 	uint32_t waiting_for_child_pid;
+	uint32_t user;
 };
 
 void process_init();

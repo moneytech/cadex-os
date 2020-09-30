@@ -36,8 +36,9 @@ int main(int argc, char *argv[])
         }
         else
         {
-            // printf("cat: error reading %s: %s", argv[1], strerror(fd));
-            
+            syscall_object_close(fd);
+            printf("cat: error reading %s: %s\n", argv[1], strerror(fd));
+            dbg_printf("[cat.exe] error reading '%s': %s\n", argv[1], strerror(fd));
         }
 
         printf("\n");
