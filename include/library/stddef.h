@@ -36,6 +36,9 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 #define _ANSI_STDDEF_H
 #endif
 
+/* noreturn attribute */
+#define noreturn __attribute__((__noreturn__))
+
 #ifndef __sys_stdtypes_h
 /* This avoids lossage on SunOS but only if stdtypes.h comes first.
    There's no way to win with the other order!  Sun lossage.  */

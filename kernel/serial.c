@@ -13,6 +13,7 @@ See the file LICENSE for details.
 #include "ioports.h"
 #include "string.h"
 #include "device.h"
+#include "serial.h"
 
 #define COM1 0x3f8
 #define COM2 0x2F8
@@ -109,7 +110,7 @@ int serial_write(uint8_t port_no, char a)
 		return -1;
 
 	while(is_transmit_empty(serial_ports[port_no]) == 0);
-	outb(a, serial_ports[port_no]);
+	outb(a, serial_ports[port_no] + 0);
 	return 0;
 }
 
@@ -160,5 +161,3 @@ void serial_init()
 	device_driver_register(&serial_driver);
 	printf("[HARDWARE] serialports: ready\n");
 }
-
-

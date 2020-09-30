@@ -17,9 +17,9 @@ MAKEFLAGS += --no-print-directory
 
 all: clear clean ${ISO_FILENAME} success
 
-run: cadex.iso
+run: ${USER_SOURCES} ${LIBRARY_SOURCES} ${APPS_SOURCES} ${SYSTEM_BIN_SOURCES} ${KERNEL_SOURCES} cadex.iso
 	@echo " -- Using ${ISO_FILENAME}"
-	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04
+	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04 -chardev stdio,id=char0,logfile=serial.log,signal=off -serial chardev:char0
 
 debug: cadex.iso hddimg
 	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -s -S & gdb
@@ -58,7 +58,7 @@ ${ISO_FILENAME}: image
 	@rm -rf image
 
 success:
-	@echo "\nBuild finished. Type 'make run' to run"
+	@echo "\n-- Build finished. Type 'make run' to run"
 
 clean:
 	@rm -rf ${ISO_FILENAME} image

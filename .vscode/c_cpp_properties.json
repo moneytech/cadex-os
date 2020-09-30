@@ -33,7 +33,7 @@
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "/mnt/c/Users/User/Documents/GitHub/Cadex-OS-Official/cross/bin/i686-elf-gcc",
+            "compilerPath": "/usr/bin/gcc",
             "compilerArgs": [
                 "Wall",
                 "c",

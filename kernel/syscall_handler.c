@@ -63,7 +63,14 @@ int sys_debug(const char *str)
 {
 	if (!is_valid_string(str))
 		return KERROR_INVALID_ADDRESS;
-	printf("debug: %s", str);
+	printf("[DEBUG]: %s", str);
+	return 0;
+}
+
+int sys_kpanic(const char *str){
+	if (!is_valid_string(str))
+		return KERROR_INVALID_ADDRESS;
+	printf("[PANIC]: %s", str);
 	return 0;
 }
 
@@ -831,6 +838,8 @@ int32_t syscall_handler(syscall_t n, uint32_t a, uint32_t b, uint32_t c, uint32_
 		return mouse_dev_read((struct mouse_event *)a);
 	case SYSCALL_BGCOLOR:
 		return gui_set_bgcolor((int)a, (int)b, (int)c, (int)d);
+	case SYSCALL_KPANIC:
+		return sys_chdir((char *)a);
 	default:
 		return KERROR_INVALID_SYSCALL;
 	}

@@ -16,9 +16,7 @@ int main(int argc, const char *argv[])
     if(argc <= 0){
         return 0;
     } else {
-        struct dbus_data *d;
-        d->prog_exec = "/bin/dbusctl.exe";
-        d->dbus_is_init = true;
+        // TODO: Add some type of DBus functionality
         return 0;
     }
     return 0;

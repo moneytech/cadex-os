@@ -57,6 +57,7 @@ typedef enum {
 	SYSCALL_CHDIR,
 	SYSCALL_MOUSE_READ,
 	SYSCALL_BGCOLOR,
+	SYSCALL_KPANIC, 
 	MAX_SYSCALL		// must be the last element in the enum
 } syscall_t;
 

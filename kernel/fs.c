@@ -470,15 +470,15 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth)
 
 		int i;
 		for (i = 0; i < depth; i++)
-			printf(">");
+			printf("> ");
 
 		if (fs_dirent_isdir(new_src))
 		{
-			printf("%s (dir)\n", name);
+			printf("> %s (dir)\n", name);
 			struct fs_dirent *new_dst = fs_dirent_mkdir(dst, name);
 			if (!new_dst)
 			{
-				printf("couldn't create %s!\n", name);
+				printf("cp: couldn't create %s!\n", name);
 				fs_dirent_close(new_src);
 				goto next_entry;
 			}

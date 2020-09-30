@@ -9,13 +9,14 @@ screenshot-old.png
 image
 cadexkernel.code-workspace
 .git
-cross
 kernel/kernel
 kernel/bootblock
 kernel/*.elf
 .vs
 test.txt
+cross
 .vscode
 settings.json
 installed.txt
 llvm-project/*
+serial.log

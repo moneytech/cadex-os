@@ -11,7 +11,7 @@
 #include <library/scanf.h>
 #include <sul/base64.h>
 
-int main(int argc, const char *argv[])
+int main(int argc, char *argv[])
 {
     if(argc > 1){
         if(!strcmp(argv[0], "--encode")){

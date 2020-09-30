@@ -75,7 +75,7 @@ int kernel_main()
 	// init filesystem driver
 	diskfs_init();
 	// init serialports
-	serial_init(0x3f8);
+	serial_init();
 	// mount atapi device with unit 2
 	kshell_mount("atapi", 2, "cdfs");
 #ifdef DEBUG

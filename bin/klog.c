@@ -38,7 +38,7 @@ void info(char *s)
     printf("%s", s);
     resetColor();
 }
-int main(int argc, const char *argv[])
+int main(int argc, char *argv[])
 {
     if (argc > 2)
     {
@@ -57,6 +57,9 @@ int main(int argc, const char *argv[])
         else if (!strcmp(argv[0], "-crit"))
         {
             crit(argv[1]);
+        } else
+        {
+            syscall(SYSCALL_KPANIC, "Panic!", 0, 0, 0, 0);
         }
     }
     return 0;

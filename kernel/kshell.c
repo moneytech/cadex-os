@@ -43,6 +43,7 @@ See the file LICENSE for details.
 #include <bits/cwd.h>
 
 #define BASEPORT 0x0060 /* lp1 */
+#define COM1 0x3f8		/* COM1 Port Address */
 
 // #define SHOW_DEBUG_INFO
 uint16_t cursor_pos = 0, cursor_next_line_index = 1;
@@ -126,6 +127,7 @@ char *kshell_history[SHELL_HISTORY_ENTRIES];
 size_t kshell_history_count = 0;
 size_t kshell_history_offset = 0;
 
+int kshell_readline(char *line, int length);
 void print_array(char arr[], int start, int len)
 {
 	/* Recursion base condition */
@@ -310,8 +312,8 @@ XXX This needs better error checking.
 
 int kshell_install(int src, int dst)
 {
-	struct fs *srcfs = fs_lookup("cdromfs");
-	struct fs *dstfs = fs_lookup("diskfs");
+	struct fs *srcfs = fs_lookup("cdfs");
+	struct fs *dstfs = fs_lookup("dfs");
 
 	if (!srcfs || !dstfs)
 		return KERROR_NOT_FOUND;
@@ -331,7 +333,7 @@ int kshell_install(int src, int dst)
 	struct fs_dirent *srcroot = fs_volume_root(srcvolume);
 	struct fs_dirent *dstroot = fs_volume_root(dstvolume);
 
-	printf("copying atapi unit %d to ata unit %d...\n", src, dst);
+	printf("Installing Cadex OS on disk (copying from atapi unit %d and copying to ata unit %d)...\n", src, dst);
 	fs_dirent_copy(srcroot, dstroot, 0);
 
 	fs_dirent_close(dstroot);
@@ -350,6 +352,7 @@ int kshell_install(int src, int dst)
 
 static int kshell_printdir(const char *d, int length)
 {
+	int k = 0;
 	while (length > 0)
 	{
 		struct graphics_color *c;
@@ -373,6 +376,11 @@ static int kshell_printdir(const char *d, int length)
 		else
 		{
 			printf("%s   ", d);
+			if (k > 10)
+			{
+				printf("\n");
+			}
+			k++;
 		}
 
 		int len = strlen(d) + 1;
@@ -502,20 +510,20 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else
 		{
-			printf("mount: requires device, unit, and fs type\n");
+			printf("usage: mount <device> <unit> <fstype>\n");
 		}
 	}
 	else if (!strcmp(cmd, "umount"))
 	{
 		if (current->root_dir)
 		{
-			printf("unmounting root directory\n");
+			printf("umount: unmounting root directory\n");
 			fs_dirent_close(current->root_dir);
 			current->root_dir = 0;
 		}
 		else
 		{
-			printf("nothing currently mounted\n");
+			printf("umount: nothing currently mounted\n");
 		}
 	}
 	else if (!strcmp(cmd, "reap"))
@@ -613,7 +621,7 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		uint32_t nfree, ntotal;
 		page_stats(&nfree, &ntotal);
-		printf("Memory info: %d/%d B\n", nfree, ntotal);
+		printf("memstats: memory info: %d/%d B\n", nfree, ntotal);
 	}
 	else if (!strcmp(cmd, "mkdir"))
 	{
@@ -670,6 +678,10 @@ static int kshell_execute(int argc, const char **argv)
 				printf("format: expected unit number but got %s\n", argv[2]);
 			}
 		}
+		else
+		{
+			printf("usage: format <device> <unit> <fstype>\n");
+		}
 	}
 	else if (!strcmp(cmd, "install"))
 	{
@@ -683,6 +695,36 @@ static int kshell_execute(int argc, const char **argv)
 		else
 		{
 			printf("install: expected unit #s for cdrom and disk\n");
+		}
+	}
+	else if (!strcmp(cmd, "serialsend"))
+	{
+		if (argc == 2)
+		{
+			serial_device_write(0, argv[1], strlen(argv[1]), 0);
+		}
+		else
+		{
+			printf("usage: serialsend <message>\n");
+		}
+	}
+	else if (strEndsWith(cmd, "\\"))
+	{
+		char *line;
+		printf("> ");
+		kshell_readline(&line, 1024);
+		int argc = 0;
+		char *argv;
+		argv[argc] = strtok(line, " ");
+		while (argv[argc])
+		{
+			argc++;
+			argv[argc] = strtok(0, " ");
+		}
+
+		if (argc > 0)
+		{
+			kshell_execute(argc, argv); // Recursion
 		}
 	}
 	else if (!strcmp(cmd, "rm"))
@@ -725,13 +767,13 @@ static int kshell_execute(int argc, const char **argv)
 			else if (cd_res == KERROR_NOT_A_DIRECTORY)
 			{
 				printf("cd: %s: not a directory\n", argv[1]);
-			} else
+			}
+			else
 			{
 				__cwd = "";
-				if(!strStartsWith("/", argv[1]) && strcmp(argv[1], ".."))
+				if (!strStartsWith("/", argv[1]) && strcmp(argv[1], ".."))
 					__cwd = strcat("/", argv[1]);
 			}
-			
 		}
 		else if (argc == 1)
 		{
@@ -920,16 +962,16 @@ static int kshell_execute(int argc, const char **argv)
 		struct process_info info;
 		process_wait_child(pid, &info, -1);
 		process_reap(info.pid);
-	}	else if (!strcmp(cmd, "pwd"))
-	{  
+	}
+	else if (!strcmp(cmd, "pwd"))
+	{
 		printf("%s, %s", _cwd_, __cwd);
-	}else if (!strcmp(cmd, "mousetest"))
+	}
+	else if (!strcmp(cmd, "mousetest"))
 	{
 		struct mouse_event m;
-		
 	}
-	
-	
+
 	else
 	{
 		// strStartsWith is required or every time you type a wrong command, it will say file not found

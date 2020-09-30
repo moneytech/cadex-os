@@ -255,7 +255,7 @@ int main(int argc, char *argv[])
 {
 	char line[MAX_LINE_LENGTH];
 
-	while (1)
+	while (1) 
 	{
 		printf("(root@cadex:%s)# ", &curentworkingdirectory);
 		flush();
