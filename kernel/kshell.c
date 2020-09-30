@@ -695,7 +695,7 @@ static int kshell_execute(int argc, const char **argv)
 			printf("usage: serialsend <message>\n");
 		}
 	}
-	else if (!strcmp(cmd, "serialrecv"))
+	else if (!strcmp(cmd, "serialrecv")) 
 	{
 		char *data;
 		while (1)
