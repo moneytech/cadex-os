@@ -100,4 +100,4 @@ using `./scripts/crosscompiler.sh` and then edit
 then execute `make` to create `cadex.iso`
 
 # Contributing
-See [CONTRIBUTING.MD](docs/CONTRIBUTING.md)
+See [CONTRIBUTING.md](docs/CONTRIBUTING.md)
