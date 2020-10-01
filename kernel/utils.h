@@ -9,7 +9,6 @@
 #include "printf.h"
 #include "mouse.h"
 #include "keyboard.h"
-#include "ioports.h"
 #include "interrupt.h"
 #include "fs.h"
 

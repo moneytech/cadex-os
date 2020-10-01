@@ -127,6 +127,26 @@ char *kshell_history[SHELL_HISTORY_ENTRIES];
 size_t kshell_history_count = 0;
 size_t kshell_history_offset = 0;
 
+void reboot_system()
+{
+	uint8_t temp;
+
+	asm volatile("cli"); /* disable all interrupts */
+
+	/* Clear all keyboard buffers (output and command buffers) */
+	do
+	{
+		temp = inb(KBRD_INTRFC); /* empty user data */
+		if (check_flag(temp, KBRD_BIT_KDATA) != 0)
+			inb(KBRD_IO); /* empty keyboard data */
+	} while (check_flag(temp, KBRD_BIT_UDATA) != 0);
+
+	outb(KBRD_INTRFC, KBRD_RESET); /* pulse CPU reset line */
+
+	asm volatile("hlt"); /* if that didn't work, halt the CPU */
+	reboot();			 /* if a NMI is received, reboot using the function in kernelcore.S (Triple fault method) */
+}
+
 int kshell_readline(char *line, int length);
 void print_array(char arr[], int start, int len)
 {
@@ -791,11 +811,11 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "reboot"))
 	{
-		reboot();
+		reboot_system();
 	}
 	else if (!strcmp(cmd, "qshutdown"))
 	{
-		shutdown_qemu_bochs();
+		shutdown_vm();
 		KPANIC("emulators (QEMU) doesn't support shutdown"); // KPANIC if it doesn't shutdown
 	}
 	else if (!strcmp(cmd, "bcache_stats"))
