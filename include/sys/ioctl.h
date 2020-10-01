@@ -1,3 +1,9 @@
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+*/
+
 #ifndef	_SYS_IOCTL_H
 #define	_SYS_IOCTL_H
 #ifdef __cplusplus
@@ -5,7 +11,6 @@ extern "C" {
 #endif
 
 #include <bits/alltypes.h>
-#include <bits/ioctl.h>
 
 #define N_TTY           0
 #define N_SLIP          1

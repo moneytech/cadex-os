@@ -10,7 +10,7 @@
 #ifndef _CONIO_H
 #define _CONIO_H
 
-#define COS_SOURCE // Define that this is Cadex-OS source
+#include <stdio.h>
 
 //! contty.c
 /**

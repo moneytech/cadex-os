@@ -22,6 +22,7 @@ See the file LICENSE for details.
 #include <library/ascii.h>
 #include <library/_cheader.h>
 #include <sys/root_usr.h>
+#include <sys/cdefs.h>
 #include <stdlib.h>
 
 //extern uint8_t initial_esp;

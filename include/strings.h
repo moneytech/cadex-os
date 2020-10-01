@@ -1,3 +1,9 @@
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+*/
+
 #ifndef	_STRINGS_H
 #define	_STRINGS_H
 
@@ -10,7 +16,7 @@ extern "C" {
 #define __NEED_locale_t
 #include <bits/alltypes.h>
 
-#if defined(_GNU_SOURCE) || defined(_BSD_SOURCE) || defined(_POSIX_SOURCE) \
+#if defined(_GNU_SOURCE) || defined(_BSD_SOURCE) || defined(_COS_SOURCE) || defined(_POSIX_SOURCE) \
  || (defined(_POSIX_C_SOURCE) && _POSIX_C_SOURCE+0 < 200809L) \
  || (defined(_XOPEN_SOURCE) && _XOPEN_SOURCE+0 < 700)
 int bcmp (const void *, const void *, size_t);

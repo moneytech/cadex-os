@@ -3,6 +3,7 @@
 
 #include <library/types.h>
 #include <kernel/types.h>
+#include <stddef.h>
 #include <bits/types/locale_t.h>
 
 #include <bits/cake_src.h>

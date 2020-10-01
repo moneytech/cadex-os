@@ -110,4 +110,7 @@ static inline void outl_slow(uint32_t value, int port)
 	iowait();
 }
 
+static inline void shutdown_qemu_bochs(){
+	outw(0xB004, 0x0 | 0x2000);
+}
 #endif

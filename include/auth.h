@@ -10,8 +10,6 @@
 #include <stdio.h>
 #include <library/scanf.h>
 
-#define COS_SOURCE // Define that this is Cadex-OS source
-
 extern int getAuth();
 
 #endif

@@ -20,8 +20,6 @@
 #include <color>
 #include <string>
 
-#define COS_SOURCE // Define that this is Cadex-OS source
-
 namespace std
 {
 

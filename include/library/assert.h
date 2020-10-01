@@ -13,8 +13,6 @@ extern "C"
 {
 #endif
 
-#define COS_SOURCE // Define that this is Cadex-OS source
-
 #ifndef NDEBUG
     extern void
     __assert_func(const char *file, int line, const char *func, const char *failedexpr);

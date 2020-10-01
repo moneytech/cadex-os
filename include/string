@@ -6,7 +6,7 @@
 
 /**
  * C++ string functions and classes
-*/
+*/ 
 #ifndef _STRING
 #define _STRING
 
