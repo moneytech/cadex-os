@@ -99,3 +99,5 @@ using `./scripts/crosscompiler.sh` and then edit
 `Makefile.config` to use the cross compiler binaries,
 then execute `make` to create `cadex.iso`
 
+# Contributing
+See [CONTRIBUTING.MD](docs/CONTRIBUTING.md)
