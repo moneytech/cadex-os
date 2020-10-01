@@ -19,3 +19,4 @@ test.txt
 settings.json
 installed.txt
 llvm-project/*
+*.log
