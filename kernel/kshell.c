@@ -793,14 +793,10 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		reboot();
 	}
-	else if (!strcmp(cmd, "bios_shutdown"))
+	else if (!strcmp(cmd, "qshutdown"))
 	{
-		for (const char *s = "Shutdown"; *s; ++s)
-		{
-			outb(0x8900, *s);
-		}
-		outb(0xf3, 0x00);
-		KPANIC("emulators (QEMU) doesn't support shutdown");
+		shutdown_qemu_bochs();
+		KPANIC("emulators (QEMU) doesn't support shutdown"); // KPANIC if it doesn't shutdown
 	}
 	else if (!strcmp(cmd, "bcache_stats"))
 	{
