@@ -143,8 +143,7 @@ void reboot_system()
 
 	outb(KBRD_INTRFC, KBRD_RESET); /* pulse CPU reset line */
 
-	asm volatile("hlt"); /* if that didn't work, halt the CPU */
-	reboot();			 /* if a NMI is received, reboot using the function in kernelcore.S (Triple fault method) */
+	reboot(); /* if that didn't work, reboot using the function in kernelcore.S (Triple fault method) */
 }
 
 int kshell_readline(char *line, int length);
@@ -341,6 +340,7 @@ int kshell_install(int src, int dst)
 	struct fs_dirent *dstroot = fs_volume_root(dstvolume);
 
 	printf("Installing Cadex OS on disk (copying from atapi unit %d and copying to ata unit %d)...\n", src, dst);
+	dbg_printf("[kshell] copying atapi unit %d contents to ata unit %d...\n", src, dst);
 	fs_dirent_copy(srcroot, dstroot, 0);
 
 	fs_dirent_close(dstroot);
@@ -711,11 +711,11 @@ static int kshell_execute(int argc, const char **argv)
 			serial_device_write(0, argv[1], strlen(argv[1]), 0);
 		}
 		else
-		{ 
+		{
 			printf("usage: serialsend <message>\n");
 		}
 	}
-	else if (!strcmp(cmd, "serialrecv")) 
+	else if (!strcmp(cmd, "serialrecv"))
 	{
 		char *data;
 		while (1)
@@ -976,7 +976,8 @@ static int kshell_execute(int argc, const char **argv)
 		struct process_info info;
 		process_wait_child(pid, &info, -1);
 		process_reap(info.pid);
-		if(info.exitcode == 0){
+		if (info.exitcode == 0)
+		{
 			current->user = USER_ROOT;
 		}
 	}

@@ -4,13 +4,9 @@
 
 __attribute__((__noreturn__)) void abort(void)
 {
-#if defined(COS_LIBC)
-    // TODO: Add proper kernel panic.
-    printf("kernel: panic: abort()\n");
-#else
     // TODO: Abnormally terminate the process as if by SIGABRT.
     printf("abort()\n");
-#endif
+    dbg_printf("[PANIC(stdio.h:9:4)]: abort() called by a userspace program\n");
     while (1)
     {
     }

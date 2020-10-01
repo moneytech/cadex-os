@@ -34,6 +34,7 @@ struct graphics
 	int refcount;
 };
 
+
 static struct graphics_color color_black = {0, 0, 0, 0};
 static struct graphics_color color_white = {255, 255, 255, 0};
 

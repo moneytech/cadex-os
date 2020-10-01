@@ -35,7 +35,7 @@ void graphics_rect(struct graphics *g, int x, int y, int w, int h);
 void graphics_clear(struct graphics *g, int x, int y, int w, int h);
 void graphics_line(struct graphics *g, int x, int y, int w, int h);
 void graphics_char(struct graphics *g, int x, int y, unsigned char c);
-
+void graphics_bitmap(struct graphics *g, int x, int y, int width, int height, uint8_t *data);
 int graphics_write(struct graphics *g, struct graphics_command *command);
 
 #endif

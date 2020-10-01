@@ -458,6 +458,7 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth)
 		// Skip relative directory entries.
 		if (strcmp(name, ".") == 0 || (strcmp(name, "..") == 0))
 		{
+			dbg_printf("[fscopy] relative directory found: skipping");
 			goto next_entry;
 		}
 
@@ -470,12 +471,15 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth)
 		}
 
 		int i;
-		for (i = 0; i < depth; i++)
+		for (i = 0; i < depth; i++){
 			printf("> ");
+			dbg_printf("> ");
+		}
 
 		if (fs_dirent_isdir(new_src))
 		{
 			printf("> %s (dir)\n", name);
+			dbg_printf("> %s (directory)\n", name);
 			struct fs_dirent *new_dst = fs_dirent_mkdir(dst, name);
 			if (!new_dst)
 			{
@@ -491,11 +495,13 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth)
 		}
 		else
 		{
-			printf("%s (%d kB)\n", name, fs_dirent_size(new_src) / 1000); // Divide by 1000 to get kB value
+			printf("%s (%d KB)\n", name, fs_dirent_size(new_src) / 1000); // Divide by 1000 to get kB value
+			dbg_printf("%d (%d KB)\n", name, fs_dirent_size(new_src) / 1000);
 			struct fs_dirent *new_dst = fs_dirent_mkfile(dst, name);
 			if (!new_dst)
 			{
 				printf("couldn't create %s!\n", name);
+				dbg_printf("[fscopy] error creating %s", name);
 				fs_dirent_close(new_src);
 				goto next_entry;
 			}
