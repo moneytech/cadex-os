@@ -20,3 +20,5 @@ settings.json
 installed.txt
 llvm-project/*
 serial.log
+scripts/c2b86.cc
+scripts/c2b86
