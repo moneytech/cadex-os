@@ -31,7 +31,7 @@ To learn more, see the __[Cadex OS Wiki](http://cadex-os-wiki.rf.gd).__
  * ***kshell***: A small but efficient shell implemented on the kernel space
  * ***DiM***: A very small text editor
  * ***pam***: A package manager for Cadex OS (not implemented)
- * ***CaSh**: A small bash-like shell implemented on the userspace
+ * ***CaSh***: A small bash-like shell implemented on the userspace
 
 # Project structure
  * ***apps***: Sources for C++ apps
