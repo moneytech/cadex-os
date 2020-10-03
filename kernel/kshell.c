@@ -367,25 +367,26 @@ static int kshell_printdir(const char *d, int length)
 		{
 			printf("%s\n", d);
 		}
+		// Highlighting executable files has a bug
 		else if (strEndsWith(d, ".exe"))
 		{
-			c->r = 130;
-			c->g = 244;
-			c->b = 130;
-			graphics_fgcolor(&graphics_root, *c);
+			// c->r = 130;
+			// c->g = 244;
+			// c->b = 130;
+			// graphics_fgcolor(&graphics_root, *c);
 			printf("%s   ", d);
-			c->r = 255;
-			c->g = 255;
-			c->b = 255;
-			graphics_fgcolor(&graphics_root, *c);
+			// c->r = 255;
+			// c->g = 255;
+			// c->b = 255;
+			// graphics_fgcolor(&graphics_root, *c);
 		}
-
 		else
 		{
 			printf("%s   ", d);
-			if (k > 10)
+			if (k > 8)
 			{
 				printf("\n");
+				k = 0;
 			}
 			k++;
 		}
