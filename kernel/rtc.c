@@ -160,7 +160,7 @@ void rtc_init()
 	boottime = rtc_time_to_timestamp(&t);
 
 	printf("[SYS] rtc: ready\n");
-	dbg_printf("[rtc] initialized");
+	dbg_printf("[rtc] initialized\n");
 }
 
 void rtc_read(struct rtc_time *tout)
