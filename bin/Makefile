@@ -9,7 +9,6 @@ USER_PROGRAMS= sdlg.exe \
 			   cat.exe \
 			   cash.exe \
 			   bshell.exe \
-			   basic.exe \
 			   sudo.exe \
 			   splash.exe \
 			   dim.exe \
