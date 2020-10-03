@@ -435,8 +435,14 @@ int sys_open_file(const char *path, int mode, kernel_flags_t flags)
 	{
 		current->ktable[newfd] = kobject_create_file(d);
 		return newfd;
+	} else if (d == KERROR_NOT_FOUND)
+	{
+		// TODO: Propogate better error
+		dbg_printf("[PANIC@(syscall_handler.c:440)] %s: no such file or directory\n"); // 
+		return 1; // KERROR_NOT_FOUND
 	}
-	else
+	
+	else 
 	{
 		// XXX propagate better error
 		return -1;
