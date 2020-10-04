@@ -1,4 +1,4 @@
-include ../Makefile.config
+include ../arch/i386/Makefile.config
 
 KERNEL_OBJECTS=kernelcore.o \
 			   scanf.o \

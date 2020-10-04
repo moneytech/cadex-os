@@ -1,5 +1,5 @@
 # Cadex OS Build Makefile for i386 architecture.
-include Makefile.config
+include arch/i386/Makefile.config
 
 LIBRARY_SOURCES=$(wildcard libc/*.c)
 LIBRARY_HEADERS=$(wildcard libc/*.h)

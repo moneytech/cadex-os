@@ -1,4 +1,4 @@
-include ../Makefile.config
+include ../arch/i386/Makefile.config
 
 LIBRARY_OBJECTS_CPP=rt/cxxrt0.o
 

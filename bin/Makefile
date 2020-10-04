@@ -1,5 +1,5 @@
 
-include ../Makefile.config
+include ../arch/i386/Makefile.config
 
 USER_PROGRAMS= sdlg.exe \
 			   whoami.exe \

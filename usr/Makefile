@@ -1,5 +1,5 @@
 
-include ../Makefile.config
+include ../arch/i386/Makefile.config
 
 USER_PROGRAMS=ball.exe clock.exe splash.exe color.exe copy.exe tedit.exe livestat.exe manager.exe fractal.exe procstat.exe saver.exe snake.exe sysstat.exe matrix.exe bfk.exe brainkick.exe
 all: alert $(USER_PROGRAMS)
