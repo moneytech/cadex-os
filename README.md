@@ -65,25 +65,19 @@ And you should see something like this:
 
 After some initial boot messages, you will see the kshell prompt.
 This allows you to take some simple actions before running the first
-user-level program.  For example, read the boot messages to see
-which atapi unit the cdrom is mounted on.  Then, use the `mount` command
-to mount the cdrom filesystem on that unit:
-
-<pre>
-mount atapi <unit> cdromfs
-</pre>
+user-level program. You can also use CaSh (Cadex Shell) instead of kshell.
 
 Use the `ls` command to examine the root directory:
 
-<pre>
+```
 ls /
-</pre>
+```
 
 And use the `./` prefix to run a program (For example, a simple screensaver):
 
-<pre>
+```
 ./usr/bin/saver.exe
-</pre>
+```
 
 ## Cross-Compiling Instructions
 
