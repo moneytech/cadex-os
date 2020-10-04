@@ -6,7 +6,7 @@ all: alert $(USER_PROGRAMS)
 
 %.o: %.c
 	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@
-	@echo " CC     usr/$<"
+	@echo " CC     usr.bin/$<"
 
 %.exe: %.o ../libc/rt/crt0.o ../libc/baselib.a
 	@${LD} ${KERNEL_LDFLAGS} -Ttext 0x80000000 ../libc/rt/crt0.o $< ../libc/baselib.a -o $@

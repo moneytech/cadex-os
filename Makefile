@@ -3,7 +3,7 @@ include arch/i386/Makefile.config
 
 LIBRARY_SOURCES=$(wildcard libc/*.c)
 LIBRARY_HEADERS=$(wildcard libc/*.h)
-USER_SOURCES=$(wildcard usr/*.c)
+USER_SOURCES=$(wildcard usr.bin/*.c)
 APPS_SOURCES=$(wildcard apps/*.cpp)
 SYSTEM_BIN_SOURCES=$(wildcard bin/*.c)
 USER_PROGRAMS=$(USER_SOURCES:c=exe)
@@ -17,7 +17,7 @@ MAKEFLAGS += --no-print-directory
 
 all: clear clean ${ISO_FILENAME} success
 
-run: ${USER_SOURCES} ${LIBRARY_SOURCES} ${APPS_SOURCES} ${SYSTEM_BIN_SOURCES} ${KERNEL_SOURCES} cadex.iso
+run: ${ISO_FILENAME}
 	@echo " -- Using ${ISO_FILENAME}"
 	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04 -chardev stdio,id=char0,logfile=serial.log,signal=off -serial chardev:char0
 
@@ -31,7 +31,7 @@ libc/baselib.a: $(LIBRARY_SOURCES) $(LIBRARY_HEADERS)
 	@cd libc && make ${MAKEFLAGS}
 
 $(USER_PROGRAMS): $(USER_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)
-	@cd usr && make ${MAKEFLAGS}
+	@cd usr.bin && make ${MAKEFLAGS}
 
 $(SYSTEM_BIN_FILES): $(SYSTEM_BIN_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)
 	@cd bin && make ${MAKEFLAGS}
@@ -64,7 +64,7 @@ clean:
 	@rm -rf ${ISO_FILENAME} image
 	@cd kernel && make clean
 	@cd libc && make clean
-	@cd usr && make clean
+	@cd usr.bin && make clean
 	@cd bin && make clean
 	@cd apps && make clean
 

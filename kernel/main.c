@@ -41,7 +41,7 @@ int kernel_main()
 {
 	char a;
 	struct graphics *g = graphics_create_root();
-
+	
 	// init the console
 	console_init(g);
 	// add reference to console_root
