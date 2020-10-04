@@ -1,7 +1,7 @@
 all: copy
 
 copy:
-	@cp ../usr/kevin.txt ../image/usr/share/kevin.txt
+	@cp usr/share/kevin.txt ../image/usr/share/kevin.txt
 	@cp sys/sys.json ../image/sys/reg.json
 	@cp etc/sudoers ../image/etc/sudoers
 	@cp etc/cash.config ../image/etc/cash.config
