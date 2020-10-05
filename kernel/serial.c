@@ -15,11 +15,6 @@ See the file LICENSE for details.
 #include "device.h"
 #include "serial.h"
 
-#define COM1 0x3f8
-#define COM2 0x2F8
-#define COM3 0x3E8
-#define COM4 0x2E8
-
 #define SERIAL_DATA 0 // If DLAB disabled in LCR
 
 #define SERIAL_IRQ_ENABLE 1 // If DLAB disabled in LCR
