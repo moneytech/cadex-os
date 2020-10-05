@@ -19,7 +19,7 @@ USER_PROGRAMS= sdlg.exe \
 			   klog.exe \
 			   check_fs.exe
 
-all: alert $(USER_PROGRAMS)
+all: alert ${USER_PROGRAMS}
 
 %.o: %.c
 	@${CC} ${KERNEL_CCFLAGS} -I ../include $< -o $@

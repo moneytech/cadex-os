@@ -11,7 +11,9 @@ compiler: gcc # Aha, gcc
 before_install:
     # Install required tools!
     - sudo apt-get install -y mkisofs dosfstools libc6-dev-i386 grub-common xorriso
-    # Be sure to tell the CI to build the toolchain or we'll get some weird errors!
+	# Give the permission to execute that!
+	- chmod scripts/build-toolchain.sh +x
+    # Be sure to tell the CI to build the toolchain!
     - ./scripts/build-toolchain.sh
 
 script:
