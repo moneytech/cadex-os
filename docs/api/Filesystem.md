@@ -1,7 +1,7 @@
-# Cadex OS API References
+# Cadex OS Filesystem API
 
-## Filesystem API
-Cadex OS has a small filesystem API.
+Cadex OS has a small filesystem API. The filesystem used in Cadex OS is called `dfs` and can only be read inside Cadex OS.
+It's very slow because it's designed to work with the old ATA disk driver
 **NOTE**: This is a stub. The documentation is not fully implemented.
 
 ## Accessing the Hard Drive

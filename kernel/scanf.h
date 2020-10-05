@@ -5,6 +5,6 @@
 #include <kernel/types.h>
 #include "keyboard.h"
 #include "console.h"
-#include "printf.h"
+#include "kprintf.h"
 
 int scanf(char *, int);

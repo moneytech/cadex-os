@@ -20,17 +20,17 @@ See the file LICENSE for details.
 #define COM3 0x3E8
 #define COM4 0x2E8
 
-#define SERIAL_DATA 0		// If DLAB disabled in LCR
+#define SERIAL_DATA 0 // If DLAB disabled in LCR
 
-#define SERIAL_IRQ_ENABLE 1	// If DLAB disabled in LCR
+#define SERIAL_IRQ_ENABLE 1 // If DLAB disabled in LCR
 #define SERIAL_IRQ_DATA_AVAILABILE (0x01 << 0)
 #define SERIAL_IRQ_TRASMITTER_EMPTY (0x01 << 1)
 #define SERIAL_IRQ_ERROR (0x01 << 2)
 #define SERIAL_IRQ_STATUS_CHANGE (0x01 << 3)
 
-#define SERIAL_DIVISOR_LO 0	// If DLAB enabled in LCR
+#define SERIAL_DIVISOR_LO 0 // If DLAB enabled in LCR
 
-#define SERIAL_DIVISOR_HI 1	// If DLAB enabled in LCR
+#define SERIAL_DIVISOR_HI 1 // If DLAB enabled in LCR
 
 #define SERIAL_FCR 2
 #define SERIAL_FIFO_ENABLE (0x01 << 0)
@@ -59,7 +59,7 @@ See the file LICENSE for details.
 
 #define SERIAL_SCRATCH 7
 
-static const int serial_ports[4] = { COM1, COM2, COM3, COM4 };
+static const int serial_ports[4] = {COM1, COM2, COM3, COM4};
 
 static void serial_init_port(int port)
 {
@@ -96,69 +96,74 @@ static int is_valid_port(uint8_t port_no)
 
 char serial_read(uint8_t port_no)
 {
-	if(!is_valid_port(port_no))
+	if (!is_valid_port(port_no))
 		return -1;
 
-	while(serial_received(serial_ports[port_no]) == 0);
+	while (serial_received(serial_ports[port_no]) == 0)
+		;
 	inb(serial_ports[port_no]);
 	return 0;
 }
 
 int serial_write(uint8_t port_no, char a)
 {
-	if(!is_valid_port(port_no))
+	if (!is_valid_port(port_no))
 		return -1;
 
-	while(is_transmit_empty(serial_ports[port_no]) == 0);
+	while (is_transmit_empty(serial_ports[port_no]) == 0)
+		;
 	outb(a, serial_ports[port_no] + 0);
 	return 0;
 }
 
-int serial_device_probe( int unit, int *blocksize, int *nblocks, char *info )
+int serial_device_probe(int unit, int *blocksize, int *nblocks, char *info)
 {
-	if(unit<0 || unit>3) return 0;
+	if (unit < 0 || unit > 3)
+		return 0;
 	serial_init_port(serial_ports[unit]);
 	*blocksize = 1;
 	*nblocks = 0;
-	strcpy(info,"serial");
+	strcpy(info, "serial");
 	return 1;
 }
 
-int serial_device_read( int unit, void *data, int length, int offset )
+int serial_device_read(int unit, void *data, int length, int offset)
 {
 	int i;
 	char *cdata = data;
-	for(i=0;i<length;i++) {
+	for (i = 0; i < length; i++)
+	{
 		cdata[i] = serial_read(unit);
 	}
 	return length;
 }
 
-int serial_device_write( int unit, const void *data, int length, int offset )
+int serial_device_write(int unit, const void *data, int length, int offset)
 {
 	int i;
 	const char *cdata = data;
-	for(i=0;i<length;i++) {
-		serial_write(unit,cdata[i]);
+	for (i = 0; i < length; i++)
+	{
+		serial_write(unit, cdata[i]);
 	}
 	return length;
 }
 
 static struct device_driver serial_driver = {
-       .name           = "serial",
-       .probe          = serial_device_probe,
-       .read           = serial_device_read,
-       .read_nonblock  = serial_device_read,
-       .write          = serial_device_write
-};
+	.name = "serial",
+	.probe = serial_device_probe,
+	.read = serial_device_read,
+	.read_nonblock = serial_device_read,
+	.write = serial_device_write};
 
 void serial_init()
 {
 	int i;
-	for(i = 0; i < sizeof(serial_ports) / sizeof(int); i++) {
+	for (i = 0; i < sizeof(serial_ports) / sizeof(int); i++)
+	{
 		serial_init_port(serial_ports[i]);
 	}
 	device_driver_register(&serial_driver);
-	printf("[HARDWARE] serialports: ready\n");
+	kprintf("[HARDWARE] serialports: ready\n");
 	dbg_printf("[serialports] initialized\n");
 }

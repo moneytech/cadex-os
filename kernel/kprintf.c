@@ -4,7 +4,7 @@ This software is distributed under the GNU General Public License.
 See the file LICENSE for details.
 */
 
-#include "printf.h"
+#include "kprintf.h"
 #include "string.h"
 #include "console.h"
 #include "keyboard.h"
@@ -12,9 +12,9 @@ See the file LICENSE for details.
 
 #define DEBUG 0
 
-static void printf_putchar( char c )
+static void printf_putchar(char c)
 {
-	console_putchar(&console_root,c);
+	console_putchar(&console_root, c);
 }
 
 char getchar()
@@ -22,21 +22,24 @@ char getchar()
 	return keyboard_read(0);
 }
 
-void putchar( char c)
+void putchar(char c)
 {
 	return printf_putchar(c);
 }
 
 static void printf_putstring(char *s)
 {
-	console_putstring(&console_root,s);
+	console_putstring(&console_root, s);
 }
 
 static void printf_puthexdigit(uint8_t i)
 {
-	if(i < 10) {
+	if (i < 10)
+	{
 		printf_putchar('0' + i);
-	} else {
+	}
+	else
+	{
 		printf_putchar('a' + i - 10);
 	}
 }
@@ -44,7 +47,8 @@ static void printf_puthexdigit(uint8_t i)
 static void printf_puthex(uint32_t i)
 {
 	int j;
-	for(j = 28; j >= 0; j = j - 4) {
+	for (j = 28; j >= 0; j = j - 4)
+	{
 		printf_puthexdigit((i >> j) & 0x0f);
 	}
 }
@@ -52,16 +56,19 @@ static void printf_puthex(uint32_t i)
 static void printf_putint(int32_t i)
 {
 	int f, d;
-	if(i < 0 && i != 0) {
+	if (i < 0 && i != 0)
+	{
 		printf_putchar('-');
 		i = -i;
 	}
 
 	f = 1;
-	while((i / f) >= 10) {
+	while ((i / f) >= 10)
+	{
 		f *= 10;
 	}
-	while(f > 0) {
+	while (f > 0)
+	{
 		d = i / f;
 		printf_putchar('0' + d);
 		i = i - d * f;
@@ -73,10 +80,12 @@ static void printf_putuint(uint32_t u)
 {
 	int f, d;
 	f = 1;
-	while((u / f) >= 10) {
+	while ((u / f) >= 10)
+	{
 		f *= 10;
 	}
-	while(f > 0) {
+	while (f > 0)
+	{
 		d = u / f;
 		printf_putchar('0' + d);
 		u = u - d * f;
@@ -84,7 +93,7 @@ static void printf_putuint(uint32_t u)
 	}
 }
 
-void printf(const char *s, ...)
+void kprintf(const char *s, ...)
 {
 	va_list args;
 
@@ -94,12 +103,17 @@ void printf(const char *s, ...)
 
 	va_start(args, s);
 
-	while(*s) {
-		if(*s != '%') {
+	while (*s)
+	{
+		if (*s != '%')
+		{
 			printf_putchar(*s);
-		} else {
+		}
+		else
+		{
 			s++;
-			switch (*s) {
+			switch (*s)
+			{
 			case 'd':
 				i = va_arg(args, int32_t);
 				printf_putint(i);
@@ -190,21 +204,22 @@ void dbg_printf(const char *s, ...)
 }
 
 /* Systemd like success messages */
-void w_ok_status(char *s){
+void w_ok_status(char *s)
+{
 	struct graphics_color g;
 	g.a = 0;
 	g.b = 10;
 	g.g = 200;
 	g.r = 10;
-	printf("[ ");
+	kprintf("[ ");
 	graphics_fgcolor(&graphics_root, g);
-	printf("OK");
+	kprintf("OK");
 	g.a = 0;
 	g.b = 255;
 	g.g = 255;
 	g.r = 255;
 	graphics_fgcolor(&graphics_root, g);
-	printf(" ]  %s", s);
+	kprintf(" ]  %s", s);
 }
 
 void w_fail_status(char *s)
@@ -214,13 +229,13 @@ void w_fail_status(char *s)
 	g.b = 10;
 	g.g = 10;
 	g.r = 250;
-	printf("[ ");
+	kprintf("[ ");
 	graphics_fgcolor(&graphics_root, g);
-	printf("FAIL");
+	kprintf("FAIL");
 	g.a = 0;
 	g.b = 255;
 	g.g = 255;
 	g.r = 255;
 	graphics_fgcolor(&graphics_root, g);
-	printf(" ]  %s", s);
+	kprintf(" ]  %s", s);
 }

@@ -34,7 +34,7 @@ KERNEL_OBJECTS=kernelcore.o \
 			   kobject.o \
 			   pipe.o \
 			   bcache.o \
-			   printf.o \
+			   kprintf.o \
 			   is_valid.o \
 			   acpi.o \
 			   module.o \

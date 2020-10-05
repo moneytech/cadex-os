@@ -1,5 +1,6 @@
 #include "panic.h"
 
-void PANIC(char *sender, char *str){
-    printf("[PANIC] %s: %s", sender, str);
+void PANIC(char *sender, char *str)
+{
+    kprintf("[PANIC] %s: %s", sender, str);
 }

@@ -1,6 +1,7 @@
 {
-    "files.associations": {
-        "*.def": "c"
-    },
-    "C_Cpp.errorSquiggles": "Enabled"
+	"files.associations": {
+		"*.def": "c"
+	},
+	"C_Cpp.errorSquiggles": "Enabled",
+	"editor.cursorStyle": "line"
 }

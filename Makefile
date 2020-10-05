@@ -67,6 +67,7 @@ clean:
 	@cd usr.bin && make clean
 	@cd bin && make clean
 	@cd apps && make clean
+	@rm -rf ./*.log
 
 clear:
 	@clear

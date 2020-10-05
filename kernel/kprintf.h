@@ -8,8 +8,8 @@ See the file LICENSE for details.
 #define PRINTF_H
 
 char getchar();
-void putchar( char c );
-void printf( const char *s, ... );
+void putchar(char c);
+void kprintf(const char *s, ...);
 void dbg_printf(const char *s, ...);
 void dbg_print(char *s);
 void w_ok_status(char *s);

@@ -68,7 +68,7 @@ struct fs_dirent *fs_resolve(const char *path)
 		kfree(tagstr);
 		if (!tagobj)
 		{
-			//printf("%s: No such file or directory\n", path);
+			//kprintf("%s: No such file or directory\n", path);
 			return KERROR_NOT_FOUND;
 		}
 		// XXX KERROR_NOT_FOUND;
@@ -465,25 +465,26 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth)
 		struct fs_dirent *new_src = fs_dirent_lookup(src, name);
 		if (!new_src)
 		{
-			printf("cp: couldn't lookup %s in directory!\n", name);
+			kprintf("cp: couldn't lookup %s in directory!\n", name);
 			dbg_printf("[fscopy] couldn't lookup %s in directory.\n", name);
 			goto next_entry;
 		}
 
 		int i;
-		for (i = 0; i < depth; i++){
-			printf("> ");
+		for (i = 0; i < depth; i++)
+		{
+			kprintf("> ");
 			dbg_printf("> ");
 		}
 
 		if (fs_dirent_isdir(new_src))
 		{
-			printf("> %s (dir)\n", name);
+			kprintf("> %s (dir)\n", name);
 			dbg_printf("> %s (directory)\n", name);
 			struct fs_dirent *new_dst = fs_dirent_mkdir(dst, name);
 			if (!new_dst)
 			{
-				printf("cp: couldn't create %s!\n", name);
+				kprintf("cp: couldn't create %s!\n", name);
 				dbg_printf("[fscopy] couldn't create %s.\n", name);
 				fs_dirent_close(new_src);
 				goto next_entry;
@@ -495,12 +496,12 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth)
 		}
 		else
 		{
-			printf("%s (%d KB)\n", name, fs_dirent_size(new_src) / 1000); // Divide by 1000 to get kB value
+			kprintf("%s (%d KB)\n", name, fs_dirent_size(new_src) / 1000); // Divide by 1000 to get kB value
 			dbg_printf("%d (%d KB)\n", name, fs_dirent_size(new_src) / 1000);
 			struct fs_dirent *new_dst = fs_dirent_mkfile(dst, name);
 			if (!new_dst)
 			{
-				printf("couldn't create %s!\n", name);
+				kprintf("couldn't create %s!\n", name);
 				dbg_printf("[fscopy] error creating %s", name);
 				fs_dirent_close(new_src);
 				goto next_entry;
@@ -541,6 +542,6 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth)
 
 failure:
 	page_free(buffer);
-	printf("No such file or directory");
+	kprintf("No such file or directory");
 	return 0;
 }

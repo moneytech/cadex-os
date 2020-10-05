@@ -67,14 +67,16 @@ int sys_debug(const char *str)
 	return 0;
 }
 
-int sys_debug_putc(const char str){
+int sys_debug_putc(const char str)
+{
 	serial_write(0, str);
 }
 
-int sys_kpanic(const char *str){
+int sys_kpanic(const char *str)
+{
 	if (!is_valid_string(str))
 		return KERROR_INVALID_ADDRESS;
-	printf("[PANIC]: %s", str);
+	kprintf("[PANIC]: %s", str);
 	return 0;
 }
 
@@ -435,14 +437,15 @@ int sys_open_file(const char *path, int mode, kernel_flags_t flags)
 	{
 		current->ktable[newfd] = kobject_create_file(d);
 		return newfd;
-	} else if (d == KERROR_NOT_FOUND)
+	}
+	else if (d == KERROR_NOT_FOUND)
 	{
 		// TODO: Propogate better error
-		dbg_printf("[PANIC@(syscall_handler.c:440)] %s: no such file or directory\n"); // 
-		return 1; // KERROR_NOT_FOUND
+		dbg_printf("[PANIC@(syscall_handler.c:440)] %s: no such file or directory\n"); //
+		return 1;																	   // KERROR_NOT_FOUND
 	}
-	
-	else 
+
+	else
 	{
 		// XXX propagate better error
 		return -1;

@@ -11,22 +11,23 @@
 
 #define CLICKS_PER_SECOND 10
 
-#define TIMER0		0x40
-#define TIMER_MODE	0x43
-#define SQUARE_WAVE     0x36
-#define TIMER_FREQ	1193182
-#define TIMER_COUNT	(((unsigned)TIMER_FREQ)/CLICKS_PER_SECOND/2)
+#define TIMER0 0x40
+#define TIMER_MODE 0x43
+#define SQUARE_WAVE 0x36
+#define TIMER_FREQ 1193182
+#define TIMER_COUNT (((unsigned)TIMER_FREQ) / CLICKS_PER_SECOND / 2)
 
 static uint32_t clicks = 0;
 static uint32_t seconds = 0;
 
-static struct list queue = { 0, 0 };
+static struct list queue = {0, 0};
 
 static void clock_interrupt(int i, int code)
 {
 	clicks++;
 	process_wakeup_all(&queue);
-	if(clicks >= CLICKS_PER_SECOND) {
+	if (clicks >= CLICKS_PER_SECOND)
+	{
 		clicks = 0;
 		seconds++;
 		console_heartbeat(&console_root);
@@ -45,7 +46,8 @@ clock_t clock_read()
 clock_t clock_diff(clock_t start, clock_t stop)
 {
 	clock_t result;
-	if(stop.millis < start.millis) {
+	if (stop.millis < start.millis)
+	{
 		stop.millis += 1000;
 		stop.seconds -= 1;
 	}
@@ -60,11 +62,12 @@ void clock_wait(uint32_t millis)
 	uint32_t total;
 
 	start = clock_read();
-	do {
+	do
+	{
 		process_wait(&queue);
 		elapsed = clock_diff(start, clock_read());
 		total = elapsed.millis + elapsed.seconds * 1000;
-	} while(total < millis);
+	} while (total < millis);
 }
 
 void clock_init()
@@ -76,6 +79,6 @@ void clock_init()
 	interrupt_register(32, clock_interrupt);
 	interrupt_enable(32);
 
-	printf("[SYS] clock: ticking\n");
+	kprintf("[SYS] clock: ticking\n");
 	dbg_printf("[clock] clock is ticking\n");
 }

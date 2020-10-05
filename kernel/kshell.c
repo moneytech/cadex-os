@@ -23,7 +23,7 @@ See the file LICENSE for details.
 #include "clock.h"
 #include "kernelcore.h"
 #include "bcache.h"
-#include "printf.h"
+#include "kprintf.h"
 #include "library/syscalls.h"
 #include "library/stdio.h"
 #include "library/string.h"
@@ -154,7 +154,7 @@ void print_array(char arr[], int start, int len)
 		return;
 
 	/* Prints the current array element */
-	printf("%s, ", arr[start]);
+	kprintf("%s, ", arr[start]);
 
 	/* Recursively call print_array to print next element in array */
 	print_array(arr, start - 1, len);
@@ -214,7 +214,7 @@ int strStartsWith(const char *pre, const char *str)
 }
 void KPANIC(char *str)
 {
-	printf("[PANIC]: %s\n", str);
+	kprintf("[PANIC]: %s\n", str);
 }
 int kshell_mount(const char *devname, int unit, const char *fs_type)
 {
@@ -238,27 +238,27 @@ int kshell_mount(const char *devname, int unit, const char *fs_type)
 				}
 				else
 				{
-					printf("mount: couldn't find root dir on %s unit %d!\n", device_name(dev), device_unit(dev));
+					kprintf("mount: couldn't find root dir on %s unit %d!\n", device_name(dev), device_unit(dev));
 					return -1;
 				}
 				fs_volume_close(v);
 			}
 			else
 			{
-				printf("mount: couldn't mount %s on %s unit %d\n", fs_type, device_name(dev), device_unit(dev));
+				kprintf("mount: couldn't mount %s on %s unit %d\n", fs_type, device_name(dev), device_unit(dev));
 				return -1;
 			}
 		}
 		else
 		{
-			printf("mount: invalid fs type: %s\n", fs_type);
+			kprintf("mount: invalid fs type: %s\n", fs_type);
 			return -1;
 		}
 		device_close(dev);
 	}
 	else
 	{
-		printf("mount: couldn't open device %s unit %d\n", devname, unit);
+		kprintf("mount: couldn't open device %s unit %d\n", devname, unit);
 		return -1;
 	}
 
@@ -303,7 +303,7 @@ static int kshell_mount_nomsg(const char *devname, int unit, const char *fs_type
 	}
 	else
 	{
-		printf("mount: couldn't open device %s unit %d\n", devname, unit);
+		kprintf("mount: couldn't open device %s unit %d\n", devname, unit);
 		return -1;
 	}
 
@@ -339,7 +339,7 @@ int kshell_install(int src, int dst)
 	struct fs_dirent *srcroot = fs_volume_root(srcvolume);
 	struct fs_dirent *dstroot = fs_volume_root(dstvolume);
 
-	printf("Installing Cadex OS on disk (copying from atapi unit %d and copying to ata unit %d)...\n", src, dst);
+	kprintf("Installing Cadex OS on disk (copying from atapi unit %d and copying to ata unit %d)...\n", src, dst);
 	dbg_printf("[kshell] copying atapi unit %d contents to ata unit %d...\n", src, dst);
 	fs_dirent_copy(srcroot, dstroot, 0);
 
@@ -365,7 +365,7 @@ static int kshell_printdir(const char *d, int length)
 		struct graphics_color *c;
 		if (!strcmp(d, ".") || !strcmp(d, ".."))
 		{
-			printf("%s\n", d);
+			kprintf("%s\n", d);
 		}
 		// Highlighting executable files has a bug
 		else if (strEndsWith(d, ".exe"))
@@ -374,7 +374,7 @@ static int kshell_printdir(const char *d, int length)
 			// c->g = 244;
 			// c->b = 130;
 			// graphics_fgcolor(&graphics_root, *c);
-			printf("%s   ", d);
+			kprintf("%s   ", d);
 			// c->r = 255;
 			// c->g = 255;
 			// c->b = 255;
@@ -382,10 +382,10 @@ static int kshell_printdir(const char *d, int length)
 		}
 		else
 		{
-			printf("%s   ", d);
+			kprintf("%s   ", d);
 			if (k > 8)
 			{
-				printf("\n");
+				kprintf("\n");
 				k = 0;
 			}
 			k++;
@@ -395,7 +395,7 @@ static int kshell_printdir(const char *d, int length)
 		d += len;
 		length -= len;
 	}
-	printf("\n");
+	kprintf("\n");
 	return 0;
 }
 
@@ -415,7 +415,7 @@ static int kshell_listdir(const char *path)
 			}
 			else
 			{
-				printf("ls: %s: not a directory\n", path);
+				kprintf("ls: %s: not a directory\n", path);
 			}
 			kfree(buffer);
 		}
@@ -424,11 +424,11 @@ static int kshell_listdir(const char *path)
 	{
 		if (path != ".")
 		{
-			printf("ls: file/directory %s does not exist in the current directory\n", path);
+			kprintf("ls: file/directory %s does not exist in the current directory\n", path);
 		}
 		else
 		{
-			printf("ls: root directory not found.");
+			kprintf("ls: root directory not found.");
 		}
 	}
 
@@ -447,18 +447,18 @@ static int kshell_execute(int argc, const char **argv)
 			if (pid > 0)
 			{
 #ifdef SHOW_DEBUG_INFO
-				printf("started process %d\n", pid);
+				kprintf("started process %d\n", pid);
 #endif
 				process_yield();
 			}
 			else
 			{
-				printf("run: error: cannot start %s\n", argv[1]);
+				kprintf("run: error: cannot start %s\n", argv[1]);
 			}
 		}
 		else
 		{
-			printf("run: requires argument.\n");
+			kprintf("run: requires argument.\n");
 		}
 	}
 	else if (!strcmp(cmd, "exec"))
@@ -467,11 +467,11 @@ static int kshell_execute(int argc, const char **argv)
 		{
 			sys_process_exec(argv[1], argc - 1, &argv[1]);
 			process_yield();
-			printf("exec: error: couldn't execute %s\n", argv[1]);
+			kprintf("exec: error: couldn't execute %s\n", argv[1]);
 		}
 		else
 		{
-			printf("exec: requires argument.\n");
+			kprintf("exec: requires argument.\n");
 		}
 	}
 	else if (!strcmp(cmd, "run"))
@@ -482,24 +482,24 @@ static int kshell_execute(int argc, const char **argv)
 			if (pid > 0)
 			{
 #ifdef SHOW_DEBUG_INFO
-				printf("started process %d\n", pid);
+				kprintf("started process %d\n", pid);
 #endif
 				process_yield();
 				struct process_info info;
 				process_wait_child(pid, &info, -1);
 #ifdef SHOW_DEBUG_INFO
-				printf("process %d exited with status %d\n", info.pid, info.exitcode);
+				kprintf("process %d exited with status %d\n", info.pid, info.exitcode);
 #endif
 				process_reap(info.pid);
 			}
 			else
 			{
-				printf("run: error: cannot find %s\n", argv[1]);
+				kprintf("run: error: cannot find %s\n", argv[1]);
 			}
 		}
 		else
 		{
-			printf("run: requires argument\n");
+			kprintf("run: requires argument\n");
 		}
 	}
 	else if (!strcmp(cmd, "mount"))
@@ -513,25 +513,25 @@ static int kshell_execute(int argc, const char **argv)
 			}
 			else
 			{
-				printf("mount: expected unit number but got %s\n", argv[2]);
+				kprintf("mount: expected unit number but got %s\n", argv[2]);
 			}
 		}
 		else
 		{
-			printf("usage: mount <device> <unit> <fstype>\n");
+			kprintf("usage: mount <device> <unit> <fstype>\n");
 		}
 	}
 	else if (!strcmp(cmd, "umount"))
 	{
 		if (current->root_dir)
 		{
-			printf("umount: unmounting root directory\n");
+			kprintf("umount: unmounting root directory\n");
 			fs_dirent_close(current->root_dir);
 			current->root_dir = 0;
 		}
 		else
 		{
-			printf("umount: nothing currently mounted\n");
+			kprintf("umount: nothing currently mounted\n");
 		}
 	}
 	else if (!strcmp(cmd, "reap"))
@@ -543,21 +543,21 @@ static int kshell_execute(int argc, const char **argv)
 			{
 				if (process_reap(pid))
 				{
-					printf("reap failed!\n");
+					kprintf("reap failed!\n");
 				}
 				else
 				{
-					printf("process %d reaped\n", pid);
+					kprintf("process %d reaped\n", pid);
 				}
 			}
 			else
 			{
-				printf("reap: expected process id but got %s\n", argv[1]);
+				kprintf("reap: expected process id but got %s\n", argv[1]);
 			}
 		}
 		else
 		{
-			printf("reap: requires argument\n");
+			kprintf("reap: requires argument\n");
 		}
 	}
 	else if (!strcmp(cmd, "addcmd"))
@@ -569,7 +569,7 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else
 		{
-			printf("usage: addcmd <command> <path>");
+			kprintf("usage: addcmd <command> <path>");
 		}
 	}
 	else if (!strcmp(cmd, comd))
@@ -594,12 +594,12 @@ static int kshell_execute(int argc, const char **argv)
 			}
 			else
 			{
-				printf("kill: expected process id number but got %s\n", argv[1]);
+				kprintf("kill: expected process id number but got %s\n", argv[1]);
 			}
 		}
 		else
 		{
-			printf("kill: you need to specify the PID of which program to kill.\n");
+			kprintf("kill: you need to specify the PID of which program to kill.\n");
 		}
 	}
 	else if (!strcmp(cmd, "wait"))
@@ -607,11 +607,11 @@ static int kshell_execute(int argc, const char **argv)
 		struct process_info info;
 		if (process_wait_child(0, &info, 5000) > 0)
 		{
-			printf("process %d exited with status %d\n", info.pid, info.exitcode);
+			kprintf("process %d exited with status %d\n", info.pid, info.exitcode);
 		}
 		else
 		{
-			printf("wait: timeout\n");
+			kprintf("wait: timeout\n");
 		}
 	}
 	else if (!strcmp(cmd, "ls"))
@@ -629,7 +629,7 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		uint32_t nfree, ntotal;
 		page_stats(&nfree, &ntotal);
-		printf("memstats: memory info: %d/%d B\n", nfree, ntotal);
+		kprintf("memstats: memory info: %d/%d B\n", nfree, ntotal);
 	}
 	else if (!strcmp(cmd, "mkdir"))
 	{
@@ -641,19 +641,19 @@ static int kshell_execute(int argc, const char **argv)
 				struct fs_dirent *n = fs_dirent_mkdir(dir, argv[2]);
 				if (!n)
 				{
-					printf("mkdir: couldn't create %s\n", argv[2]);
+					kprintf("mkdir: couldn't create %s\n", argv[2]);
 				}
 				fs_dirent_close(n);
 				fs_dirent_close(dir);
 			}
 			else
 			{
-				printf("mkdir: couldn't open %s\n", argv[1]);
+				kprintf("mkdir: couldn't open %s\n", argv[1]);
 			}
 		}
 		else
 		{
-			printf("usage: mkdir <parent-dir> <dirname>\n");
+			kprintf("usage: mkdir <parent-dir> <dirname>\n");
 		}
 	}
 	else if (!strcmp(cmd, "format"))
@@ -673,22 +673,22 @@ static int kshell_execute(int argc, const char **argv)
 					}
 					else
 					{
-						printf("format: couldn't open device %s unit %d\n", argv[1], unit);
+						kprintf("format: couldn't open device %s unit %d\n", argv[1], unit);
 					}
 				}
 				else
 				{
-					printf("format: invalid fs type: %s\n", argv[3]);
+					kprintf("format: invalid fs type: %s\n", argv[3]);
 				}
 			}
 			else
 			{
-				printf("format: expected unit number but got %s\n", argv[2]);
+				kprintf("format: expected unit number but got %s\n", argv[2]);
 			}
 		}
 		else
 		{
-			printf("usage: format <device> <unit> <fstype>\n");
+			kprintf("usage: format <device> <unit> <fstype>\n");
 		}
 	}
 	else if (!strcmp(cmd, "install"))
@@ -702,7 +702,7 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else
 		{
-			printf("install: expected unit #s for cdrom and disk\n");
+			kprintf("install: expected unit #s for cdrom and disk\n");
 		}
 	}
 	else if (!strcmp(cmd, "serialsend"))
@@ -713,7 +713,7 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else
 		{
-			printf("usage: serialsend <message>\n");
+			kprintf("usage: serialsend <message>\n");
 		}
 	}
 	else if (!strcmp(cmd, "serialrecv"))
@@ -723,14 +723,14 @@ static int kshell_execute(int argc, const char **argv)
 		{
 			serial_device_read(0, data, 1, 0);
 			/* code */
-			printf("%s", data);
+			kprintf("%s", data);
 		}
 	}
 
 	else if (strEndsWith(cmd, "\\"))
 	{
 		char *line;
-		printf("> ");
+		kprintf("> ");
 		kshell_readline(&line, 1024);
 		int argc = 0;
 		char *argv;
@@ -756,18 +756,18 @@ static int kshell_execute(int argc, const char **argv)
 				int result = fs_dirent_remove(dir, argv[2]);
 				if (result < 0)
 				{
-					printf("rm: couldn't remove %s\n", argv[2]);
+					kprintf("rm: couldn't remove %s\n", argv[2]);
 				}
 				fs_dirent_close(dir);
 			}
 			else
 			{
-				printf("rm: couldn't open %s\n", argv[1]);
+				kprintf("rm: couldn't open %s\n", argv[1]);
 			}
 		}
 		else
 		{
-			printf("usage: rm <parent-dir> <filename>\n\n");
+			kprintf("usage: rm <parent-dir> <filename>\n\n");
 		}
 	}
 	else if (!strcmp(cmd, "cd"))
@@ -777,15 +777,15 @@ static int kshell_execute(int argc, const char **argv)
 			int cd_res = sys_chdir(argv[1]);
 			if (cd_res == KERROR_INVALID_PATH)
 			{
-				printf("%s: invalid path specified\n", argv[1]);
+				kprintf("%s: invalid path specified\n", argv[1]);
 			}
 			else if (cd_res == KERROR_NOT_FOUND)
 			{
-				printf("cd: %s: no such file or directory\n", argv[1]);
+				kprintf("cd: %s: no such file or directory\n", argv[1]);
 			}
 			else if (cd_res == KERROR_NOT_A_DIRECTORY)
 			{
-				printf("cd: %s: not a directory\n", argv[1]);
+				kprintf("cd: %s: not a directory\n", argv[1]);
 			}
 			else
 			{
@@ -801,14 +801,14 @@ static int kshell_execute(int argc, const char **argv)
 
 		else
 		{
-			printf("usage: cd <dir>\n\n");
+			kprintf("usage: cd <dir>\n\n");
 		}
 	}
 	else if (!strcmp(cmd, "time"))
 	{
 		struct rtc_time time;
 		rtc_read(&time);
-		printf("%d-%d-%d %d:%d:%d\n", time.year, time.month, time.day, time.hour, time.minute, time.second);
+		kprintf("%d-%d-%d %d:%d:%d\n", time.year, time.month, time.day, time.hour, time.minute, time.second);
 	}
 	else if (!strcmp(cmd, "reboot"))
 	{
@@ -823,10 +823,10 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		struct bcache_stats stats;
 		bcache_get_stats(&stats);
-		printf("%d rhit %d rmiss %d whit %d wmiss %d wback\n",
-			   stats.read_hits, stats.read_misses,
-			   stats.write_hits, stats.write_misses,
-			   stats.writebacks);
+		kprintf("%d rhit %d rmiss %d whit %d wmiss %d wback\n",
+				stats.read_hits, stats.read_misses,
+				stats.write_hits, stats.write_misses,
+				stats.writebacks);
 	}
 	else if (!strcmp(cmd, "bcache_flush"))
 	{
@@ -834,11 +834,11 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "help"))
 	{
-		printf("Cadex OS v0.1.6 Lean Llama\nAvailable commands :\n\n* whoami\n* longtest\n* basic86 <args>\n* prompt <args>\n* sdlg <args>\n* clear\n* uname <args>\n* run <path> <args>\n* whoami\n* start <path> <args>\n* kill <pid>\n* reap <pid>\n* wait\n* ls\n* mount <device> <unit> <fstype>\n* umount\n* format <device> <unit><fstype>\n* install <srcunit> <dstunit>\n* cd <path>\n* mkdir <path>\n* rm <path>\n* time\n* bcache_stats\n* bcache_flush\n* reboot\n* shutdown\n* help\n\n");
+		kprintf("Cadex OS v0.1.6 Lean Llama\nAvailable commands :\n\n* whoami\n* longtest\n* basic86 <args>\n* prompt <args>\n* sdlg <args>\n* clear\n* uname <args>\n* run <path> <args>\n* whoami\n* start <path> <args>\n* kill <pid>\n* reap <pid>\n* wait\n* ls\n* mount <device> <unit> <fstype>\n* umount\n* format <device> <unit><fstype>\n* install <srcunit> <dstunit>\n* cd <path>\n* mkdir <path>\n* rm <path>\n* time\n* bcache_stats\n* bcache_flush\n* reboot\n* shutdown\n* help\n\n");
 	}
 	else if (!strcmp(cmd, "whoami"))
 	{
-		printf("\nroot\n");
+		kprintf("\nroot\n");
 	}
 	else if (!strcmp(cmd, "longtest"))
 	{
@@ -851,7 +851,7 @@ static int kshell_execute(int argc, const char **argv)
 			int i;
 			for (i = 0; i < sizeof(shakespeare) / sizeof(char *); i++)
 			{
-				printf("%s\n", shakespeare[i]);
+				kprintf("%s\n", shakespeare[i]);
 				sleep(1);
 			}
 		}
@@ -860,13 +860,13 @@ static int kshell_execute(int argc, const char **argv)
 			int i;
 			for (i = 0; i < sizeof(shakespeare) / sizeof(char *); i++)
 			{
-				printf("%s\n", shakespeare[i]);
+				kprintf("%s\n", shakespeare[i]);
 				sleep(3);
 			}
 		}
 		else
 		{
-			printf("usage: longtest <speed>\nOptions: -s for slow and -f for fast\n");
+			kprintf("usage: longtest <speed>\nOptions: -s for slow and -f for fast\n");
 		}
 	}
 
@@ -889,11 +889,11 @@ static int kshell_execute(int argc, const char **argv)
 		{
 			if (!strcmp(argv[i], "\\n"))
 			{
-				printf("\n");
+				kprintf("\n");
 			}
 			else if (!strcmp(argv[i], "$1"))
 			{
-				printf("%d ", last_run_proc_exitcode);
+				kprintf("%d ", last_run_proc_exitcode);
 			}
 			else if (!strcmp(argv[i], "\""))
 			{
@@ -901,16 +901,16 @@ static int kshell_execute(int argc, const char **argv)
 			}
 			else if (!strStartsWith("\"", argv[i]) || !strEndsWith(argv[i], "\""))
 			{
-				printf("%s ", argv[i]);
+				kprintf("%s ", argv[i]);
 				continue;
 			}
 
 			else
 			{
-				printf("%s ", argv[i]);
+				kprintf("%s ", argv[i]);
 			}
 		}
-		printf("\n");
+		kprintf("\n");
 	}
 
 	else if (!strcmp(cmd, "prompt"))
@@ -933,7 +933,7 @@ static int kshell_execute(int argc, const char **argv)
 		}
 		else
 		{
-			printf("\nusage: prompt [symbol]\n\nAvailable symbols are:\n $ : bash\n # : rootbash\n % : linux\n\n");
+			kprintf("\nusage: prompt [symbol]\n\nAvailable symbols are:\n $ : bash\n # : rootbash\n % : linux\n\n");
 		}
 	}
 	else if (!strcmp(cmd, "history"))
@@ -984,7 +984,7 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "pwd"))
 	{
-		printf("%s, %s", _cwd_, __cwd);
+		kprintf("%s, %s", _cwd_, __cwd);
 	}
 	else if (!strcmp(cmd, "mousetest"))
 	{
@@ -1011,13 +1011,13 @@ static int kshell_execute(int argc, const char **argv)
 			else if (pid == KERROR_NOT_FOUND)
 			{
 				// Handle the NOT_FOUND error
-				printf("%s: No such file or directory\n", argv[0]);
+				kprintf("%s: No such file or directory\n", argv[0]);
 			}
 		}
 
 		else
 		{
-			printf("%s: command not found\n", argv[0]);
+			kprintf("%s: command not found\n", argv[0]);
 		}
 	}
 	return 0;
@@ -1033,7 +1033,7 @@ int kshell_readline(char *line, int length)
 		if (c == ASCII_CR)
 		{
 			line[i] = 0;
-			printf("\n");
+			kprintf("\n");
 			return 1;
 		}
 		else if (c == ASCII_BS)
@@ -1071,10 +1071,10 @@ int kshell_launch()
 	const char *argv[100];
 	int argc;
 start:
-	printf("\n");
+	kprintf("\n");
 	while (1)
 	{
-		printf("[root@cadex:/]%s ", promptsym[prompt]);
+		kprintf("[root@cadex:/]%s ", promptsym[prompt]);
 		kshell_readline(line, sizeof(line));
 		kshell_history[i] = line;
 		i++;

@@ -6,7 +6,7 @@
 */
 #include "string.h"
 #include "scanf.h"
-#include "printf.h"
+#include "kprintf.h"
 #include "mouse.h"
 #include "keyboard.h"
 #include "interrupt.h"

@@ -31,7 +31,7 @@ const char *strchr(const char *s, char ch);
 void memset(void *d, char value, unsigned length);
 void memcpy(void *d, const void *s, unsigned length);
 
-void printf(const char *s, ...);
+void kprintf(const char *s, ...);
 
 void itoa(int num, char *number);
 #endif

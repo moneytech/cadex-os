@@ -27,7 +27,7 @@ See the file LICENSE for details.
 #include "diskfs.h"
 #include "serial.h"
 #include <sysinfo.h>
-#include "printf.h"
+#include "kprintf.h"
 #include "service.h"
 
 /*
@@ -41,16 +41,16 @@ int kernel_main()
 {
 	char a;
 	struct graphics *g = graphics_create_root();
-	
+
 	// init the console
 	console_init(g);
 	// add reference to console_root
 	console_addref(&console_root);
 
 	// print the screen resolution
-	printf("[SYS] video: %d x %d\n", video_xres, video_yres, video_xbytes);
+	kprintf("[SYS] video: %d x %d\n", video_xres, video_yres, video_xbytes);
 	// print the kernel size
-	printf("[SYS] kernel size: %d KB\n", kernel_size / 1000);
+	kprintf("[SYS] kernel size: %d KB\n", kernel_size / 1000);
 
 	// init paging
 	page_init();
@@ -79,9 +79,9 @@ int kernel_main()
 	// mount atapi device with unit 2
 	kshell_mount("atapi", 2, "cdfs");
 #ifdef DEBUG
-	printf("\nCadex OS %sb-%s <<<<<<\n", SYS_VER, SYS_BUILD); // #define debug to enable version info
+	kprintf("\nCadex OS %sb-%s <<<<<<\n", SYS_VER, SYS_BUILD); // #define debug to enable version info
 #endif
-	printf("\n");
+	kprintf("\n");
 	// start the necessary services
 	service_start("/bin/dbusctl.exe", 0, 0, "DBus Controller");
 	service_start("/bin/klog.exe", 0, 0, "Kernel logging helper");

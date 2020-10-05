@@ -34,8 +34,7 @@ static const char *exception_names[] = {
 	"general protection fault",
 	"page fault",
 	"unknown",
-	"coprocessor error"
-};
+	"coprocessor error"};
 
 static void unknown_exception(int i, int code)
 {
@@ -65,7 +64,7 @@ static void unknown_exception(int i, int code)
 		if (page_already_present || !(data_access ^ stack_access))
 		{
 			char *tmp_pid;
-			printf("Segmentation fault (core dumped)\n");
+			kprintf("Segmentation fault (core dumped)\n");
 			itoa(current->pid, tmp_pid);
 			dbg_printf("[interrupt] process ");
 			dbg_printf(tmp_pid);
@@ -88,7 +87,7 @@ static void unknown_exception(int i, int code)
 	}
 	else
 	{
-		printf("\n\nUnknown Exception Occured\n\nStack trace:\n%d: %s (code %x)\n", i, exception_names[i], code);
+		kprintf("\n\nUnknown Exception Occured\n\nStack trace:\n%d: %s (code %x)\n", i, exception_names[i], code);
 		process_dump(current);
 	}
 
@@ -219,7 +218,7 @@ void interrupt_init()
 
 	interrupt_unblock();
 
-	printf("[SYS] interrupt-manager: OK\n");
+	kprintf("[SYS] interrupt-manager: OK\n");
 	dbg_printf("[interrupt] initialized\n");
 }
 

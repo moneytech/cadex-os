@@ -18,65 +18,65 @@ Recommended reading: page 11-15 of the RTC data sheet
 
 #define RTC_BASE 0x80
 
-#define RTC_SECONDS        (RTC_BASE+0)
-#define RTC_SECONDS_ALARM  (RTC_BASE+1)
-#define RTC_MINUTES        (RTC_BASE+2)
-#define RTC_MINUTES_ALARM  (RTC_BASE+3)
-#define RTC_HOURS          (RTC_BASE+4)
-#define RTC_HOURS_ALARM    (RTC_BASE+5)
-#define RTC_DAY_OF_WEEK    (RTC_BASE+6)
-#define RTC_DAY_OF_MONTH   (RTC_BASE+7)
-#define RTC_MONTH          (RTC_BASE+8)
-#define RTC_YEAR           (RTC_BASE+9)
+#define RTC_SECONDS (RTC_BASE + 0)
+#define RTC_SECONDS_ALARM (RTC_BASE + 1)
+#define RTC_MINUTES (RTC_BASE + 2)
+#define RTC_MINUTES_ALARM (RTC_BASE + 3)
+#define RTC_HOURS (RTC_BASE + 4)
+#define RTC_HOURS_ALARM (RTC_BASE + 5)
+#define RTC_DAY_OF_WEEK (RTC_BASE + 6)
+#define RTC_DAY_OF_MONTH (RTC_BASE + 7)
+#define RTC_MONTH (RTC_BASE + 8)
+#define RTC_YEAR (RTC_BASE + 9)
 
-#define RTC_REGISTER_A	   (RTC_BASE+10)
-#define RTC_REGISTER_B     (RTC_BASE+11)
-#define RTC_REGISTER_C     (RTC_BASE+12)
-#define RTC_REGISTER_D     (RTC_BASE+13)
+#define RTC_REGISTER_A (RTC_BASE + 10)
+#define RTC_REGISTER_B (RTC_BASE + 11)
+#define RTC_REGISTER_C (RTC_BASE + 12)
+#define RTC_REGISTER_D (RTC_BASE + 13)
 
 #define RTC_ADDRESS_PORT 0x70
 #define RTC_DATA_PORT 0x71
 
 /* Register A bits */
 
-#define RTC_A_UIP (1<<7)
-#define RTC_A_DV2 (1<<6)
-#define RTC_A_DV1 (1<<5)
-#define RTC_A_DV0 (1<<4)
-#define RTC_A_RS3 (1<<3)
-#define RTC_A_RS2 (1<<2)
-#define RTC_A_RS1 (1<<1)
-#define RTC_A_RS0 (1<<0)
+#define RTC_A_UIP (1 << 7)
+#define RTC_A_DV2 (1 << 6)
+#define RTC_A_DV1 (1 << 5)
+#define RTC_A_DV0 (1 << 4)
+#define RTC_A_RS3 (1 << 3)
+#define RTC_A_RS2 (1 << 2)
+#define RTC_A_RS1 (1 << 1)
+#define RTC_A_RS0 (1 << 0)
 
 /* Register B bits */
 
-#define RTC_B_SET  (1<<7)	/* if set, may write new time */
-#define RTC_B_PIE  (1<<6)	/* periodic interrupt enabled */
-#define RTC_B_AIE  (1<<5)	/* alarm interrupt enabled */
-#define RTC_B_UIE  (1<<4)	/* update interrupt enabled */
-#define RTC_B_SQWE (1<<3)	/* square wave enabled */
-#define RTC_B_DM   (1<<2)	/* data mode: 1=binary 0=decimal */
-#define RTC_B_2412 (1<<1)	/* 1=24 hour mode 0=12 hour mode */
-#define RTC_B_DSE  (1<<0)	/* daylight savings enable */
+#define RTC_B_SET (1 << 7)	/* if set, may write new time */
+#define RTC_B_PIE (1 << 6)	/* periodic interrupt enabled */
+#define RTC_B_AIE (1 << 5)	/* alarm interrupt enabled */
+#define RTC_B_UIE (1 << 4)	/* update interrupt enabled */
+#define RTC_B_SQWE (1 << 3) /* square wave enabled */
+#define RTC_B_DM (1 << 2)	/* data mode: 1=binary 0=decimal */
+#define RTC_B_2412 (1 << 1) /* 1=24 hour mode 0=12 hour mode */
+#define RTC_B_DSE (1 << 0)	/* daylight savings enable */
 
 /* Register C bits */
 /* Note that reading C is necessary to acknowledge an interrupt */
 
-#define RTC_C_IRQF (1<<7)	/* 1=any interrupt pending */
-#define RTC_C_PF   (1<<6)	/* periodic interrupt pending */
-#define RTC_C_AF   (1<<5)	/* alarm interrupt pending */
-#define RTC_C_UF   (1<<4)	/* update interrupt pending */
+#define RTC_C_IRQF (1 << 7) /* 1=any interrupt pending */
+#define RTC_C_PF (1 << 6)	/* periodic interrupt pending */
+#define RTC_C_AF (1 << 5)	/* alarm interrupt pending */
+#define RTC_C_UF (1 << 4)	/* update interrupt pending */
 
-#define SECS_PER_MIN  60
+#define SECS_PER_MIN 60
 #define SECS_PER_HOUR 3600
-#define SECS_PER_DAY  SECS_PER_HOUR * 24
+#define SECS_PER_DAY SECS_PER_HOUR * 24
 #define DAYS_PER_WEEK 7
-#define SECS_PER_WEEK SECS_PER_DAY * DAYS_PER_WEEK
+#define SECS_PER_WEEK SECS_PER_DAY *DAYS_PER_WEEK
 #define SECS_PER_YEAR SECS_PER_WEEK * 52
 
-#define LEAP_YEAR(Y) ( (Y>0) && !(Y%4) && ( (Y%100) || !(Y%400) ) )
+#define LEAP_YEAR(Y) ((Y > 0) && !(Y % 4) && ((Y % 100) || !(Y % 400)))
 
-static const uint8_t monthDays[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+static const uint8_t monthDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 static uint8_t rtc_bcd_to_binary(uint8_t bcd)
 {
@@ -103,34 +103,41 @@ static void rtc_fetch_time()
 
 	int addpm = 0;
 
-	do {
+	do
+	{
 		t.second = rtc_read_port(RTC_SECONDS);
 		t.minute = rtc_read_port(RTC_MINUTES);
 		t.hour = rtc_read_port(RTC_HOURS);
 		t.day = rtc_read_port(RTC_DAY_OF_MONTH);
 		t.month = rtc_read_port(RTC_MONTH);
 		t.year = rtc_read_port(RTC_YEAR);
-	} while(t.second != rtc_read_port(RTC_SECONDS));
+	} while (t.second != rtc_read_port(RTC_SECONDS));
 
-	if(t.hour & 0x80) {
+	if (t.hour & 0x80)
+	{
 		addpm = 1;
 		t.hour &= 0x7f;
-	} else {
+	}
+	else
+	{
 		addpm = 0;
 	}
 
 	t.second = rtc_bcd_to_binary(t.second);
 	t.minute = rtc_bcd_to_binary(t.minute);
 	t.hour = rtc_bcd_to_binary(t.hour);
-	if(addpm)
+	if (addpm)
 		t.hour += 12;
 	t.day = rtc_bcd_to_binary(t.day);
 	t.month = rtc_bcd_to_binary(t.month);
 	t.year = rtc_bcd_to_binary(t.year);
 
-	if(t.year >= 70) {
+	if (t.year >= 70)
+	{
 		t.year += 1900;
-	} else {
+	}
+	else
+	{
 		t.year += 2000;
 	}
 
@@ -159,7 +166,7 @@ void rtc_init()
 	rtc_read(&t);
 	boottime = rtc_time_to_timestamp(&t);
 
-	printf("[SYS] rtc: ready\n");
+	kprintf("[SYS] rtc: ready\n");
 	dbg_printf("[rtc] initialized\n");
 }
 
@@ -174,16 +181,22 @@ uint32_t rtc_time_to_timestamp(struct rtc_time *t)
 	uint32_t seconds;
 
 	seconds = (t->year - 1970) * (SECS_PER_DAY * 365);
-	for(i = 1970; i < t->year; i++) {
-		if(LEAP_YEAR(i)) {
+	for (i = 1970; i < t->year; i++)
+	{
+		if (LEAP_YEAR(i))
+		{
 			seconds += SECS_PER_DAY;
 		}
 	}
 
-	for(i = 1; i < t->month; i++) {
-		if((i == 2) && LEAP_YEAR(t->year)) {
+	for (i = 1; i < t->month; i++)
+	{
+		if ((i == 2) && LEAP_YEAR(t->year))
+		{
 			seconds += SECS_PER_DAY * 29;
-		} else {
+		}
+		else
+		{
 			seconds += SECS_PER_DAY * monthDays[i - 1];
 		}
 	}
