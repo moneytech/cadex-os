@@ -10,6 +10,7 @@ CURRDIR=$(pwd)
 PREFIX=$CURRDIR/cross
 WORKDIR=$(mktemp -d)
 
+# Tell the user about our config
 echo "-- Cross compiler build script for Cadex OS (i386)"
 echo "-- Installing cross-compiler to $PREFIX"
 echo "-- Building in directory $WORKDIR"

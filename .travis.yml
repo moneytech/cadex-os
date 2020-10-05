@@ -10,7 +10,7 @@ compiler: gcc # Aha, gcc
 
 before_install:
     # Install required tools!
-    - sudo apt-get install -y mkisofs dosfstools libc6-dev-i386 grub-common xorriso
+    - sudo apt-get install -y mkisofs dosfstools libc6-dev-i386 grub-common xorriso texinfo
     # Give the permission to execute that!
     - chmod +x scripts/build-toolchain.sh
     # Be sure to tell the CI to build the toolchain!
