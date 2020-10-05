@@ -2,11 +2,11 @@ include ../arch/i386/Makefile.config
 
 CRTBEGIN_OBJ := $(shell $(CC) $(CFLAGS) -print-file-name=crtbegin.o)
 CRTEND_OBJ := $(shell $(CC) $(CFLAGS) -print-file-name=crtend.o)
-LIBRARY_OBJECTS_CPP=rt/cxxrt0.o
+LIBRARY_OBJECTS_CPP=crt/cxxrt0.o
 LIBRARY_OBJECTS=crt/crti.o \
+				$(CRTBEGIN_OBJ) \
 				crt/crt0.o \
 				crt/ubsan.o \
-				$(CRTBEGIN_OBJ) \
 				ctype/_ctype.o \
 				ctype/isalpha.o \
 				ctype/isblank.o \

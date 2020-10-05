@@ -29,11 +29,11 @@ all: alert $(USER_PROGRAMS)
 # 	@${CPP} -m32 -Wall -c -ffreestanding -nostdlib -nodefaultlibs -fno-pie -fno-builtin -fno-use-cxa-atexit -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings -fpermissive -g -I ../include -o $@ $<
 # 	@echo "CPP     bin/$<"
 
-%.exe: %.o ../libc/rt/crt0.o ../libc/baselib.a
-	@i686-elf-ld -melf_i386 -Ttext 0x80000000 ../libc/rt/crt0.o $< ../libc/baselib.a -o $@
+%.exe: %.o ../libc/crt/crt0.o ../libc/baselib.a
+	@i686-elf-ld -melf_i386 -Ttext 0x80000000 ../libc/crt/crt0.o $< ../libc/baselib.a -o $@
 
 alert:
-	echo "-- Building userspace system utilities (/bin)..."
+	@echo "-- Building userspace system utilities (/bin)..."
 
 clean:
 	@rm -rf *.exe *.o

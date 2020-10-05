@@ -12,7 +12,7 @@
 
 int main(int argc, char *argv[])
 {
-    if (fopen("/sys/reg.json", 0) < 0)
+    if (syscall_open_file("/sys/reg.json", 0,0) < 0)
         return 1;
     else
         return 0;
