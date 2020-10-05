@@ -1,7 +1,7 @@
-/*
-Copyright (C) 2019-2020 OpenCreeck
-This software is distributed under the GNU General Public License.
-See the file LICENSE for details.
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
 */
 
 #include "interrupt.h"
@@ -66,15 +66,14 @@ static void unknown_exception(int i, int code)
 			char *tmp_pid;
 			kprintf("Segmentation fault (core dumped)\n");
 			itoa(current->pid, tmp_pid);
-			dbg_printf("[interrupt] process ");
-			dbg_printf(tmp_pid);
-			dbg_printf(" crashed\n");
+			dbg_printf("[interrupt] process %d crashed", current->pid);
 			if (current->pid = 1)
 			{
 				// prevent the kernel from exiting
 			}
 			else
 			{
+				// If it's not kernel then exit the process
 				process_exit(0);
 			}
 		}
@@ -125,21 +124,6 @@ static void interrupt_acknowledge(int i)
 	{
 		pic_acknowledge(i - 32);
 	}
-}
-uint8_t inb(uint16_t port)
-{
-	uint8_t data;
-	asm volatile("inb %1, %0"
-				 : "=a"(data)
-				 : "Nd"(port));
-	return data;
-}
-
-void outb(uint16_t port, uint8_t data)
-{
-	asm volatile("outb %0, %1"
-				 :
-				 : "a"(data), "Nd"(port));
 }
 
 void wait_for_io(uint32_t timer_count)

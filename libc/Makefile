@@ -1,15 +1,18 @@
 include ../arch/i386/Makefile.config
 
+CRTBEGIN_OBJ := $(shell $(CC) $(CFLAGS) -print-file-name=crtbegin.o)
+CRTEND_OBJ := $(shell $(CC) $(CFLAGS) -print-file-name=crtend.o)
 LIBRARY_OBJECTS_CPP=rt/cxxrt0.o
-
 LIBRARY_OBJECTS=rt/crti.o \
-				rt/crtn.o \
+				rt/crt0.o \
+				rt/ubsan.o \
+				$(CRTBEGIN_OBJ) \
 				ctype/_ctype.o \
 				ctype/isalpha.o \
 				ctype/isblank.o \
 				ctype/isspace.o \
-				ctype/isdigit.o \
 				ctype/isascii.o \
+				ctype/isdigit.o \
 				ctype/iscntrl.o \
 				ctype/islower.o \
 				ctype/isupper.o \
@@ -62,7 +65,6 @@ LIBRARY_OBJECTS=rt/crti.o \
 				scanf.o \
 				assert.o \
 				wait.o \
-				rt/crt0.o \
 				rand.o \
 				util/print_array.o \
 				truegl/tgl_base.o \
@@ -75,7 +77,9 @@ LIBRARY_OBJECTS=rt/crti.o \
 				sys/contty.o \
 				sys/dbg_printf.o \
 				sul/base64_encode.o \
-				sul/url_parser.o
+				sul/url_parser.o \
+				$(CRTEND_OBJ) \
+				rt/crtn.o
 
 all: alert baselib.a
 

@@ -8,7 +8,7 @@
  * This is where the starting point of every C++ applications are defined.
  * This is a bit weird to use a single C++ file in between the C library
 */
-
+ 
 #include "library/syscalls.h"
 #include <sys/rt/cxxrt0.hpp>
 

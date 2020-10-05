@@ -12,5 +12,6 @@
 #include "interrupt.h"
 #include "fs.h"
 
+#define GENERATES_SEGFAULT \/\/
 extern int decToHex();
 extern void printTriangle(int rows_s);
