@@ -52,14 +52,14 @@ int kernel_main()
 	// print the kernel size
 	kprintf("[SYS] kernel size: %d KB\n", kernel_size / 1000);
 
+	// init serialports
+	serial_init();
 	// init paging
 	page_init();
 	// init kernel memory allocator
 	kmalloc_init((char *)KMALLOC_START, KMALLOC_LENGTH);
 	// init interrupt manager
 	interrupt_init();
-	// init serialports
-	serial_init();
 	// init realtime clock
 	rtc_init();
 	// init system clock

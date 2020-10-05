@@ -244,7 +244,8 @@ static struct fs_volume *cdrom_volume_open(struct device *device)
 			v->cdrom.total_sectors = d->nsectors_little;
 			v->device = device;
 
-			kprintf("[HARDWARE] cdfs: mounted filesystem on %s-%d\n", device_name(v->device), device_unit(v->device));
+			// kprintf("[HARDWARE] cdfs: mounted filesystem on %s-%d\n", device_name(v->device), device_unit(v->device));
+			dbg_printf("[cdfs] mounted filesystem on %s-%d\n", device_name(v->device), device_unit(v->device));
 
 			page_free(d);
 

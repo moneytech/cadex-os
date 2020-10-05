@@ -166,7 +166,7 @@ void rtc_init()
 	rtc_read(&t);
 	boottime = rtc_time_to_timestamp(&t);
 
-	kprintf("[SYS] rtc: ready\n");
+	// kprintf("[SYS] rtc: ready\n");
 	dbg_printf("[rtc] initialized\n");
 }
 

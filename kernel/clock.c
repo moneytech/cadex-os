@@ -79,6 +79,6 @@ void clock_init()
 	interrupt_register(32, clock_interrupt);
 	interrupt_enable(32);
 
-	kprintf("[SYS] clock: ticking\n");
+	// kprintf("[SYS] clock: ticking\n");
 	dbg_printf("[clock] clock is ticking\n");
 }

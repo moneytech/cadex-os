@@ -30,8 +30,8 @@ void pic_init(int pic0base, int pic1base)
 	outb(PIC_ICW4_SLAVE, pic_data[1]);
 	outb(~0, pic_data[1]);
 
-	kprintf("[SYS] PIC: ready\n");
-	dbg_printf("[pic] initialised\n");
+	// kprintf("[SYS] PIC: ready\n");
+	dbg_printf("[pic] initialized\n");
 }
 
 void pic_enable(uint8_t irq)

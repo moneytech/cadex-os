@@ -431,7 +431,7 @@ static int ata_probe_internal(int id, int kind, int *nblocks, int *blocksize, ch
 	uint8_t t = inb(ata_base[id] + ATA_STATUS);
 	if (t == 0xff)
 	{
-		kprintf("ata unit %d: nothing attached\n", id);
+		// kprintf("ata unit %d: nothing attached\n", id);
 		dbg_printf("[ata] nothing attached on unit %d\n", id);
 		return 0;
 	}
@@ -452,9 +452,9 @@ static int ata_probe_internal(int id, int kind, int *nblocks, int *blocksize, ch
 		if (result)
 		{
 			*nblocks = buffer[1] * buffer[3] * buffer[6];
-			kprintf("[HARDWARE] hdd: %d logical cylinders\n", buffer[1]);
-			kprintf("[HARDWARE] hdd: %d logical heads\n", buffer[3]);
-			kprintf("[HARDWARE] hdd: %d logical sectors/track\n", buffer[6]);
+			dbg_printf("[ata] hdd: %d logical cylinders\n", buffer[1]);
+			dbg_printf("[ata] hdd: %d logical heads\n", buffer[3]);
+			dbg_printf("[ata] hdd: %d logical sectors/track\n", buffer[6]);
 			*blocksize = ATA_BLOCKSIZE;
 		}
 	}
@@ -472,8 +472,8 @@ static int ata_probe_internal(int id, int kind, int *nblocks, int *blocksize, ch
 
 	if (!result)
 	{
-		kprintf("[SYS] ata unit %d: not connected\n", id);
-		dbg_printf("[ata] ata unit not connected\n");
+		// kprintf("[SYS] ata unit %d: not connected\n", id);
+		dbg_printf("[ata] ata unit %d not connected\n", id);
 		return 0;
 	}
 
@@ -557,7 +557,9 @@ void ata_init()
 	}
 
 	device_driver_register(&ata_driver);
-	kprintf("[SYS] ata: ready\n");
+	// kprintf("[SYS] ata: ready\n");
+	dbg_printf("[ata_driver] ready\n");
 	device_driver_register(&atapi_driver);
-	kprintf("[SYS] atapi: ready\n");
+	// kprintf("[SYS] atapi: ready\n");
+	dbg_printf("[atapi_driver] ready\n");
 }
