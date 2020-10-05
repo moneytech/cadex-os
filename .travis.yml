@@ -2,6 +2,7 @@
 
 os: linux # We don't want to build on Windows!
 dist: bionic # We want Ubuntu Bionic Beaver!
+sudo: required # Ahoy root! We need you!
 
 language: c # It's all we want (Some apps are in C++, but nevermind!)
 
