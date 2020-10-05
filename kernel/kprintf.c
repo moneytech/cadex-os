@@ -12,6 +12,23 @@
 
 #define DEBUG 0
 
+static void enable_serial_color()
+{
+	outb(COM1, 0x1b);
+	outb(COM1, '[');
+	outb(COM1, '3');
+	outb(COM1, '6');
+	outb(COM1, 'm');
+}
+
+static void disable_serial_color()
+{
+	outb(COM1, 0x1b);
+	outb(COM1, '[');
+	outb(COM1, '0');
+	outb(COM1, 'm');
+}
+
 static void printf_putchar(char c)
 {
 	console_putchar(&console_root, c);
@@ -157,6 +174,9 @@ void dbg_printf(const char *s, ...)
 
 	va_start(args, s);
 
+	// Enable serial output coloring
+	enable_serial_color();
+
 	while (*s)
 	{
 		if (*s != '%')
@@ -201,6 +221,9 @@ void dbg_printf(const char *s, ...)
 		s++;
 	}
 	va_end(args);
+
+	// Disable serial output coloring
+	disable_serial_color();
 }
 
 /* Systemd like success messages */
