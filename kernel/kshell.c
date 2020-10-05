@@ -834,7 +834,9 @@ static int kshell_execute(int argc, const char **argv)
 	}
 	else if (!strcmp(cmd, "help"))
 	{
-		kprintf("Cadex OS v0.1.6 Lean Llama\nAvailable commands :\n\n* whoami\n* longtest\n* basic86 <args>\n* prompt <args>\n* sdlg <args>\n* clear\n* uname <args>\n* run <path> <args>\n* whoami\n* start <path> <args>\n* kill <pid>\n* reap <pid>\n* wait\n* ls\n* mount <device> <unit> <fstype>\n* umount\n* format <device> <unit><fstype>\n* install <srcunit> <dstunit>\n* cd <path>\n* mkdir <path>\n* rm <path>\n* time\n* bcache_stats\n* bcache_flush\n* reboot\n* shutdown\n* help\n\n");
+		kprintf("Cadex KShell, version 1.0.32(1)-release (i686-pc-cadex)\n");
+		kprintf("These shell commands are defined internally. Type `help' to see this list.\n");
+		kprintf("Use `info kshell' to find out more about the shell in general\nAvailable commands :\n\n *whoami\n *longtest\n *basic86<args>\n *prompt<args>\n *sdlg<args>\n *clear\n *uname<args>\n *run<path><args>\n *whoami\n *start<path><args>\n *kill<pid>\n *reap<pid>\n *wait\n *ls\n *mount<device><unit><fstype>\n *umount\n *format<device><unit><fstype>\n *install<srcunit><dstunit>\n *cd<path>\n *mkdir<path>\n *rm<path>\n *time\n *bcache_stats\n *bcache_flush\n *reboot\n *shutdown\n *help\n\n ");
 	}
 	else if (!strcmp(cmd, "whoami"))
 	{
