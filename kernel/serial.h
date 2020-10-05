@@ -7,6 +7,8 @@ See the file LICENSE for details.
 #ifndef SERIAL_H
 #define SERIAL_H
 
+#include "ioports.h"
+
 #define COM1 0x3f8
 #define COM2 0x2F8
 #define COM3 0x3E8

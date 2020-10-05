@@ -11,10 +11,11 @@
 #include <stdarg.h>
 
 #define DEBUG 0
+#define ESC 0x1b
 
 static void enable_serial_color()
 {
-	outb(COM1, 0x1b);
+	outb(COM1, ESC);
 	outb(COM1, '[');
 	outb(COM1, '3');
 	outb(COM1, '6');
@@ -23,7 +24,7 @@ static void enable_serial_color()
 
 static void disable_serial_color()
 {
-	outb(COM1, 0x1b);
+	outb(COM1, ESC);
 	outb(COM1, '[');
 	outb(COM1, '0');
 	outb(COM1, 'm');

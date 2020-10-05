@@ -709,7 +709,7 @@ static int kshell_execute(int argc, const char **argv)
 	{
 		if (argc == 2)
 		{
-			serial_device_write(0, argv[1], strlen(argv[1]), 0);
+			dbg_printf("%s", argv[1]);
 		}
 		else
 		{
@@ -1007,7 +1007,7 @@ static int kshell_execute(int argc, const char **argv)
 				struct process_info info;
 				process_wait_child(pid, &info, -1);
 				process_reap(info.pid);
-				dbg_printf("\001b[32m[kshell]\001b[0m process %d exited with code %d\n", info.pid, info.exitcode);
+				dbg_printf("[kshell] process %d exited with code %d\n", info.pid, info.exitcode);
 				last_process_run = 1;
 				last_run_proc_exitcode = info.exitcode;
 			}

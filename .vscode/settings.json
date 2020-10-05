@@ -3,5 +3,8 @@
 		"*.def": "c"
 	},
 	"C_Cpp.errorSquiggles": "Enabled",
-	"editor.cursorStyle": "line"
+	"editor.cursorStyle": "line",
+	"files.eol": "\n",
+	"prettier.endOfLine": "lf",
+	"editor.unfoldOnClickAfterEndOfLine": true
 }

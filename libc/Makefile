@@ -2,7 +2,9 @@ include ../arch/i386/Makefile.config
 
 LIBRARY_OBJECTS_CPP=rt/cxxrt0.o
 
-LIBRARY_OBJECTS=ctype/_ctype.o \
+LIBRARY_OBJECTS=rt/crti.o \
+				rt/crtn.o \
+				ctype/_ctype.o \
 				ctype/isalpha.o \
 				ctype/isblank.o \
 				ctype/isspace.o \
@@ -62,7 +64,7 @@ LIBRARY_OBJECTS=ctype/_ctype.o \
 				wait.o \
 				rt/crt0.o \
 				rand.o \
-				algorithm/print_array.o \
+				util/print_array.o \
 				truegl/tgl_base.o \
 				truegl/ui_button.o \
 				truegl/ui_textbox.o \
