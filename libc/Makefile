@@ -3,9 +3,9 @@ include ../arch/i386/Makefile.config
 CRTBEGIN_OBJ := $(shell $(CC) $(CFLAGS) -print-file-name=crtbegin.o)
 CRTEND_OBJ := $(shell $(CC) $(CFLAGS) -print-file-name=crtend.o)
 LIBRARY_OBJECTS_CPP=rt/cxxrt0.o
-LIBRARY_OBJECTS=rt/crti.o \
-				rt/crt0.o \
-				rt/ubsan.o \
+LIBRARY_OBJECTS=crt/crti.o \
+				crt/crt0.o \
+				crt/ubsan.o \
 				$(CRTBEGIN_OBJ) \
 				ctype/_ctype.o \
 				ctype/isalpha.o \
@@ -79,7 +79,7 @@ LIBRARY_OBJECTS=rt/crti.o \
 				sul/base64_encode.o \
 				sul/url_parser.o \
 				$(CRTEND_OBJ) \
-				rt/crtn.o
+				crt/crtn.o
 
 all: alert baselib.a
 

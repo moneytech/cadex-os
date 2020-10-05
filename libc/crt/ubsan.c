@@ -109,7 +109,7 @@ void __ubsan_handle_divrem_overflow(struct overflow *data,
 									unsigned long rhs)
 {
 	print_src_location(&data->src);
-	kprintf("ubsan: LHS %lu / RHS %lu\n", lhs, rhs);
+	printf("ubsan: LHS %lu / RHS %lu\n", lhs, rhs);
 	undefined_throw("Division remainder overflow");
 }
 void __ubsan_handle_float_cast_overflow()
