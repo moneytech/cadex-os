@@ -184,7 +184,7 @@ static struct fs_dirent *fs_dirent_lookup(struct fs_dirent *d, const char *name)
 	if (!ops->lookup)
 		return 0;
 
-	if (!strcmp(name, "."))
+	if (!strcmp(name, ".")) 
 	{
 		// Special case: . refers to the containing directory.
 		return fs_dirent_addref(d);

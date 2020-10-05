@@ -10,9 +10,9 @@ See the file LICENSE for details.
 #include "console.h"
 #include "process.h"
 #include "kernel/syscall.h"
-#include "memorylayout.h"
+#include "memorylayout.h" 
 
-struct elf_header
+struct elf_header 
 {
 	char ident[16];
 	uint16_t type;
