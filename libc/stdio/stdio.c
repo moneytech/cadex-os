@@ -20,8 +20,6 @@ See the file LICENSE for details.
 #include <library/assert.h>
 #include "stdarg.h"
 
-
-
 FILE _stdin = {
 	.fd = 0,
 	.read_buf = NULL,
@@ -108,7 +106,12 @@ void setTextColor(int r, int g, int b, int a)
 	flush();
 }
 
-void set_bg_color(int r, int g, int b, int a){
+void text_color(int r, int g, int b)
+{
+	setTextColor(r, g, b,100);
+}
+void set_bg_color(int r, int g, int b, int a)
+{
 	draw_set_buffer(GRAPHICS_BGCOLOR, r, g, b, a);
 	renderWindow(WN_STDWINDOW);
 	flushScreen();
@@ -117,7 +120,7 @@ void set_bg_color(int r, int g, int b, int a){
 void resetColor()
 {
 	draw_set_buffer(GRAPHICS_COLOR, 255, 255, 255, 0);
-	set_bg_color(50, 50, 50, 0);
+	set_bg_color(0, 43, 54, 0);
 	renderWindow(WN_STDWINDOW);
 	flush();
 	flushScreen();
@@ -145,7 +148,8 @@ void clearScreen(int x, int y, int w, int h)
 	flush();
 }
 
-void clear_screen(){
+void clear_screen()
+{
 	printf("\f");
 }
 // Draws a line on screen on the specified x and y axis with the specified width and height.
@@ -407,8 +411,9 @@ void draw_cadex_logo(int x, int y)
  * Get a line from a file
  * @param fd The file to read
  * @param buffer The buffer to save to. (Probably a char *[])
- * 
+ *
 */
-int fgets(int fd, char *buffer[], int length){
+int fgets(int fd, char *buffer[], int length)
+{
 	return read_object(fd, buffer, length);
 }
