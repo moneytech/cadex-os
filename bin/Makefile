@@ -6,6 +6,7 @@ USER_PROGRAMS= sdlg.exe \
 			   uname.exe \
 			   bounce.exe \
 			   cls.exe \
+			   cd.exe \
 			   cat.exe \
 			   cash.exe \
 			   bshell.exe \
@@ -15,7 +16,6 @@ USER_PROGRAMS= sdlg.exe \
 			   touch.exe \
 			   dbusctl.exe \
 			   base64.exe \
-			   cd.exe \
 			   klog.exe \
 			   check_fs.exe
 
