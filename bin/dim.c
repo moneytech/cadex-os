@@ -13,7 +13,7 @@
 */
 #include <stdio.h>
 #include <library/scanf.h>
-#include <truegl/truegl.h> 
+#include <truegl/truegl.h>
 #include <debug.h>
 
 /**
@@ -24,9 +24,9 @@ int i = 0; // Counter 'i'
 
 static void print_line_no(int num)
 {
-	text_color(150,150,150); // Set text color to gray
-	printf("  %d ", num); // print the line number
-	resetColor(); // set the color to white (default)
+	text_color(150, 150, 150); // Set text color to gray
+	printf("  %d ", num);	   // print the line number
+	resetColor();			   // set the color to white (default)
 }
 
 static void refresh()
@@ -44,7 +44,7 @@ static int textarea(char *line)
 {
 	int length = 1024;					// Length of string
 	int line_number = 1;				// Set the line number to 1
-	print_line_no(line_number);		// Print the line number
+	print_line_no(line_number);			// Print the line number
 	while (i < (length - 1))			//
 	{									//
 		char c;							// C is for storing the character that will be read by read_object()
