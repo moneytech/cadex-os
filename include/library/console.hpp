@@ -29,7 +29,7 @@ namespace std
     */
     class Console
     {
-    public:
+    public: 
         /**
          * Create a console on WN_STDWINDOW
         */

@@ -230,7 +230,7 @@ extern "C"
 		return syscall(SYSCALL_SYSTEM_RTC, (uint32_t)time, 0, 0, 0, 0);
 	}
 
-	int syscall_device_driver_stats(char *name, void *stats)
+	int syscall_device_driver_stats(char *name, void *stats) 
 	{
 		return syscall(SYSCALL_DEVICE_DRIVER_STATS, (uint32_t)name, (uint32_t)stats, 0, 0, 0);
 	}

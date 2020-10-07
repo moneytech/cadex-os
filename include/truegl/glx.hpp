@@ -52,7 +52,7 @@ namespace TGL
 			// Just return if the current glx window config's root_window value is 0
             return;
         }
-    };
+    }; 
 } // namespace TGL
 
 #endif
