@@ -13,7 +13,7 @@
 */
 #include <stdio.h>
 #include <library/scanf.h>
-#include <truegl/truegl.h>
+#include <truegl/truegl.h> 
 #include <debug.h>
 
 /**
@@ -24,9 +24,9 @@ int i = 0; // Counter 'i'
 
 static void print_line_no(int num)
 {
-	text_color(150,150,150);
-	printf("  %d ", num);
-	resetColor();
+	text_color(150,150,150); // Set text color to gray
+	printf("  %d ", num); // print the line number
+	resetColor(); // set the color to white (default)
 }
 
 static void refresh()
