@@ -24,7 +24,7 @@ int i = 0; // Counter 'i'
 
 static void print_line_no(int num)
 {
-	text_color(GRAY);
+	text_color(150,150,150);
 	printf("  %d ", num);
 	resetColor();
 }
@@ -44,10 +44,10 @@ static int textarea(char *line)
 {
 	int length = 1024;					// Length of string
 	int line_number = 1;				// Set the line number to 1
+	print_line_no(line_number);		// Print the line number
 	while (i < (length - 1))			//
 	{									//
 		char c;							// C is for storing the character that will be read by read_object()
-		print_line_no(line_number);		// Print the line number
 		refresh();						// Redraw the window border and title
 		read_object(STDIN, &c, 1);		// Read 1 character from the keyboard
 		if (c == ASCII_CR)				// Check if 'c' is ENTER
@@ -101,7 +101,7 @@ static int textarea(char *line)
 				printf("  Invalid command: %s\n", command);
 				dbg_printf("[dim.exe] invalid command '%s'\n", command);
 				resetColor();
-				print_line_no(line_number);
+				// print_line_no(line_number);
 				continue;
 			}
 		}
