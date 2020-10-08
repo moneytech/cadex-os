@@ -72,6 +72,8 @@ clean:
 	@cd bin && make clean
 	@cd apps && make clean
 	@rm -rf ./*.log
+	@rm -rf doxygen/html/*
+	@rm -rf doxygen/latex/*
 
 clear:
 	@clear
