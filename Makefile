@@ -60,6 +60,10 @@ ${ISO_FILENAME}: image
 success:
 	@echo "\n-- Build finished. Type 'make run' to run"
 
+doc:
+	@echo "-- Building documentation using Doxygen..."
+	@doxygen doxygen/doxygen.conf
+
 clean:
 	@rm -rf ${ISO_FILENAME} image
 	@cd kernel && make clean
