@@ -60,7 +60,7 @@ ${ISO_FILENAME}: image
 success:
 	@echo "\n-- Build finished. Type 'make run' to run"
 
-doc:
+doc: clean
 	@echo "-- Building documentation using Doxygen..."
 	@doxygen doxygen/doxygen.conf
 
@@ -74,6 +74,7 @@ clean:
 	@rm -rf ./*.log
 	@rm -rf doxygen/html/*
 	@rm -rf doxygen/latex/*
+	@rm -rf doxygen/doxygen/*?
 
 clear:
 	@clear
