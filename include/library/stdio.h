@@ -89,7 +89,7 @@ extern FILE *stderr;
 
 #define COS_SOURCE
 
-_Begin_C_Header 
+_Begin_C_Header
 char _ctmp;
 #define USER_STACK_BOTTOM 0xAFF00000
 #define USER_STACK_TOP 0xB0000000
@@ -103,6 +103,7 @@ extern void printf_putstring(char *s);
 extern void flush();
 extern void renderWindow(int wd);
 extern void setTextColor(int r, int g, int b, int a);
+extern void text_color(int r, int g, int b);
 extern void set_bg_color(int r, int g, int b, int a);
 extern void drawRect(int x, int y, int w, int h);
 extern void clearScreen(int x, int y, int w, int h);

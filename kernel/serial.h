@@ -7,6 +7,13 @@ See the file LICENSE for details.
 #ifndef SERIAL_H
 #define SERIAL_H
 
+#include "ioports.h"
+
+#define COM1 0x3f8
+#define COM2 0x2F8
+#define COM3 0x3E8
+#define COM4 0x2E8
+
 void serial_init();
 
 char serial_read(uint8_t port_no);

@@ -25,7 +25,7 @@ struct console
 
 struct console console_root = {0};
 
-struct graphics_color bgcolor = {50, 50, 50};
+struct graphics_color bgcolor = {0, 43, 54};
 struct graphics_color fgcolor = {255, 255, 255};
 
 static void console_reset(struct console *d)

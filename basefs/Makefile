@@ -10,3 +10,4 @@ copy:
 	@cp etc/sysfile ../image/etc/sysfile
 	@cp sys/sysenv.env ../image/etc/sysenv.env
 	@cp usr/share/fizzbuz.bfk ../image/usr/share/fizzbuz.bfk
+	@cp usr/share/js-example.js ../image/usr/share/js-example.js

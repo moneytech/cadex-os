@@ -20,7 +20,7 @@
 #include "clock.h"
 #include "kernelcore.h"
 #include "bcache.h"
-#include "printf.h"
+#include "kprintf.h"
 #include "ata.h"
 #include "bitmap.h"
 #include "pci.h"

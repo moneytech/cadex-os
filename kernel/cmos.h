@@ -19,10 +19,9 @@
 #include "clock.h"
 #include "kernelcore.h"
 #include "bcache.h"
-#include "printf.h"
+#include "kprintf.h"
 #include "ata.h"
 #include "bitmap.h"
-
 
 extern void get_time(uint16_t *hours, uint16_t *minutes, uint16_t *seconds);
 extern void get_date(uint16_t *month, uint16_t *day);

@@ -9,7 +9,7 @@ int scanf(char *line, int length)
         if (c == ASCII_CR)
         {
             line[i] = 0;
-            printf("\n");
+            kprintf("\n");
             return 1;
         }
         else if (c == ASCII_BS)

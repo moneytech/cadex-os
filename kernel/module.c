@@ -9,17 +9,17 @@ extern void module_load(const char *name, uint8_t *elf)
     elf_sect_t *sect[1];
     module_init_callback_t c;
 
-    printf("[MODULE] %s: ", name);
+    kprintf("[MODULE] %s: ", name);
 
     if (elf32_check(elf, ET_DYN) == FALSE)
     {
-        printf("invalid MO file\n");
+        kprintf("invalid MO file\n");
         return;
     }
 
     if (elf32_search_symbol(elf, "_start", -1, s))
     {
-        printf("init @ 0x%x ", (uint32_t)elf + s[0]->value);
+        kprintf("init @ 0x%x ", (uint32_t)elf + s[0]->value);
         c = (module_init_callback_t)((uint32_t)elf + s[0]->value);
         // c();
     }
@@ -28,9 +28,9 @@ extern void module_load(const char *name, uint8_t *elf)
     {
         if (elf32_get_section_i(elf, s[0]->section, sect))
         {
-            printf("foo (0x%x): %s ", (uint32_t)(sect[0]->offset + s[0]->value + (uint32_t)elf), (uint8_t *)(sect[0]->offset + s[0]->value + (uint32_t)elf));
+            kprintf("foo (0x%x): %s ", (uint32_t)(sect[0]->offset + s[0]->value + (uint32_t)elf), (uint8_t *)(sect[0]->offset + s[0]->value + (uint32_t)elf));
         }
     }
 
-    printf("loaded.\n");
+    kprintf("loaded.\n");
 }

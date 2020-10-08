@@ -30,7 +30,7 @@ See the file LICENSE for details.
 #include "diskfs.h"
 #include "serial.h"
 #include <sysinfo.h>
-#include "printf.h"
+#include "kprintf.h"
 #include "service.h"
 
 struct mouse_event

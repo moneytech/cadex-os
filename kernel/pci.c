@@ -17,7 +17,7 @@
 #include "clock.h"
 #include "kernelcore.h"
 #include "bcache.h"
-#include "printf.h"
+#include "kprintf.h"
 #include "ata.h"
 #include "bitmap.h"
 #include "pci.h"
@@ -106,7 +106,7 @@ pci_find_class(int8_t class, uint8_t subclass, uint8_t *bus, uint8_t *dev, uint8
 void pci_test()
 {
     uint32_t vend_dev, b, d, f;
-    printf("Devices over PCI:\n");
+    kprintf("Devices over PCI:\n");
     // print all devices
     for (b = 0; b < 256; b++)
         for (d = 0; d < 32; d++)
@@ -114,6 +114,6 @@ void pci_test()
             {
                 vend_dev = pci_read(b, d, f, PCI_VENDOR_DEVICE);
                 if (vend_dev != 0xFFFFFFFF)
-                    printf("\t[%d:%d.%d] %x:%x\n", b, d, f, vend_dev & 0xFFFF, vend_dev >> 16);
+                    kprintf("\t[%d:%d.%d] %x:%x\n", b, d, f, vend_dev & 0xFFFF, vend_dev >> 16);
             }
 }

@@ -6,12 +6,13 @@
 */
 #include "utils.h"
 
-int decToHex() {
+int decToHex()
+{
     long decimalnum, quotient, remainder;
     int i, j = 0;
     char hexadecimalnum[100];
 
-    printf("Enter decimal number: ");
+    kprintf("Enter decimal number: ");
     scanf("%ld", &decimalnum);
 
     quotient = decimalnum;
@@ -28,24 +29,27 @@ int decToHex() {
 
     // display integer into character
     for (i = j; i >= 0; i--)
-        printf("%c", hexadecimalnum[i]);
-    printf("\n");
+        kprintf("%c", hexadecimalnum[i]);
+    kprintf("\n");
     return 0;
 }
-extern void printTriangle(int rows_s) {
-    int i, j, k, rows, count, temp=1;
+extern void printTriangle(int rows_s)
+{
+    int i, j, k, rows, count, temp = 1;
     rows = rows_s;
-    count=rows-1;
-    for (i= 1; i <= rows; i++)
+    count = rows - 1;
+    for (i = 1; i <= rows; i++)
     {
-        for (j=1;j<=count;j++) {
-            printf(" ");
+        for (j = 1; j <= count; j++)
+        {
+            kprintf(" ");
         }
-        for (k=1;k<=temp;k++) {
-            printf("*");
+        for (k = 1; k <= temp; k++)
+        {
+            kprintf("*");
         }
         count--;
-        temp+=2;
-        printf("\n");
+        temp += 2;
+        kprintf("\n");
     }
 }

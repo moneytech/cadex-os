@@ -6,14 +6,14 @@
 
 #include "acpi.h"
 #ifdef DEBUG
-#define debug_printf(a, ...) printf(a, ...)
+#define debug_printf(a, ...) kprintf(a, ...)
 #else
 #define debug_printf(a, ...)
 #endif // DEBUG
 
 void PANIC(char *str)
 {
-    printf("[PANIC]: %s\n", str);
+    kprintf("[PANIC]: %s\n", str);
 }
 void ASSERT_PANIC(char *str)
 {
@@ -23,7 +23,7 @@ void _page_map(uint32_t p_addr, uint32_t v_addr, uint32_t length)
 {
     uint32_t *pd, *table, p_idx, t_idx;
     uint32_t pages;
-
+ 
     pages = length / 0x1000;
     if ((pages % 0x1000) != 0)
         pages++;
@@ -126,7 +126,7 @@ acpi()
     struct RSDPDescriptor *rsdp;
     struct ACPISDTHeader *sdt;
 
-    printf("ACPI ");
+    kprintf("ACPI ");
 
     // search for Root System Description Pointer address
     for (ptr = 0; ptr < 0x100000; ptr += 16)
@@ -148,12 +148,12 @@ acpi()
                 }
             }
 
-            printf("found (OEM: %s Rev. %d) ",
-                   rsdp->OEMID,
-                   rsdp->Revision);
+            kprintf("found (OEM: %s Rev. %d) ",
+                    rsdp->OEMID,
+                    rsdp->Revision);
 
             rsdt = (struct RSDT *)rsdp->RsdtAddress;
-            printf("RsdtAddr: 0x%x\n", rsdp->RsdtAddress);
+            kprintf("RsdtAddr: 0x%x\n", rsdp->RsdtAddress);
             _page_map(rsdp->RsdtAddress, rsdp->RsdtAddress, 0x1000); // make rsdt header accessible
             _page_map(rsdp->RsdtAddress, rsdp->RsdtAddress, rsdt->h.Length);
             i_max = (rsdt->h.Length - sizeof(struct ACPISDTHeader)) / 4;
@@ -168,11 +168,11 @@ acpi()
                 switch (*((uint32_t *)sdt->Signature))
                 {
                 case 'TDSS': // same than DSDT
-                    // printf("[+SSDT] ");
+                    // kprintf("[+SSDT] ");
                     S5Block = acpi_search_S5(sdt);
                     if (S5Block != NULL)
                     {
-                        // printf("\\_S5 block found!");
+                        // kprintf("\\_S5 block found!");
                         S5Block += 4;                            // skip \_S5_ signature
                         S5Block += ((*S5Block & 0xC0) >> 6) + 2; // skip PkgLength
 
@@ -185,17 +185,17 @@ acpi()
                             S5Block++;
                         SLP_TYPb = *S5Block; // & 0x7;
 
-                        // printf("SLP_TYPa=0x%x SLP_TYPb=0x%x ", SLP_TYPa, SLP_TYPb);
+                        // kprintf("SLP_TYPa=0x%x SLP_TYPb=0x%x ", SLP_TYPa, SLP_TYPb);
                     }
                     break;
                 case 'PCAF': // "FACP"
-                    // printf("[+FACP] ");
+                    // kprintf("[+FACP] ");
                     facp = (struct FADT *)sdt;
 
                     //IRQ_SET_HANDLER(facp->SCI_Interrupt, acpi_handler); // install ACPI IRQ handler
 
-                    // printf("Profile=%d ", facp->PreferredPowerManagementProfile);
-                    // printf("ResetReg=0x%x(0x%x)\n", facp->ResetReg.Address, facp->ResetValue);
+                    // kprintf("Profile=%d ", facp->PreferredPowerManagementProfile);
+                    // kprintf("ResetReg=0x%x(0x%x)\n", facp->ResetReg.Address, facp->ResetValue);
 
                     dsdt = (struct ACPISDTHeader *)facp->Dsdt;
                     if (dsdt != NULL)
@@ -209,7 +209,7 @@ acpi()
                         S5Block = acpi_search_S5(dsdt);
                         if (S5Block != NULL)
                         {
-                            // printf("\\_S5 block found!");
+                            // kprintf("\\_S5 block found!");
                             S5Block += 4;                            // skip \_S5_ signature
                             S5Block += ((*S5Block & 0xC0) >> 6) + 2; // skip PkgLength
 
@@ -222,7 +222,7 @@ acpi()
                                 S5Block++;
                             SLP_TYPb = *S5Block; // & 0x7;
 
-                            // printf("SLP_TYPa=0x%x SLP_TYPb=0x%x ", SLP_TYPa, SLP_TYPb);
+                            // kprintf("SLP_TYPa=0x%x SLP_TYPb=0x%x ", SLP_TYPa, SLP_TYPb);
                         }
                     }
                     else
@@ -232,20 +232,20 @@ acpi()
 
                     break;
                 case 'TEPH': // HPET
-                    // printf("[+HPET] ");
+                    // kprintf("[+HPET] ");
                     break;
                 default:
-                    // printf("[-%c%c%c%c] ", sdt->Signature[0], sdt->Signature[1], sdt->Signature[2], sdt->Signature[3]);
+                    // kprintf("[-%c%c%c%c] ", sdt->Signature[0], sdt->Signature[1], sdt->Signature[2], sdt->Signature[3]);
                     break;
                 }
             }
 
             // acpi_power_button_enable();
-            printf("SCI_Interrupt=%d SMI_CommandPort=0x%x ShutDown=%c\n", facp->SCI_Interrupt, facp->SMI_CommandPort, (S5Block == NULL) ? 'N' : 'Y');
+            kprintf("SCI_Interrupt=%d SMI_CommandPort=0x%x ShutDown=%c\n", facp->SCI_Interrupt, facp->SMI_CommandPort, (S5Block == NULL) ? 'N' : 'Y');
             return ptr;
         }
     }
-    printf("RSDP nao encontrado.\n");
+    kprintf("RSDP nao encontrado.\n");
     return 0;
 }
 

@@ -6,9 +6,9 @@ See the file LICENSE for details.
 
 /**
  * contty.c: Console related functions
- * 
+ *
  * This file is a part of the Standard Cadex Library
-*/
+*/ 
 
 #include <stdclib.h>
 // For syscall_object_size and WN_STDWINDW
@@ -30,7 +30,7 @@ int get_console_width(){
 
 /**
  * Get the console height
- * @returns int 
+ * @returns int
 */
 int get_console_height(){
     // call syscall_object_size and get the object size

@@ -9,7 +9,7 @@ void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, co
         return;
     if (!size)
         return;
-    for (size_t i = 0; i < nmemb - 1; ++i)
+    for (size_t i = 0; i < nmemb - 1; ++i) 
     {
         for (size_t j = 0; j < nmemb - 1; ++j)
         {

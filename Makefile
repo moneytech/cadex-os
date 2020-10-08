@@ -19,7 +19,7 @@ all: clear clean ${ISO_FILENAME} success
 
 run: ${ISO_FILENAME}
 	@echo " -- Using ${ISO_FILENAME}"
-	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04 -chardev stdio,id=char0,logfile=serial.log,signal=off -serial chardev:char0
+	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04 -serial stdio
 
 debug: cadex.iso hddimg
 	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -s -S & gdb
@@ -60,6 +60,10 @@ ${ISO_FILENAME}: image
 success:
 	@echo "\n-- Build finished. Type 'make run' to run"
 
+doc: clean
+	@echo "-- Building documentation using Doxygen..."
+	@doxygen doxygen/doxygen.conf
+
 clean:
 	@rm -rf ${ISO_FILENAME} image
 	@cd kernel && make clean
@@ -67,6 +71,10 @@ clean:
 	@cd usr.bin && make clean
 	@cd bin && make clean
 	@cd apps && make clean
+	@rm -rf ./*.log
+	@rm -rf doxygen/html/*
+	@rm -rf doxygen/latex/*
+	@rm -rf doxygen/doxygen/*?
 
 clear:
 	@clear

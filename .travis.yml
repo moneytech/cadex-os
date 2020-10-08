@@ -1,9 +1,21 @@
-language: c
-compiler: gcc
-os:
-  - linux
+# TravisCI build scipt for Cadex OS
+
+os: linux # We don't want to build on Windows!
+dist: bionic # We want Ubuntu Bionic Beaver!
+sudo: required # Ahoy root! We need you!
+
+language: c # It's all we want (Some apps are in C++, but nevermind!)
+
+compiler: gcc # Aha, gcc
 
 before_install:
-  - sudo apt-get install -y mkisofs dosfstools libc6-dev-i386 grub-common xorriso
+    # Install required tools!
+    - sudo apt-get install -y mkisofs dosfstools libc6-dev-i386 grub-common xorriso texinfo
+    # Give the permission to execute that!
+    - chmod +x scripts/build-toolchain.sh
+    # Be sure to tell the CI to build the toolchain!
+    - ./scripts/build-toolchain.sh
 
-script: make
+script:
+    # And finally, build the source!
+    - make

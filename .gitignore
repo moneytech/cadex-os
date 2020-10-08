@@ -4,7 +4,6 @@
 *.iso
 *.a
 *.exe
-*~
 screenshot-old.png
 image
 cadexkernel.code-workspace
@@ -14,11 +13,10 @@ kernel/bootblock
 kernel/*.elf
 .vs
 test.txt
-cross
-.vscode
 settings.json
 installed.txt
-llvm-project/*
 serial.log
 scripts/c2b86.cc
 scripts/c2b86
+doxygen/html
+doxygen/latex

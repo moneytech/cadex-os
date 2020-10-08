@@ -1,13 +1,18 @@
 include ../arch/i386/Makefile.config
 
-LIBRARY_OBJECTS_CPP=rt/cxxrt0.o
-
-LIBRARY_OBJECTS=ctype/_ctype.o \
+CRTBEGIN_OBJ := $(shell $(CC) $(CFLAGS) -print-file-name=crtbegin.o)
+CRTEND_OBJ := $(shell $(CC) $(CFLAGS) -print-file-name=crtend.o)
+LIBRARY_OBJECTS_CPP=crt/cxxrt0.o
+LIBRARY_OBJECTS=crt/crti.o \
+				$(CRTBEGIN_OBJ) \
+				crt/crt0.o \
+				crt/ubsan.o \
+				ctype/_ctype.o \
 				ctype/isalpha.o \
 				ctype/isblank.o \
 				ctype/isspace.o \
-				ctype/isdigit.o \
 				ctype/isascii.o \
+				ctype/isdigit.o \
 				ctype/iscntrl.o \
 				ctype/islower.o \
 				ctype/isupper.o \
@@ -60,9 +65,8 @@ LIBRARY_OBJECTS=ctype/_ctype.o \
 				scanf.o \
 				assert.o \
 				wait.o \
-				rt/crt0.o \
 				rand.o \
-				algorithm/print_array.o \
+				util/print_array.o \
 				truegl/tgl_base.o \
 				truegl/ui_button.o \
 				truegl/ui_textbox.o \
@@ -73,7 +77,9 @@ LIBRARY_OBJECTS=ctype/_ctype.o \
 				sys/contty.o \
 				sys/dbg_printf.o \
 				sul/base64_encode.o \
-				sul/url_parser.o
+				sul/url_parser.o \
+				$(CRTEND_OBJ) \
+				crt/crtn.o
 
 all: alert baselib.a
 

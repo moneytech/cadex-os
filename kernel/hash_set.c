@@ -193,13 +193,13 @@ unsigned hash_set_entries(struct hash_set *set)
 void hash_set_print(struct hash_set *set)
 {
 	unsigned i;
-	printf("printing hash set:\n");
+	kprintf("printing hash set:\n");
 	for (i = 0; i < set->total_buckets; i++)
 	{
 		struct hash_set_node *start = set->head[i];
 		while (start)
 		{
-			printf("%u: %u\n", i, start->key);
+			kprintf("%u: %u\n", i, start->key);
 			start = start->next;
 		}
 	}

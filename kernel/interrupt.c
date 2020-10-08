@@ -1,7 +1,7 @@
-/*
-Copyright (C) 2019-2020 OpenCreeck
-This software is distributed under the GNU General Public License.
-See the file LICENSE for details.
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
 */
 
 #include "interrupt.h"
@@ -34,8 +34,7 @@ static const char *exception_names[] = {
 	"general protection fault",
 	"page fault",
 	"unknown",
-	"coprocessor error"
-};
+	"coprocessor error"};
 
 static void unknown_exception(int i, int code)
 {
@@ -65,17 +64,16 @@ static void unknown_exception(int i, int code)
 		if (page_already_present || !(data_access ^ stack_access))
 		{
 			char *tmp_pid;
-			printf("Segmentation fault (core dumped)\n");
+			kprintf("Segmentation fault (core dumped)\n");
 			itoa(current->pid, tmp_pid);
-			dbg_printf("[interrupt] process ");
-			dbg_printf(tmp_pid);
-			dbg_printf(" crashed\n");
+			dbg_printf("[interrupt] process %d crashed", current->pid);
 			if (current->pid = 1)
 			{
 				// prevent the kernel from exiting
 			}
 			else
 			{
+				// If it's not kernel then exit the process
 				process_exit(0);
 			}
 		}
@@ -88,7 +86,7 @@ static void unknown_exception(int i, int code)
 	}
 	else
 	{
-		printf("\n\nUnknown Exception Occured\n\nStack trace:\n%d: %s (code %x)\n", i, exception_names[i], code);
+		kprintf("\n\nUnknown Exception Occured\n\nStack trace:\n%d: %s (code %x)\n", i, exception_names[i], code);
 		process_dump(current);
 	}
 
@@ -126,21 +124,6 @@ static void interrupt_acknowledge(int i)
 	{
 		pic_acknowledge(i - 32);
 	}
-}
-uint8_t inb(uint16_t port)
-{
-	uint8_t data;
-	asm volatile("inb %1, %0"
-				 : "=a"(data)
-				 : "Nd"(port));
-	return data;
-}
-
-void outb(uint16_t port, uint8_t data)
-{
-	asm volatile("outb %0, %1"
-				 :
-				 : "a"(data), "Nd"(port));
 }
 
 void wait_for_io(uint32_t timer_count)
@@ -219,7 +202,7 @@ void interrupt_init()
 
 	interrupt_unblock();
 
-	printf("[SYS] interrupt-manager: OK\n");
+	// kprintf("[SYS] interrupt-manager: OK\n");
 	dbg_printf("[interrupt] initialized\n");
 }
 
