@@ -19,4 +19,4 @@ serial.log
 scripts/c2b86.cc
 scripts/c2b86
 doxygen/html
-doxygen/html/*
+doxygen/latex
