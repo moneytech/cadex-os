@@ -48,7 +48,8 @@ To learn more, see the **[Cadex OS Wiki](http://cadex-os-wiki.rf.gd).**
 - **_usr_**: Programs that go into `/usr/bin` folder
 
 # Building
-First, do the steps mentioned in [docs/Building.md](docs/Building.md)
+First, do the steps mentioned in [docs/Building.md](docs/Building.md).
+
 After you've built CadexOS, run `make run` and you should see Cadex OS QEMU.
 
 <img src=docs/img/screenshot.png align=center>
