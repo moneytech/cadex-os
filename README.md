@@ -1,4 +1,4 @@
-# The Cadex OS
+# Cadex OS
 
 Cadex OS is a Unix-like based operating system targeting x86 systems. This project is based on the [basekernel](https://github.com/dthain/basekernel) project
 
