@@ -7,7 +7,7 @@ Cadex OS is always Unix-compatible, except that Cadex OS doesn't support VFS (Vi
 
 Cadex OS can boot an Intel PC-compatible virtual machine in 32-bit protected
 mode, with support for VESA framebuffer graphics, ATA hard disks, ATAPI optical
-devices, process management, memory protection, small graphics, a standard libc, c++ language support and basic filesystem (DFS).
+devices, process management, memory protection, small graphics, a standard libc, C++ language support and basic filesystem (DFS).
 You can write programs for CadexOS by using the SDK for Windows or cloning the source and adding another application.
 
 ## Some useful info about Cadex OS
@@ -30,7 +30,7 @@ To learn more, see the [Cadex OS Wiki](http://cadex-os-wiki.rf.gd).
 
 ## Notable components
 
-- **_kshell_**: A small but efficient shell implemented on the kernel space
+- **kshell**: A small but efficient shell implemented on the kernel space
 - **DiM**: A very small text editor
 - **pam**: A package manager for Cadex OS (not implemented)
 - **CaSh**: A small bash-like shell implemented on the userspace
