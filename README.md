@@ -40,7 +40,7 @@ To learn more, see the [Cadex OS Wiki](http://cadex-os-wiki.rf.gd).
 - **apps**: Sources for C++ apps
 - **basefs**: Base filesystem folder that goes into the ISO image
 - **bin**: System/user commands (`/bin`)
-- **docs_**: Documentation about used drivers and APIs
+- **docs**: Documentation about used drivers and APIs
 - **include**: Header files for libc and libcxx libraries
 - **kernel**: The core kernel source
 - **libc**: Source files for libc and libcxx (This includes the standard system libraries)
