@@ -26,68 +26,70 @@ You can write programs for CadexOS by using the SDK for Windows or cloning the s
 
 This repo was made by HyperCreeck and actively maintained by HyperCreeck and contributors.
 
-To learn more, see the **[Cadex OS Wiki](http://cadex-os-wiki.rf.gd).**
+To learn more, see the [Cadex OS Wiki](http://cadex-os-wiki.rf.gd).
 
-# Notable components
+## Notable components
 
 - **_kshell_**: A small but efficient shell implemented on the kernel space
-- **_DiM_**: A very small text editor
-- **_pam_**: A package manager for Cadex OS (not implemented)
-- **_CaSh_**: A small bash-like shell implemented on the userspace
+- **DiM**: A very small text editor
+- **pam**: A package manager for Cadex OS (not implemented)
+- **CaSh**: A small bash-like shell implemented on the userspace
 
-# Project structure
+## Project structure
 
-- **_apps_**: Sources for C++ apps
-- **_basefs_**: Base filesystem folder that goes into the ISO image
-- **_bin_**: Sources for standard system binaries (i.e, `/bin` folder)
-- **_docs_**: Documentation about used drivers and APIs
-- **_include_**: Header files for libc and libcxx libraries
-- **_kernel_**: The core kernel source
-- **_libc_**: Source files for libc and libcxx (This includes the standard system libraries)
-- **_scripts_**: Scripts for generating ramfs image and other purposes
-- **_usr_**: Programs that go into `/usr/bin` folder
+- **apps**: Sources for C++ apps
+- **basefs**: Base filesystem folder that goes into the ISO image
+- **bin**: System/user commands (`/bin`)
+- **docs_**: Documentation about used drivers and APIs
+- **include**: Header files for libc and libcxx libraries
+- **kernel**: The core kernel source
+- **libc**: Source files for libc and libcxx (This includes the standard system libraries)
+- **scripts**: Scripts for generating ramfs image and other purposes
+- **usr**: User commands (`/usr/bin`)
 
-# Building
+## Building
+
 First, do the steps mentioned in [docs/Building.md](docs/Building.md).
 
-After you've built CadexOS, run `make run` and you should see Cadex OS QEMU.
+After you've built Cadex OS, run `make run` and you should see Cadex OS QEMU.
 
 <img src=docs/img/screenshot.png align=center>
 
 After some initial boot messages, you will see the kshell prompt.
 This allows you to take some simple actions before running the first
-user-level program. For example, read the boot messages to see
+user-level program. For example, read the boot messages in the qemu serial console to see
 which atapi unit the cdrom is mounted on. Then, use the `mount` command
 to mount the cdrom filesystem on that unit:
 
-<pre>
+```bash
 mount atapi <unit> cdromfs
-</pre>
+```
 
 Use the `ls` command to examine the root directory:
 
-<pre>
+```bash
 ls /
-</pre>
+```
 
 And use the `./` prefix to run a program (For example, a simple screensaver):
 
-<pre>
+```bash
 ./usr/bin/saver.exe
-</pre>
+```
 
-# Discord
+## Discord
 
-We have a Discord server! Everyone is welcome to the server! Join the server from this
+We have a Discord server! Everyone is welcome to the server! Join the server from
+[this invite link](https://discord.gg/mF9gG5W)
 
-# Cross-Compiling Instructions
+<!-- # Cross-Compiling Instructions
 
 If you are building on any other type of machine (i.e, on WSL or any non-linux machine),
 you will probably need to build a cross-compiler
 using `./scripts/build-toolchain.sh` and then edit
 `Makefile.config` to use the cross compiler binaries,
-then execute `make` to create `cadex.iso`
+then execute `make` to create `cadex.iso` -->
 
-# Contributing
+## Contributing
 
 See [CONTRIBUTING.md](docs/CONTRIBUTING.md)
