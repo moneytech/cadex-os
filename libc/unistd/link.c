@@ -1,9 +1,10 @@
-#include <unistd.h>
 #include <errno.h>
+#include <unistd.h>
 
 // TODO:
 //  We have a system call for this?
-int link(const char *old, const char *new) {
-	errno = EMLINK;
-	return -1;
+int link(const char* old, const char* new)
+{
+    errno = EMLINK;
+    return -1;
 }

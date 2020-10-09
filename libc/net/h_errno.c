@@ -3,7 +3,7 @@
 #undef h_errno
 int h_errno;
 
-int *__h_errno_location(void)
+int* __h_errno_location(void)
 {
-	return &h_errno;
+    return &h_errno;
 }

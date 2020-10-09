@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <algorithm.h>
+#include <stdio.h>
 
 #define MAX_SIZE 100
 
@@ -12,12 +12,13 @@
 void print_array(int arr[], int start, int len)
 {
     /* Recursion base condition */
-    if(start >= len)
+    if (start >= len)
         return;
-    
+
     /* Prints the current array element */
     printf("%d, ", arr[start]);
 
     /* Recursively call print_array to print next element in array */
     print_array(arr, start - 1, len);
 }
+

@@ -9,6 +9,7 @@
 // 	return r;
 // }
 
-void puts(char *str){
-	return printf_putstring(str);
+void puts(char* str)
+{
+    return printf_putstring(str);
 }

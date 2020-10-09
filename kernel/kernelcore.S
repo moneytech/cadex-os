@@ -3,7 +3,7 @@
 # See the file LICENSE for details.
 
 #include "memorylayout.h"
-	
+
 # _start is the initial entry point for the kernel
 # Note that we start here merely because it comes
 # first in the link order.  The name _start is there
@@ -21,20 +21,20 @@ _start:
 # At a fixed offset, place an integer that contains
 # the length of the kernel in bytes.  This is used
 # by the bootblock code to figure out how many sectors to load.
-	
+
 .org KERNEL_SIZE_OFFSET
 .global kernel_size
 kernel_size:
 	.long	_end-_start
-		
+
 realstart:
-	
+
 # While we are briefly still in 16-bit real mode,
 # it is safe to call the BIOS to set things up.
 
 # Reset the disk system in order to quiet motors
 # and turn off any pending interrupts.
-		
+
 	mov	$0,%ah
 	int	$0x13
 
@@ -49,19 +49,19 @@ realstart:
 # Get the amount of memory above 1MB and save it for later.
 # There are two ways to do this:
 
-# BIOS call 0xe801 measures memory as follows:	
+# BIOS call 0xe801 measures memory as follows:
 # %ax returns memory above 1MB in 1KB increments, maximum of 16MB.
 # %bx returns memory above 64MB in 64KB increments, maximum of 4GB.
 # However, this call is relatively new, so if it
 # fails, we fall back on memtest2 below.
 
-memtest1:	
+memtest1:
 	clc
 	mov	$0, %bx
 	mov	$0xe801,%ax
 	int	$0x15
 	jc	memtest2
-	
+
 	shr	$10, %ax
 	shr	$4, %bx
 	add	%ax, %bx
@@ -79,7 +79,7 @@ memtest2:
 	shr	$10, %ax
 	inc	%ax
 	mov	%ax, total_memory-_start
-memdone:	
+memdone:
 
 # Now, set the video mode using VBE interrupts.
 # Keep trying until we find one that works.
@@ -98,7 +98,7 @@ memdone:
 #    ES:DI  = Pointer to CRCTCInfoBlock structure.
 
 jmp video1024
-	
+
 video1280:
  	mov	$0x4f02, %ax
  	mov	$0x411b, %bx
@@ -135,7 +135,7 @@ videofailed:
 	call	bios_putstring
 	jmp	halt
 
-videodone:	
+videodone:
 
 # After all that, query the video mode and
 # figure out the dimensions and the frame
@@ -156,7 +156,7 @@ videodone:
 inb $0x92, %al
 orb $2, %al
 outb %al, $0x92
-	
+
 # Finally, we are ready to enter protected mode.
 # To do this, we disable interrupts so that
 # handlers will not see an inconsistent state.
@@ -203,7 +203,7 @@ bios_putstring_done:
 
 # bios_putchar invokes the bios to display
 # one character on the screen.
-	
+
 bios_putchar:
 	push	%ax
 	push	%bx
@@ -230,7 +230,7 @@ video_xbytes:
 	.word	0
 .global video_xres
 video_xres:
-	.word	0 
+	.word	0
 .global video_yres
 video_yres:
 	.word	0
@@ -258,7 +258,7 @@ videomsg:
 
 # All code below this point is 32-bit code and data
 # that is invoked by higher levels of the kernel from C code.
-	
+
 .code32
 
 # Rebooting the machine is easy.
@@ -268,7 +268,7 @@ videomsg:
 .global reboot
 reboot:
 	cli
-	lidt	idt_invalid	
+	lidt	idt_invalid
 	int	$1
 
 
@@ -291,7 +291,7 @@ gdt:
 	.word	0xffff, 0x0000, 0xfa00, 0x00cf	# seg 3 - user flat 4GB code
 	.word	0xffff, 0x0000, 0xf200, 0x00cf	# seg 4 - user flat 4GB data
 	.word	0x0068, (tss-_start),0x8901, 0x00cf  # seg 5 - TSS
-	
+
 # This is the initializer for the global descriptor table.
 # It simply tells us the size and location of the table.
 
@@ -305,11 +305,11 @@ gdt_init:
 # to initialize the stack pointer and segment for priv level 0
 
 .align 16
-.global tss	
+.global tss
 tss:
 	.long	0
 .global interrupt_stack_pointer
-interrupt_stack_pointer:	
+interrupt_stack_pointer:
 	.long	INTERRUPT_STACK_TOP # initial interrupt stack ptr at 64 KB
 	.long	2*8		    # use segment 2 for the interrupt stack
 	.long	0
@@ -336,11 +336,11 @@ interrupt_stack_pointer:
 	.long	0
 	.long	0
 
-	
+
 .global total_memory
 total_memory:
 	.word	32
-	
+
 # First, the internal interrupts.
 # Note that some already push their own detail
 # code onto the stack.  For the others, we push
@@ -420,7 +420,7 @@ intr_handler:
 	addl	$4, %esp	# remove interrupt number
 	addl	$4, %esp	# remove interrupt code
 	jmp	intr_return
-	
+
 intr_syscall:
 	pushl	%ds
 	pushl	%ebp		# push regs
@@ -434,12 +434,12 @@ intr_syscall:
 	movl	%eax, %ds
 	call	syscall_handler
 	addl	$4, %esp	# remove the old eax
-	jmp	syscall_return	
+	jmp	syscall_return
 
 .global intr_return
 intr_return:
 	popl	%eax
-syscall_return:	
+syscall_return:
 	popl	%ebx
 	popl	%ecx
 	popl	%edx
@@ -450,7 +450,7 @@ syscall_return:
 	addl	$4, %esp	# remove interrupt num
 	addl	$4, %esp	# remove detail code
 	iret			# iret gets the intr context
-			
+
 .align 2
 idt:
 	.word	intr00-_start,1*8,0x8e00,0x0001
@@ -502,17 +502,17 @@ idt:
 	.word	intr46-_start,1*8,0x8e00,0x0001
 	.word	intr47-_start,1*8,0x8e00,0x0001
 	.word	intr48-_start,1*8,0xee00,0x0001
-	
+
 # This is the initializer for the global interrupt table.
 # It simply gives the size and location of the interrupt table
-	
+
 idt_init:
 	.word	idt_init-idt
 	.long	idt
 
 # This is the initializer for an invalid interrupt table.
 # Its only purpose is to assist with the reboot routine.
-	
+
 idt_invalid:
 	.word	0
 	.long	0

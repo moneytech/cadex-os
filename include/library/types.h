@@ -39,29 +39,28 @@ typedef unsigned char uint8_t;
 typedef uint32_t addr_t;
 
 struct rtc_time_t {
-	uint8_t second;
-	uint8_t minute;
-	uint8_t hour;
-	uint8_t day;
-	uint8_t month;
-	uint16_t year;
+    uint8_t second;
+    uint8_t minute;
+    uint8_t hour;
+    uint8_t day;
+    uint8_t month;
+    uint16_t year;
 };
 
 struct process_info_t {
-	int pid;
-	int exitcode;
-	int exitreason;
+    int pid;
+    int exitcode;
+    int exitreason;
 };
 
-
-#define _U	0x01	/* upper */
-#define _L	0x02	/* lower */
-#define _D	0x04	/* digit */
-#define _C	0x08	/* cntrl */
-#define _P	0x10	/* punct */
-#define _S	0x20	/* white space (space/lf/tab) */
-#define _X	0x40	/* hex digit */
-#define _SP	0x80	/* hard space (0x20) */
+#define _U 0x01  /* upper */
+#define _L 0x02  /* lower */
+#define _D 0x04  /* digit */
+#define _C 0x08  /* cntrl */
+#define _P 0x10  /* punct */
+#define _S 0x20  /* white space (space/lf/tab) */
+#define _X 0x40  /* hex digit */
+#define _SP 0x80 /* hard space (0x20) */
 #define false 0
 #define true 1
 

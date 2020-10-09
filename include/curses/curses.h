@@ -12,15 +12,15 @@
  * completely written from scratch for CadexOS
  * using the libraries provided with CadexOS
 */
-#include <stdio.h>
-#include <string.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 typedef struct {
-	int x;
-	int y;
+    int x;
+    int y;
 } WINDOW;
 
 void initscr();

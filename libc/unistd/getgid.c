@@ -1,5 +1,6 @@
 #include <unistd.h>
 
-int getgid() {
-	return getuid();
+int getgid()
+{
+    return getuid();
 }

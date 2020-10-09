@@ -1,17 +1,17 @@
 /**
  * TrueGL Graphics Library v0.2
- * 
+ *
  * Copyright (C) 2019-2020 OpenCreeck
  * This software is distributed under the GNU General Public License.
  * See the file LICENSE for details.
 */
 
+#include <library/_cheader.h>
+#include <library/color.h>
+#include <library/scanf.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <library/scanf.h>
-#include <library/_cheader.h>
-#include <library/color.h>
 
 /**
  * This enum is defined but not used. Stubbed
@@ -39,8 +39,7 @@ typedef struct
     int height;
 } GameObject;
 
-typedef struct gui_color
-{
+typedef struct gui_color {
     int r;
     int g;
     int b;
@@ -50,8 +49,7 @@ typedef struct gui_color
 /**
  * Sprite type definition
 */
-typedef struct GameObject
-{
+typedef struct GameObject {
     int posX;
     int posY;
     int width;
@@ -64,17 +62,17 @@ typedef struct
     int posY;
     int width;
     int height;
-    char *label;
+    char* label;
 } UIElement;
 
-typedef struct{
+typedef struct {
     /* Window size */
     uint32_t width;
     uint32_t height;
 
     /* Window backing buffer */
-    char *buffer;
-    
+    char* buffer;
+
     /* Window focused flag */
     uint8_t focused;
 
@@ -83,21 +81,21 @@ typedef struct{
     int32_t y;
 
     /* Window border color */
-    gui_color_t *border_color;
+    gui_color_t* border_color;
 } tgl_window_t;
 
 /* Get window and objects */
-#define get_object(w) ((struct GameObject *)w)
-#define get_window(w) ((tgl_window_t *) w)
+#define get_object(w) ((struct GameObject*)w)
+#define get_window(w) ((tgl_window_t*)w)
 
 /**
  * Moves the specivied sprite to the specified X and Y location
- * 
+ *
  * @param sprite Reference to the sprite to move. Must have a pointer type
  * @param x X position to move to
  * @param Y Y position to move to
 */
-void move_sprite(Sprite *sprite, int x, int y);
+void move_sprite(Sprite* sprite, int x, int y);
 
 /**
  * Resises the specified sprite to the specified width and height
@@ -105,11 +103,11 @@ void move_sprite(Sprite *sprite, int x, int y);
  * @param width Width of the sprite to resize to
  * @param height Height of the sprite to resize to
 */
-void resize_sprite(Sprite *sprite, int width, int height);
+void resize_sprite(Sprite* sprite, int width, int height);
 
-int movable_scanf(int x, int y, char *line, int length);
+int movable_scanf(int x, int y, char* line, int length);
 void draw_pixel(int x, int y, int r, int g, int b, int a);
-void create_edittext(int x, int y, int w, int h, char *placeholder, char *line);
-int draw_button(int x, int y, int w, int h, char *label);
-int draw_static_Textarea(char *placeholder);
+void create_edittext(int x, int y, int w, int h, char* placeholder, char* line);
+int draw_button(int x, int y, int w, int h, char* label);
+int draw_static_Textarea(char* placeholder);
 void setup_window();

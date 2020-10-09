@@ -8,19 +8,18 @@
  * Example program demonstrating how to make apps for Cadex OS in C++
 */
 #include <iostream>
-#include <string>
 #include <memory>
+#include <string>
 #include <sul/urlparser.h>
 
 using namespace std;
 
-class example
-{
+class example {
 private:
     int a = 10;
 
 public:
-    char *a_string;
+    char* a_string;
     example();
     auto example_function() -> void;
     ~example();
@@ -45,14 +44,13 @@ auto example::example_function() -> void
     Console::WriteLine("Function call: example::example_function()");
 }
 
-
-int main(int argc, const char *argv[])
+int main(int argc, const char* argv[])
 {
 
     Console::Write("-- C++ Test");
 
     // TEST: Class init
-    example *ex = new example();
+    example* ex = new example();
 
     // TEST: Function call from example class
     ex->example_function();
@@ -61,7 +59,7 @@ int main(int argc, const char *argv[])
     delete ex;
 
     // TEST: String creation
-    String *mystring = new String("Test: String:  This is a string\n");
+    String* mystring = new String("Test: String:  This is a string\n");
 
     // TEST: Output the value of mystring to the console
     Console::Write(mystring);
@@ -73,11 +71,10 @@ int main(int argc, const char *argv[])
     int p;
     struct yuarel url;
     struct yuarel_param params[3];
-    char *parts[3];
+    char* parts[3];
     char url_string[] = "http://localhost:8989/path/to/test?query=yes#frag=1";
     printf("Test URL: %s\n", url_string);
-    if (-1 == yuarel_parse(&url, url_string))
-    {
+    if (-1 == yuarel_parse(&url, url_string)) {
         printf("!! Tests failed: Could not parse url!\n");
         return 1;
     }
@@ -89,8 +86,7 @@ int main(int argc, const char *argv[])
     printf("URL query:  %s\n", url.query);
     printf("URL fragment:  %s\n", url.fragment);
 
-    if (3 != yuarel_split_path(url.path, parts, 3))
-    {
+    if (3 != yuarel_split_path(url.path, parts, 3)) {
         printf("!! Tests failed: Could not split path!\n");
         return 1;
     }
@@ -100,8 +96,7 @@ int main(int argc, const char *argv[])
     printf("Query string parameters:\n");
 
     p = yuarel_parse_query(url.query, '&', params, 3);
-    while (p-- > 0)
-    {
+    while (p-- > 0) {
         printf("Param %s = %s\n", params[p].key, params[p].val);
     }
     Console::WriteLine("-- Yuarel tests completed. ");

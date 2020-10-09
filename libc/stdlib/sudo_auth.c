@@ -8,17 +8,14 @@ See the file LICENSE for details.
 
 extern int getAuth()
 {
-    char *passwd[1024];
+    char* passwd[1024];
 password:
     printf("sudo: password for root: ");
     passwd_scanf(passwd, sizeof(passwd));
-    if (!strcmp(passwd, "root"))
-    {
+    if (!strcmp(passwd, "root")) {
         _process_exit(0);
         return 0;
-    }
-    else
-    {
+    } else {
         printf("sudo: Wrong password\n");
         goto password;
     }

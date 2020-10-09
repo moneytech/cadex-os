@@ -6,11 +6,11 @@ See the file LICENSE for details.
 
 #include "mouse.h"
 #include "console.h"
-#include "ioports.h"
 #include "interrupt.h"
+#include "ioports.h"
 #include "kernel/ascii.h"
-#include "process.h"
 #include "kernelcore.h"
+#include "process.h"
 
 /*
 The PS2 interface uses a data port and a command port.
@@ -33,11 +33,11 @@ while writing to the command port executes commands.
 
 /* The status byte read from the command port has these fields. */
 
-#define PS2_STATUS_OBF 0x01	 // true: may not write to data port
-#define PS2_STATUS_IBF 0x02	 // true: may read from data port
-#define PS2_STATUS_SYS 0x04	 // true when port is initialized
-#define PS2_STATUS_A2 0x08	 // true if command port was last written to
-#define PS2_STATUS_INH 0x10	 // true if keyboard inhibited
+#define PS2_STATUS_OBF 0x01  // true: may not write to data port
+#define PS2_STATUS_IBF 0x02  // true: may read from data port
+#define PS2_STATUS_SYS 0x04  // true when port is initialized
+#define PS2_STATUS_A2 0x08   // true if command port was last written to
+#define PS2_STATUS_INH 0x10  // true if keyboard inhibited
 #define PS2_STATUS_MOBF 0x20 // true if mouse output available
 #define PS2_STATUS_TOUT 0x40 // true if timeout during I/O
 #define PS2_STATUS_PERR 0x80 // true indicates parity error
@@ -75,22 +75,20 @@ in the status register.
 
 uint8_t ps2_read_data()
 {
-	uint8_t status;
-	do
-	{
-		status = inb(PS2_COMMAND_PORT);
-	} while (!(status & PS2_STATUS_OBF));
-	return inb(PS2_DATA_PORT);
+    uint8_t status;
+    do {
+        status = inb(PS2_COMMAND_PORT);
+    } while (!(status & PS2_STATUS_OBF));
+    return inb(PS2_DATA_PORT);
 }
 
 void ps2_write_data(uint8_t data)
 {
-	uint8_t status;
-	do
-	{
-		status = inb(PS2_COMMAND_PORT);
-	} while (status & PS2_STATUS_IBF);
-	return outb(data, PS2_DATA_PORT);
+    uint8_t status;
+    do {
+        status = inb(PS2_COMMAND_PORT);
+    } while (status & PS2_STATUS_IBF);
+    return outb(data, PS2_DATA_PORT);
 }
 
 /*
@@ -100,12 +98,11 @@ we must also check that the IBF field is cleared.
 
 void ps2_write_command(uint8_t data)
 {
-	uint8_t status;
-	do
-	{
-		status = inb(PS2_COMMAND_PORT);
-	} while (status & PS2_STATUS_IBF);
-	return outb(data, PS2_COMMAND_PORT);
+    uint8_t status;
+    do {
+        status = inb(PS2_COMMAND_PORT);
+    } while (status & PS2_STATUS_IBF);
+    return outb(data, PS2_COMMAND_PORT);
 }
 
 /*
@@ -116,16 +113,14 @@ a known state.
 
 void ps2_clear_buffer()
 {
-	uint8_t status;
-	do
-	{
-		status = inb(PS2_COMMAND_PORT);
-		if (status & PS2_STATUS_OBF)
-		{
-			inb(PS2_DATA_PORT);
-			continue;
-		}
-	} while (status & (PS2_STATUS_OBF | PS2_STATUS_IBF));
+    uint8_t status;
+    do {
+        status = inb(PS2_COMMAND_PORT);
+        if (status & PS2_STATUS_OBF) {
+            inb(PS2_DATA_PORT);
+            continue;
+        }
+    } while (status & (PS2_STATUS_OBF | PS2_STATUS_IBF));
 }
 
 /*
@@ -136,9 +131,9 @@ acknowledgement.
 
 void ps2_mouse_command(uint8_t command)
 {
-	ps2_write_command(PS2_COMMAND_MOUSE_PREFIX);
-	ps2_write_data(command);
-	ps2_read_data();
+    ps2_write_command(PS2_COMMAND_MOUSE_PREFIX);
+    ps2_write_data(command);
+    ps2_read_data();
 }
 
 /*
@@ -148,14 +143,14 @@ does not involve an acknowledgement.
 
 uint8_t ps2_config_get()
 {
-	ps2_write_command(PS2_COMMAND_READ_CONFIG);
-	return ps2_read_data();
+    ps2_write_command(PS2_COMMAND_READ_CONFIG);
+    return ps2_read_data();
 }
 
 void ps2_config_set(uint8_t config)
 {
-	ps2_write_command(PS2_COMMAND_WRITE_CONFIG);
-	ps2_write_data(config);
+    ps2_write_command(PS2_COMMAND_WRITE_CONFIG);
+    ps2_write_data(config);
 }
 
 static struct mouse_event state;
@@ -170,22 +165,22 @@ Finally, take those values and update the current mouse state.
 
 static void mouse_interrupt(int i, int code)
 {
-	uint8_t m1 = inb(PS2_DATA_PORT);
-	uint8_t m2 = inb(PS2_DATA_PORT);
-	uint8_t m3 = inb(PS2_DATA_PORT);
+    uint8_t m1 = inb(PS2_DATA_PORT);
+    uint8_t m2 = inb(PS2_DATA_PORT);
+    uint8_t m3 = inb(PS2_DATA_PORT);
 
-	state.buttons = m1 & 0x03;
-	state.x += m1 & 0x10 ? 0xffffff00 | m2 : m2;
-	state.y -= m1 & 0x20 ? 0xffffff00 | m3 : m3;
+    state.buttons = m1 & 0x03;
+    state.x += m1 & 0x10 ? 0xffffff00 | m2 : m2;
+    state.y -= m1 & 0x20 ? 0xffffff00 | m3 : m3;
 
-	if (state.x < 0)
-		state.x = 0;
-	if (state.y < 0)
-		state.y = 0;
-	if (state.x >= video_xres)
-		state.x = video_xres - 1;
-	if (state.y >= video_yres)
-		state.y = video_yres - 1;
+    if (state.x < 0)
+        state.x = 0;
+    if (state.y < 0)
+        state.y = 0;
+    if (state.x >= video_xres)
+        state.x = video_xres - 1;
+    if (state.y >= video_yres)
+        state.y = video_yres - 1;
 }
 
 /*
@@ -193,11 +188,11 @@ Do a non-blocking read of the current mouse state.
 Block interrupts while reading, to avoid inconsistent state.
 */
 
-void mouse_read(struct mouse_event *e)
+void mouse_read(struct mouse_event* e)
 {
-	interrupt_disable(44);
-	*e = state;
-	interrupt_enable(44);
+    interrupt_disable(44);
+    *e = state;
+    interrupt_enable(44);
 }
 /*
 Unlike the keyboard, the mouse is not automatically enabled
@@ -209,22 +204,22 @@ which causes an interrupt for every move of the mouse.
 
 void mouse_init()
 {
-	ps2_clear_buffer();
+    ps2_clear_buffer();
 
-	uint8_t config = ps2_config_get();
-	config |= PS2_CONFIG_PORTA_IRQ;
-	config |= PS2_CONFIG_PORTB_IRQ;
-	config &= ~PS2_CONFIG_PORTA_CLOCK;
-	config &= ~PS2_CONFIG_PORTB_CLOCK;
-	config |= PS2_CONFIG_PORTA_TRANSLATE;
-	ps2_config_set(config);
+    uint8_t config = ps2_config_get();
+    config |= PS2_CONFIG_PORTA_IRQ;
+    config |= PS2_CONFIG_PORTB_IRQ;
+    config &= ~PS2_CONFIG_PORTA_CLOCK;
+    config &= ~PS2_CONFIG_PORTB_CLOCK;
+    config |= PS2_CONFIG_PORTA_TRANSLATE;
+    ps2_config_set(config);
 
-	ps2_mouse_command(PS2_MOUSE_COMMAND_RESET);
-	ps2_mouse_command(PS2_MOUSE_COMMAND_ENABLE_DEVICE);
-	ps2_mouse_command(PS2_MOUSE_COMMAND_ENABLE_STREAMING);
+    ps2_mouse_command(PS2_MOUSE_COMMAND_RESET);
+    ps2_mouse_command(PS2_MOUSE_COMMAND_ENABLE_DEVICE);
+    ps2_mouse_command(PS2_MOUSE_COMMAND_ENABLE_STREAMING);
 
-	interrupt_register(12, mouse_interrupt);
-	interrupt_enable(12);
-	// kprintf("[HARDWARE] mouse: ready\n");
-	dbg_printf("[mouse] initialised\n");
+    interrupt_register(12, mouse_interrupt);
+    interrupt_enable(12);
+    // kprintf("[HARDWARE] mouse: ready\n");
+    dbg_printf("[mouse] initialised\n");
 }

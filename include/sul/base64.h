@@ -13,6 +13,6 @@
  * @param len_str Length of input string
  * @returns char*
 */
-char *base64_encode(char input_str[], int len_str);
+char* base64_encode(char input_str[], int len_str);
 
 #endif //  SUL_BASE64_H

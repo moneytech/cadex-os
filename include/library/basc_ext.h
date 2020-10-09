@@ -2,16 +2,15 @@
  * BasicC - A BASIC Language  extension to the C Language
 */
 
-
 #ifndef BASICC_BASICC_H
 #define BASICC_BASICC_H
 #include <stdio.h>
 #include <stdlib.h>
 //#include <memory.h>
-#include <library/string.h>
-#include <library/scanf.h>
 #include <library/malloc.h>
+#include <library/scanf.h>
 #include <library/stddef.h>
+#include <library/string.h>
 #include <library/types.h>
 #define out(a, ...) printf(a, __VA_ARGS__);
 
@@ -29,7 +28,7 @@
 #define or ||
 #define and &&
 #define leq <=
-#define greq =>
+#define greq = >
 #define is ==
 #define not !
 

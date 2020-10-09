@@ -4,14 +4,14 @@ void sethostent(int x)
 {
 }
 
-struct hostent *gethostent()
+struct hostent* gethostent()
 {
-	return 0;
+    return 0;
 }
 
-struct netent *getnetent()
+struct netent* getnetent()
 {
-	return 0;
+    return 0;
 }
 
 void endhostent(void)

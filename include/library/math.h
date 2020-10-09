@@ -6,15 +6,15 @@
 
 #pragma once
 
-#include <library/syscalls.h>
-#include <library/string.h>
-#include <library/stdio.h>
 #include <library/_cheader.h>
+#include <library/stdio.h>
+#include <library/string.h>
+#include <library/syscalls.h>
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif
-   
+
 #define PI 3.1415926
 
 extern double floor(double x);
@@ -29,7 +29,7 @@ extern float fabsf(float x);
 extern double sin(double x);
 extern double cos(double x);
 
-extern double frexp(double x, int *exp);
+extern double frexp(double x, int* exp);
 
 #define HUGE_VAL (__builtin_huge_val())
 
@@ -48,7 +48,7 @@ extern double tan(double x);
 extern double tanh(double x);
 extern double atan(double x);
 
-extern double modf(double x, double *iptr);
+extern double modf(double x, double* iptr);
 
 extern double hypot(double x, double y);
 

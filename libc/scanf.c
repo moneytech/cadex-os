@@ -9,29 +9,22 @@ See the file LICENSE for details.
 #define SCANF_KBD_PORT 0x03B
 #define SCANF_STDLIB_VER 0x00B
 
-int scanf(char *line, int length)
+int scanf(char* line, int length)
 {
     int i = 0;
-    while (i < (length - 1))
-    {
+    while (i < (length - 1)) {
         char c;
         read_object(0, &c, 1);
-        if (c == ASCII_CR)
-        {
+        if (c == ASCII_CR) {
             line[i] = 0;
             printf("\n");
             return 1;
-        }
-        else if (c == ASCII_BS)
-        {
-            if (i > 0)
-            {
+        } else if (c == ASCII_BS) {
+            if (i > 0) {
                 printf_putchar(c);
                 i--;
             }
-        }
-        else if (c >= 0x20 && c <= 0x7E)
-        {
+        } else if (c >= 0x20 && c <= 0x7E) {
             printf_putchar(c);
             line[i] = c;
             i++;
@@ -79,35 +72,27 @@ int scanf(char *line, int length)
 //         }
 //     }
 // }
-extern int passwd_scanf(char *line, int length)
+extern int passwd_scanf(char* line, int length)
 {
     int i = 0;
     char c;
-    while (1)
-    {
+    while (1) {
         read_object(0, &c, 1);
-        if (c == ASCII_CR)
-        {
+        if (c == ASCII_CR) {
             //printf_putchar(c);
             flushScreen();
             flush();
             line[i] = 0;
             return i;
-        }
-        else if (c == ASCII_BS)
-        {
-            if (i > 0)
-            {
+        } else if (c == ASCII_BS) {
+            if (i > 0) {
                 i--;
                 //printf_putchar(c);
                 flushScreen();
                 flush();
             }
-        }
-        else
-        {
-            if (i < (length - 1))
-            {
+        } else {
+            if (i < (length - 1)) {
                 line[i] = c;
                 i++;
                 //printf_putchar(c);

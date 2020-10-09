@@ -5,20 +5,20 @@ See the file LICENSE for details.
 */
 
 #include "string.h"
-#include "kernel/types.h"
 #include "kernel/ascii.h"
+#include "kernel/types.h"
 #include "kmalloc.h"
 
 //#include "stdarg.h"
 #include "console.h"
 
-#define _U 0x01	 /* upper */
-#define _L 0x02	 /* lower */
-#define _D 0x04	 /* digit */
-#define _C 0x08	 /* cntrl */
-#define _P 0x10	 /* punct */
-#define _S 0x20	 /* white space (space/lf/tab) */
-#define _X 0x40	 /* hex digit */
+#define _U 0x01  /* upper */
+#define _L 0x02  /* lower */
+#define _D 0x04  /* digit */
+#define _C 0x08  /* cntrl */
+#define _P 0x10  /* punct */
+#define _S 0x20  /* white space (space/lf/tab) */
+#define _X 0x40  /* hex digit */
 #define _SP 0x80 /* hard space (0x20) */
 
 #define MIN(A, B) ((A) < (B) ? (A) : (B))
@@ -50,283 +50,275 @@ char _ctmp;
 #define toupper(c) (_ctmp = c, islower(_ctmp) ? _ctmp + ('A' - 'a') : _ctmp)
 
 #define BITOP(A, B, OP) \
-	((A)[(size_t)(B) / (8 * sizeof *(A))] OP(size_t) 1 << ((size_t)(B) % (8 * sizeof *(A))))
+    ((A)[(size_t)(B) / (8 * sizeof *(A))] OP(size_t) 1 << ((size_t)(B) % (8 * sizeof *(A))))
 
-void strcpy(char *d, const char *s)
+void strcpy(char* d, const char* s)
 {
-	while(*s) {
-		*d++ = *s++;
-	}
-	*d = 0;
+    while (*s) {
+        *d++ = *s++;
+    }
+    *d = 0;
 }
 
-void strncpy(char *d, const char *s, unsigned length)
+void strncpy(char* d, const char* s, unsigned length)
 {
-	while(*s && length--) {
-		*d++ = *s++;
-	}
-	*d = 0;
+    while (*s && length--) {
+        *d++ = *s++;
+    }
+    *d = 0;
 }
 
-int strcmp(const char *a, const char *b)
+int strcmp(const char* a, const char* b)
 {
-	while(1) {
-		if(*a < *b) {
-			return -1;
-		} else if(*a > *b) {
-			return 1;
-		} else if(*a == 0) {
-			return 0;
-		} else {
-			a++;
-			b++;
-		}
-	}
+    while (1) {
+        if (*a < *b) {
+            return -1;
+        } else if (*a > *b) {
+            return 1;
+        } else if (*a == 0) {
+            return 0;
+        } else {
+            a++;
+            b++;
+        }
+    }
 }
 
-int strncmp(const char *a, const char *b, unsigned length)
+int strncmp(const char* a, const char* b, unsigned length)
 {
-	while(length > 0) {
-		if(*a < *b) {
-			return -1;
-		} else if(*a > *b) {
-			return 1;
-		} else if(*a == 0) {
-			return 0;
-		} else {
-			a++;
-			b++;
-			length--;
-		}
-	}
-	return 0;
+    while (length > 0) {
+        if (*a < *b) {
+            return -1;
+        } else if (*a > *b) {
+            return 1;
+        } else if (*a == 0) {
+            return 0;
+        } else {
+            a++;
+            b++;
+            length--;
+        }
+    }
+    return 0;
 }
 
-unsigned strlen(const char *s)
+unsigned strlen(const char* s)
 {
-	unsigned len = 0;
-	while(*s) {
-		len++;
-		s++;
-	}
-	return len;
+    unsigned len = 0;
+    while (*s) {
+        len++;
+        s++;
+    }
+    return len;
 }
 
-char *strrev(char *s)
+char* strrev(char* s)
 {
-	unsigned start = 0;
-	unsigned end = strlen(s) - 1;
-	char swap;
+    unsigned start = 0;
+    unsigned end = strlen(s) - 1;
+    char swap;
 
-	while(start < end) {
-		swap = s[start];
-		s[start] = s[end];
-		s[end] = swap;
+    while (start < end) {
+        swap = s[start];
+        s[start] = s[end];
+        s[end] = swap;
 
-		start++;
-		end--;
-	}
+        start++;
+        end--;
+    }
 
-	return s;
+    return s;
 }
 
-char *strcat(char *d, const char *s)
+char* strcat(char* d, const char* s)
 {
-	strcpy(d + strlen(d), s);
-	return d;
+    strcpy(d + strlen(d), s);
+    return d;
 }
 
-const char *strchr(const char *s, char ch)
+const char* strchr(const char* s, char ch)
 {
-	while(*s) {
-		if(*s == ch)
-			return s;
-		s++;
-	}
-	return 0;
+    while (*s) {
+        if (*s == ch)
+            return s;
+        s++;
+    }
+    return 0;
 }
 
-char *strtok(char *s, const char *delim)
+char* strtok(char* s, const char* delim)
 {
-	static char *oldword = 0;
-	char *word;
+    static char* oldword = 0;
+    char* word;
 
-	if(!s)
-		s = oldword;
+    if (!s)
+        s = oldword;
 
-	while(*s && strchr(delim, *s))
-		s++;
+    while (*s && strchr(delim, *s))
+        s++;
 
-	if(!*s) {
-		oldword = s;
-		return 0;
-	}
+    if (!*s) {
+        oldword = s;
+        return 0;
+    }
 
-	word = s;
-	while(*s && !strchr(delim, *s))
-		s++;
+    word = s;
+    while (*s && !strchr(delim, *s))
+        s++;
 
-	if(*s) {
-		*s = 0;
-		oldword = s + 1;
-	} else {
-		oldword = s;
-	}
+    if (*s) {
+        *s = 0;
+        oldword = s + 1;
+    } else {
+        oldword = s;
+    }
 
-	return word;
+    return word;
 }
 
-char *strdup(const char *s)
+char* strdup(const char* s)
 {
-	char *new = kmalloc(strlen(s) + 1);
-	if(new)
-		strcpy(new, s);
-	return new;
+    char* new = kmalloc(strlen(s) + 1);
+    if (new)
+        strcpy(new, s);
+    return new;
 }
 
-char *strndup(const char *s, unsigned length)
+char* strndup(const char* s, unsigned length)
 {
-	char *new = kmalloc(length+1);
-	if(new) {
-		strncpy(new,s,length);
-		new[length] = 0;
-	}
-	return new;
+    char* new = kmalloc(length + 1);
+    if (new) {
+        strncpy(new, s, length);
+        new[length] = 0;
+    }
+    return new;
 }
 
-void strtoupper(char *name)
+void strtoupper(char* name)
 {
-	while(*name) {
-		if(*name >= 'a' && *name <= 'z') {
-			*name -= 'a' - 'A';
-		}
-		name++;
-	}
+    while (*name) {
+        if (*name >= 'a' && *name <= 'z') {
+            *name -= 'a' - 'A';
+        }
+        name++;
+    }
 }
 
-void strtolower(char *name)
+void strtolower(char* name)
 {
-	while(*name) {
-		if(*name >= 'A' && *name <= 'Z') {
-			*name += 'a' - 'A';
-		}
-		name++;
-	}
+    while (*name) {
+        if (*name >= 'A' && *name <= 'Z') {
+            *name += 'a' - 'A';
+        }
+        name++;
+    }
 }
 
-int str2int(const char *s, int *d)
+int str2int(const char* s, int* d)
 {
-	int val = 0;
-	for(; *s; ++s) {
-		val *= 10;
-		if(*s > ASCII_9 || *s < ASCII_0) {
-			return 0;
-		}
-		val += (*s - '0');
-	}
-	*d = val;
-	return 1;
+    int val = 0;
+    for (; *s; ++s) {
+        val *= 10;
+        if (*s > ASCII_9 || *s < ASCII_0) {
+            return 0;
+        }
+        val += (*s - '0');
+    }
+    *d = val;
+    return 1;
 }
 
-void memset(void *vd, char value, unsigned length)
+void memset(void* vd, char value, unsigned length)
 {
-	char *d = vd;
-	while(length) {
-		*d = value;
-		length--;
-		d++;
-	}
+    char* d = vd;
+    while (length) {
+        *d = value;
+        length--;
+        d++;
+    }
 }
 
-void memcpy(void *vd, const void *vs, unsigned length)
+void memcpy(void* vd, const void* vs, unsigned length)
 {
-	char *d = vd;
-	const char *s = vs;
-	while(length) {
-		*d = *s;
-		d++;
-		s++;
-		length--;
-	}
+    char* d = vd;
+    const char* s = vs;
+    while (length) {
+        *d = *s;
+        d++;
+        s++;
+        length--;
+    }
 }
 
-char *uint_to_string(uint32_t u, char *s)
+char* uint_to_string(uint32_t u, char* s)
 {
-	uint32_t f, d, i;
+    uint32_t f, d, i;
 
-	f = 1;
-	i = 0;
-	while((u / (f * 10)) > 0) {
-		f *= 10;
-	}
-	while(f > 0) {
-		d = u / f;
-		s[i] = '0' + d;
-		u = u % f;
-		f = f / 10;
-		i++;
-	}
-	s[i] = 0;
-	return s;
+    f = 1;
+    i = 0;
+    while ((u / (f * 10)) > 0) {
+        f *= 10;
+    }
+    while (f > 0) {
+        d = u / f;
+        s[i] = '0' + d;
+        u = u % f;
+        f = f / 10;
+        i++;
+    }
+    s[i] = 0;
+    return s;
 }
-int atoi(const char *s)
+int atoi(const char* s)
 {
-	int n = 0;
-	int neg = 0;
-	while (isspace(*s))
-	{
-		s++;
-	}
-	switch (*s)
-	{
-	case '-':
-		neg = 1;
-		/* Fallthrough is intentional here */
-	case '+':
-		s++;
-	}
-	while (isdigit(*s))
-	{
-		n = 10 * n - (*s++ - '0');
-	}
-	/* The sign order may look incorrect here but this is correct as n is calculated
+    int n = 0;
+    int neg = 0;
+    while (isspace(*s)) {
+        s++;
+    }
+    switch (*s) {
+    case '-':
+        neg = 1;
+        /* Fallthrough is intentional here */
+    case '+':
+        s++;
+    }
+    while (isdigit(*s)) {
+        n = 10 * n - (*s++ - '0');
+    }
+    /* The sign order may look incorrect here but this is correct as n is calculated
 	 * as a negative number to avoid overflow on INT_MAX.
 	 */
-	return neg ? n : -n;
+    return neg ? n : -n;
 }
 
 static uint32_t digit_count(int num)
 {
-	uint32_t count = 0;
-	if (num == 0)
-		return 1;
-	while (num > 0)
-	{
-		count++;
-		num = num / 10;
-	}
-	return count;
+    uint32_t count = 0;
+    if (num == 0)
+        return 1;
+    while (num > 0) {
+        count++;
+        num = num / 10;
+    }
+    return count;
 }
 
-void itoa(int num, char *number)
+void itoa(int num, char* number)
 {
-	int dgcount = digit_count(num);
-	int index = dgcount - 1;
-	char x;
-	if (num == 0 && dgcount == 1)
-	{
-		number[0] = '0';
-		number[1] = '\0';
-	}
-	else
-	{
-		while (num != 0)
-		{
-			x = num % 10;
-			number[index] = x + '0';
-			index--;
-			num = num / 10;
-		}
-		number[dgcount] = '\0';
-	}
+    int dgcount = digit_count(num);
+    int index = dgcount - 1;
+    char x;
+    if (num == 0 && dgcount == 1) {
+        number[0] = '0';
+        number[1] = '\0';
+    } else {
+        while (num != 0) {
+            x = num % 10;
+            number[index] = x + '0';
+            index--;
+            num = num / 10;
+        }
+        number[dgcount] = '\0';
+    }
 }

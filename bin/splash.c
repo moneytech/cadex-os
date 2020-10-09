@@ -2,10 +2,10 @@
  * Fake splash screen for manager.exe
 */
 
-#include <stdio.h>
 #include <library/scanf.h>
+#include <stdio.h>
 
-int main(int argc, const char *argv[])
+int main(int argc, const char* argv[])
 {
     int x1 = 12;
     int y1 = 12;

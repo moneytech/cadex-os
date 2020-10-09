@@ -17,8 +17,7 @@ int decToHex()
 
     quotient = decimalnum;
 
-    while (quotient != 0)
-    {
+    while (quotient != 0) {
         remainder = quotient % 16;
         if (remainder < 10)
             hexadecimalnum[j++] = 48 + remainder;
@@ -38,14 +37,11 @@ extern void printTriangle(int rows_s)
     int i, j, k, rows, count, temp = 1;
     rows = rows_s;
     count = rows - 1;
-    for (i = 1; i <= rows; i++)
-    {
-        for (j = 1; j <= count; j++)
-        {
+    for (i = 1; i <= rows; i++) {
+        for (j = 1; j <= count; j++) {
             kprintf(" ");
         }
-        for (k = 1; k <= temp; k++)
-        {
+        for (k = 1; k <= temp; k++) {
             kprintf("*");
         }
         count--;
@@ -53,3 +49,4 @@ extern void printTriangle(int rows_s)
         kprintf("\n");
     }
 }
+

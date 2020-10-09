@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <truegl/glx.h>
 #include <truegl/events.h>
+#include <truegl/glx.h>
 #include <truegl/truegl.h>
 
 /**
@@ -13,7 +13,7 @@
  * @param title Title of the window
  * @returns twindow_t
  */
-twindow_t window_create(int x, int y, int w, int h, int visibility, char *title)
+twindow_t window_create(int x, int y, int w, int h, int visibility, char* title)
 {
     setup_window();
     twindow_t window;
@@ -25,3 +25,4 @@ twindow_t window_create(int x, int y, int w, int h, int visibility, char *title)
     window.properties->width = w;
     return window;
 }
+

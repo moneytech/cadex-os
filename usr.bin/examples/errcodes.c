@@ -10,12 +10,12 @@
 #include "library/errno.h"
 #include "library/string.h"
 
-#define LOWEST_ENUM -13 
+#define LOWEST_ENUM -13
 
-int main(int argc, char ** argv)
+int main(int argc, char** argv)
 {
-	for (int i = -1; i >= LOWEST_ENUM; i--) {
-		printf("%s\n", strerror(i));
-	}
-	return 0;
+    for (int i = -1; i >= LOWEST_ENUM; i--) {
+        printf("%s\n", strerror(i));
+    }
+    return 0;
 }

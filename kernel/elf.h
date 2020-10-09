@@ -129,20 +129,20 @@ typedef struct
 /*
 elf_load opens the given filename, and if it contains a valid
 ELF executable, allocates space in the current process' pagetable,
-loads the text, data, and bss into memory, and updates the 
+loads the text, data, and bss into memory, and updates the
 entry point value in the current process structure.
 */
 
-int elf_load(struct process *p, const char *filename, addr_t * entry);
-uint8_t elf32_check(void *image, uint8_t type);
-uint8_t elf32_get_section_by_name(void *image, char *sect_name, elf_sect_t **sect);
-int32_t elf32_get_sections(void *image, uint32_t type, int32_t flags);
-uint8_t elf32_get_sections_i(void *image, uint32_t index, uint32_t type, int32_t flags, elf_sect_t **sect);
-uint8_t elf32_get_section_i(void *image, uint32_t index, elf_sect_t **sect);
-uint8_t elf32_get_symbol_i(void *image, uint32_t sym_idx, elf_sect_t *symtab, elf_sym_t **symbol);
-uint8_t elf32_get_symbol_by_name(void *image, const char *sym_name, int32_t type, elf_sect_t *symtab, elf_sect_t *strtab, elf_sym_t **symbol);
-uint8_t elf32_search_symbol(void *image, const char *name, uint32_t type, elf_sym_t **symbol);
-uint8_t elf32_get_name(void *image, uint32_t index, elf_sect_t *strtab, const char **name);
-uint8_t elf32_reloc_apply(void *image, elf_reloc_t *rel, uint32_t symtab_idx, uint32_t t_sect_idx);
+int elf_load(struct process* p, const char* filename, addr_t* entry);
+uint8_t elf32_check(void* image, uint8_t type);
+uint8_t elf32_get_section_by_name(void* image, char* sect_name, elf_sect_t** sect);
+int32_t elf32_get_sections(void* image, uint32_t type, int32_t flags);
+uint8_t elf32_get_sections_i(void* image, uint32_t index, uint32_t type, int32_t flags, elf_sect_t** sect);
+uint8_t elf32_get_section_i(void* image, uint32_t index, elf_sect_t** sect);
+uint8_t elf32_get_symbol_i(void* image, uint32_t sym_idx, elf_sect_t* symtab, elf_sym_t** symbol);
+uint8_t elf32_get_symbol_by_name(void* image, const char* sym_name, int32_t type, elf_sect_t* symtab, elf_sect_t* strtab, elf_sym_t** symbol);
+uint8_t elf32_search_symbol(void* image, const char* name, uint32_t type, elf_sym_t** symbol);
+uint8_t elf32_get_name(void* image, uint32_t index, elf_sect_t* strtab, const char** name);
+uint8_t elf32_reloc_apply(void* image, elf_reloc_t* rel, uint32_t symtab_idx, uint32_t t_sect_idx);
 
 #endif

@@ -7,11 +7,11 @@ See the file LICENSE for details.
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
-#include "kernel/types.h"
-#include "graphics.h"
 #include "device.h"
-#include "string.h"
+#include "graphics.h"
+#include "kernel/types.h"
 #include "serial.h"
+#include "string.h"
 
 /*
 console_init creates the very first global console that
@@ -24,21 +24,21 @@ extern struct console console_root;
 extern struct graphics_color fgcolor;
 extern struct graphics_color bgcolor;
 
-struct console *console_init(struct graphics *g);
+struct console* console_init(struct graphics* g);
 
 /*
 Any number of other consoles can be created and manipulated
 on top of existing windows.
 */
 
-struct console * console_create( struct graphics *g );
-void console_delete( struct console *c );
-int  console_write( struct console *c, const char *data, int length );
-void console_putchar( struct console *c, char ch );
-void console_putstring( struct console *c, const char *str );
-void console_heartbeat( struct console *c );
-void console_size( struct console *c, int *xsize, int *ysize );
-struct console *console_addref( struct console *c );
-int console_set_cursor_pos(struct console *c, int pos);
+struct console* console_create(struct graphics* g);
+void console_delete(struct console* c);
+int console_write(struct console* c, const char* data, int length);
+void console_putchar(struct console* c, char ch);
+void console_putstring(struct console* c, const char* str);
+void console_heartbeat(struct console* c);
+void console_size(struct console* c, int* xsize, int* ysize);
+struct console* console_addref(struct console* c);
+int console_set_cursor_pos(struct console* c, int pos);
 
 #endif

@@ -1,12 +1,13 @@
-#include <unistd.h>
 #include <library/syscalls.h>
+#include <unistd.h>
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif
 
-int close(int file) {
-	return syscall_object_close(file);
+int close(int file)
+{
+    return syscall_object_close(file);
 }
 
 #ifdef __cplusplus

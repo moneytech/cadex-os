@@ -8,29 +8,28 @@ See the file LICENSE for details.
 A fun graphics demo that features a line segment bouncing around the screen.
 */
 
-#include "library/syscalls.h"
-#include "library/string.h"
 #include "library/stdio.h"
+#include "library/string.h"
+#include "library/syscalls.h"
 
 #define WIDTH (200)
 #define HEIGHT (200)
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-	renderWindow(WN_STDWINDOW);
-	setTextColor(0, 0, 255);
-	clearScreen(0, 0, WIDTH, HEIGHT);
-	flush();
+    renderWindow(WN_STDWINDOW);
+    setTextColor(0, 0, 255);
+    clearScreen(0, 0, WIDTH, HEIGHT);
+    flush();
 
-	int cd = syscall_open_console(WN_STDWINDOW);
-	if (cd < 0)
-	{
-		printf("Console open failed!\n");
-		return 2;
-	}
-	syscall_object_dup(cd, KNO_STDOUT);
+    int cd = syscall_open_console(WN_STDWINDOW);
+    if (cd < 0) {
+        printf("Console open failed!\n");
+        return 2;
+    }
+    syscall_object_dup(cd, KNO_STDOUT);
 
-	printf("hello world!\n");
+    printf("hello world!\n");
 
-	return 0;
+    return 0;
 }

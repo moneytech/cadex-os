@@ -14,19 +14,19 @@
 // 	return y;
 // }
 
-float strtof(const char *restrict s, char **restrict p)
+float strtof(const char* restrict s, char** restrict p)
 {
-	return strtox(s, p, 0);
+    return strtox(s, p, 0);
 }
 
-double strtod(const char *restrict s, char **restrict p)
+double strtod(const char* restrict s, char** restrict p)
 {
-	return strtox(s, p, 1);
+    return strtox(s, p, 1);
 }
 
-long double strtold(const char *restrict s, char **restrict p)
+long double strtold(const char* restrict s, char** restrict p)
 {
-	return strtox(s, p, 2);
+    return strtox(s, p, 2);
 }
 
 // weak_alias(strtof, strtof_l);

@@ -8,7 +8,7 @@ See the file LICENSE for details.
  * contty.c: Console related functions
  *
  * This file is a part of the Standard Cadex Library
-*/ 
+*/
 
 #include <stdclib.h>
 // For syscall_object_size and WN_STDWINDW
@@ -21,7 +21,8 @@ int dims[2];
  * Get console width
  * @returns int
 */
-int get_console_width(){
+int get_console_width()
+{
     // call syscall_object_size and get the object size
     syscall_object_size(WN_STDWINDOW, dims, 2);
     int width = dims[0];
@@ -32,7 +33,8 @@ int get_console_width(){
  * Get the console height
  * @returns int
 */
-int get_console_height(){
+int get_console_height()
+{
     // call syscall_object_size and get the object size
     syscall_object_size(WN_STDWINDOW, dims, 2);
     int height = dims[1];
@@ -46,8 +48,8 @@ int get_console_height(){
  * @param b Blue value
  * @param a Alpha value
 */
-int set_console_fgcolor(int r, int g, int b, int a){
+int set_console_fgcolor(int r, int g, int b, int a)
+{
     setTextColor(r, g, b, a);
     return 0;
 }
-

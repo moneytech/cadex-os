@@ -20,42 +20,39 @@
 #define TGL_SUPPORTS_XEND false
 #define TGL_IS_BETA false
 
-namespace TGL
+namespace TGL {
+extern GraphicsManager Graphics;
+extern GraphicsContext AppContext;
+
+typedef struct
 {
-    extern GraphicsManager Graphics;
-    extern GraphicsContext AppContext;
+    GraphicsContext glx_context;
+    bool is_glx_beta = true;
+    bool window_initialised = false;
+    union window_props {
+        int width;
+        int height;
+        int xpos;
+        int ypos;
+        int window_level;
+        bool root_window = true;
+    } * window_props;
+} glx_config_t;
 
-    typedef struct
-    {
-        GraphicsContext glx_context;
-        bool is_glx_beta = true;
-        bool window_initialised = false;
-        union window_props
-        {
-            int width;
-            int height;
-            int xpos;
-            int ypos;
-            int window_level;
-            bool root_window = true;
-        } *window_props;
-    } glx_config_t;
-
-    extern glx_config_t *current_glx_config;
+extern glx_config_t* current_glx_config;
 
 /**
- * @param context 
+ * @param context
 */
-    auto glx_get_config = [](GraphicsContext context) {
-        if(current_glx_config->window_props->root_window){
-			// If the current glx window config's root_window property is 1 then return the current glx config
-            return current_glx_config;
-        } else
-        {
-			// Just return if the current glx window config's root_window value is 0
-            return;
-        }
-    };
+auto glx_get_config = [](GraphicsContext context) {
+    if (current_glx_config->window_props->root_window) {
+        // If the current glx window config's root_window property is 1 then return the current glx config
+        return current_glx_config;
+    } else {
+        // Just return if the current glx window config's root_window value is 0
+        return;
+    }
+};
 } // namespace TGL
 
 #endif

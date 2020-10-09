@@ -5,45 +5,42 @@ See the file LICENSE for details.
 */
 
 #ifdef _KERNEL_
-#include <kernel/system.h>
+#    include <kernel/system.h>
 #else
-#include <library/stddef.h>
-#include <library/stdlib.h>
+#    include <library/stddef.h>
+#    include <library/stdlib.h>
 #endif
 
 #include <library/list_t.h>
 
-void list_destroy(list_t *list)
+void list_destroy(list_t* list)
 {
     /* Free all of the contents of a list */
-    node_t *n = list->head;
-    while (n)
-    {
+    node_t* n = list->head;
+    while (n) {
         free(n->value);
         n = n->next;
     }
 }
 
-void list_free(list_t *list)
+void list_free(list_t* list)
 {
     /* Free the actual structure of a list */
-    node_t *n = list->head;
-    while (n)
-    {
-        node_t *s = n->next;
+    node_t* n = list->head;
+    while (n) {
+        node_t* s = n->next;
         free(n);
         n = s;
     }
 }
 
-void list_append(list_t *list, node_t *node)
+void list_append(list_t* list, node_t* node)
 {
     assert(!(node->next || node->prev) && "Node is already in a list.");
     node->next = NULL;
     /* Insert a node onto the end of a list */
     node->owner = list;
-    if (!list->length)
-    {
+    if (!list->length) {
         list->head = node;
         list->tail = node;
         node->prev = NULL;
@@ -57,10 +54,10 @@ void list_append(list_t *list, node_t *node)
     list->length++;
 }
 
-node_t *list_insert(list_t *list, void *item)
+node_t* list_insert(list_t* list, void* item)
 {
     /* Insert an item into a list */
-    node_t *node = malloc(sizeof(node_t));
+    node_t* node = malloc(sizeof(node_t));
     node->value = item;
     node->next = NULL;
     node->prev = NULL;
@@ -70,17 +67,15 @@ node_t *list_insert(list_t *list, void *item)
     return node;
 }
 
-void list_append_after(list_t *list, node_t *before, node_t *node)
+void list_append_after(list_t* list, node_t* before, node_t* node)
 {
     assert(!(node->next || node->prev) && "Node is already in a list.");
     node->owner = list;
-    if (!list->length)
-    {
+    if (!list->length) {
         list_append(list, node);
         return;
     }
-    if (before == NULL)
-    {
+    if (before == NULL) {
         node->next = list->head;
         node->prev = NULL;
         list->head->prev = node;
@@ -88,12 +83,9 @@ void list_append_after(list_t *list, node_t *before, node_t *node)
         list->length++;
         return;
     }
-    if (before == list->tail)
-    {
+    if (before == list->tail) {
         list->tail = node;
-    }
-    else
-    {
+    } else {
         before->next->prev = node;
         node->next = before->next;
     }
@@ -102,9 +94,9 @@ void list_append_after(list_t *list, node_t *before, node_t *node)
     list->length++;
 }
 
-node_t *list_insert_after(list_t *list, node_t *before, void *item)
+node_t* list_insert_after(list_t* list, node_t* before, void* item)
 {
-    node_t *node = malloc(sizeof(node_t));
+    node_t* node = malloc(sizeof(node_t));
     node->value = item;
     node->next = NULL;
     node->prev = NULL;
@@ -113,17 +105,15 @@ node_t *list_insert_after(list_t *list, node_t *before, void *item)
     return node;
 }
 
-void list_append_before(list_t *list, node_t *after, node_t *node)
+void list_append_before(list_t* list, node_t* after, node_t* node)
 {
     assert(!(node->next || node->prev) && "Node is already in a list.");
     node->owner = list;
-    if (!list->length)
-    {
+    if (!list->length) {
         list_append(list, node);
         return;
     }
-    if (after == NULL)
-    {
+    if (after == NULL) {
         node->next = NULL;
         node->prev = list->tail;
         list->tail->next = node;
@@ -131,12 +121,9 @@ void list_append_before(list_t *list, node_t *after, node_t *node)
         list->length++;
         return;
     }
-    if (after == list->head)
-    {
+    if (after == list->head) {
         list->head = node;
-    }
-    else
-    {
+    } else {
         after->prev->next = node;
         node->prev = after->prev;
     }
@@ -145,9 +132,9 @@ void list_append_before(list_t *list, node_t *after, node_t *node)
     list->length++;
 }
 
-node_t *list_insert_before(list_t *list, node_t *after, void *item)
+node_t* list_insert_before(list_t* list, node_t* after, void* item)
 {
-    node_t *node = malloc(sizeof(node_t));
+    node_t* node = malloc(sizeof(node_t));
     node->value = item;
     node->next = NULL;
     node->prev = NULL;
@@ -156,35 +143,31 @@ node_t *list_insert_before(list_t *list, node_t *after, void *item)
     return node;
 }
 
-list_t *list_create(void)
+list_t* list_create(void)
 {
     /* Create a fresh list */
-    list_t *out = malloc(sizeof(list_t));
+    list_t* out = malloc(sizeof(list_t));
     out->head = NULL;
     out->tail = NULL;
     out->length = 0;
     return out;
 }
 
-node_t *list_find(list_t *list, void *value)
+node_t* list_find(list_t* list, void* value)
 {
-    foreach (item, list)
-    {
-        if (item->value == value)
-        {
+    foreach (item, list) {
+        if (item->value == value) {
             return item;
         }
     }
     return NULL;
 }
 
-int list_index_of(list_t *list, void *value)
+int list_index_of(list_t* list, void* value)
 {
     int i = 0;
-    foreach (item, list)
-    {
-        if (item->value == value)
-        {
+    foreach (item, list) {
+        if (item->value == value) {
             return i;
         }
         i++;
@@ -192,11 +175,10 @@ int list_index_of(list_t *list, void *value)
     return -1; /* not find */
 }
 
-void *list_index(list_t *list, int index)
+void* list_index(list_t* list, int index)
 {
     int i = 0;
-    foreach (item, list)
-    {
+    foreach (item, list) {
         if (i == index)
             return item->value;
         i++;
@@ -204,39 +186,34 @@ void *list_index(list_t *list, int index)
     return NULL;
 }
 
-void list_rm(list_t *list, size_t index)
+void list_rm(list_t* list, size_t index)
 {
     /* remove index from the list */
     if (index > list->length)
         return;
     size_t i = 0;
-    node_t *n = list->head;
-    while (i < index)
-    {
+    node_t* n = list->head;
+    while (i < index) {
         n = n->next;
         i++;
     }
     list_delete(list, n);
 }
 
-void list_delete(list_t *list, node_t *node)
+void list_delete(list_t* list, node_t* node)
 {
     /* remove node from the list */
     assert(node->owner == list && "Tried to remove a list node from a list it does not belong to.");
-    if (node == list->head)
-    {
+    if (node == list->head) {
         list->head = node->next;
     }
-    if (node == list->tail)
-    {
+    if (node == list->tail) {
         list->tail = node->prev;
     }
-    if (node->prev)
-    {
+    if (node->prev) {
         node->prev->next = node->next;
     }
-    if (node->next)
-    {
+    if (node->next) {
         node->next->prev = node->prev;
     }
     node->prev = NULL;
@@ -245,7 +222,7 @@ void list_delete(list_t *list, node_t *node)
     list->length--;
 }
 
-node_t *list_pop(list_t *list)
+node_t* list_pop(list_t* list)
 {
     /* Remove and return the last value in the list
 	 * If you don't need it, you still probably want to free it!
@@ -253,58 +230,50 @@ node_t *list_pop(list_t *list)
 	 * */
     if (!list->tail)
         return NULL;
-    node_t *out = list->tail;
+    node_t* out = list->tail;
     list_delete(list, out);
     return out;
 }
 
-node_t *list_dequeue(list_t *list)
+node_t* list_dequeue(list_t* list)
 {
     if (!list->head)
         return NULL;
-    node_t *out = list->head;
+    node_t* out = list->head;
     list_delete(list, out);
     return out;
 }
 
-list_t *list_copy(list_t *original)
+list_t* list_copy(list_t* original)
 {
     /* Create a new copy of original */
-    list_t *out = list_create();
-    node_t *node = original->head;
-    while (node)
-    {
+    list_t* out = list_create();
+    node_t* node = original->head;
+    while (node) {
         list_insert(out, node->value);
     }
     return out;
 }
 
-void list_merge(list_t *target, list_t *source)
+void list_merge(list_t* target, list_t* source)
 {
     /* Destructively merges source into target */
-    foreach (node, source)
-    {
+    foreach (node, source) {
         node->owner = target;
     }
-    if (source->head)
-    {
+    if (source->head) {
         source->head->prev = target->tail;
     }
-    if (target->tail)
-    {
+    if (target->tail) {
         target->tail->next = source->head;
-    }
-    else
-    {
+    } else {
         target->head = source->head;
     }
-    if (source->tail)
-    {
+    if (source->tail) {
         target->tail = source->tail;
     }
     target->length += source->length;
     free(source);
 }
-
 
 /* EOF */

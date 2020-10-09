@@ -4,57 +4,56 @@ This software is distributed under the GNU General Public License.
 See the file LICENSE for details.
 */
 
-#include <library/list_t.h>
 #include <library/hashmap.h>
+#include <library/list_t.h>
 
-unsigned int hashmap_string_hash(void *_key)
+unsigned int hashmap_string_hash(void* _key)
 {
     unsigned int hash = 0;
-    char *key = (char *)_key;
+    char* key = (char*)_key;
     int c;
     /* This is the so-called "sdbm" hash. It comes from a piece of
 	 * public domain code from a clone of ndbm. */
-    while ((c = *key++))
-    {
+    while ((c = *key++)) {
         hash = c + (hash << 6) + (hash << 16) - hash;
     }
     return hash;
 }
 
-int hashmap_string_comp(void *a, void *b)
+int hashmap_string_comp(void* a, void* b)
 {
     return !strcmp(a, b);
 }
 
-void *hashmap_string_dupe(void *key)
+void* hashmap_string_dupe(void* key)
 {
     return strdup(key);
 }
 
-unsigned int hashmap_int_hash(void *key)
+unsigned int hashmap_int_hash(void* key)
 {
     return (unsigned int)key;
 }
 
-int hashmap_int_comp(void *a, void *b)
+int hashmap_int_comp(void* a, void* b)
 {
     return (int)a == (int)b;
 }
 
-void *hashmap_int_dupe(void *key)
+void* hashmap_int_dupe(void* key)
 {
     return key;
 }
 
-static void hashmap_int_free(void *ptr)
+static void hashmap_int_free(void* ptr)
 {
     (void)ptr;
     return;
 }
 
-hashmap_t *hashmap_create(int size)
+hashmap_t* hashmap_create(int size)
 {
-    hashmap_t *map = malloc(sizeof(hashmap_t));
+    hashmap_t* map = malloc(sizeof(hashmap_t));
 
     map->hash_func = &hashmap_string_hash;
     map->hash_comp = &hashmap_string_comp;
@@ -63,15 +62,15 @@ hashmap_t *hashmap_create(int size)
     map->hash_val_free = &free;
 
     map->size = size;
-    map->entries = malloc(sizeof(hashmap_entry_t *) * size);
-    memset(map->entries, 0x00, sizeof(hashmap_entry_t *) * size);
+    map->entries = malloc(sizeof(hashmap_entry_t*) * size);
+    memset(map->entries, 0x00, sizeof(hashmap_entry_t*) * size);
 
     return map;
 }
 
-hashmap_t *hashmap_create_int(int size)
+hashmap_t* hashmap_create_int(int size)
 {
-    hashmap_t *map = malloc(sizeof(hashmap_t));
+    hashmap_t* map = malloc(sizeof(hashmap_t));
 
     map->hash_func = &hashmap_int_hash;
     map->hash_comp = &hashmap_int_comp;
@@ -80,44 +79,37 @@ hashmap_t *hashmap_create_int(int size)
     map->hash_val_free = &free;
 
     map->size = size;
-    map->entries = malloc(sizeof(hashmap_entry_t *) * size);
-    memset(map->entries, 0x00, sizeof(hashmap_entry_t *) * size);
+    map->entries = malloc(sizeof(hashmap_entry_t*) * size);
+    memset(map->entries, 0x00, sizeof(hashmap_entry_t*) * size);
 
     return map;
 }
 
-void *hashmap_set(hashmap_t *map, void *key, void *value)
+void* hashmap_set(hashmap_t* map, void* key, void* value)
 {
     unsigned int hash = map->hash_func(key) % map->size;
 
-    hashmap_entry_t *x = map->entries[hash];
-    if (!x)
-    {
-        hashmap_entry_t *e = malloc(sizeof(hashmap_entry_t));
+    hashmap_entry_t* x = map->entries[hash];
+    if (!x) {
+        hashmap_entry_t* e = malloc(sizeof(hashmap_entry_t));
         e->key = map->hash_key_dup(key);
         e->value = value;
         e->next = NULL;
         map->entries[hash] = e;
         return NULL;
-    }
-    else
-    {
-        hashmap_entry_t *p = NULL;
-        do
-        {
-            if (map->hash_comp(x->key, key))
-            {
-                void *out = x->value;
+    } else {
+        hashmap_entry_t* p = NULL;
+        do {
+            if (map->hash_comp(x->key, key)) {
+                void* out = x->value;
                 x->value = value;
                 return out;
-            }
-            else
-            {
+            } else {
                 p = x;
                 x = x->next;
             }
         } while (x);
-        hashmap_entry_t *e = malloc(sizeof(hashmap_entry_t));
+        hashmap_entry_t* e = malloc(sizeof(hashmap_entry_t));
         e->key = map->hash_key_dup(key);
         e->value = value;
         e->next = NULL;
@@ -127,21 +119,16 @@ void *hashmap_set(hashmap_t *map, void *key, void *value)
     }
 }
 
-void *hashmap_get(hashmap_t *map, void *key)
+void* hashmap_get(hashmap_t* map, void* key)
 {
     unsigned int hash = map->hash_func(key) % map->size;
 
-    hashmap_entry_t *x = map->entries[hash];
-    if (!x)
-    {
+    hashmap_entry_t* x = map->entries[hash];
+    if (!x) {
         return NULL;
-    }
-    else
-    {
-        do
-        {
-            if (map->hash_comp(x->key, key))
-            {
+    } else {
+        do {
+            if (map->hash_comp(x->key, key)) {
                 return x->value;
             }
             x = x->next;
@@ -150,34 +137,26 @@ void *hashmap_get(hashmap_t *map, void *key)
     }
 }
 
-void *hashmap_remove(hashmap_t *map, void *key)
+void* hashmap_remove(hashmap_t* map, void* key)
 {
     unsigned int hash = map->hash_func(key) % map->size;
 
-    hashmap_entry_t *x = map->entries[hash];
-    if (!x)
-    {
+    hashmap_entry_t* x = map->entries[hash];
+    if (!x) {
         return NULL;
-    }
-    else
-    {
-        if (map->hash_comp(x->key, key))
-        {
-            void *out = x->value;
+    } else {
+        if (map->hash_comp(x->key, key)) {
+            void* out = x->value;
             map->entries[hash] = x->next;
             map->hash_key_free(x->key);
             map->hash_val_free(x);
             return out;
-        }
-        else
-        {
-            hashmap_entry_t *p = x;
+        } else {
+            hashmap_entry_t* p = x;
             x = x->next;
-            do
-            {
-                if (map->hash_comp(x->key, key))
-                {
-                    void *out = x->value;
+            do {
+                if (map->hash_comp(x->key, key)) {
+                    void* out = x->value;
                     p->next = x->next;
                     map->hash_key_free(x->key);
                     map->hash_val_free(x);
@@ -191,21 +170,16 @@ void *hashmap_remove(hashmap_t *map, void *key)
     }
 }
 
-int hashmap_has(hashmap_t *map, void *key)
+int hashmap_has(hashmap_t* map, void* key)
 {
     unsigned int hash = map->hash_func(key) % map->size;
 
-    hashmap_entry_t *x = map->entries[hash];
-    if (!x)
-    {
+    hashmap_entry_t* x = map->entries[hash];
+    if (!x) {
         return 0;
-    }
-    else
-    {
-        do
-        {
-            if (map->hash_comp(x->key, key))
-            {
+    } else {
+        do {
+            if (map->hash_comp(x->key, key)) {
                 return 1;
             }
             x = x->next;
@@ -214,15 +188,13 @@ int hashmap_has(hashmap_t *map, void *key)
     }
 }
 
-list_t *hashmap_keys(hashmap_t *map)
+list_t* hashmap_keys(hashmap_t* map)
 {
-    list_t *l = list_create();
+    list_t* l = list_create();
 
-    for (unsigned int i = 0; i < map->size; ++i)
-    {
-        hashmap_entry_t *x = map->entries[i];
-        while (x)
-        {
+    for (unsigned int i = 0; i < map->size; ++i) {
+        hashmap_entry_t* x = map->entries[i];
+        while (x) {
             list_insert(l, x->key);
             x = x->next;
         }
@@ -231,15 +203,13 @@ list_t *hashmap_keys(hashmap_t *map)
     return l;
 }
 
-list_t *hashmap_values(hashmap_t *map)
+list_t* hashmap_values(hashmap_t* map)
 {
-    list_t *l = list_create();
+    list_t* l = list_create();
 
-    for (unsigned int i = 0; i < map->size; ++i)
-    {
-        hashmap_entry_t *x = map->entries[i];
-        while (x)
-        {
+    for (unsigned int i = 0; i < map->size; ++i) {
+        hashmap_entry_t* x = map->entries[i];
+        while (x) {
             list_insert(l, x->value);
             x = x->next;
         }
@@ -248,13 +218,11 @@ list_t *hashmap_values(hashmap_t *map)
     return l;
 }
 
-void hashmap_free(hashmap_t *map)
+void hashmap_free(hashmap_t* map)
 {
-    for (unsigned int i = 0; i < map->size; ++i)
-    {
+    for (unsigned int i = 0; i < map->size; ++i) {
         hashmap_entry_t *x = map->entries[i], *p;
-        while (x)
-        {
+        while (x) {
             p = x;
             x = x->next;
             map->hash_key_free(p->key);
@@ -264,15 +232,13 @@ void hashmap_free(hashmap_t *map)
     free(map->entries);
 }
 
-int hashmap_is_empty(hashmap_t *map)
+int hashmap_is_empty(hashmap_t* map)
 {
-    for (unsigned int i = 0; i < map->size; ++i)
-    {
+    for (unsigned int i = 0; i < map->size; ++i) {
         if (map->entries[i])
             return 0;
     }
     return 1;
 }
-
 
 /* EOF */

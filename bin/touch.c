@@ -7,12 +7,11 @@
 /**
  * touch: Utility for creating files on the disk
 */
-#include <stdio.h>
 #include <library/scanf.h>
+#include <stdio.h>
 
-
-int main(int argc, const char *argv[])
+int main(int argc, const char* argv[])
 {
-    // not implemented :)   
+    // not implemented :)
     return 0xDEAD;
 }

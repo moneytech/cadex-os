@@ -6,129 +6,127 @@
 
 /**
  * C++ string functions and classes
-*/ 
+*/
 #ifndef _STRING
 #define _STRING
 
-#include <string.h>
 #include <memory>
+#include <string.h>
 
-namespace std
-{
-    /* C++ String Class */
-    class String
-    {
-    private:
-        char *str;
+namespace std {
+/* C++ String Class */
+class String {
+private:
+    char* str;
 
-    public:
-        /* Properties */
-        int length;
+public:
+    /* Properties */
+    int length;
 
-        /**
+    /**
          * Returns 1 if the string ends with the specified suffix
          * @param suffix The suffix to check
         */
-        auto endsWith(char *suffix) -> int
-        {
-            return strEndsWith(str, suffix);
-        }
+    auto endsWith(char* suffix) -> int
+    {
+        return strEndsWith(str, suffix);
+    }
 
-        /**
+    /**
          * Returns 1 if the string starts with the specified prefix
          * @param prefix The prefix to check
         */
-        auto startsWith(char *prefix) -> int
-        {
-            return strStartsWith(prefix, str);
-        }
+    auto startsWith(char* prefix) -> int
+    {
+        return strStartsWith(prefix, str);
+    }
 
-        /**
+    /**
          * Returns the length of the string
         */
-        auto getLength() -> int
-        {
-            return strlen(str);
-        }
+    auto getLength() -> int
+    {
+        return strlen(str);
+    }
 
-        /**
+    /**
          * Sets the value of the string
         */
-        auto setValue(char *a) -> void
-        {
-            str = a;
-        }
+    auto setValue(char* a) -> void
+    {
+        str = a;
+    }
 
-        /**
+    /**
          * Splits the string with the specified delimeter
          * @param a The delimeter to use for splitting the string
         */
-        auto split(char *a) -> char *
-        {
-            return strtok(str, a);
-        }
+    auto split(char* a) -> char*
+    {
+        return strtok(str, a);
+    }
 
-        /**
+    /**
          * Converts the string to Integer with the atoi function
         */
-        auto toInt() -> int
-        {
-            return atoi(str);
-        }
+    auto toInt() -> int
+    {
+        return atoi(str);
+    }
 
-        /**
+    /**
          * Join the value of the string to the specified string
          * @param s The string to join with
         */
-        auto join(char *s) -> void
-        {
-            strcat(str, s);
-        }
+    auto join(char* s) -> void
+    {
+        strcat(str, s);
+    }
 
-        /**
+    /**
          * Join the value of the string to the specified string
          * @param s The string to join with
         */
-        static auto join(char *a, char *s) -> void
-        {
-            strcat(a, s);
-        }
+    static auto join(char* a, char* s) -> void
+    {
+        strcat(a, s);
+    }
 
-        /**
+    /**
          * Creates a new String object with the specified value
          * @param a The value to store in the String object
         */
-        String(char *a)
-        {
-            // Set the value of 'str' to the value of 'a'
-            str = a;
-        }
+    String(char* a)
+    {
+        // Set the value of 'str' to the value of 'a'
+        str = a;
+    }
 
-        /**
+    /**
          * Creates a new String object with an empty string
         */
-        String()
-        {
-            str = "";
-        }
+    String()
+    {
+        str = "";
+    }
 
-        /**
+    /**
          * Returns the value of the stored string
         */
-        auto getValue() -> char *
-        {
-            return str;
-        }
+    auto getValue() -> char*
+    {
+        return str;
+    }
 
-        /**
+    /**
          * Default destructor
         */
-        ~String()
-        {
-            // Free the memory
-            // free(str);
-        }
-    };
+    ~String()
+    {
+        // Free the memory
+        // free(str);
+    }
+};
 } // namespace std
 
 #endif

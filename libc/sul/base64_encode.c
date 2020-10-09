@@ -1,29 +1,27 @@
-#include <stddef.h>
 #include <library/malloc.h>
+#include <stddef.h>
 #include <sul.h>
 
 #define SIZE 1000
 // Takes string to be encoded as input
 // and its length and returns encoded string
-char *base64_encode(char input_str[], int len_str)
+char* base64_encode(char input_str[], int len_str)
 {
     // Character set of base64 encoding scheme
     char char_set[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
     // Resultant string
-    char *res_str = (char *)malloc(SIZE * sizeof(char));
+    char* res_str = (char*)malloc(SIZE * sizeof(char));
 
     int index, no_of_bits = 0, padding = 0, val = 0, count = 0, temp;
     int i, j, k = 0;
 
     // Loop takes 3 characters at a time from
     // input_str and stores it in val
-    for (i = 0; i < len_str; i += 3)
-    {
+    for (i = 0; i < len_str; i += 3) {
         val = 0, count = 0, no_of_bits = 0;
 
-        for (j = i; j < len_str && j <= i + 2; j++)
-        {
+        for (j = i; j < len_str && j <= i + 2; j++) {
             // binary data of input_str is stored in val
             val = val << 8;
 
@@ -42,19 +40,15 @@ char *base64_encode(char input_str[], int len_str)
 
         // extracts all bits from val (6 at a time)
         // and find the value of each block
-        while (no_of_bits != 0)
-        {
+        while (no_of_bits != 0) {
             // retrieve the value of each block
-            if (no_of_bits >= 6)
-            {
+            if (no_of_bits >= 6) {
                 temp = no_of_bits - 6;
 
                 // binary of 63 is (111111) f
                 index = (val >> temp) & 63;
                 no_of_bits -= 6;
-            }
-            else
-            {
+            } else {
                 temp = 6 - no_of_bits;
 
                 // append zeros to right if bits are less than 6
@@ -66,8 +60,7 @@ char *base64_encode(char input_str[], int len_str)
     }
 
     // padding is done here
-    for (i = 1; i <= padding; i++)
-    {
+    for (i = 1; i <= padding; i++) {
         res_str[k++] = '=';
     }
 

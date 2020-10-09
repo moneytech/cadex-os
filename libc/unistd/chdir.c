@@ -4,18 +4,17 @@
  * See the file LICENSE for details
 */
 
-#include <unistd.h>
-#include <library/syscalls.h>
 #include <errno.h>
+#include <library/syscalls.h>
+#include <unistd.h>
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
-	int chdir(const char *path)
-	{
-		strerror(syscall_chdir((char *)path));
-	}
+int chdir(const char* path)
+{
+    strerror(syscall_chdir((char*)path));
+}
 #ifdef __cplusplus
 }
 #endif

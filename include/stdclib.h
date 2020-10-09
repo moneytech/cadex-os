@@ -1,8 +1,8 @@
 #ifndef STDCLIB_H
 #define STDCLIB_H
 
-#include <library/types.h>
 #include <library/malloc.h>
+#include <library/types.h>
 #include <library/version.h>
 
 // some cadex-specific attributes
@@ -13,7 +13,7 @@
  * Get the system version
  * @return char
 */
-char *get_system_version();
+char* get_system_version();
 
 //! contty.c
 /**

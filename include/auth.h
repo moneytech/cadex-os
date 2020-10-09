@@ -7,8 +7,8 @@
 #ifndef _AUTH_H
 #define _AUTH_H
 
-#include <stdio.h>
 #include <library/scanf.h>
+#include <stdio.h>
 
 extern int getAuth();
 

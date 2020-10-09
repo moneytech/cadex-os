@@ -1,6 +1,6 @@
 /**
  * TrueGL Graphics Library v0.2
- * 
+ *
  * Copyright (C) 2019-2020 OpenCreeck
  * This software is distributed under the GNU General Public License.
  * See the file LICENSE for details.
@@ -8,35 +8,27 @@
 
 #include <truegl/truegl.h>
 
-extern int movable_scanf(int x, int y, char *line, int length)
+extern int movable_scanf(int x, int y, char* line, int length)
 {
     int i = 0;
-    char *c[1024];
-    while (1)
-    {
+    char* c[1024];
+    while (1) {
         read_object(0, &c, 1);
-        if (c == ASCII_CR)
-        {
+        if (c == ASCII_CR) {
             print(x, y, c);
             flushScreen();
             flush();
             line[i] = 0;
             return i;
-        }
-        else if (c == ASCII_BS)
-        {
-            if (i > 0)
-            {
+        } else if (c == ASCII_BS) {
+            if (i > 0) {
                 i--;
                 print(x, y, c);
                 flushScreen();
                 flush();
             }
-        }
-        else
-        {
-            if (i < (length - 1))
-            {
+        } else {
+            if (i < (length - 1)) {
                 line[i] = c;
                 i++;
                 print(x, y, c);
@@ -46,3 +38,4 @@ extern int movable_scanf(int x, int y, char *line, int length)
         }
     }
 }
+

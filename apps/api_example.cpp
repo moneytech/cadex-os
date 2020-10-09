@@ -1,13 +1,13 @@
+#include <fstream>
 #include <iostream>
 #include <string>
-#include <fstream>
-#include <truegl/lib/button.hpp>
 #include <sys/logger.h>
+#include <truegl/lib/button.hpp>
 
 using namespace std;
-using namespace TGL; 
- 
-int main(int argc, const char *argv[])
+using namespace TGL;
+
+int main(int argc, const char* argv[])
 {
     Console::WriteLine("Cadex OS C++ API examples");
     printf("hello\rhelloworld\n");

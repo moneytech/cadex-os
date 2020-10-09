@@ -19,25 +19,20 @@ using namespace TGL::GKit; // Required for TrueGL; We dont want to put TGL::GKit
 int key;
 int x, y, w, h;
 
-int main(int argc, const char **argv)
+int main(int argc, const char** argv)
 {
     Console::WriteLine("Box: A simple but mind blowing game"); // just an intro :)
     renderWindow(WN_STDWINDOW);
     w = 10;
     h = 10;
-    while (1)
-    {
+    while (1) {
         read_object(STDIN, &key, 1);
-        if (key == KeyCode::KEY_W || key == ASCII_W)
-        {
+        if (key == KeyCode::KEY_W || key == ASCII_W) {
             y--;
             drawRect(x, y, w, h);
-        }
-        else if (key == KeyCode::KEY_ESCAPE)
-        {
+        } else if (key == KeyCode::KEY_ESCAPE) {
             break;
         }
-        
     }
     return 0; // Don't forget to return 0!
 }

@@ -11,16 +11,16 @@
 
 # Constants describing our basic memory layout are in this
 # header file, which is shared between C and assembly modules:
-	
+
 #include "memorylayout.h"
-	
+
 # When we receive control from the BIOS, the following are set:
 # %dl - the device number this block was loaded from
 # %es:%si - the partition table entry we were loaded from
 
 # To set the code segment appropriately, the first thing we
 # do is a long jump to _start2, which sets cs=BOOTBLOCK_SEGMENT
-	
+
 .code16
 .text
 .global _start
@@ -30,7 +30,7 @@ _start:
 # Now we begin setting up the execution environment
 # for loading the rest of the kernel.
 
-_start2:	
+_start2:
 	sti				# disable interrupts
 	cld				# clear the direction flag
 	mov	%cs, %ax		# set all segments to code
@@ -44,7 +44,7 @@ _start2:
 	mov	partition_status,%di	# set the partition table as dest
 	mov	$12, %cx		# copy 12 bytes from si to di
 	rep	movsb
-		
+
 	mov	$(loadmsg),%si		# print initial message
         call	bios_putstring
 
@@ -57,7 +57,7 @@ _start2:
 	mov	%cl, (disk_sectors)
 	mov	%ch, (disk_cylinders)
 	mov	%dh, (disk_heads)
-	
+
 	mov	$KERNEL_SEGMENT,%ax	# load happens at es:bx
 	mov	%ax, %es		# which we set to
 	mov	$KERNEL_OFFSET,%bx	# KERNEL_SEGMENT:KERNEL_OFFSET
@@ -72,23 +72,23 @@ loadsector:
 	mov	$1,%al			# load 1 sector
 	mov	$0x02, %ah		# load command
 	int	$0x13			# execute load
-	
+
 	mov	$'.', %al		# display a dot
 	call	bios_putchar		# for each sector loaded
-	
+
 	mov	(sectors_left),%ax	# how many sectors left?
 	cmp	$0xffff, %ax		# has it been initialized?
 	jne	gotsectors		# yes - use the value
 	mov	%es:(KERNEL_SIZE_OFFSET),%eax	# no - get size of kernel
 	shr	$9, %eax		# convert into blocks
 	inc	%eax			# add one for good measure
-	
-gotsectors:		
+
+gotsectors:
 	dec	%ax			# remove one block
 	mov	%ax,(sectors_left)	# store the value
 	cmp	$0, %ax			# are we done?
 	je	loaddone		# yes - jump to bottom
-			
+
 checksegment:
 	add	$512,%bx		# move data pointer by 512 bytes
 	cmp	$0, %bx			# did we reach segment end?
@@ -118,14 +118,14 @@ nextsector:
 loaddone:
 	mov	$0,%ah			# reset the disk system
 	int	$0x13
-	
+
 	mov	$(bootmsg),%si		# print boot message
         call	bios_putstring
-	
+
 	mov	$KERNEL_SEGMENT, %ax    # jump to the kernel code
 	mov	%ax, %ds
 	ljmp	$KERNEL_SEGMENT, $KERNEL_OFFSET
-	
+
 bios_putstring:				# routine to print an entire string
 	mov	(%si), %al
 	cmp	$0, %al
@@ -159,18 +159,18 @@ disk_heads:
 	.byte 0
 disk_sectors:
 	.byte 0
-sectors_left:	
+sectors_left:
 	.word 0xffff
 
 partition_status:
 	.byte 0
-partition_start_chs:	
+partition_start_chs:
 	.byte 0
 	.byte 0
 	.byte 0
-partition_type:	
+partition_type:
 	.byte 0
-partition_stop_chs:	
+partition_stop_chs:
 	.byte 0
 	.byte 0
 	.byte 0
@@ -178,7 +178,7 @@ partition_start_lba:
 	.long 0
 partition_length:
 	.long 0
-				
+
 # A bootblock must have 0xaa55 in its two final bytes.
 # The .org directive forces this data to that point.
 

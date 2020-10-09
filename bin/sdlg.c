@@ -14,7 +14,7 @@
 #include <library/stdio.h>
 #include <library/types.h>
 
-int main(int argc, char const *argv[])
+int main(int argc, char const* argv[])
 {
     int x1 = 12;
     int y1 = 12;
@@ -26,10 +26,9 @@ int main(int argc, char const *argv[])
     int height = dims[1];
 
     // Check if length of command-line arguments is lesser than 0
-    if (argc <= 0)
-    {
-		printf("usage: sdlg [options]... (title|bgcolor|fgcolor|button)\n");
-		exit(0);
+    if (argc <= 0) {
+        printf("usage: sdlg [options]... (title|bgcolor|fgcolor|button)\n");
+        exit(0);
     }
     renderWindow(WN_STDWINDOW);
     clear_screen();

@@ -13,12 +13,13 @@
  */
 #include <stdio.h>
 
-int main(int argc, char *argv[]) {
-  int index;
-  int temp;
-  uint8_t buffer[1024];
+int main(int argc, char* argv[])
+{
+    int index;
+    int temp;
+    uint8_t buffer[1024];
 
-  // TODO: Implement stapp functionality
+    // TODO: Implement stapp functionality
 
-  return 0;
+    return 0;
 }

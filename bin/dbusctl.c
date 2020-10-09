@@ -7,13 +7,13 @@
 /**
  * DBus serice control system: Controls how dbus pipe should work
 */
-#include <stdio.h>
 #include <library/scanf.h>
 #include <shared/dbus_data.h>
+#include <stdio.h>
 
-int main(int argc, const char *argv[])
+int main(int argc, const char* argv[])
 {
-    if(argc <= 0){
+    if (argc <= 0) {
         return 0;
     } else {
         // TODO: Add some type of DBus functionality

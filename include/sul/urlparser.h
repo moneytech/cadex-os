@@ -27,11 +27,10 @@
 #define YUAREL_H
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-    /**
+/**
  * The struct where the parsed values will be stored:
  *
  * scheme ":" [ "//" ] [ username ":" password "@" ] host [ ":" port ] [ "/" ] [ path ] [ "?" query ]
@@ -39,26 +38,24 @@ extern "C"
  * Note: to make sure that no strings are copied, the first slash "/" in the
  * path will be used to null terminate the hostname if no port is supplied.
  */
-    struct yuarel
-    {
-        char *scheme;   /* scheme, without ":" and "//" */
-        char *username; /* username, default: NULL */
-        char *password; /* password, default: NULL */
-        char *host;     /* hostname or IP address */
-        int port;       /* port, default: 0 */
-        char *path;     /* path, without leading "/", default: NULL */
-        char *query;    /* query, default: NULL */
-        char *fragment; /* fragment, default: NULL */
-    };
+struct yuarel {
+    char* scheme;   /* scheme, without ":" and "//" */
+    char* username; /* username, default: NULL */
+    char* password; /* password, default: NULL */
+    char* host;     /* hostname or IP address */
+    int port;       /* port, default: 0 */
+    char* path;     /* path, without leading "/", default: NULL */
+    char* query;    /* query, default: NULL */
+    char* fragment; /* fragment, default: NULL */
+};
 
-    /* A struct to hold the query string parameter values. */
-    struct yuarel_param
-    {
-        char *key;
-        char *val;
-    };
+/* A struct to hold the query string parameter values. */
+struct yuarel_param {
+    char* key;
+    char* val;
+};
 
-    /**
+/**
  * Parse a URL to a struct.
  *
  * The URL string should be in one of the following formats:
@@ -77,9 +74,9 @@ extern "C"
  *
  * Returns 0 on success, otherwise -1.
  */
-    extern int yuarel_parse(struct yuarel *url, char *url_str);
+extern int yuarel_parse(struct yuarel* url, char* url_str);
 
-    /**
+/**
  * Split a path into several strings.
  *
  * No data is copied, the slashed are used as null terminators and then
@@ -92,9 +89,9 @@ extern "C"
  *
  * Returns the number of parsed items. -1 on error.
  */
-    extern int yuarel_split_path(char *path, char **parts, int max_parts);
+extern int yuarel_split_path(char* path, char** parts, int max_parts);
 
-    /**
+/**
  * Parse a query string into a key/value struct.
  *
  * The query string should be a null terminated string of parameters separated by
@@ -113,7 +110,7 @@ extern "C"
  *
  * Returns the number of parsed items. -1 on error.
  */
-    extern int yuarel_parse_query(char *query, char delimiter, struct yuarel_param *params, int max_params);
+extern int yuarel_parse_query(char* query, char delimiter, struct yuarel_param* params, int max_params);
 
 #ifdef __cplusplus
 }

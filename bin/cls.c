@@ -6,10 +6,10 @@
 /**
  * An application to clear the screen
 */
-#include <stdio.h>
 #include <debug.h>
+#include <stdio.h>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     // Just print out '\f' and boom! The screen is cleared!
     printf("\f");

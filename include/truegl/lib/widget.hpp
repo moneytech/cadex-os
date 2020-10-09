@@ -7,45 +7,41 @@
 #ifndef _TRUEGL_WIDGET
 #define _TRUEGL_WIDGET
 
-#include <string>
 #include <stdio.h>
+#include <string>
 
-namespace TGL
-{
-    class WidgetBase
+namespace TGL {
+class WidgetBase {
+public:
+    WidgetBase() { }
+    WidgetBase(WidgetBase&&) { }
+    ~WidgetBase() { }
+
+private:
+};
+
+class TWidget : public WidgetBase {
+private:
+    int height;
+    int width;
+    int x;
+    int y;
+    char* label;
+
+public:
+    TWidget()
     {
-    public:
-        WidgetBase(){}
-        WidgetBase(WidgetBase &&){}
-        ~WidgetBase(){}
-    
-    private:
-        
-    };
-
-    class TWidget : public WidgetBase
+        x = 0;
+        y = 0;
+        width = 0;
+        height = 0;
+        label = "";
+    }
+    ~TWidget()
     {
-    private:
-        int height;
-        int width;
-        int x;
-        int y;
-        char *label;
-
-    public:
-        TWidget()
-        {
-            x = 0;
-            y = 0;
-            width = 0;
-            height = 0;
-            label = "";
-        }
-        ~TWidget()
-        {
-            free(label);
-        }
-    };
+        free(label);
+    }
+};
 
 } // namespace TGL
 #endif // !_TRUEGL_WIDGET

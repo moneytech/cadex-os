@@ -15,14 +15,11 @@
 
 #define MAX_ATEXIT_ENTRIES 128
 
-struct cxa_ref_s
-{
-    void (*f)(void *);
-    void *arg;
-    void *dso;
+struct cxa_ref_s {
+    void (*f)(void*);
+    void* arg;
+    void* dso;
 };
-
-
 
 // extern "C" int __cxa_atexit(void (*func)(void *), void *arg, void *dso_handle)
 // {
@@ -35,14 +32,12 @@ struct cxa_ref_s
 //     return 0;
 // }
 
-extern "C" void __cxa_finalize(void *d)
+extern "C" void __cxa_finalize(void* d)
 {
     cxa_ref_s __refs__[MAX_ATEXIT_ENTRIES];
     int __refs_len__ = 0;
-    if (!d)
-    {
-        for (int i = __refs_len__ - 1; i >= 0; --i)
-        {
+    if (!d) {
+        for (int i = __refs_len__ - 1; i >= 0; --i) {
             if (__refs__[i].f)
                 __refs__[i].f(__refs__[i].arg);
         }
@@ -50,15 +45,12 @@ extern "C" void __cxa_finalize(void *d)
     }
 
     // else
-    for (int i = __refs_len__ - 1; i >= 0; --i)
-    {
-        if (__refs__[i].f == d)
-        {
+    for (int i = __refs_len__ - 1; i >= 0; --i) {
+        if (__refs__[i].f == d) {
             __refs__[i].f(__refs__[i].arg);
             __refs__[i].f = NULL;
         }
     }
 }
-
 
 #endif

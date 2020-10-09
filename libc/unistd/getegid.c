@@ -1,6 +1,6 @@
 #include <unistd.h>
 
-int getegid() {
-	return getgid();
+int getegid()
+{
+    return getgid();
 }
-

@@ -5,34 +5,33 @@ See the file LICENSE for details.
 */
 
 /*
-A clone of gedit for Cadex OS 
+A clone of gedit for Cadex OS
 */
 
-#include "library/syscalls.h"
-#include "library/string.h"
 #include "library/stdio.h"
-int main(int argc, char *argv[])
+#include "library/string.h"
+#include "library/syscalls.h"
+int main(int argc, char* argv[])
 {
-	// Change directory to root
-	syscall_chdir("/");
-	printf("got root\n");
-	// Open file stream
-	int dir_fd = syscall_open_file("/", 0, 0);
-	// syscall_object_set_tag(dir_fd, "ROOT");
-	// printf("Opened root directory\n");
-	int fd = syscall_open_file("/data/words", 0, 0);
-	char buffer[1000];
-	int n;
-	printf("reading file...\n");
-	while ((n = read_object(fd, buffer, 100)) > 0)
-	{
-		buffer[n] = 0;
-		printf(buffer);
-		flush();
-	}
+    // Change directory to root
+    syscall_chdir("/");
+    printf("got root\n");
+    // Open file stream
+    int dir_fd = syscall_open_file("/", 0, 0);
+    // syscall_object_set_tag(dir_fd, "ROOT");
+    // printf("Opened root directory\n");
+    int fd = syscall_open_file("/data/words", 0, 0);
+    char buffer[1000];
+    int n;
+    printf("reading file...\n");
+    while ((n = read_object(fd, buffer, 100)) > 0) {
+        buffer[n] = 0;
+        printf(buffer);
+        flush();
+    }
 
-	syscall_object_close(fd);
-	_process_exit(0);
+    syscall_object_close(fd);
+    _process_exit(0);
 
-	return 0;
+    return 0;
 }

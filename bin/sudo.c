@@ -1,25 +1,21 @@
-#include <stdio.h>
 #include <library/scanf.h>
 #include <passwd.h>
+#include <stdio.h>
 
 int tmp1;
 
 extern int getAuth()
 {
-    char *passwd[1024];
+    char* passwd[1024];
 
 password:
     printf("sudo: password for root: ");
     passwd_scanf(passwd, sizeof(passwd));
-    if (!strcmp(passwd, "root"))
-    {
+    if (!strcmp(passwd, "root")) {
         return 0;
-    }
-    else
-    {
+    } else {
         printf("\nsudo: wrong password\n");
-        if (tmp1 > 1)
-        {
+        if (tmp1 > 1) {
             printf("sudo: %d incorrect login attempts\n", tmp1 + 1);
             return 1;
         }
@@ -28,22 +24,16 @@ password:
     }
 }
 
-int main(int argc, const char *argv[])
+int main(int argc, const char* argv[])
 {
-    if (argc > 0)
-    {
-        if (!strcmp(argv[0], "-i"))
-        {
+    if (argc > 0) {
+        if (!strcmp(argv[0], "-i")) {
             getAuth();
             printf("\n");
-        }
-        else
-        {
+        } else {
             printf("sudo: invalid option: %s", argv[0]);
         }
-    }
-    else
-    {
+    } else {
         printf("usage: sudo -i\n");
     }
     return 0;

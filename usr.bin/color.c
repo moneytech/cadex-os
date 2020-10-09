@@ -1,12 +1,12 @@
 /*
 Simple application to change color of text.
 */
+#include <library/color.h>
 #include <library/stdio.h>
 #include <library/string.h>
 #include <library/types.h>
-#include <library/color.h>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     int dims[2];
     syscall_object_size(WN_STDWINDOW, dims, 2);
@@ -16,9 +16,8 @@ int main(int argc, char *argv[])
     renderWindow(WN_STDWINDOW);
     // clearScreen(0, 0, width, height);
     if (!strcmp(argv[0], "blue")) {
-        setTextColor(BLUE,0);
-    }
-    else {
+        setTextColor(BLUE, 0);
+    } else {
         printf("usage: color <color>");
     }
     flush();

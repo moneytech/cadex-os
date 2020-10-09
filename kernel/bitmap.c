@@ -10,36 +10,36 @@
 
 static struct bitmap root_bitmap;
 
-struct bitmap *bitmap_create_root()
+struct bitmap* bitmap_create_root()
 {
-	root_bitmap.width = video_xres;
-	root_bitmap.height = video_yres;
-	root_bitmap.format = BITMAP_FORMAT_RGBA;
-	root_bitmap.data = video_buffer;
-	return &root_bitmap;
+    root_bitmap.width = video_xres;
+    root_bitmap.height = video_yres;
+    root_bitmap.format = BITMAP_FORMAT_RGBA;
+    root_bitmap.data = video_buffer;
+    return &root_bitmap;
 }
 
-struct bitmap *bitmap_create(int width, int height, int format)
+struct bitmap* bitmap_create(int width, int height, int format)
 {
-	struct bitmap *b = kmalloc(sizeof(*b));
-	if(!b)
-		return 0;
+    struct bitmap* b = kmalloc(sizeof(*b));
+    if (!b)
+        return 0;
 
-	b->data = kmalloc(width * height * 3);
-	if(!b->data) {
-		kfree(b);
-		return 0;
-	}
+    b->data = kmalloc(width * height * 3);
+    if (!b->data) {
+        kfree(b);
+        return 0;
+    }
 
-	b->width = width;
-	b->height = height;
-	b->format = format;
+    b->width = width;
+    b->height = height;
+    b->format = format;
 
-	return b;
+    return b;
 }
 
-void bitmap_delete(struct bitmap *b)
+void bitmap_delete(struct bitmap* b)
 {
-	kfree(b->data);
-	kfree(b);
+    kfree(b->data);
+    kfree(b);
 }

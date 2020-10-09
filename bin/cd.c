@@ -10,12 +10,11 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    if(argc > 0){
+    if (argc > 0) {
         chdir(argv[0]);
-    } else
-    {
+    } else {
         printf("usage: cd <path>\n");
     }
     return 0;

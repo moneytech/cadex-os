@@ -10,31 +10,27 @@
 #ifndef C940D579_0AB0_4F5F_A4B8_06278493864B
 #define C940D579_0AB0_4F5F_A4B8_06278493864B
 
-namespace Colors
-{
-    class ColorBase
-    {
-    public:
-        static const int r = 0;
-        static const int g = 0;
-        static const int b = 0;
-        static const int a = 0;
-    };
-    class Color : public ColorBase
-    {
-    public:
-        static const int r = 0;
-        static const int g = 0;
-        static const int b = 0;
-        static const int a = 0;
-    };
-    class Red : public Color
-    {
-    public:
-        static const int r = 200;
-        static const int g = 10;
-        static const int b = 10;
-        static const int a = 10;
-    };
+namespace Colors {
+class ColorBase {
+public:
+    static const int r = 0;
+    static const int g = 0;
+    static const int b = 0;
+    static const int a = 0;
+};
+class Color : public ColorBase {
+public:
+    static const int r = 0;
+    static const int g = 0;
+    static const int b = 0;
+    static const int a = 0;
+};
+class Red : public Color {
+public:
+    static const int r = 200;
+    static const int g = 10;
+    static const int b = 10;
+    static const int a = 10;
+};
 } // namespace Colors
 #endif /* C940D579_0AB0_4F5F_A4B8_06278493864B */

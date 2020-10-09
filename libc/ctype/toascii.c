@@ -3,5 +3,5 @@
 /* nonsense function that should NEVER be used! */
 int toascii(int c)
 {
-	return c & 0x7f;
+    return c & 0x7f;
 }

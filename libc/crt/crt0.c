@@ -15,13 +15,13 @@ must invoke the _process_exit() function to terminate the process.
 
 #include "library/syscalls.h"
 
-int main(int argc, const char *argv[]);
+int main(int argc, const char* argv[]);
 
-const char** environ={
-	"PATH=/bin/,/usr/bin,/sys"
+const char** environ = {
+    "PATH=/bin/,/usr/bin,/sys"
 };
 
-void _start(int argc, const char **argv)
+void _start(int argc, const char** argv)
 {
-	_process_exit(main(argc, argv));
+    _process_exit(main(argc, argv));
 }

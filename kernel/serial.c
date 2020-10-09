@@ -9,11 +9,11 @@ See the file LICENSE for details.
 //     https://wiki.osdev.org/Serial_Ports
 //     http://www.webcitation.org/5ugQv5JOw
 
-#include "kernel/types.h"
-#include "ioports.h"
-#include "string.h"
-#include "device.h"
 #include "serial.h"
+#include "device.h"
+#include "ioports.h"
+#include "kernel/types.h"
+#include "string.h"
 
 #define SERIAL_DATA 0 // If DLAB disabled in LCR
 
@@ -54,111 +54,109 @@ See the file LICENSE for details.
 
 #define SERIAL_SCRATCH 7
 
-static const int serial_ports[4] = {COM1, COM2, COM3, COM4};
+static const int serial_ports[4] = { COM1, COM2, COM3, COM4 };
 
 static void serial_init_port(int port)
 {
-	//Disable iterrupts
-	outb(0x00, port + SERIAL_IRQ_ENABLE);
-	//Enable DLAB(set baud rate divisor)
-	outb(SERIAL_DLAB_ENABLE, port + SERIAL_LCR);
-	//Set divisor to 3(lo byte) 38400 baud
-	outb(0x03, port + SERIAL_DIVISOR_LO);
-	//(hi byte)
-	outb(0x00, port + SERIAL_DIVISOR_HI);
-	//8 bits, no parity, one stop bit
-	outb(SERIAL_CHARLEN_START * 3, port + SERIAL_LCR);
-	//Enable FIFO, clear them, with 14 - byte threshold
-	outb(SERIAL_FIFO_ENABLE | SERIAL_FIFO_CLEAR_RECIEVER | SERIAL_FIFO_CLEAR_TRANSMITTER | SERIAL_TRIGGER_LEVEL0 | SERIAL_TRIGGER_LEVEL1, port + SERIAL_FCR);
-	//IRQs enabled, RTS / DSR set
-	outb(SERIAL_DATA_TERMINAL_READY | SERIAL_REQUEST_TO_SEND | SERIAL_AUX_OUT2, port + SERIAL_MCR);
+    //Disable iterrupts
+    outb(0x00, port + SERIAL_IRQ_ENABLE);
+    //Enable DLAB(set baud rate divisor)
+    outb(SERIAL_DLAB_ENABLE, port + SERIAL_LCR);
+    //Set divisor to 3(lo byte) 38400 baud
+    outb(0x03, port + SERIAL_DIVISOR_LO);
+    //(hi byte)
+    outb(0x00, port + SERIAL_DIVISOR_HI);
+    //8 bits, no parity, one stop bit
+    outb(SERIAL_CHARLEN_START * 3, port + SERIAL_LCR);
+    //Enable FIFO, clear them, with 14 - byte threshold
+    outb(SERIAL_FIFO_ENABLE | SERIAL_FIFO_CLEAR_RECIEVER | SERIAL_FIFO_CLEAR_TRANSMITTER | SERIAL_TRIGGER_LEVEL0 | SERIAL_TRIGGER_LEVEL1, port + SERIAL_FCR);
+    //IRQs enabled, RTS / DSR set
+    outb(SERIAL_DATA_TERMINAL_READY | SERIAL_REQUEST_TO_SEND | SERIAL_AUX_OUT2, port + SERIAL_MCR);
 }
 
 static int serial_received(int port)
 {
-	return inb(port + SERIAL_LSR) & SERIAL_DATA_AVAILABLE;
+    return inb(port + SERIAL_LSR) & SERIAL_DATA_AVAILABLE;
 }
 
 static int is_transmit_empty(int port)
 {
-	return inb(port + SERIAL_LSR) & SERIAL_TRANSMIT_EMPTY;
+    return inb(port + SERIAL_LSR) & SERIAL_TRANSMIT_EMPTY;
 }
 
 static int is_valid_port(uint8_t port_no)
 {
-	return port_no < sizeof(serial_ports) / sizeof(int);
+    return port_no < sizeof(serial_ports) / sizeof(int);
 }
 
 char serial_read(uint8_t port_no)
 {
-	if (!is_valid_port(port_no))
-		return -1;
+    if (!is_valid_port(port_no))
+        return -1;
 
-	while (serial_received(serial_ports[port_no]) == 0)
-		;
-	inb(serial_ports[port_no]);
-	return 0;
+    while (serial_received(serial_ports[port_no]) == 0)
+        ;
+    inb(serial_ports[port_no]);
+    return 0;
 }
 
 int serial_write(uint8_t port_no, char a)
 {
-	if (!is_valid_port(port_no))
-		return -1;
+    if (!is_valid_port(port_no))
+        return -1;
 
-	while (is_transmit_empty(serial_ports[port_no]) == 0)
-		;
-	outb(a, serial_ports[port_no] + 0);
-	return 0;
+    while (is_transmit_empty(serial_ports[port_no]) == 0)
+        ;
+    outb(a, serial_ports[port_no] + 0);
+    return 0;
 }
 
-int serial_device_probe(int unit, int *blocksize, int *nblocks, char *info)
+int serial_device_probe(int unit, int* blocksize, int* nblocks, char* info)
 {
-	if (unit < 0 || unit > 3)
-		return 0;
-	serial_init_port(serial_ports[unit]);
-	*blocksize = 1;
-	*nblocks = 0;
-	strcpy(info, "serial");
-	return 1;
+    if (unit < 0 || unit > 3)
+        return 0;
+    serial_init_port(serial_ports[unit]);
+    *blocksize = 1;
+    *nblocks = 0;
+    strcpy(info, "serial");
+    return 1;
 }
 
-int serial_device_read(int unit, void *data, int length, int offset)
+int serial_device_read(int unit, void* data, int length, int offset)
 {
-	int i;
-	char *cdata = data;
-	for (i = 0; i < length; i++)
-	{
-		cdata[i] = serial_read(unit);
-	}
-	return length;
+    int i;
+    char* cdata = data;
+    for (i = 0; i < length; i++) {
+        cdata[i] = serial_read(unit);
+    }
+    return length;
 }
 
-int serial_device_write(int unit, const void *data, int length, int offset)
+int serial_device_write(int unit, const void* data, int length, int offset)
 {
-	int i;
-	const char *cdata = data;
-	for (i = 0; i < length; i++)
-	{
-		serial_write(unit, cdata[i]);
-	}
-	return length;
+    int i;
+    const char* cdata = data;
+    for (i = 0; i < length; i++) {
+        serial_write(unit, cdata[i]);
+    }
+    return length;
 }
 
 static struct device_driver serial_driver = {
-	.name = "serial",
-	.probe = serial_device_probe,
-	.read = serial_device_read,
-	.read_nonblock = serial_device_read,
-	.write = serial_device_write};
+    .name = "serial",
+    .probe = serial_device_probe,
+    .read = serial_device_read,
+    .read_nonblock = serial_device_read,
+    .write = serial_device_write
+};
 
 void serial_init()
 {
-	int i;
-	for (i = 0; i < sizeof(serial_ports) / sizeof(int); i++)
-	{
-		serial_init_port(serial_ports[i]);
-	}
-	device_driver_register(&serial_driver);
-	kprintf("[HARDWARE] serialports: ready\n");
-	dbg_printf("[serialports] initialized\n");
+    int i;
+    for (i = 0; i < sizeof(serial_ports) / sizeof(int); i++) {
+        serial_init_port(serial_ports[i]);
+    }
+    device_driver_register(&serial_driver);
+    kprintf("[HARDWARE] serialports: ready\n");
+    dbg_printf("[serialports] initialized\n");
 }

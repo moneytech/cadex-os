@@ -19,5 +19,4 @@
 
 WINDOW newwin(int width, int height, int x, int y)
 {
-	
 }

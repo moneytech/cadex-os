@@ -8,7 +8,7 @@ void setservent(int stayopen)
 {
 }
 
-struct servent *getservent(void)
+struct servent* getservent(void)
 {
-	return 0;
+    return 0;
 }
