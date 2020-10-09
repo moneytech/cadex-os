@@ -1,3 +1,6 @@
+# .clang-format is used by the C/C++ extension.
+# You can also use `clang-format' tool
+
 UseTab: true
 IndentCaseLabels: true
 BasedOnStyle: LLVM
