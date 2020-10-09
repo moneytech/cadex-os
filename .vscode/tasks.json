@@ -3,20 +3,9 @@
         {
             "type": "shell",
             "label": "C/C++: i686-elf-gcc build active file",
-            "command": "wsl",
+            "command": "make",
             "args": [
-                "-c",
-                "i686-elf-gcc",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "Wall",
-                "-c",
-                "-ffreestanding",
-                "-fno-pie ",
-                "-g ",
-                "-std=gnu99"
+                "run"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
