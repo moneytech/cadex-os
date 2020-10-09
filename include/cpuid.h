@@ -5,16 +5,16 @@
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation; either version 3, or (at your option) any
  * later version.
- * 
+ *
  * This file is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * Under Section 7 of GPL version 3, you are granted additional
  * permissions described in the GCC Runtime Library Exception, version
  * 3.1, as published by the Free Software Foundation.
- * 
+ *
  * You should have received a copy of the GNU General Public License and
  * a copy of the GCC Runtime Library Exception along with this program;
  * see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
@@ -178,15 +178,13 @@
 #define signature_VORTEX_ecx 0x436f5320
 #define signature_VORTEX_edx 0x36387865
 
-#define __cpuid(level, a, b, c, d)               \
-    __asm__("cpuid\n\t"                          \
-            : "=a"(a), "=b"(b), "=c"(c), "=d"(d) \
-            : "0"(level))
+#define __cpuid(level, a, b, c, d)                                             \
+  __asm__("cpuid\n\t" : "=a"(a), "=b"(b), "=c"(c), "=d"(d) : "0"(level))
 
-#define __cpuid_count(level, count, a, b, c, d)  \
-    __asm__("cpuid\n\t"                          \
-            : "=a"(a), "=b"(b), "=c"(c), "=d"(d) \
-            : "0"(level), "2"(count))
+#define __cpuid_count(level, count, a, b, c, d)                                \
+  __asm__("cpuid\n\t"                                                          \
+	  : "=a"(a), "=b"(b), "=c"(c), "=d"(d)                                 \
+	  : "0"(level), "2"(count))
 
 /* Return highest supported input value for cpuid instruction.  ext can
    be either 0x0 or 0x80000000 to return highest supported value for
@@ -195,54 +193,53 @@
    pointer is non-null, then first four bytes of the signature
    (as found in ebx register) are returned in location pointed by sig.  */
 
-static __inline unsigned int
-__get_cpuid_max(unsigned int __ext, unsigned int *__sig)
-{
-    unsigned int __eax, __ebx, __ecx, __edx;
+static __inline unsigned int __get_cpuid_max(unsigned int __ext,
+					     unsigned int *__sig) {
+  unsigned int __eax, __ebx, __ecx, __edx;
 
 #ifndef __x86_64__
-    /* See if we can use cpuid.  On AMD64 we always can.  */
+  /* See if we can use cpuid.  On AMD64 we always can.  */
 #if __GNUC__ >= 3
-    __asm__("pushf{l|d}\n\t"
-            "pushf{l|d}\n\t"
-            "pop{l}\t%0\n\t"
-            "mov{l}\t{%0, %1|%1, %0}\n\t"
-            "xor{l}\t{%2, %0|%0, %2}\n\t"
-            "push{l}\t%0\n\t"
-            "popf{l|d}\n\t"
-            "pushf{l|d}\n\t"
-            "pop{l}\t%0\n\t"
-            "popf{l|d}\n\t"
-            : "=&r"(__eax), "=&r"(__ebx)
-            : "i"(0x00200000));
+  __asm__("pushf{l|d}\n\t"
+	  "pushf{l|d}\n\t"
+	  "pop{l}\t%0\n\t"
+	  "mov{l}\t{%0, %1|%1, %0}\n\t"
+	  "xor{l}\t{%2, %0|%0, %2}\n\t"
+	  "push{l}\t%0\n\t"
+	  "popf{l|d}\n\t"
+	  "pushf{l|d}\n\t"
+	  "pop{l}\t%0\n\t"
+	  "popf{l|d}\n\t"
+	  : "=&r"(__eax), "=&r"(__ebx)
+	  : "i"(0x00200000));
 #else
-    /* Host GCCs older than 3.0 weren't supporting Intel asm syntax
-   nor alternatives in i386 code.  */
-    __asm__("pushfl\n\t"
-            "pushfl\n\t"
-            "popl\t%0\n\t"
-            "movl\t%0, %1\n\t"
-            "xorl\t%2, %0\n\t"
-            "pushl\t%0\n\t"
-            "popfl\n\t"
-            "pushfl\n\t"
-            "popl\t%0\n\t"
-            "popfl\n\t"
-            : "=&r"(__eax), "=&r"(__ebx)
-            : "i"(0x00200000));
+  /* Host GCCs older than 3.0 weren't supporting Intel asm syntax
+ nor alternatives in i386 code.  */
+  __asm__("pushfl\n\t"
+	  "pushfl\n\t"
+	  "popl\t%0\n\t"
+	  "movl\t%0, %1\n\t"
+	  "xorl\t%2, %0\n\t"
+	  "pushl\t%0\n\t"
+	  "popfl\n\t"
+	  "pushfl\n\t"
+	  "popl\t%0\n\t"
+	  "popfl\n\t"
+	  : "=&r"(__eax), "=&r"(__ebx)
+	  : "i"(0x00200000));
 #endif
 
-    if (!((__eax ^ __ebx) & 0x00200000))
-        return 0;
+  if (!((__eax ^ __ebx) & 0x00200000))
+    return 0;
 #endif
 
-    /* Host supports cpuid.  Return highest supported cpuid input value.  */
-    __cpuid(__ext, __eax, __ebx, __ecx, __edx);
+  /* Host supports cpuid.  Return highest supported cpuid input value.  */
+  __cpuid(__ext, __eax, __ebx, __ecx, __edx);
 
-    if (__sig)
-        *__sig = __ebx;
+  if (__sig)
+    *__sig = __ebx;
 
-    return __eax;
+  return __eax;
 }
 
 /* Return cpuid data for requested cpuid leaf, as found in returned
@@ -250,34 +247,32 @@ __get_cpuid_max(unsigned int __ext, unsigned int *__sig)
    supported and returns 1 for valid cpuid information or 0 for
    unsupported cpuid leaf.  All pointers are required to be non-null.  */
 
-static __inline int
-__get_cpuid(unsigned int __leaf,
-            unsigned int *__eax, unsigned int *__ebx,
-            unsigned int *__ecx, unsigned int *__edx)
-{
-    unsigned int __ext = __leaf & 0x80000000;
-    unsigned int __maxlevel = __get_cpuid_max(__ext, 0);
+static __inline int __get_cpuid(unsigned int __leaf, unsigned int *__eax,
+				unsigned int *__ebx, unsigned int *__ecx,
+				unsigned int *__edx) {
+  unsigned int __ext = __leaf & 0x80000000;
+  unsigned int __maxlevel = __get_cpuid_max(__ext, 0);
 
-    if (__maxlevel == 0 || __maxlevel < __leaf)
-        return 0;
+  if (__maxlevel == 0 || __maxlevel < __leaf)
+    return 0;
 
-    __cpuid(__leaf, *__eax, *__ebx, *__ecx, *__edx);
-    return 1;
+  __cpuid(__leaf, *__eax, *__ebx, *__ecx, *__edx);
+  return 1;
 }
 
 /* Same as above, but sub-leaf can be specified.  */
 
-static __inline int
-__get_cpuid_count(unsigned int __leaf, unsigned int __subleaf,
-                  unsigned int *__eax, unsigned int *__ebx,
-                  unsigned int *__ecx, unsigned int *__edx)
-{
-    unsigned int __ext = __leaf & 0x80000000;
-    unsigned int __maxlevel = __get_cpuid_max(__ext, 0);
+static __inline int __get_cpuid_count(unsigned int __leaf,
+				      unsigned int __subleaf,
+				      unsigned int *__eax, unsigned int *__ebx,
+				      unsigned int *__ecx,
+				      unsigned int *__edx) {
+  unsigned int __ext = __leaf & 0x80000000;
+  unsigned int __maxlevel = __get_cpuid_max(__ext, 0);
 
-    if (__maxlevel == 0 || __maxlevel < __leaf)
-        return 0;
+  if (__maxlevel == 0 || __maxlevel < __leaf)
+    return 0;
 
-    __cpuid_count(__leaf, __subleaf, *__eax, *__ebx, *__ecx, *__edx);
-    return 1;
+  __cpuid_count(__leaf, __subleaf, *__eax, *__ebx, *__ecx, *__edx);
+  return 1;
 }

@@ -36,17 +36,17 @@ void info(char *s) {
 }
 int main(int argc, char *argv[]) {
   if (argc > 2) {
-	if (!strcmp(argv[0], "-warn")) {
-	  warn(argv[1]);
-	} else if (!strcmp(argv[0], "-info")) {
-	  info(argv[1]);
-	} else if (!strcmp(argv[0], "-err")) {
-	  err(argv[1]);
-	} else if (!strcmp(argv[0], "-crit")) {
-	  crit(argv[1]);
-	} else {
-	  syscall_debug("[KLog] Initialized\n");
-	}
+    if (!strcmp(argv[0], "-warn")) {
+      warn(argv[1]);
+    } else if (!strcmp(argv[0], "-info")) {
+      info(argv[1]);
+    } else if (!strcmp(argv[0], "-err")) {
+      err(argv[1]);
+    } else if (!strcmp(argv[0], "-crit")) {
+      crit(argv[1]);
+    } else {
+      syscall_debug("[KLog] Initialized\n");
+    }
   }
   return 0;
 }
