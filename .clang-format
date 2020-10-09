@@ -1,15 +1,17 @@
 # .clang-format is used by the C/C++ extension.
 # You can also use `clang-format' tool
 
+BasedOnStyle: LLVM
+AccessModifierOffset: '0'
+AlignConsecutiveMacros: 'true'
+AlignEscapedNewlines: Left
+AlignOperands: 'true'
+AlignTrailingComments: 'true'
+IndentCaseLabels: 'true'
+IndentWidth: '4'
 Language: Cpp
-BasedOnStyle: WebKit
-SpaceAfterTemplateKeyword: false
-AlignEscapedNewlines: true
-AlignTrailingComments: true
-BreakBeforeInheritanceComma: true
-BreakConstructorInitializers: BeforeComma
-IndentPPDirectives: AfterHash
-BreakBeforeBraces: Custom
-BraceWrapping:
-    AfterFunction: true
-NamespaceIndentation: None
+SpaceBeforeParens: ControlStatements
+SpacesInCStyleCastParentheses: 'false'
+SpacesInSquareBrackets: 'false'
+TabWidth: '4'
+UseTab: Never
