@@ -11,12 +11,11 @@
 #include <stdio.h>
 #include <sul/base64.h>
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
     if (argc > 1) {
         if (!strcmp(argv[0], "--encode")) {
-            char* arg1 = argv[1];
-            char* input_str = arg1;
+            char *arg1 = argv[1];
+            char *input_str = arg1;
             int len_str;
             // calculates length of string
             len_str = sizeof(input_str) / sizeof(input_str[0]);
@@ -26,7 +25,8 @@ int main(int argc, char* argv[])
         }
     } else {
         // print the usage if lengthOf(argc < 0)
-        printf("usage: base64 [--encode|--decode] <string> <?output>\n\nOptions:\n "
+        printf("usage: base64 [--encode|--decode] <string> "
+               "<?output>\n\nOptions:\n "
                "--encode: Encode the specified string\n --decode: Decode the "
                "specified string\n");
     }

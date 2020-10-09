@@ -15,10 +15,9 @@ A fun graphics demo that features text bouncing around the screen.
 typedef unsigned int uint32_t;
 
 uint32_t randint(uint32_t min, uint32_t max);
-void move(int* x, int* d, int min, int max);
+void move(int *x, int *d, int min, int max);
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
     int r = 255;
     int g = 0;
     int b = 0;
@@ -60,15 +59,13 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-uint32_t randint(uint32_t min, uint32_t max)
-{
+uint32_t randint(uint32_t min, uint32_t max) {
     static uint32_t state = 0xF3DC1A24;
     state = (state * 1299721) + 29443;
     return min + ((state >> 16) % (max - min + 1));
 }
 
-void move(int* x, int* d, int min, int max)
-{
+void move(int *x, int *d, int min, int max) {
     *x += *d;
     if (*x < min) {
         *x = min;

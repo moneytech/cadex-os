@@ -13,8 +13,7 @@
  */
 #include <stdio.h>
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
     int index;
     int temp;
     uint8_t buffer[1024];

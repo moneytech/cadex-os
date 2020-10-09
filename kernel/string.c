@@ -12,35 +12,35 @@ See the file LICENSE for details.
 //#include "stdarg.h"
 #include "console.h"
 
-#define _U 0x01  /* upper */
-#define _L 0x02  /* lower */
-#define _D 0x04  /* digit */
-#define _C 0x08  /* cntrl */
-#define _P 0x10  /* punct */
-#define _S 0x20  /* white space (space/lf/tab) */
-#define _X 0x40  /* hex digit */
+#define _U  0x01 /* upper */
+#define _L  0x02 /* lower */
+#define _D  0x04 /* digit */
+#define _C  0x08 /* cntrl */
+#define _P  0x10 /* punct */
+#define _S  0x20 /* white space (space/lf/tab) */
+#define _X  0x40 /* hex digit */
 #define _SP 0x80 /* hard space (0x20) */
 
 #define MIN(A, B) ((A) < (B) ? (A) : (B))
 #define MAX(A, B) ((A) > (B) ? (A) : (B))
 
-#define ALIGN (sizeof(size_t))
-#define ONES ((size_t)-1 / UCHAR_MAX)
-#define HIGHS (ONES * (UCHAR_MAX / 2 + 1))
+#define ALIGN      (sizeof(size_t))
+#define ONES       ((size_t)-1 / UCHAR_MAX)
+#define HIGHS      (ONES * (UCHAR_MAX / 2 + 1))
 #define HASZERO(X) (((X)-ONES) & ~(X)&HIGHS)
 unsigned char chartmp[];
 char _ctmp;
 
-#define isalnum(c) ((chartmp + 1)[c] & (_U | _L | _D))
-#define isalpha(c) ((chartmp + 1)[c] & (_U | _L))
-#define iscntrl(c) ((chartmp + 1)[c] & (_C))
-#define isdigit(c) ((chartmp + 1)[c] & (_D))
-#define isgraph(c) ((chartmp + 1)[c] & (_P | _U | _L | _D))
-#define islower(c) ((chartmp + 1)[c] & (_L))
-#define isprint(c) ((chartmp + 1)[c] & (_P | _U | _L | _D | _SP))
-#define ispunct(c) ((chartmp + 1)[c] & (_P))
-#define isspace(c) ((chartmp + 1)[c] & (_S))
-#define isupper(c) ((chartmp + 1)[c] & (_U))
+#define isalnum(c)  ((chartmp + 1)[c] & (_U | _L | _D))
+#define isalpha(c)  ((chartmp + 1)[c] & (_U | _L))
+#define iscntrl(c)  ((chartmp + 1)[c] & (_C))
+#define isdigit(c)  ((chartmp + 1)[c] & (_D))
+#define isgraph(c)  ((chartmp + 1)[c] & (_P | _U | _L | _D))
+#define islower(c)  ((chartmp + 1)[c] & (_L))
+#define isprint(c)  ((chartmp + 1)[c] & (_P | _U | _L | _D | _SP))
+#define ispunct(c)  ((chartmp + 1)[c] & (_P))
+#define isspace(c)  ((chartmp + 1)[c] & (_S))
+#define isupper(c)  ((chartmp + 1)[c] & (_U))
 #define isxdigit(c) ((chartmp + 1)[c] & (_D | _X))
 
 #define isascii(c) (((unsigned)c) <= 0x7f)
@@ -49,27 +49,25 @@ char _ctmp;
 #define tolower(c) (_ctmp = c, isupper(_ctmp) ? _ctmp + ('a' + 'A') : _ctmp)
 #define toupper(c) (_ctmp = c, islower(_ctmp) ? _ctmp + ('A' - 'a') : _ctmp)
 
-#define BITOP(A, B, OP) \
-    ((A)[(size_t)(B) / (8 * sizeof *(A))] OP(size_t) 1 << ((size_t)(B) % (8 * sizeof *(A))))
+#define BITOP(A, B, OP)                                \
+    ((A)[(size_t)(B) / (8 * sizeof *(A))] OP(size_t) 1 \
+     << ((size_t)(B) % (8 * sizeof *(A))))
 
-void strcpy(char* d, const char* s)
-{
+void strcpy(char *d, const char *s) {
     while (*s) {
         *d++ = *s++;
     }
     *d = 0;
 }
 
-void strncpy(char* d, const char* s, unsigned length)
-{
+void strncpy(char *d, const char *s, unsigned length) {
     while (*s && length--) {
         *d++ = *s++;
     }
     *d = 0;
 }
 
-int strcmp(const char* a, const char* b)
-{
+int strcmp(const char *a, const char *b) {
     while (1) {
         if (*a < *b) {
             return -1;
@@ -84,8 +82,7 @@ int strcmp(const char* a, const char* b)
     }
 }
 
-int strncmp(const char* a, const char* b, unsigned length)
-{
+int strncmp(const char *a, const char *b, unsigned length) {
     while (length > 0) {
         if (*a < *b) {
             return -1;
@@ -102,8 +99,7 @@ int strncmp(const char* a, const char* b, unsigned length)
     return 0;
 }
 
-unsigned strlen(const char* s)
-{
+unsigned strlen(const char *s) {
     unsigned len = 0;
     while (*s) {
         len++;
@@ -112,8 +108,7 @@ unsigned strlen(const char* s)
     return len;
 }
 
-char* strrev(char* s)
-{
+char *strrev(char *s) {
     unsigned start = 0;
     unsigned end = strlen(s) - 1;
     char swap;
@@ -130,14 +125,12 @@ char* strrev(char* s)
     return s;
 }
 
-char* strcat(char* d, const char* s)
-{
+char *strcat(char *d, const char *s) {
     strcpy(d + strlen(d), s);
     return d;
 }
 
-const char* strchr(const char* s, char ch)
-{
+const char *strchr(const char *s, char ch) {
     while (*s) {
         if (*s == ch)
             return s;
@@ -146,10 +139,9 @@ const char* strchr(const char* s, char ch)
     return 0;
 }
 
-char* strtok(char* s, const char* delim)
-{
-    static char* oldword = 0;
-    char* word;
+char *strtok(char *s, const char *delim) {
+    static char *oldword = 0;
+    char *word;
 
     if (!s)
         s = oldword;
@@ -176,17 +168,15 @@ char* strtok(char* s, const char* delim)
     return word;
 }
 
-char* strdup(const char* s)
-{
-    char* new = kmalloc(strlen(s) + 1);
+char *strdup(const char *s) {
+    char *new = kmalloc(strlen(s) + 1);
     if (new)
         strcpy(new, s);
     return new;
 }
 
-char* strndup(const char* s, unsigned length)
-{
-    char* new = kmalloc(length + 1);
+char *strndup(const char *s, unsigned length) {
+    char *new = kmalloc(length + 1);
     if (new) {
         strncpy(new, s, length);
         new[length] = 0;
@@ -194,8 +184,7 @@ char* strndup(const char* s, unsigned length)
     return new;
 }
 
-void strtoupper(char* name)
-{
+void strtoupper(char *name) {
     while (*name) {
         if (*name >= 'a' && *name <= 'z') {
             *name -= 'a' - 'A';
@@ -204,8 +193,7 @@ void strtoupper(char* name)
     }
 }
 
-void strtolower(char* name)
-{
+void strtolower(char *name) {
     while (*name) {
         if (*name >= 'A' && *name <= 'Z') {
             *name += 'a' - 'A';
@@ -214,8 +202,7 @@ void strtolower(char* name)
     }
 }
 
-int str2int(const char* s, int* d)
-{
+int str2int(const char *s, int *d) {
     int val = 0;
     for (; *s; ++s) {
         val *= 10;
@@ -228,9 +215,8 @@ int str2int(const char* s, int* d)
     return 1;
 }
 
-void memset(void* vd, char value, unsigned length)
-{
-    char* d = vd;
+void memset(void *vd, char value, unsigned length) {
+    char *d = vd;
     while (length) {
         *d = value;
         length--;
@@ -238,10 +224,9 @@ void memset(void* vd, char value, unsigned length)
     }
 }
 
-void memcpy(void* vd, const void* vs, unsigned length)
-{
-    char* d = vd;
-    const char* s = vs;
+void memcpy(void *vd, const void *vs, unsigned length) {
+    char *d = vd;
+    const char *s = vs;
     while (length) {
         *d = *s;
         d++;
@@ -250,8 +235,7 @@ void memcpy(void* vd, const void* vs, unsigned length)
     }
 }
 
-char* uint_to_string(uint32_t u, char* s)
-{
+char *uint_to_string(uint32_t u, char *s) {
     uint32_t f, d, i;
 
     f = 1;
@@ -269,31 +253,29 @@ char* uint_to_string(uint32_t u, char* s)
     s[i] = 0;
     return s;
 }
-int atoi(const char* s)
-{
+int atoi(const char *s) {
     int n = 0;
     int neg = 0;
     while (isspace(*s)) {
         s++;
     }
     switch (*s) {
-    case '-':
-        neg = 1;
-        /* Fallthrough is intentional here */
-    case '+':
-        s++;
+        case '-':
+            neg = 1;
+            /* Fallthrough is intentional here */
+        case '+':
+            s++;
     }
     while (isdigit(*s)) {
         n = 10 * n - (*s++ - '0');
     }
-    /* The sign order may look incorrect here but this is correct as n is calculated
-	 * as a negative number to avoid overflow on INT_MAX.
-	 */
+    /* The sign order may look incorrect here but this is correct as n is
+     * calculated as a negative number to avoid overflow on INT_MAX.
+     */
     return neg ? n : -n;
 }
 
-static uint32_t digit_count(int num)
-{
+static uint32_t digit_count(int num) {
     uint32_t count = 0;
     if (num == 0)
         return 1;
@@ -304,8 +286,7 @@ static uint32_t digit_count(int num)
     return count;
 }
 
-void itoa(int num, char* number)
-{
+void itoa(int num, char *number) {
     int dgcount = digit_count(num);
     int index = dgcount - 1;
     char x;

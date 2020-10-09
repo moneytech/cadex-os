@@ -2,24 +2,23 @@
  * Copyright (C) 2019-2020 OpenCreeck
  * This software is distributed under the GNU General Public License
  * See the file LICENSE for details
-*/
+ */
 
 /**
  * A shell interpreter designed for simplicity; CaSh means Cadex Shell
-*/
+ */
 #include <bits/cwd.h>
 #include <stdio.h>
 #include <string.h>
 
 #define MAX_LINE_LENGTH 1024
-#define CASH_BUILD "beta"
-#define CASH_VERSION "1.0.17"
+#define CASH_BUILD      "beta"
+#define CASH_VERSION    "1.0.17"
 
 int tmp1 = 0;
 // Basic implementation of sudo
-extern int getAuth()
-{
-    char* passwd[1024];
+extern int getAuth() {
+    char *passwd[1024];
 
 password:
     printf("sudo: password for root: ");
@@ -37,8 +36,7 @@ password:
     }
 }
 
-void print_directory(char* d, int length)
-{
+void print_directory(char *d, int length) {
     while (length > 0) {
         printf("%s\n", d);
         int len = strlen(d) + 1;
@@ -47,9 +45,8 @@ void print_directory(char* d, int length)
     }
 }
 
-int do_command(char* line)
-{
-    const char* pch = strtok(line, " ");
+int do_command(char *line) {
+    const char *pch = strtok(line, " ");
     if (pch && !strcmp(pch, "echo")) {
         pch = strtok(0, " ");
         if (pch)
@@ -57,10 +54,10 @@ int do_command(char* line)
     } else if (pch && !strcmp(pch, "start")) {
         pch = strtok(0, " ");
         if (pch) {
-            const char* argv[20];
+            const char *argv[20];
             argv[0] = pch;
             int i = 1;
-            char* next;
+            char *next;
             while ((next = strtok(0, " "))) {
                 argv[i++] = next;
             }
@@ -75,10 +72,10 @@ int do_command(char* line)
     } else if (pch && !strcmp(pch, "run")) {
         pch = strtok(0, " ");
         if (pch) {
-            const char* argv[20];
+            const char *argv[20];
             argv[0] = pch;
             int i = 1;
-            char* next;
+            char *next;
             while ((next = strtok(0, " "))) {
                 argv[i++] = next;
             }
@@ -88,10 +85,12 @@ int do_command(char* line)
                 syscall_process_yield();
                 struct process_info info;
                 syscall_process_wait(&info, -1);
-                printf("cash: process %d exited with status %d\n", info.pid, info.exitcode);
+                printf("cash: process %d exited with status %d\n", info.pid,
+                       info.exitcode);
                 syscall_process_reap(info.pid);
             } else {
-                printf("cash: could not run '%s': %s\n", argv[0], strerror(pid));
+                printf("cash: could not run '%s': %s\n", argv[0],
+                       strerror(pid));
             }
         } else {
             printf("cash: run: requires argument\n");
@@ -121,7 +120,8 @@ int do_command(char* line)
         else {
             struct process_info info;
             if (syscall_process_wait(&info, 5000) > 0) {
-                printf("process %d exited with status %d\n", info.pid, info.exitcode);
+                printf("process %d exited with status %d\n", info.pid,
+                       info.exitcode);
             } else {
                 printf("wait: timeout\n");
             }
@@ -135,14 +135,19 @@ int do_command(char* line)
             print_directory(buffer, length);
         }
     } else if (pch && !strcmp(pch, "cd")) {
-        char* path = strtok(0, " ");
+        char *path = strtok(0, " ");
         if (!path) {
             printf("usage: cd <path>\n");
             return 1;
         }
         syscall_chdir(path);
     } else if (pch && !strcmp(pch, "help")) {
-        printf("Cadex Shell (CaSh) version %s-%s (x86-pc-cadex)\nThese shell commands are defined internally (inbuilt). Type 'help' to see this list \n - echo <text>\n - run <path>\n - mount <unit_no> <fs_type>\n - ls <path>\n - cd <path>\n - start <path>\n - kill <pid>\n - reap <pid>\n - wait\n - help\n - exit\n", CASH_VERSION, CASH_BUILD);
+        printf("Cadex Shell (CaSh) version %s-%s (x86-pc-cadex)\nThese shell "
+               "commands are defined internally (inbuilt). Type 'help' to see "
+               "this list \n - echo <text>\n - run <path>\n - mount <unit_no> "
+               "<fs_type>\n - ls <path>\n - cd <path>\n - start <path>\n - "
+               "kill <pid>\n - reap <pid>\n - wait\n - help\n - exit\n",
+               CASH_VERSION, CASH_BUILD);
     } else if (pch && !strcmp(pch, "exit")) {
         _process_exit(0);
         return 0;
@@ -158,8 +163,7 @@ int do_command(char* line)
     return 0;
 }
 
-int readline(char* line, int length)
-{
+int readline(char *line, int length) {
     int i = 0;
     char c;
     while (1) {
@@ -186,8 +190,7 @@ int readline(char* line, int length)
     }
 }
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
     char line[MAX_LINE_LENGTH];
 
     while (1) {

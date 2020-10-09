@@ -10,36 +10,31 @@
 
 #include <stdio.h>
 
-void warn(char* s)
-{
+void warn(char *s) {
     renderWindow(WN_STDWINDOW);
     setTextColor(198, 0, 198, 0);
     printf("%s", s);
     resetColor();
 }
-void crit(char* s)
-{
+void crit(char *s) {
     renderWindow(WN_STDWINDOW);
     setTextColor(CLEAR_RED, 0);
     printf("%s", s);
     resetColor();
 }
-void err(char* s)
-{
+void err(char *s) {
     renderWindow(WN_STDWINDOW);
     setTextColor(CLEAR_RED, 0);
     printf("%s", s);
     resetColor();
 }
-void info(char* s)
-{
+void info(char *s) {
     renderWindow(WN_STDWINDOW);
     setTextColor(BLUE, 0);
     printf("%s", s);
     resetColor();
 }
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
     if (argc > 2) {
         if (!strcmp(argv[0], "-warn")) {
             warn(argv[1]);

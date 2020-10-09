@@ -15,26 +15,25 @@
 #include <stdio.h>
 
 #define MAX_INPUT_CHARS 1024
-#define pass continue
+#define pass            continue
 
 int a, b, c, d, e, f, g, h, sd, dd, dx, ax, ac, edx, ecd, ecx, rbp;
-char* rsp;
-int check_semicolon(char* string[]) { return strEndsWith(string, ";"); }
-int check_colon(char* string[]) { return strEndsWith(string, ":"); }
-int is_annotation(char* string[]) { return strStartsWith("@", string); }
-int is_comment(char* string[]) { return strStartsWith("-", string); }
-int main(int argc, char* argv[])
-{
-    char* cargv[100];
+char *rsp;
+int check_semicolon(char *string[]) { return strEndsWith(string, ";"); }
+int check_colon(char *string[]) { return strEndsWith(string, ":"); }
+int is_annotation(char *string[]) { return strStartsWith("@", string); }
+int is_comment(char *string[]) { return strStartsWith("-", string); }
+int main(int argc, char *argv[]) {
+    char *cargv[100];
     int cargc;
     int scargv;
     int assembly = 0;
     int asyncmethod = 0;
     int x;
     int y;
-    char* current_stored_cmd;
-    char* input[MAX_INPUT_CHARS];
-    char* pre_prompt_str = "";
+    char *current_stored_cmd;
+    char *input[MAX_INPUT_CHARS];
+    char *pre_prompt_str = "";
 
     printf("BASIC Commander v1.0\n");
     printf(
@@ -55,13 +54,15 @@ int main(int argc, char* argv[])
             if (!strcmp(cargv[0], "help")) {
                 printf("List of available commands:\n");
                 printf(" * PRINT: Prints text to the screen\n");
-                printf(" * INPUT: Gets input from the user and print the prompt if "
+                printf(" * INPUT: Gets input from the user and print the "
+                       "prompt if "
                        "specified\n");
                 printf(" * EXIT: Exits the commander\n");
                 printf(" * END: Ends the current command input stream\n");
                 printf(" * CLS: Clears the screen\n");
                 printf(" * EXECUTE: Executes the specified file\n");
-                printf(" * CMDREGISTER: Adds a new command to the command list. [NOTE: "
+                printf(" * CMDREGISTER: Adds a new command to the command "
+                       "list. [NOTE: "
                        "This commander can only store one custom command]\n");
                 printf("\nList of available Annotations (Attributes):\n");
                 printf(" * @CMD: Enables command definition mode\n");
@@ -124,7 +125,7 @@ int main(int argc, char* argv[])
 
                 if (pid == 0) {
                     printf("Process %d started.\n", syscall_process_self());
-                    const char* args[] = { cargv[1] };
+                    const char *args[] = {cargv[1]};
                     system(cargv[1], 1, args);
                 } else {
                     // printf("hello world, I am the parent %d.\n",
@@ -198,7 +199,7 @@ int main(int argc, char* argv[])
             }
 
             else if (!strcmp(cargv[0], "input:")) {
-                char* line[1024];
+                char *line[1024];
                 scargv = cargc;
                 for (size_t i = 1; i < scargv; i++) {
                     if (!strcmp(cargv[i], ":end")) {
@@ -219,8 +220,9 @@ int main(int argc, char* argv[])
             }
 
             else {
-                printf("Syntax error: no command named '%s' exists in the current "
-                       "instance\n",
+                printf(
+                    "Syntax error: no command named '%s' exists in the current "
+                    "instance\n",
                     cargv[0]);
             }
         }
