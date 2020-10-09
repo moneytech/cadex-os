@@ -34,19 +34,21 @@ To learn more, see the [Cadex OS Wiki](http://cadex-os-wiki.rf.gd).
 - **kshell**: A small but efficient shell implemented on the kernel space
 - **DiM**: A very small text editor
 - **pam**: A package manager for Cadex OS (not implemented)
-- **CaSh**: A small bash-like shell implemented on the userspace
+- **cash**: A small bash-like shell implemented on the userspace
 
 ## Project structure
 
 - **apps**: Sources for C++ apps
+- **arch**: `Makefile.config` for i386 architecture
 - **basefs**: Base filesystem folder that goes into the ISO image
 - **bin**: System/user commands (`/bin`)
 - **docs**: Documentation about used drivers and APIs
-- **include**: Header files for libc and libcxx libraries
+- **doxygen**: Config files for Doxygen
+- **include**: Header files for C and C++ libraries
 - **kernel**: The core kernel source
 - **libc**: Source files for libc and libcxx (This includes the standard system libraries)
 - **scripts**: Scripts for generating ramfs image and other purposes
-- **usr**: User commands (`/usr/bin`)
+- **usr.bin**: User commands (`/usr/bin`)
 
 ## Building
 
