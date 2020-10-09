@@ -1,5 +1,5 @@
 # Cadex OS
-
+[![Build Status](https://travis-ci.org/OpenCreeck/Cadex-OS-Official.svg?branch=master)](https://travis-ci.org/OpenCreeck/Cadex-OS-Official)
 Cadex OS is a Unix-like based operating system targeting x86 systems. This project is based on the [basekernel](https://github.com/dthain/basekernel) project
 
 Cadex OS is a free and open-source project. You can fork this project and make your own OS from this.
