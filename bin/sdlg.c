@@ -6,16 +6,16 @@
 /**
  * Show Dialog
  *
- * Used to create curses-like dialog boxes from the command like arguments
+ * Used to create curses-like dialog boxes
+ * from the command like arguments
 */
 
-#include <library/stdio.h>
 #include <library/color.h>
+#include <library/stdio.h>
 #include <library/types.h>
 
 int main(int argc, char const *argv[])
 {
-
     int x1 = 12;
     int y1 = 12;
 
@@ -28,9 +28,8 @@ int main(int argc, char const *argv[])
     // Check if length of command-line arguments is lesser than 0
     if (argc <= 0)
     {
-        //     // If length of command-line arguments is lesser than 0
-        printf("usage: sdlg [options]... (title|bgcolor|fgcolor|button)\n");
-        exit(0);
+		printf("usage: sdlg [options]... (title|bgcolor|fgcolor|button)\n");
+		exit(0);
     }
     renderWindow(WN_STDWINDOW);
     clear_screen();
