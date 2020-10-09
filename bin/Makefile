@@ -17,7 +17,8 @@ USER_PROGRAMS= sdlg.exe \
 			   dbusctl.exe \
 			   base64.exe \
 			   klog.exe \
-			   check_fs.exe
+			   check_fs.exe \
+			   stapp.exe
 
 all: alert ${USER_PROGRAMS}
 
