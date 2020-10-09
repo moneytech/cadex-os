@@ -1,5 +1,5 @@
 /**
- * Fake splash screen for Manager
+ * Fake splash screen for manager.exe
 */
 
 #include <stdio.h>
