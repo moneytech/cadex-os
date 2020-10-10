@@ -14,15 +14,17 @@
 #include <debug.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
 #include <truegl/truegl.h>
+#include <unistd.h>
 
 /**
  * NOTE: This file is well commented to understand how this works. Use wisely :)
  */
 int dims[2];
 int i = 0; // Counter 'i'
+
+bool verbose = 0;
 
 static void print_line_no(int num) {
     text_color(150, 150, 150); // Set text color to gray
@@ -31,7 +33,8 @@ static void print_line_no(int num) {
 }
 
 static void refresh() {
-    dbg_printf("[dim.exe] refreshing gui...\n");
+    if (verbose)
+        dbg_printf("[dim.exe] refreshing gui...\n");
     draw_window_border(1, 1, dims[0] - 1, dims[1] - 1, 3, 255, 255, 255);
     set_bg_color(WHITE, 100);
     setTextColor(BLACK, 100);
@@ -97,6 +100,16 @@ static int textarea(char *line) {
             line[i] = c;
             i++;
             refresh();
+        } else if (c == 0x03)
+		{
+			/* Exit if keycode is ^C (CTRL + C) */
+            dbg_printf("[dim.exe] ^C pressed: Terminating process...");
+            /* Clear screen before exiting */
+            clear_screen();
+            printf("\n^C");
+
+            /* Terminate the process */
+            exit(0);
         }
     }
 
@@ -105,14 +118,28 @@ static int textarea(char *line) {
 
 int main(int argc, const char *argv[]) {
     dbg_printf("[dim.exe] DiM version 0.1.2\n");
-    syscall_object_size(WN_STDWINDOW, dims, 2);
+
+    if (argc > 0) {
+        if (!strcmp(argv[0], "-v") || !strcmp(argv[0], "--verbose")) {
+            verbose = 1;
+        } else {
+            verbose = 0;
+        }
+    }
+
+	/* Init */
+	syscall_object_size(WN_STDWINDOW, dims, 2);
     char *input[2048];
     setup_window();
     clear_screen();
     printf("\n\n");
-    dbg_printf("[dim.exe] textarea() started\n");
+
+	/* Load editor */
+	dbg_printf("[dim.exe] textarea() started\n");
     textarea(&input);
     dbg_printf("[dim.exe] exiting DiM\n");
-    clear_screen();
+
+	/* Clear screen before exiting */
+	clear_screen();
     return 0;
 }
