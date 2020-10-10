@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
     } else {
         // print the usage if lengthOf(argc < 0)
         printf("usage: base64 [--encode|--decode] <string> "
-               "<?output>\n\nOptions:\n "
+               "\n\nOptions:\n "
                "--encode: Encode the specified string\n --decode: Decode the "
                "specified string\n");
     }
