@@ -50,6 +50,6 @@ void setup_window()
 {
     renderWindow(WN_STDWINDOW);
     clear_screen();
-    dbg_printf("<tgl> window set up\n");
+    dbg_printf("<tgl> (tgl_base.c:53): setting up window...\n");
 }
 
