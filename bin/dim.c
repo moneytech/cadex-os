@@ -12,8 +12,10 @@
  * access dim.exe when the hard disk is mounted
  */
 #include <debug.h>
-#include <library/scanf.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
 #include <truegl/truegl.h>
 
 /**
@@ -101,21 +103,16 @@ static int textarea(char *line) {
     return 0;
 }
 
-int main(int argc, const char *argv[]) // Main function
-{
-    dbg_printf("[dim.exe] DiM version 0.1.2\n"); // Debug
-    syscall_object_size(WN_STDWINDOW, dims,
-                        2); // Get the dimensions of the window; Likely to be
-                            // removed in version 0.1.8
-    char *
-        input[2048]; // Declare the variable to which we will save the text data
-    renderWindow(WN_STDWINDOW); // Render the window
-    clear_screen(); // clear the screen; We are using clear_screen() which
-                    // prints out '\f' which clears the screen
-    printf("\n\n"); // Append two newlines to move the editor part down
-    dbg_printf("[dim.exe] textarea() started\n"); // Debug
-    textarea(&input); // And now its time to start the editor part
-    dbg_printf("[dim.exe] exiting DiM\n"); // Debug
-    clear_screen();                        // Clear the screen before exiting
-    return 0;                              // Return 0
+int main(int argc, const char *argv[]) {
+    dbg_printf("[dim.exe] DiM version 0.1.2\n");
+    syscall_object_size(WN_STDWINDOW, dims, 2);
+    char *input[2048];
+    setup_window();
+    clear_screen();
+    printf("\n\n");
+    dbg_printf("[dim.exe] textarea() started\n");
+    textarea(&input);
+    dbg_printf("[dim.exe] exiting DiM\n");
+    clear_screen();
+    return 0;
 }
