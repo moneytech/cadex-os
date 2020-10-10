@@ -699,8 +699,6 @@ int sys_chdir(const char* path)
     if (d) {
         fs_dirent_close(current->current_dir);
         current->current_dir = d;
-        _cwd_ = path;
-        *__cwd = &path;
         return 0;
     } else if (d == KERROR_NOT_A_DIRECTORY) {
         return KERROR_NOT_A_DIRECTORY;
