@@ -1,4 +1,4 @@
-# .clang-format is used by the C/C++ extension.
+# this .clang-format file is used by the C/C++ extension for vscode.
 # You can also use `clang-format' tool
 
 BasedOnStyle: LLVM

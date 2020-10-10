@@ -30,6 +30,5 @@ int main(int argc, char *argv[]) {
                "--encode: Encode the specified string\n --decode: Decode the "
                "specified string\n");
     }
-
     return 0;
 }
