@@ -117,14 +117,18 @@ char *promptsym[] = {
 char *comd = "null";
 char *excpath = "";
 char *curdir = "";
+
 int prompt = 0;
 int last_run_proc_exitcode = 0;
 int last_process_run = 0;
 
 #define SHELL_HISTORY_ENTRIES 128
+
 char *kshell_history[SHELL_HISTORY_ENTRIES];
 size_t kshell_history_count = 0;
 size_t kshell_history_offset = 0;
+
+kshell_t *default_shell;
 
 void reboot_system() {
     uint8_t temp;
@@ -177,7 +181,7 @@ char *kshell_history_get(size_t item) {
 char *kshell_history_prev(size_t item) {
     return kshell_history_get(kshell_history_count - item);
 }
-int strEndsWith(const char *str, const char *suffix) {
+int strew(const char *str, const char *suffix) {
     if (!str || !suffix)
         return false;
     size_t lenstr = strlen(str);
@@ -195,7 +199,7 @@ int memcmp(const void *cs, const void *ct, size_t count) {
             break;
     return res;
 }
-int strStartsWith(const char *pre, const char *str) {
+int strsw(const char *pre, const char *str) {
     size_t lenpre = strlen(pre), lenstr = strlen(str);
     return lenstr < lenpre ? false : memcmp(pre, str, lenpre) == 0;
 }
@@ -323,21 +327,23 @@ int kshell_install(int src, int dst) {
 static int kshell_printdir(const char *d, int length) {
     int k = 0;
     while (length > 0) {
-        struct graphics_color *c;
+        struct graphics_color c;
         if (!strcmp(d, ".") || !strcmp(d, "..")) {
             kprintf("%s\n", d);
         }
         // Highlighting executable files has a bug
-        else if (strEndsWith(d, ".exe")) {
-            // c->r = 130;
-            // c->g = 244;
-            // c->b = 130;
-            // graphics_fgcolor(&graphics_root, *c);
+        else if (strew(d, ".exe")) {
+            c.r = 130;
+            c.g = 244;
+            c.b = 130;
+            c.a = 0;
+            graphics_fgcolor(&graphics_root, c);
             kprintf("%s   ", d);
-            // c->r = 255;
-            // c->g = 255;
-            // c->b = 255;
-            // graphics_fgcolor(&graphics_root, *c);
+            c.r = 255;
+            c.g = 255;
+            c.b = 255;
+            c.a = 0;
+            graphics_fgcolor(&graphics_root, c);
         } else {
             kprintf("%s   ", d);
             if (k > 8) {
@@ -380,6 +386,36 @@ static int kshell_listdir(const char *path) {
     }
 
     return 0;
+}
+
+static void kshell_print_prompt() {
+    struct graphics_color g;
+    g.a = 0;
+    g.r = 130;
+    g.g = 244;
+    g.b = 130;
+    graphics_fgcolor(&graphics_root, g);
+    kprintf("root@%s", default_shell->device_name);
+
+    g.a = 0;
+    g.b = 255;
+    g.r = 255;
+    g.g = 255;
+    graphics_fgcolor(&graphics_root, g);
+    kprintf(":");
+
+    g.a = 0;
+    g.b = 250;
+    g.g = 200;
+    g.r = 100;
+    graphics_fgcolor(&graphics_root, g);
+    kprintf("%s", default_shell->current_directory);
+    g.a = 0;
+    g.b = 255;
+    g.r = 255;
+    g.g = 255;
+    graphics_fgcolor(&graphics_root, g);
+    kprintf("%s ", promptsym[prompt]);
 }
 
 static int kshell_execute(int argc, const char **argv) {
@@ -570,7 +606,7 @@ static int kshell_execute(int argc, const char **argv) {
         }
     }
 
-    else if (strEndsWith(cmd, "\\")) {
+    else if (strew(cmd, "\\")) {
         char *line;
         kprintf("> ");
         kshell_readline(&line, 1024);
@@ -610,9 +646,11 @@ static int kshell_execute(int argc, const char **argv) {
             } else if (cd_res == KERROR_NOT_A_DIRECTORY) {
                 kprintf("cd: %s: not a directory\n", argv[1]);
             } else {
-                __cwd = "";
-                if (!strStartsWith("/", argv[1]) && strcmp(argv[1], ".."))
-                    __cwd = strcat("/", argv[1]);
+                default_shell->current_directory = "";
+				if(strcmp(argv[1], ".."))
+                	default_shell->current_directory = argv[1];
+				else
+                    default_shell->current_directory = "/";
             }
         } else if (argc == 1) {
             sys_chdir("/");
@@ -630,8 +668,7 @@ static int kshell_execute(int argc, const char **argv) {
         reboot_system();
     } else if (!strcmp(cmd, "qshutdown")) {
         shutdown_vm();
-        KPANIC("emulators (QEMU) doesn't support shutdown"); // KPANIC if it
-                                                             // doesn't shutdown
+        KPANIC("emulators (QEMU) doesn't support shutdown");
     } else if (!strcmp(cmd, "bcache_stats")) {
         struct bcache_stats stats;
         bcache_get_stats(&stats);
@@ -645,16 +682,25 @@ static int kshell_execute(int argc, const char **argv) {
         kprintf("These shell commands are defined internally. Type `help' to "
                 "see this list.\n");
         kprintf(
-            "Use `info kshell' to find out more about the shell in general\n");
-        kprintf(
-            "Available commands :\n\n *whoami\n *longtest\n *basic86<args>\n "
-            "*prompt<args>\n *sdlg<args>\n *clear\n *uname<args>\n "
-            "*run<path><args>\n *whoami\n *start<path><args>\n *kill<pid>\n "
-            "*reap<pid>\n *wait\n *ls\n *mount<device><unit><fstype>\n "
-            "*umount\n *format<device><unit><fstype>\n "
-            "*install<srcunit><dstunit>\n *cd<path>\n *mkdir<path>\n "
-            "*rm<path>\n *time\n *bcache_stats\n *bcache_flush\n *reboot\n "
-            "*shutdown\n *help\n\n ");
+            "Use `info kshell' to find out more about the shell in general\n\n");
+        kprintf(" prompt [type ...]                 whoami [-vh]\n"
+                " run [path ...]                    echo [-ne] [arg ...]\n"
+                " reap [pid ...]                    start [path ...]\n"
+                " wait [n]                          mount [dev] [unit] [fstype]\n"
+                " umount [unit]                     format [dev] [unit] [fstype]\n"
+                " install [src_unit] [dest_unit]    cd [dir]\n"
+                " mkdir [path ...]                  rm [path ...]\n"
+                " help [-vd]                        clear\n"
+                " uname [-avcr]                     ls [dir|.]\n");
+        // kprintf(
+        //     "Available commands :\n\n *whoami\n *longtest\n *basic86<args>\n "
+        //     " prompt<args>   *sdlg<args>\n *clear\n *uname<args>\n "
+        //     " run<path><args>\n *whoami\n *start<path><args>\n *kill<pid>\n "
+        //     " reap<pid>\n *wait\n *ls\n *mount<device><unit><fstype>\n "
+        //     " umount\n *format<device><unit><fstype>\n "
+        //     " install<srcunit><dstunit>\n *cd<path>\n *mkdir<path>\n "
+        //     " rm<path>\n *time\n *bcache_stats\n *bcache_flush\n *reboot\n "
+        //     " shutdown\n *help\n\n ");
     } else if (!strcmp(cmd, "whoami")) {
         kprintf("\nroot\n");
     } else if (!strcmp(cmd, "longtest")) {
@@ -698,8 +744,8 @@ static int kshell_execute(int argc, const char **argv) {
                 kprintf("%d ", last_run_proc_exitcode);
             } else if (!strcmp(argv[i], "\"")) {
                 continue;
-            } else if (!strStartsWith("\"", argv[i]) ||
-                       !strEndsWith(argv[i], "\"")) {
+            } else if (!strsw("\"", argv[i]) ||
+                       !strew(argv[i], "\"")) {
                 kprintf("%s ", argv[i]);
                 continue;
             }
@@ -766,13 +812,9 @@ static int kshell_execute(int argc, const char **argv) {
             current->user = USER_ROOT;
         }
     } else if (!strcmp(cmd, "pwd")) {
-        kprintf("%s, %s", _cwd_, __cwd);
-    } else if (!strcmp(cmd, "mousetest")) {
-        struct mouse_event m;
+        kprintf("%s", default_shell->current_directory);
     } else {
-        // strStartsWith is required or every time you type a wrong command, it
-        // will say file not found
-        if (argc > 0 && strStartsWith(".", argv[0])) {
+        if (argc > 0 && strsw(".", argv[0])) {
             // Try to run the process
             int pid = sys_process_run(argv[0], argc - 1, &argv[1]);
             if (pid > 1) {
@@ -797,11 +839,6 @@ static int kshell_execute(int argc, const char **argv) {
     return 0;
 }
 
-/**
- * Read input from keyboard and store it on *line
- * @param line The variable to store the keyboard input
- * @param length Length of characters to read from the keyboard
- */
 int kshell_readline(char *line, int length) {
     int i = 0;
     int j = 0;
@@ -847,6 +884,10 @@ int kshell_launch() {
     const char *argv[100];
     int argc;
 
+    /* Initialize shell variables */
+    default_shell->device_name = "cbox";
+    default_shell->current_directory = "~";
+
     /* Run Startup Application */
     int pid = sys_process_run("/bin/stapp.exe", 0, 0);
     process_yield();
@@ -860,7 +901,7 @@ int kshell_launch() {
 start:
     kprintf("\n");
     while (1) {
-        kprintf("[root@cadex:/]%s ", promptsym[prompt]);
+        kshell_print_prompt();
         if (kshell_readline(line, sizeof(line))) {
             kshell_history[i] = line;
             i++;
