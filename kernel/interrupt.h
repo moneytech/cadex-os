@@ -37,6 +37,7 @@ void interrupt_block();
 void interrupt_unblock();
 void interrupt_wait();
 
+void beep();
 /*
 PC Interrupts:
 IRQ	Interrupt

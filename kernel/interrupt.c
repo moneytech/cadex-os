@@ -63,16 +63,10 @@ static void unknown_exception(int i, int code)
         // permissions on page) or that we are accessing neither the stack nor the
         // heap, or we are accessing both. If so, error
         if (page_already_present || !(data_access ^ stack_access)) {
-            char* tmp_pid;
             kprintf("Segmentation fault (core dumped)\n");
-            itoa(current->pid, tmp_pid);
-            dbg_printf("[interrupt] process %d crashed", current->pid);
-            if (current->pid = 1) {
-                // prevent the kernel from exiting
-            } else {
-                // If it's not kernel then exit the process
-                process_exit(0);
-            }
+            dbg_printf("[interrupt] process %d crashed\n", current->pid);
+			// Terminate current process
+            process_exit(0);
         } else {
             // TODO: update process->vm_stack_size when growing the stack.
             pagetable_alloc(current->pagetable, vaddr, PAGE_SIZE,
@@ -87,8 +81,6 @@ static void unknown_exception(int i, int code)
 
     if (current->pid != 1) {
         process_exit(0);
-    } else {
-        // halt();
     }
 }
 
