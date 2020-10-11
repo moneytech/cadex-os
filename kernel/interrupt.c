@@ -120,8 +120,8 @@ void wait_for_io(uint32_t timer_count) {
             break;
     }
 }
-// A simple beep implementation. See
-// https://wiki.osdev.org/PC_Speaker#Sample_Code/ /**Code by HyperCreeck**/
+/* Simple beep implementation. See */
+/* https://wiki.osdev.org/PC_Speaker#Sample_Code/ */
 void sleep(uint32_t timer_count) { wait_for_io(timer_count * 0x02FFFFFF); }
 static void play_sound(uint32_t nFrequence) {
     uint32_t Div;
@@ -140,21 +140,20 @@ static void play_sound(uint32_t nFrequence) {
     }
 }
 
-// make it shutup
+/* make it shutup */
 static void nosound() {
     uint8_t tmp = inb(0x61) & 0xFC;
 
     outb(0x61, tmp);
 }
 
-// Make a beep
+/* Make a beep */
 void beep() {
     play_sound(600);
     sleep(1);
     nosound();
     // set_PIT_2(old_frequency);
 }
-// End sound code
 
 void interrupt_init() {
     int i;
@@ -176,7 +175,7 @@ void interrupt_init() {
 
     interrupt_unblock();
 
-    // kprintf("[SYS] interrupt-manager: OK\n");
+    /* kprintf("[SYS] interrupt-manager: OK\n");*/
     dbg_printf("[interrupt] initialized\n");
 }
 
