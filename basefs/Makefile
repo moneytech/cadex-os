@@ -1,4 +1,8 @@
-all: copy
+header_files:=$(shell find ../include -type f)
+
+.PHONY: copy
+
+all: copy $(patsubst %,../image/usr/include/%,$(header_files))
 
 copy:
 	@cp usr/share/kevin.txt ../image/usr/share/kevin.txt
@@ -11,3 +15,8 @@ copy:
 	@cp sys/sysenv.env ../image/etc/sysenv.env
 	@cp usr/share/fizzbuz.bfk ../image/usr/share/fizzbuz.bfk
 	@cp usr/share/js-example.js ../image/usr/share/js-example.js
+
+../image/usr/include/%: ../include/%
+	@mkdir -p $(@D)
+	@cp $< $@
+
