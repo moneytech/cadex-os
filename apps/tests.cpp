@@ -100,6 +100,13 @@ int main(int argc, const char* argv[])
         printf("Param %s = %s\n", params[p].key, params[p].val);
     }
     Console::WriteLine("-- Yuarel tests completed. ");
+
+    Console::WriteLine("-- Arch test (i386)");
+	printf("sizeof(void*) = %d\n", sizeof(void*));
+    printf("sizeof(char) = %d\n", sizeof(char));
+    printf("sizeof(int) = %d\n", sizeof(int));
+    Console::WriteLine("-- Arch tests completed.");
+
     Console::WriteLine("-- All tests completed. ");
     return 0;
 }
