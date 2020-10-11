@@ -2,7 +2,7 @@
  * Copyright (C) 2019-2020 OpenCreeck
  * This software is distributed under the GNU General Public License
  * See the file LICENSE for details
-*/
+ */
 
 #include "kernel/types.h"
 #include "library/stdio.h"
@@ -10,15 +10,16 @@
 #include "library/syscalls.h"
 
 /*
-	Display time in a window
+    Display time in a window
 */
 
 /* Function declarations */
-void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b);
-void draw_clock(uint32_t hour, uint32_t minute, int timezone, int military, int x, int y, int padding, int r, int g, int b);
+void draw_border(int x, int y, int w, int h, int thickness, int r, int g,
+                 int b);
+void draw_clock(uint32_t hour, uint32_t minute, int timezone, int military,
+                int x, int y, int padding, int r, int g, int b);
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
     /* Configure clock params */
     int military = 0;
     if (argc > 1 && strcmp(argv[1], "military") == 0) {
@@ -41,10 +42,11 @@ int main(int argc, char* argv[])
     int height = dims[1];
 
     /* Set up window  */
-    renderWindow(WN_STDWINDOW);
+    render_window(WN_STDWINDOW);
     clear_screen();
     draw_border(0, 0, CLOCK_W, CLOCK_H, thickness, 255, 255, 255);
-    draw_clock(time.hour, time.minute, timezone, military, 0, 0, 2 * thickness, 255, 255, 255);
+    draw_clock(time.hour, time.minute, timezone, military, 0, 0, 2 * thickness,
+               255, 255, 255);
     flush();
 
     /* Run Clock */
@@ -53,18 +55,19 @@ int main(int argc, char* argv[])
         read_object_nonblock(0, &c, 1);
         sleepThread(2000);
         syscall_system_rtc(&time);
-        renderWindow(WN_STDWINDOW);
+        render_window(WN_STDWINDOW);
         draw_border(0, 0, CLOCK_W, CLOCK_H, thickness, 255, 255, 255);
-        draw_clock(time.hour, time.minute, timezone, military, 0, 0, 2 * thickness, 255, 255, 255);
-        renderWindow(WN_STDWINDOW);
+        draw_clock(time.hour, time.minute, timezone, military, 0, 0,
+                   2 * thickness, 255, 255, 255);
+        render_window(WN_STDWINDOW);
         flush();
     }
 
     return 0;
 }
 
-void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
-{
+void draw_border(int x, int y, int w, int h, int thickness, int r, int g,
+                 int b) {
     setTextColor(r, b, g, 0);
     drawRect(x, y, w, thickness);
     drawRect(x, y, thickness, h);
@@ -72,8 +75,8 @@ void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
     drawRect(x, y + h - thickness, w, thickness);
 }
 
-void draw_clock(uint32_t hour, uint32_t minute, int timezone, int military, int x, int y, int padding, int r, int g, int b)
-{
+void draw_clock(uint32_t hour, uint32_t minute, int timezone, int military,
+                int x, int y, int padding, int r, int g, int b) {
     setTextColor(r, b, g, 0);
 
     char h_str[100];
@@ -97,12 +100,12 @@ void draw_clock(uint32_t hour, uint32_t minute, int timezone, int military, int 
     if (strlen(h_str) == 1) {
         strcat(time, " ");
     }
-    strcat(time, (const char*)h_str);
+    strcat(time, (const char *)h_str);
     strcat(time, ":");
     if (strlen(m_str) == 1) {
         strcat(time, "0");
     }
-    strcat(time, (const char*)m_str);
+    strcat(time, (const char *)m_str);
 
     print(x + padding, y + padding, time);
 }
