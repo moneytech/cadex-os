@@ -17,88 +17,94 @@ static interrupt_handler_t interrupt_handler_table[48];
 static uint32_t interrupt_count[48];
 static uint8_t interrupt_spurious[48];
 
-static const char* exception_names[] = { "division by zero",
-    "debug exception",
-    "nonmaskable interrupt",
-    "breakpoint",
-    "overflow",
-    "bounds check",
-    "invalid instruction",
-    "coprocessor error",
-    "double fault",
-    "copressor overrun",
-    "invalid task",
-    "segment not present",
-    "stack exception",
-    "general protection fault",
-    "page fault",
-    "unknown",
-    "coprocessor error" };
+static const char *exception_names[] = {"division by zero",
+                                        "debug exception",
+                                        "nonmaskable interrupt",
+                                        "breakpoint",
+                                        "overflow",
+                                        "bounds check",
+                                        "invalid instruction",
+                                        "coprocessor error",
+                                        "double fault",
+                                        "copressor overrun",
+                                        "invalid task",
+                                        "segment not present",
+                                        "stack exception",
+                                        "general protection fault",
+                                        "page fault",
+                                        "unknown",
+                                        "coprocessor error"};
 
-static void unknown_exception(int i, int code)
-{
-    unsigned vaddr; // virtual address trying to be accessed
-    unsigned paddr; // physical address
-    unsigned esp;   // stack pointer
+static void unknown_exception(int i, int code) {
+    unsigned vaddr; /* virtual address trying to be accessed */
+    unsigned paddr; /* physical address */
+    unsigned esp;   /* stack pointer */
 
     if (i == 14) {
         asm("mov %%cr2, %0"
-            : "=r"(vaddr)); // virtual address trying to be accessed
-        esp = ((struct x86_stack*)(current->kstack_top - sizeof(struct x86_stack)))
-                  ->esp; // stack pointer of the process that raised the exception
-        // Check if the requested memory is in the stack or data
+            : "=r"(vaddr)); /* virtual address trying to be accessed */
+        esp = ((struct x86_stack *)(current->kstack_top -
+                                    sizeof(struct x86_stack)))
+                  ->esp; /* stack pointer of the process that raised the
+                            exception */
+        /* Check if the requested memory is in the stack or data */
         int data_access = vaddr < current->vm_data_size;
 
-        // Subtract 128 from esp because of the red-zone
-        // According to https:gcc.gnu.org, the red zone is a 128-byte area beyond
-        // the stack pointer that will not be modified by signal or interrupt
-        // handlers and therefore can be used for temporary data without adjusting
-        // the stack pointer.
+        /* Subtract 128 from esp because of the red-zone */
+        /* According to https:gcc.gnu.org, the red zone is a 128-byte area
+         * beyond */
+        /* the stack pointer that will not be modified by signal or interrupt */
+        /* handlers and therefore can be used for temporary data without
+         * adjusting */
+        /* the stack pointer. */
         int stack_access = vaddr >= esp - 128;
 
-        // Check if the requested memory is already in use
-        int page_already_present = pagetable_getmap(current->pagetable, vaddr, &paddr, 0);
+        /* Check if the requested memory is already in use */
+        int page_already_present =
+            pagetable_getmap(current->pagetable, vaddr, &paddr, 0);
 
-        // Check if page is already mapped (which will result from violating the
-        // permissions on page) or that we are accessing neither the stack nor the
-        // heap, or we are accessing both. If so, error
+        /* Check if page is already mapped (which will result from violating the
+         */
+        /* permissions on page) or that we are accessing neither the stack nor
+         * the */
+        /* heap, or we are accessing both. If so, error */
         if (page_already_present || !(data_access ^ stack_access)) {
             kprintf("Segmentation fault (core dumped)\n");
             dbg_printf("[interrupt] process %d crashed\n", current->pid);
-			// Terminate current process
-            // process_exit(0);
+            /* Terminate current process */
+            process_exit(0);
         } else {
             // TODO: update process->vm_stack_size when growing the stack.
             pagetable_alloc(current->pagetable, vaddr, PAGE_SIZE,
-                PAGE_FLAG_USER | PAGE_FLAG_READWRITE | PAGE_FLAG_CLEAR);
+                            PAGE_FLAG_USER | PAGE_FLAG_READWRITE |
+                                PAGE_FLAG_CLEAR);
             return;
         }
     } else {
-        kprintf("\n\nUnknown Exception Occured\n\nStack trace:\n%d: %s (code %x)\n",
+        kprintf(
+            "\n\nUnknown Exception Occured\n\nStack trace:\n%d: %s (code %x)\n",
             i, exception_names[i], code);
         process_dump(current);
     }
 
     if (current->pid != 1) {
-        // process_exit(0);
+        /* Terminate current process if current->pid != 1 */
+        process_exit(0);
     }
 }
 
-static void unknown_hardware(int i, int code)
-{
+static void unknown_hardware(int i, int code) {
     if (!interrupt_spurious[i]) {
         dbg_printf("[interrupt] spurious interrupt\n");
     }
     interrupt_spurious[i]++;
 }
 
-void interrupt_register(int i, interrupt_handler_t handler)
-{
+void interrupt_register(int i, interrupt_handler_t handler) {
     interrupt_handler_table[i] = handler;
 }
 
-static void interrupt_acknowledge(int i)
-{
+static void interrupt_acknowledge(int i) {
     if (i < 32) {
         /* do nothing */
     } else {
@@ -106,8 +112,7 @@ static void interrupt_acknowledge(int i)
     }
 }
 
-void wait_for_io(uint32_t timer_count)
-{
+void wait_for_io(uint32_t timer_count) {
     while (1) {
         asm volatile("nop");
         timer_count--;
@@ -118,8 +123,7 @@ void wait_for_io(uint32_t timer_count)
 // A simple beep implementation. See
 // https://wiki.osdev.org/PC_Speaker#Sample_Code/ /**Code by HyperCreeck**/
 void sleep(uint32_t timer_count) { wait_for_io(timer_count * 0x02FFFFFF); }
-static void play_sound(uint32_t nFrequence)
-{
+static void play_sound(uint32_t nFrequence) {
     uint32_t Div;
     uint8_t tmp;
 
@@ -137,16 +141,14 @@ static void play_sound(uint32_t nFrequence)
 }
 
 // make it shutup
-static void nosound()
-{
+static void nosound() {
     uint8_t tmp = inb(0x61) & 0xFC;
 
     outb(0x61, tmp);
 }
 
 // Make a beep
-void beep()
-{
+void beep() {
     play_sound(600);
     sleep(1);
     nosound();
@@ -154,8 +156,7 @@ void beep()
 }
 // End sound code
 
-void interrupt_init()
-{
+void interrupt_init() {
     int i;
     pic_init(32, 40);
     for (i = 32; i < 48; i++) {
@@ -179,15 +180,13 @@ void interrupt_init()
     dbg_printf("[interrupt] initialized\n");
 }
 
-void interrupt_handler(int i, int code)
-{
+void interrupt_handler(int i, int code) {
     (interrupt_handler_table[i])(i, code);
     interrupt_acknowledge(i);
     interrupt_count[i]++;
 }
 
-void interrupt_enable(int i)
-{
+void interrupt_enable(int i) {
     if (i < 32) {
         /* do nothing */
     } else {
@@ -195,8 +194,7 @@ void interrupt_enable(int i)
     }
 }
 
-void interrupt_disable(int i)
-{
+void interrupt_disable(int i) {
     if (i < 32) {
         /* do nothing */
     } else {
@@ -208,8 +206,7 @@ void interrupt_block() { asm("cli"); }
 
 void interrupt_unblock() { asm("sti"); }
 
-void interrupt_wait()
-{
+void interrupt_wait() {
     asm("sti");
     asm("hlt");
 }
