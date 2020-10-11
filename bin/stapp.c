@@ -18,7 +18,8 @@ int main(int argc, char *argv[]) {
     int temp;
     uint8_t buffer[1024];
 
+    dbg_printf("[stapp.exe] checking for kshell config file in /etc/kshell.cfg... ");
     // TODO: Implement stapp functionality
-
+    dbg_printf("ok\n");
     return 0;
 }
