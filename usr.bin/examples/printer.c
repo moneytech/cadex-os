@@ -18,7 +18,7 @@ A fun graphics demo that features a line segment bouncing around the screen.
 int main(int argc, char* argv[])
 {
     renderWindow(WN_STDWINDOW);
-    setTextColor(0, 0, 255);
+    setTextColor(0, 0, 255,0);
     clearScreen(0, 0, WIDTH, HEIGHT);
     flush();
 
