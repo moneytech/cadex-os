@@ -20,3 +20,4 @@ scripts/c2b86.cc
 scripts/c2b86
 doxygen/html
 doxygen/latex
+basefs/usr/include/**
