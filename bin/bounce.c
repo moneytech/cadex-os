@@ -8,11 +8,9 @@ See the file LICENSE for details.
 A fun graphics demo that features text bouncing around the screen.
 */
 
-#include "library/stdio.h"
-#include "library/string.h"
-#include "library/syscalls.h"
-
-typedef unsigned int uint32_t;
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 uint32_t randint(uint32_t min, uint32_t max);
 void move(int *x, int *d, int min, int max);
