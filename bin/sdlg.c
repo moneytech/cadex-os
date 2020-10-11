@@ -29,7 +29,7 @@ int main(int argc, char const *argv[]) {
         printf("usage: sdlg [options]... (title|bgcolor|fgcolor|button)\n");
         exit(0);
     }
-    renderWindow(WN_STDWINDOW);
+    render_window(WN_STDWINDOW);
     clear_screen();
     flush();
     setTextColor(GRAY, 0);
