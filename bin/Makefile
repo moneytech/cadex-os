@@ -20,6 +20,8 @@ USER_PROGRAMS= sdlg.exe \
 			   check_fs.exe \
 			   stapp.exe
 
+.PHONY: clean
+
 all: alert ${USER_PROGRAMS}
 
 %.o: %.c
