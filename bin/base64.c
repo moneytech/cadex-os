@@ -7,9 +7,10 @@
  * A utility to encode and decode base64 strings
  */
 
-#include <library/scanf.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sul/base64.h>
+#include <unistd.h>
 
 int main(int argc, char *argv[]) {
     if (argc > 1) {
@@ -25,10 +26,7 @@ int main(int argc, char *argv[]) {
         }
     } else {
         // print the usage if lengthOf(argc < 0)
-        printf("usage: base64 [--encode|--decode] <string> "
-               "\n\nOptions:\n "
-               "--encode: Encode the specified string\n --decode: Decode the "
-               "specified string\n");
+        printf("usage: base64 [--encode|decode] <string> ");
     }
     return 0;
 }
