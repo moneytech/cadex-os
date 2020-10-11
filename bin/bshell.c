@@ -19,10 +19,12 @@
 
 int a, b, c, d, e, f, g, h, sd, dd, dx, ax, ac, edx, ecd, ecx, rbp;
 char *rsp;
+
 int check_semicolon(char *string[]) { return strEndsWith(string, ";"); }
 int check_colon(char *string[]) { return strEndsWith(string, ":"); }
 int is_annotation(char *string[]) { return strStartsWith("@", string); }
 int is_comment(char *string[]) { return strStartsWith("-", string); }
+
 int main(int argc, char *argv[]) {
     char *cargv[100];
     int cargc;
