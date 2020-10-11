@@ -44,7 +44,7 @@ kernel/cadex.img: $(KERNEL_SOURCES) $(LIBRARY_HEADERS)
 
 image: kernel/cadex.img $(USER_PROGRAMS) $(SYSTEM_BIN_FILES) $(APPS_BINARIES)
 	@rm -rf image
-	@mkdir image image/boot image/usr image/usr/bin image/bin image/sys image/usr/share image/usr/share/dict image/etc image/var image/tmp image/usr/apps
+	@mkdir image image/boot image/usr image/usr/bin image/usr/include image/bin image/sys image/usr/share image/usr/share/dict image/etc image/var image/tmp image/usr/apps
 	@cp kernel/cadex.img image/boot
 	@cd basefs && make
 	@cp $(USER_PROGRAMS) image/usr/bin
