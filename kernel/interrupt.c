@@ -66,7 +66,7 @@ static void unknown_exception(int i, int code)
             kprintf("Segmentation fault (core dumped)\n");
             dbg_printf("[interrupt] process %d crashed\n", current->pid);
 			// Terminate current process
-            process_exit(0);
+            // process_exit(0);
         } else {
             // TODO: update process->vm_stack_size when growing the stack.
             pagetable_alloc(current->pagetable, vaddr, PAGE_SIZE,
@@ -80,7 +80,7 @@ static void unknown_exception(int i, int code)
     }
 
     if (current->pid != 1) {
-        process_exit(0);
+        // process_exit(0);
     }
 }
 
