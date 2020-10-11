@@ -26,12 +26,21 @@ int i = 0; // Counter 'i'
 
 bool verbose = 0;
 
-static void dim_open_script() { int file = syscall_open_file("/usr/share/", 0, 0); }
+static void dim_open_script(char *script) {
+    int file = syscall_open_file("/usr/share/", 0, 0);
+    if (file > 0) {
+        // TODO: Read the contents of the file and pass it to lexer
+    } else {
+        printf("error reading %s: %s", script, strerror(file));
+    }
+}
 
 static void print_line_no(int num) {
     text_color(150, 150, 150); // Set text color to gray
-    printf("  %d ", num);      // print the line number
-    resetColor();              // set the color to white (default)
+    printf("  %d ", num);     // print the line number
+    if (verbose)
+        dbg_printf("[dim.exe] printing line no %d...", num);
+    resetColor(); // set the color to white (default)
 }
 
 static void refresh() {
@@ -54,20 +63,28 @@ static int textarea(char *line) {
         char c;    // C is for storing the character that will be read by
                    // read_object()
         refresh(); // Redraw the window border and title
-        read_object(STDIN, &c, 1);      // Read 1 character from the keyboard
-        if (c == ASCII_CR)              // Check if 'c' is ENTER
-        {                               //
-            printf("\n");               // Append a newline
-            line_number++;              // Increment the line number value
-            print_line_no(line_number); // Print the next line number
-            refresh();                  // Redraw the window border and title
-        }                               //
+        read_object(STDIN, &c, 1); // Read 1 character from the keyboard
+
+        /* Check if 'c' is '\n' (ENTER) */
+        if (c == ASCII_CR) {
+            /* Append a newline */
+            printf("\n");
+            /* Increment the line number value */
+            line_number++;
+            /* Print the next line number */
+            print_line_no(line_number);
+            /* Redraw the window border and title */
+            refresh();
+        }
+        /* Check if 'c' is '\b' (BACKSPACE) */
         else if (c == ASCII_BS) {
             if (i > 0) {
                 printf("%c", c);
                 i--;
             }
-        } else if (c == ASCII_ESC) {
+        }
+		/* Check if 'c' is ESCAPE */
+		else if (c == ASCII_ESC) {
             printf("\n  > ");
             char command[1024];
             refresh();
@@ -94,17 +111,20 @@ static int textarea(char *line) {
                 printf("  Invalid command: %s\n", command);
                 dbg_printf("[dim.exe] invalid command '%s'\n", command);
                 resetColor();
-                // print_line_no(line_number);
+                print_line_no(line_number);
                 continue;
             }
-        } else if (c >= 0x20 && c <= 0x7E) {
+        }
+		/* Check if 'c'' is A-z or 0-9 */
+		else if (c >= 0x20 && c <= 0x7E) {
             printf_putchar(c);
             line[i] = c;
             i++;
             refresh();
-        } else if (c == 0x03) {
-            /* Exit if keycode is ^C (CTRL + C) */
-            dbg_printf("[dim.exe] ^C pressed: Terminating process...");
+        }
+        /* Check if 'c' is ^C (CTRL + C) */
+        else if (c == 0x03) {
+            dbg_printf("[dim.exe] ^C pressed: Terminating process...\n");
             /* Clear screen before exiting */
             clear_screen();
             printf("\n^C");
@@ -122,9 +142,11 @@ int main(int argc, const char *argv[]) {
 
     if (argc > 0) {
         if (!strcmp(argv[0], "-v") || !strcmp(argv[0], "--verbose")) {
-            verbose = 1;
+            /* Set verbose to true */
+            verbose = true;
         } else {
-            verbose = 0;
+            /* Set verbose to false */
+            verbose = false;
         }
     }
 
