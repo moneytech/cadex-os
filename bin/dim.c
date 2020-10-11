@@ -26,6 +26,8 @@ int i = 0; // Counter 'i'
 
 bool verbose = 0;
 
+static void dim_open_script() { int file = syscall_open_file("/usr/share/", 0, 0); }
+
 static void print_line_no(int num) {
     text_color(150, 150, 150); // Set text color to gray
     printf("  %d ", num);      // print the line number
@@ -100,9 +102,8 @@ static int textarea(char *line) {
             line[i] = c;
             i++;
             refresh();
-        } else if (c == 0x03)
-		{
-			/* Exit if keycode is ^C (CTRL + C) */
+        } else if (c == 0x03) {
+            /* Exit if keycode is ^C (CTRL + C) */
             dbg_printf("[dim.exe] ^C pressed: Terminating process...");
             /* Clear screen before exiting */
             clear_screen();
@@ -127,19 +128,19 @@ int main(int argc, const char *argv[]) {
         }
     }
 
-	/* Init */
-	syscall_object_size(WN_STDWINDOW, dims, 2);
+    /* Init */
+    syscall_object_size(WN_STDWINDOW, dims, 2);
     char *input[2048];
     setup_window();
     clear_screen();
     printf("\n\n");
 
-	/* Load editor */
-	dbg_printf("[dim.exe] textarea() started\n");
+    /* Load editor */
+    dbg_printf("[dim.exe] textarea() started\n");
     textarea(&input);
     dbg_printf("[dim.exe] exiting DiM\n");
 
-	/* Clear screen before exiting */
-	clear_screen();
+    /* Clear screen before exiting */
+    clear_screen();
     return 0;
 }
