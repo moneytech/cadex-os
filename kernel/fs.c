@@ -421,7 +421,7 @@ int fs_dirent_copy(struct fs_dirent* src, struct fs_dirent* dst, int depth)
 
         // Skip relative directory entries.
         if (strcmp(name, ".") == 0 || (strcmp(name, "..") == 0)) {
-            dbg_printf("[fscopy] relative directory found: skipping");
+            dbg_printf("[fscopy] relative directory found: skipping\n");
             goto next_entry;
         }
 
