@@ -11,25 +11,25 @@
 #include <stdio.h>
 
 void warn(char *s) {
-    renderWindow(WN_STDWINDOW);
+    render_window(WN_STDWINDOW);
     setTextColor(198, 0, 198, 0);
     printf("%s", s);
     resetColor();
 }
 void crit(char *s) {
-    renderWindow(WN_STDWINDOW);
+    render_window(WN_STDWINDOW);
     setTextColor(CLEAR_RED, 0);
     printf("%s", s);
     resetColor();
 }
 void err(char *s) {
-    renderWindow(WN_STDWINDOW);
+    render_window(WN_STDWINDOW);
     setTextColor(CLEAR_RED, 0);
     printf("%s", s);
     resetColor();
 }
 void info(char *s) {
-    renderWindow(WN_STDWINDOW);
+    render_window(WN_STDWINDOW);
     setTextColor(BLUE, 0);
     printf("%s", s);
     resetColor();
