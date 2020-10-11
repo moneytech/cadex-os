@@ -114,7 +114,7 @@ int main(int argc, char *argv[]) {
                 int width = dims[0];
                 int height = dims[1];
 
-                renderWindow(WN_STDWINDOW);
+                render_window(WN_STDWINDOW);
                 clearScreen(0, 0, width, height);
                 flushScreen();
                 flush();
@@ -143,7 +143,7 @@ int main(int argc, char *argv[]) {
                 int width = dims[0];
                 int height = dims[1];
 
-                renderWindow(WN_STDWINDOW);
+                render_window(WN_STDWINDOW);
                 // clearScreen(0, 0, width, height);
                 flush();
                 drawRect(x, y, atoi(cargv[1]), atoi(cargv[2]));
@@ -174,24 +174,24 @@ int main(int argc, char *argv[]) {
                 if (cargc > 1) {
                     if (!strcmp(cargv[1], "red")) {
                         setTextColor(CLEAR_RED, 0);
-                        renderWindow(WN_STDWINDOW);
+                        render_window(WN_STDWINDOW);
                         flushScreen();
                         flush();
                     } else if (!strcmp(cargv[1], "green")) {
                         setTextColor(GREEN, 0);
-                        renderWindow(WN_STDWINDOW);
+                        render_window(WN_STDWINDOW);
                         flushScreen();
                         flush();
                     } else if (!strcmp(cargv[1], "blue")) {
                         setTextColor(BLUE, 0);
-                        renderWindow(WN_STDWINDOW);
+                        render_window(WN_STDWINDOW);
                         flushScreen();
                         flush();
                     }
 
                     else if (!strcmp(cargv[1], "white")) {
                         setTextColor(WHITE, 0);
-                        renderWindow(WN_STDWINDOW);
+                        render_window(WN_STDWINDOW);
                         flushScreen();
                         flush();
                     } else {
