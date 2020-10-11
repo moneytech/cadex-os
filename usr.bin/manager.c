@@ -70,19 +70,6 @@ int main(int argc, char *argv[]) {
          .args = args4,
          .argc = 1}};
 
-    /* Run the splash screen before setting up the window */
-    int pid = fork();
-
-    if (pid == 0) {
-        // printf("Process %d started.\n", syscall_process_self());
-        const char *args[] = {"/usr/bin/splash.exe"};
-        system("/usr/bin/splash.exe", 1, args);
-    } else {
-        // printf("hello world, I am the parent %d.\n", syscall_process_self());
-        struct process_info info;
-        syscall_process_wait(&info, -1);
-        syscall_process_reap(info.pid);
-    }
     /* Setup the window */
     int std_dims[2];
     syscall_object_size(WN_STDWINDOW, std_dims, 2);
