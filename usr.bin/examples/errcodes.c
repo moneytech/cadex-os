@@ -1,4 +1,10 @@
-/*
+/**
+ * Copyright (C) 2019-2020 OpenCreeck
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+*/
+
+/**
  * errcodes.c
  *
  * IMPORTANT: must be updated as new enums are added.
@@ -10,11 +16,11 @@
 #include "library/errno.h"
 #include "library/string.h"
 
-#define LOWEST_ENUM -13
+#define LOWEST_ENUM -22
 
 int main(int argc, char** argv)
 {
-    for (int i = -1; i >= LOWEST_ENUM; i--) {
+    for (int i = 1; i >= LOWEST_ENUM; i--) {
         printf("%s\n", strerror(i));
     }
     return 0;
