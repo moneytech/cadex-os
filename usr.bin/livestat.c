@@ -8,8 +8,8 @@
  * statistics in realtime
  */
 
-#define POINTS 60
-#define ARG_MAX 16
+#define POINTS   60
+#define ARG_MAX  16
 #define ARG_SIZE 32
 
 typedef enum STAT_LIVE {
@@ -22,30 +22,33 @@ typedef enum STAT_LIVE {
 struct stat_args {
     /* General */
     STAT_LIVE stat_type;
-    char* stat_name;
-    void* statistics;
+    char *stat_name;
+    void *statistics;
     /* Process */
-    char* pid_s;
+    char *pid_s;
     int pid;
     int syscall_index;
     /* Driver */
-    char* driver_name;
+    char *driver_name;
     /* System */
     int device_unit;
 };
 
 void help();
-void stat_live_2_str(STAT_LIVE stat_l, char* str);
-void create_graph(STAT_LIVE stat_type, char* stat_name, char* stat_arg, int window_width, int window_height, int plot_width, int plot_height, int thickness, int char_offset);
-int extract_statistic(struct stat_args* args);
-void plot_bars(int* most_recent_vals, int max, int window_width, int window_height, int plot_width, int plot_height, int thickness, int char_offset);
-void run_stats(struct stat_args* args);
+void stat_live_2_str(STAT_LIVE stat_l, char *str);
+void create_graph(STAT_LIVE stat_type, char *stat_name, char *stat_arg,
+                  int window_width, int window_height, int plot_width,
+                  int plot_height, int thickness, int char_offset);
+int extract_statistic(struct stat_args *args);
+void plot_bars(int *most_recent_vals, int max, int window_width,
+               int window_height, int plot_width, int plot_height,
+               int thickness, int char_offset);
+void run_stats(struct stat_args *args);
 
-int main(int argc, const char* argv[])
-{
+int main(int argc, const char *argv[]) {
     /* Setup program parameters */
     int current_arg = 1;
-    struct stat_args args = { 0 };
+    struct stat_args args = {0};
 
     /* Parse command line options */
     if (argc < 2) {
@@ -54,7 +57,8 @@ int main(int argc, const char* argv[])
     }
 
     while (current_arg < argc) {
-        if (!strcmp(argv[current_arg], "-h") || !strcmp(argv[current_arg], "--help")) {
+        if (!strcmp(argv[current_arg], "-h") ||
+            !strcmp(argv[current_arg], "--help")) {
             help();
             return 0;
         } else if (!strcmp(argv[current_arg], "-b")) {
@@ -98,8 +102,7 @@ int main(int argc, const char* argv[])
 
 /** HELPER FUNCTIONS **/
 /* Create graph and continuously update it */
-void run_stats(struct stat_args* args)
-{
+void run_stats(struct stat_args *args) {
     /* Initialize variables for graph and stats collection */
     int window_width = 270;
     int window_height = 270;
@@ -110,13 +113,21 @@ void run_stats(struct stat_args* args)
 
     /* Generate the graph with correct labels */
     if (args->stat_type == BCACHE_LIVE) {
-        create_graph(args->stat_type, args->stat_name, 0, window_width, window_height, plot_width, plot_height, thickness, char_offset);
+        create_graph(args->stat_type, args->stat_name, 0, window_width,
+                     window_height, plot_width, plot_height, thickness,
+                     char_offset);
     } else if (args->stat_type == PROCESS_LIVE) {
-        create_graph(args->stat_type, args->stat_name, args->pid_s, window_width, window_height, plot_width, plot_height, thickness, char_offset);
+        create_graph(args->stat_type, args->stat_name, args->pid_s,
+                     window_width, window_height, plot_width, plot_height,
+                     thickness, char_offset);
     } else if (args->stat_type == DRIVER_LIVE) {
-        create_graph(args->stat_type, args->stat_name, args->driver_name, window_width, window_height, plot_width, plot_height, thickness, char_offset);
+        create_graph(args->stat_type, args->stat_name, args->driver_name,
+                     window_width, window_height, plot_width, plot_height,
+                     thickness, char_offset);
     } else if (args->stat_type == SYSTEM_LIVE) {
-        create_graph(args->stat_type, args->stat_name, 0, window_width, window_height, plot_width, plot_height, thickness, char_offset);
+        create_graph(args->stat_type, args->stat_name, 0, window_width,
+                     window_height, plot_width, plot_height, thickness,
+                     char_offset);
     }
 
     /* Start tracking stats */
@@ -170,7 +181,8 @@ void run_stats(struct stat_args* args)
         }
 
         /* Replot points */
-        plot_bars(most_recent_vals, max, window_width, window_height, plot_width, plot_height, thickness, char_offset);
+        plot_bars(most_recent_vals, max, window_width, window_height,
+                  plot_width, plot_height, thickness, char_offset);
 
     /* Sleep for 6 seconds and then continue */
     sleep:
@@ -181,46 +193,50 @@ void run_stats(struct stat_args* args)
 }
 
 /* Return one stat from statistics structure */
-int extract_statistic(struct stat_args* args)
-{
+int extract_statistic(struct stat_args *args) {
 
     if (args->stat_type == BCACHE_LIVE) {
         if (!strcmp(args->stat_name, "read_hits")) {
-            return ((struct bcache_stats*)args->statistics)->read_hits;
+            return ((struct bcache_stats *)args->statistics)->read_hits;
         } else if (!strcmp(args->stat_name, "read_misses")) {
-            return ((struct bcache_stats*)args->statistics)->read_misses;
+            return ((struct bcache_stats *)args->statistics)->read_misses;
         } else if (!strcmp(args->stat_name, "write_hits")) {
-            return ((struct bcache_stats*)args->statistics)->write_hits;
+            return ((struct bcache_stats *)args->statistics)->write_hits;
         } else if (!strcmp(args->stat_name, "write_misses")) {
-            return ((struct bcache_stats*)args->statistics)->write_misses;
+            return ((struct bcache_stats *)args->statistics)->write_misses;
         } else if (!strcmp(args->stat_name, "writebacks")) {
-            return ((struct bcache_stats*)args->statistics)->writebacks;
+            return ((struct bcache_stats *)args->statistics)->writebacks;
         }
     } else if (args->stat_type == PROCESS_LIVE) {
         if (!strcmp(args->stat_name, "blocks_read")) {
-            return ((struct process_stats*)args->statistics)->blocks_read;
+            return ((struct process_stats *)args->statistics)->blocks_read;
         } else if (!strcmp(args->stat_name, "blocks_written")) {
-            return ((struct process_stats*)args->statistics)->blocks_written;
+            return ((struct process_stats *)args->statistics)->blocks_written;
         } else if (!strcmp(args->stat_name, "bytes_read")) {
-            return ((struct process_stats*)args->statistics)->bytes_read;
+            return ((struct process_stats *)args->statistics)->bytes_read;
         } else if (!strcmp(args->stat_name, "bytes_written")) {
-            return ((struct process_stats*)args->statistics)->bytes_written;
+            return ((struct process_stats *)args->statistics)->bytes_written;
         } else if (!strcmp(args->stat_name, "syscall_count")) {
-            return ((struct process_stats*)args->statistics)->syscall_count[args->syscall_index];
+            return ((struct process_stats *)args->statistics)
+                ->syscall_count[args->syscall_index];
         }
     } else if (args->stat_type == DRIVER_LIVE) {
         if (!strcmp(args->stat_name, "blocks_read")) {
-            return ((struct device_driver_stats*)args->statistics)->blocks_read;
+            return ((struct device_driver_stats *)args->statistics)
+                ->blocks_read;
         } else if (!strcmp(args->stat_name, "blocks_written")) {
-            return ((struct device_driver_stats*)args->statistics)->blocks_written;
+            return ((struct device_driver_stats *)args->statistics)
+                ->blocks_written;
         }
     } else if (args->stat_type == SYSTEM_LIVE) {
         if (!strcmp(args->stat_name, "time")) {
-            return ((struct system_stats*)args->statistics)->time;
+            return ((struct system_stats *)args->statistics)->time;
         } else if (!strcmp(args->stat_name, "blocks_read")) {
-            return ((struct system_stats*)args->statistics)->blocks_read[args->device_unit];
+            return ((struct system_stats *)args->statistics)
+                ->blocks_read[args->device_unit];
         } else if (!strcmp(args->stat_name, "blocks_written")) {
-            return ((struct system_stats*)args->statistics)->blocks_written[args->device_unit];
+            return ((struct system_stats *)args->statistics)
+                ->blocks_written[args->device_unit];
         }
     }
 
@@ -228,8 +244,9 @@ int extract_statistic(struct stat_args* args)
 }
 
 /* Create the graph template for the display */
-void create_graph(STAT_LIVE stat_type, char* stat_name, char* stat_arg, int window_width, int window_height, int plot_width, int plot_height, int thickness, int char_offset)
-{
+void create_graph(STAT_LIVE stat_type, char *stat_name, char *stat_arg,
+                  int window_width, int window_height, int plot_width,
+                  int plot_height, int thickness, int char_offset) {
     /* Initialize Parameters */
     int i;
     int x_offset = (window_width - plot_width) / 2;
@@ -243,7 +260,7 @@ void create_graph(STAT_LIVE stat_type, char* stat_name, char* stat_arg, int wind
     }
 
     /* Draw border around window */
-    renderWindow(WN_STDWINDOW);
+    render_window(WN_STDWINDOW);
     clearScreen(0, 0, window_width, window_height);
     drawRect(0, 0, window_width, thickness);
     drawRect(0, 0, thickness, window_height);
@@ -259,31 +276,35 @@ void create_graph(STAT_LIVE stat_type, char* stat_name, char* stat_arg, int wind
     print(window_width / 2 - 34, window_height - 16, "Time (6s)");
 
     /* Setup Y axis */
-    char y[2] = { 0 };
+    char y[2] = {0};
     for (i = 0; i < strlen(stat_name); i++) {
         y[0] = stat_name[i];
         print(10, window_height / 2 - 20 + i * char_offset, y);
         flush();
     }
 
-    /* For tick marks on x axis -- always keep the most recent minute - 10 ticks */
+    /* For tick marks on x axis -- always keep the most recent minute - 10 ticks
+     */
     int x_tick_width = plot_width / 10;
     for (i = 0; i < 10 + 1; i++) {
-        drawRect(x_offset + i * x_tick_width, y_offset + plot_height, thickness, 6);
+        drawRect(x_offset + i * x_tick_width, y_offset + plot_height, thickness,
+                 6);
     }
 
     /* For tick marks on y axis -- max will be dynamically set */
     int y_tick_width = plot_height / 10;
     for (i = 0; i < 10 + 1; i++) {
-        drawRect(x_offset - 4, y_offset + plot_height - i * y_tick_width, 6, thickness);
+        drawRect(x_offset - 4, y_offset + plot_height - i * y_tick_width, 6,
+                 thickness);
     }
 
     flush();
 }
 
 /* Plot all of the points on the graph and print the max */
-void plot_bars(int most_recent_vals[POINTS], int max, int window_width, int window_height, int plot_width, int plot_height, int thickness, int char_offset)
-{
+void plot_bars(int most_recent_vals[POINTS], int max, int window_width,
+               int window_height, int plot_width, int plot_height,
+               int thickness, int char_offset) {
     /* Clear the graph */
     int x_offset = (window_width - plot_width) / 2;
     int y_offset = (window_height - plot_height) / 2;
@@ -300,7 +321,7 @@ void plot_bars(int most_recent_vals[POINTS], int max, int window_width, int wind
     flush();
 
     /* Plot the points */
-    int i, current_point[2] = { 0 };
+    int i, current_point[2] = {0};
 
     /* Variables to plot value in correct location on the graph */
     float x_step = (float)plot_width / POINTS;
@@ -313,16 +334,17 @@ void plot_bars(int most_recent_vals[POINTS], int max, int window_width, int wind
             continue;
 
         current_point[0] = x_offset + (int)(x_step * (i + 1));
-        current_point[1] = y_offset + plot_height - (int)(y_step * most_recent_vals[i]);
-        drawRect(current_point[0], current_point[1], thickness, (int)(y_step * most_recent_vals[i]));
+        current_point[1] =
+            y_offset + plot_height - (int)(y_step * most_recent_vals[i]);
+        drawRect(current_point[0], current_point[1], thickness,
+                 (int)(y_step * most_recent_vals[i]));
     }
     flush();
     setTextColor(255, 255, 255, 0);
 }
 
 /* Convert stat type to string */
-void stat_live_2_str(STAT_LIVE stat_l, char* str)
-{
+void stat_live_2_str(STAT_LIVE stat_l, char *str) {
 
     if (stat_l == BCACHE_LIVE) {
         strcpy(str, "Bcache");
@@ -336,8 +358,7 @@ void stat_live_2_str(STAT_LIVE stat_l, char* str)
 }
 
 /* Help message */
-void help()
-{
+void help() {
     printf("\nusage\n\n");
     printf("statslive\n");
     printf("                -h | --help          # display help\n");
@@ -371,5 +392,5 @@ void help()
     printf("    blocks_read\n");
     printf("    blocks_written\n\n");
 
-    //TODO memory utilizations (page), kernel malloc
+    // TODO memory utilizations (page), kernel malloc
 }
