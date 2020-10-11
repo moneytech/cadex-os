@@ -9,8 +9,8 @@ See the file LICENSE for details.
 #include "library/syscalls.h"
 
 /*
-	Have a list of programs and windows that we want to run in certain sized windows
-	and place them across the screen
+    Have a list of programs and windows that we want to run in certain sized
+   windows and place them across the screen
 */
 
 #define num_programs 4
@@ -18,23 +18,23 @@ See the file LICENSE for details.
 typedef struct program {
     int w;
     int h;
-    const char* exec;
-    const char** args;
+    const char *exec;
+    const char **args;
     int argc;
 } program;
 
 /* Function declarations */
-void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b);
-void mergeSort(program* programs, int l, int r);
-void merge(program* arr, int l, int m, int r);
+void draw_border(int x, int y, int w, int h, int thickness, int r, int g,
+                 int b);
+void mergeSort(program *programs, int l, int r);
+void merge(program *arr, int l, int m, int r);
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
     /* Eventually, programs wont be hardcoded */
-    const char* args1[] = { "/usr/bin/snake.exe" };
-    const char* args2[] = { "/usr/bin/clock.exe", "08:40" };
-    const char* args3[] = { "/bin/cash.exe" };
-    const char* args4[] = { "/usr/bin/ball.exe" };
+    const char *args1[] = {"/usr/bin/snake.exe"};
+    const char *args2[] = {"/usr/bin/clock.exe", "08:40"};
+    const char *args3[] = {"/bin/cash.exe"};
+    const char *args4[] = {"/usr/bin/ball.exe"};
     int window_width = 270;
     int window_height = 270;
     int plot_width = 180;
@@ -53,21 +53,32 @@ int main(int argc, char* argv[])
 
     int padding = 4;
     program programs[] = {
-        { .w = 55, .h = 25, .exec = "/usr/bin/clock.exe", .args = args2, .argc = 2 },
-        { .w = 500, .h = 400, .exec = "/bin/cash.exe", .args = args3, .argc = 3 },
-        { .w = 200, .h = 200, .exec = "/usr/bin/snake.exe", .args = args1, .argc = 1 },
-        { .w = 400, .h = 400, .exec = "/usr/bin/ball.exe", .args = args4, .argc = 1 }
-    };
+        {.w = 55,
+         .h = 25,
+         .exec = "/usr/bin/clock.exe",
+         .args = args2,
+         .argc = 2},
+        {.w = 500, .h = 400, .exec = "/bin/cash.exe", .args = args3, .argc = 3},
+        {.w = 200,
+         .h = 200,
+         .exec = "/usr/bin/snake.exe",
+         .args = args1,
+         .argc = 1},
+        {.w = 400,
+         .h = 400,
+         .exec = "/usr/bin/ball.exe",
+         .args = args4,
+         .argc = 1}};
 
     /* Run the splash screen before setting up the window */
     int pid = fork();
 
     if (pid == 0) {
         // printf("Process %d started.\n", syscall_process_self());
-        const char* args[] = { "/usr/bin/splash.exe" };
+        const char *args[] = {"/usr/bin/splash.exe"};
         system("/usr/bin/splash.exe", 1, args);
     } else {
-        //printf("hello world, I am the parent %d.\n", syscall_process_self());
+        // printf("hello world, I am the parent %d.\n", syscall_process_self());
         struct process_info info;
         syscall_process_wait(&info, -1);
         syscall_process_reap(info.pid);
@@ -75,7 +86,7 @@ int main(int argc, char* argv[])
     /* Setup the window */
     int std_dims[2];
     syscall_object_size(WN_STDWINDOW, std_dims, 2);
-    renderWindow(WN_STDWINDOW);
+    render_window(WN_STDWINDOW);
     /* The code below will not work */
     clear_screen();
     setTextColor(BLACK, 0);
@@ -83,39 +94,49 @@ int main(int argc, char* argv[])
     print(10, 0, "Window Manager");
     resetColor();
 
-    /* Sort programs in order of biggest height to smallest with smaller width being tie breaker */
+    /* Sort programs in order of biggest height to smallest with smaller width
+     * being tie breaker */
     int left = 0;
     int right = num_programs - 1;
     mergeSort(programs, left, right);
 
     /* Packing algorithm - First fit decreasing height - doesnt fit, skip it */
     int spacing = 6;
-    int current_pos[num_programs][2] = { { 0 } }; // for each row, keep track of the current x position and height
-    int placement[num_programs][3] = { { 0 } };   // (x, y, valid) of specific program
+    int current_pos[num_programs][2] = {
+        {0}}; // for each row, keep track of the current x position and height
+    int placement[num_programs][3] = {{0}}; // (x, y, valid) of specific program
     int p_i, row;
 
     for (p_i = 0; p_i < num_programs; ++p_i) {
         for (row = 0; row < num_programs; ++row) {
-            if (current_pos[row][0] + programs[p_i].w + 4 * padding <= std_dims[0]) {
+            if (current_pos[row][0] + programs[p_i].w + 4 * padding <=
+                std_dims[0]) {
                 // Program can be placed
                 // If it is the first element in the row, x == 0
-                // And, all of the rows havent been set, set the val of the next row
+                // And, all of the rows havent been set, set the val of the next
+                // row
                 if (current_pos[row][0] == 0) {
                     // Probably need to keep track of y coords
                     // If the program overlaps, we cant place it
-                    if (current_pos[row][1] + programs[p_i].h + 4 * padding > std_dims[1]) {
+                    if (current_pos[row][1] + programs[p_i].h + 4 * padding >
+                        std_dims[1]) {
                         break;
                     } else if (row < num_programs - 1) {
-                        // Otherwise, we can place that element in that row and we can
-                        // Set the y position of the next row
-                        current_pos[row + 1][1] = current_pos[row][1] + spacing + programs[p_i].h + 4 * padding;
+                        // Otherwise, we can place that element in that row and
+                        // we can Set the y position of the next row
+                        current_pos[row + 1][1] = current_pos[row][1] +
+                                                  spacing + programs[p_i].h +
+                                                  4 * padding;
                     }
                 }
                 // Now, set the placement of this object
-                placement[p_i][0] = current_pos[row][0] + 2 * padding; // x coord
-                placement[p_i][1] = current_pos[row][1] + 2 * padding; // y coord
-                placement[p_i][2] = 1;                                 // program is validly placed
-                current_pos[row][0] = current_pos[row][0] + spacing + programs[p_i].w + 4 * padding;
+                placement[p_i][0] =
+                    current_pos[row][0] + 2 * padding; // x coord
+                placement[p_i][1] =
+                    current_pos[row][1] + 2 * padding; // y coord
+                placement[p_i][2] = 1; // program is validly placed
+                current_pos[row][0] = current_pos[row][0] + spacing +
+                                      programs[p_i].w + 4 * padding;
                 ;
                 break;
             }
@@ -123,15 +144,17 @@ int main(int argc, char* argv[])
     }
 
     /* Wrun each program */
-    int pids[num_programs] = { 0 };
-    int fds[num_programs][4] = { { 0 } };
+    int pids[num_programs] = {0};
+    int fds[num_programs][4] = {{0}};
     for (p_i = 0; p_i < num_programs; ++p_i) {
         if (placement[p_i][2] == 0) {
             printf("INVALID\n");
             continue;
         }
 
-        fds[p_i][3] = syscall_open_window(WN_STDWINDOW, placement[p_i][0], placement[p_i][1], programs[p_i].w, programs[p_i].h);
+        fds[p_i][3] = syscall_open_window(WN_STDWINDOW, placement[p_i][0],
+                                          placement[p_i][1], programs[p_i].w,
+                                          programs[p_i].h);
         fds[p_i][0] = syscall_open_pipe();
 
         // Standard output and error get console
@@ -139,9 +162,13 @@ int main(int argc, char* argv[])
         fds[p_i][2] = fds[p_i][1];
 
         // Take in an array of FD's
-        pids[p_i] = syscall_process_wrun(programs[p_i].exec, programs[p_i].argc, programs[p_i].args, fds[p_i], 4);
-        renderWindow(WN_STDWINDOW);
-        draw_border(placement[p_i][0] - 2 * padding, placement[p_i][1] - 2 * padding, programs[p_i].w + 4 * padding, programs[p_i].h + 4 * padding, padding, 255, 255, 255);
+        pids[p_i] = syscall_process_wrun(programs[p_i].exec, programs[p_i].argc,
+                                         programs[p_i].args, fds[p_i], 4);
+        render_window(WN_STDWINDOW);
+        draw_border(placement[p_i][0] - 2 * padding,
+                    placement[p_i][1] - 2 * padding,
+                    programs[p_i].w + 4 * padding,
+                    programs[p_i].h + 4 * padding, padding, 255, 255, 255);
         flush();
     }
 
@@ -150,13 +177,19 @@ int main(int argc, char* argv[])
     char tin = 0;
 
     /* Draw green window around active process and start it */
-    renderWindow(WN_STDWINDOW);
-    draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 0, 0, 244);
+    render_window(WN_STDWINDOW);
+    draw_border(placement[p_act][0] - 2 * padding,
+                placement[p_act][1] - 2 * padding,
+                programs[p_act].w + 4 * padding,
+                programs[p_act].h + 4 * padding, padding, 0, 0, 244);
     flush();
 
     while (tin != ASCII_ESC) {
-        renderWindow(WN_STDWINDOW);
-        draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 0, 0, 244);
+        render_window(WN_STDWINDOW);
+        draw_border(placement[p_act][0] - 2 * padding,
+                    placement[p_act][1] - 2 * padding,
+                    programs[p_act].w + 4 * padding,
+                    programs[p_act].h + 4 * padding, padding, 0, 0, 244);
         flush();
         if (pids[p_act] == 0) {
             p_act = (p_act + 1) % num_programs;
@@ -166,12 +199,19 @@ int main(int argc, char* argv[])
         /* If tab entered, go to the next process */
         read_object(0, &tin, 1);
         if (tin == '\t') {
-            renderWindow(WN_STDWINDOW);
-            draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 255, 255, 255);
+            render_window(WN_STDWINDOW);
+            draw_border(placement[p_act][0] - 2 * padding,
+                        placement[p_act][1] - 2 * padding,
+                        programs[p_act].w + 4 * padding,
+                        programs[p_act].h + 4 * padding, padding, 255, 255,
+                        255);
             p_act = (p_act + 1) % num_programs;
             /* Draw green window around active process and start it */
-            renderWindow(WN_STDWINDOW);
-            draw_border(placement[p_act][0] - 2 * padding, placement[p_act][1] - 2 * padding, programs[p_act].w + 4 * padding, programs[p_act].h + 4 * padding, padding, 10, 10, 255);
+            render_window(WN_STDWINDOW);
+            draw_border(placement[p_act][0] - 2 * padding,
+                        placement[p_act][1] - 2 * padding,
+                        programs[p_act].w + 4 * padding,
+                        programs[p_act].h + 4 * padding, padding, 10, 10, 255);
             flush();
             resetColor();
             set_bg_color(WHITE, 0);
@@ -198,8 +238,7 @@ int main(int argc, char* argv[])
 
 /** HELPER FUNCTIONS **/
 // Code for mergesort taken from https://www.geeksforgeeks.org/merge-sort/
-void mergeSort(program* arr, int l, int r)
-{
+void mergeSort(program *arr, int l, int r) {
     if (l < r) {
         int m = l + (r - l) / 2;
         mergeSort(arr, l, m);
@@ -208,8 +247,7 @@ void mergeSort(program* arr, int l, int r)
     }
 }
 
-void merge(program* arr, int l, int m, int r)
-{
+void merge(program *arr, int l, int m, int r) {
     int i, j, k;
     int n1 = m - l + 1;
     int n2 = r - m;
@@ -255,8 +293,8 @@ void merge(program* arr, int l, int m, int r)
     }
 }
 
-void draw_border(int x, int y, int w, int h, int thickness, int r, int g, int b)
-{
+void draw_border(int x, int y, int w, int h, int thickness, int r, int g,
+                 int b) {
     setTextColor(r, b, g, 0);
     drawRect(x, y, w, thickness);
     drawRect(x, y, thickness, h);
