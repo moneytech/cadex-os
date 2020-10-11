@@ -33,13 +33,13 @@ int main(int argc, char *argv[]) {
     int width = dims[0];
     int height = dims[1];
 
-    renderWindow(WN_STDWINDOW);
+    render_window(WN_STDWINDOW);
     clearScreen(0, 0, width, height);
     flush();
 
     char stop = -1;
     while (stop != KEY_DELETE) {
-        renderWindow(WN_STDWINDOW);
+        render_window(WN_STDWINDOW);
         move(&x1, &dx1, 0, width - 80);
         move(&y1, &dy1, 0, height - 1);
         move(&r, &dr, 0, 255);
