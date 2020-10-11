@@ -194,7 +194,7 @@ int main(int argc, char *argv[]) {
     char line[MAX_LINE_LENGTH];
 
     while (1) {
-        printf("(root@cadex:%s)# ", &curentworkingdirectory);
+        printf("[root@cadex:~/]# ");
         flush();
         if (readline(line, sizeof(line))) {
             do_command(line);
