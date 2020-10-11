@@ -303,7 +303,7 @@ int kshell_install(int src, int dst) {
     struct fs_dirent *srcroot = fs_volume_root(srcvolume);
     struct fs_dirent *dstroot = fs_volume_root(dstvolume);
 
-    kprintf("Installing Cadex OS on disk (copying from atapi unit %d and "
+    kprintf("installing to disk (copying from atapi unit %d and "
             "copying to ata unit %d)...\n",
             src, dst);
     dbg_printf("[kshell] copying atapi unit %d contents to ata unit %d...\n",
@@ -886,7 +886,7 @@ int kshell_launch() {
 
     /* Initialize shell variables */
     default_shell->device_name = "cbox";
-    default_shell->current_directory = "~";
+    default_shell->current_directory = "~/";
 
     /* Run Startup Application */
     int pid = sys_process_run("/bin/stapp.exe", 0, 0);
