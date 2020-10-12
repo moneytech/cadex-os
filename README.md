@@ -29,7 +29,7 @@ This repo was made by HyperCreeck and actively maintained by HyperCreeck and con
 
 To learn more, see the [Cadex OS Wiki](http://cadex-os-wiki.rf.gd).
 
-## Notable components
+## Notable components 
 
 - **kshell**: A small but efficient shell implemented on the kernel space
 - **DiM**: A very small text editor
