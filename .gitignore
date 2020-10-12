@@ -21,3 +21,4 @@ scripts/c2b86
 doxygen/html
 doxygen/latex
 basefs/usr/include/**
+*.gz
