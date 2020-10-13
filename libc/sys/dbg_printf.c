@@ -1,5 +1,8 @@
 #include <debug.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <stddef.h>
+#include <stdlib.h>
 
 void dbg_printf(const char *a, ...){
     va_list args;
@@ -54,6 +57,6 @@ void dbg_printf(const char *a, ...){
             }
         }
         a++;
-    } 
+    }
     va_end(args);
 }
