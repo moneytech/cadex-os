@@ -647,9 +647,9 @@ static int kshell_execute(int argc, const char **argv) {
                 kprintf("cd: %s: not a directory\n", argv[1]);
             } else {
                 default_shell->current_directory = "";
-				if(strcmp(argv[1], ".."))
-                	default_shell->current_directory = argv[1];
-				else
+                if (strcmp(argv[1], ".."))
+                    default_shell->current_directory = argv[1];
+                else
                     default_shell->current_directory = "/";
             }
         } else if (argc == 1) {
@@ -681,21 +681,25 @@ static int kshell_execute(int argc, const char **argv) {
         kprintf("Cadex KShell, version 1.0.32(1)-release (i686-pc-cadex)\n");
         kprintf("These shell commands are defined internally. Type `help' to "
                 "see this list.\n");
+        kprintf("Use `info kshell' to find out more about the shell in "
+                "general\n\n");
         kprintf(
-            "Use `info kshell' to find out more about the shell in general\n\n");
-        kprintf(" prompt [type ...]                 whoami [-vh]\n"
-                " run [path ...]                    echo [-ne] [arg ...]\n"
-                " reap [pid ...]                    start [path ...]\n"
-                " wait [n]                          mount [dev] [unit] [fstype]\n"
-                " umount [unit]                     format [dev] [unit] [fstype]\n"
-                " install [src_unit] [dest_unit]    cd [dir]\n"
-                " mkdir [path ...]                  rm [path ...]\n"
-                " help [-vd]                        clear\n"
-                " uname [-avcr]                     ls [dir|.]\n");
+            " prompt [type ...]                 whoami [-vh]\n"
+            " run [path ...]                    echo [-ne] [arg ...]\n"
+            " reap [pid ...]                    start [path ...]\n"
+            " wait [n]                          mount [dev] [unit] [fstype]\n"
+            " umount [unit]                     format [dev] [unit] [fstype]\n"
+            " install [src_unit] [dest_unit]    cd [dir]\n"
+            " mkdir [path ...]                  rm [path ...]\n"
+            " help [-vd]                        clear\n"
+            " uname [-avcr]                     ls [dir|.]\n"
+			" bcache_flush                      time\n"
+            " bcache_stats                      shutdown\n\n"
+            "Type `help' to see this help information.\n");
         // kprintf(
-        //     "Available commands :\n\n *whoami\n *longtest\n *basic86<args>\n "
-        //     " prompt<args>   *sdlg<args>\n *clear\n *uname<args>\n "
-        //     " run<path><args>\n *whoami\n *start<path><args>\n *kill<pid>\n "
+        //     "Available commands :\n\n *whoami\n *longtest\n *basic86<args>\n
+        //     " " prompt<args>   *sdlg<args>\n *clear\n *uname<args>\n " "
+        //     run<path><args>\n *whoami\n *start<path><args>\n *kill<pid>\n "
         //     " reap<pid>\n *wait\n *ls\n *mount<device><unit><fstype>\n "
         //     " umount\n *format<device><unit><fstype>\n "
         //     " install<srcunit><dstunit>\n *cd<path>\n *mkdir<path>\n "
@@ -744,8 +748,7 @@ static int kshell_execute(int argc, const char **argv) {
                 kprintf("%d ", last_run_proc_exitcode);
             } else if (!strcmp(argv[i], "\"")) {
                 continue;
-            } else if (!strsw("\"", argv[i]) ||
-                       !strew(argv[i], "\"")) {
+            } else if (!strsw("\"", argv[i]) || !strew(argv[i], "\"")) {
                 kprintf("%s ", argv[i]);
                 continue;
             }
@@ -813,6 +816,12 @@ static int kshell_execute(int argc, const char **argv) {
         }
     } else if (!strcmp(cmd, "pwd")) {
         kprintf("%s", default_shell->current_directory);
+    } else if (!strcmp(cmd, "mtest")) {
+        struct mouse_event e;
+        while (1) {
+            mouse_read(&e);
+            kprintf("X=%d,Y=%d,BUTTON=%u\n", e.x, e.y, e.buttons);
+        }
     } else {
         if (argc > 0 && strsw(".", argv[0])) {
             // Try to run the process
