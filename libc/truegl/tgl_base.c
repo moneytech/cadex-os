@@ -10,6 +10,10 @@
 #include <truegl/events.h>
 #include <truegl/truegl.h>
 
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 /**
  * Moves the specivied sprite to the specified X and Y location
  *
@@ -40,8 +44,15 @@ void draw_pixel(int x, int y, int r, int g, int b, int a) {
 
 int get_mouse_down() { return 0; }
 
+/**
+ * Sets up the console for graphical functions
+ */
 void setup_window() {
     render_window(WN_STDWINDOW);
     clear_screen();
     dbg_printf("<tgl> (tgl_base.c:53): setting up window...\n");
 }
+
+#ifdef __cplusplus
+}
+#endif
