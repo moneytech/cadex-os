@@ -23,7 +23,7 @@ void _page_map(uint32_t p_addr, uint32_t v_addr, uint32_t length)
 {
     uint32_t *pd, *table, p_idx, t_idx;
     uint32_t pages;
- 
+
     pages = length / 0x1000;
     if ((pages % 0x1000) != 0)
         pages++;
@@ -58,13 +58,13 @@ void acpi_enable()
 {
     //ASSERT_PANIC(facp != NULL);
 
-    outb(facp->SMI_CommandPort, facp->AcpiEnable); // enable ACPI
+    outb(facp->AcpiEnable, facp->SMI_CommandPort); // enable ACPI
     while (!(facp->PM1aControlBlock && SCI_EN))
         ; // wait ACPI transfer control to SCI_Interrupt events
 
     if (facp->PM1bControlBlock != 0)
     {
-        outb(facp->SMI_CommandPort, facp->AcpiEnable); // enable ACPI
+        outb(facp->AcpiEnable, facp->SMI_CommandPort); // enable ACPI
         while (!(facp->PM1bControlBlock && SCI_EN))
             ; // wait ACPI transfer control to SCI_Interrupt events
     }
@@ -74,10 +74,10 @@ void acpi_power_down()
 {
     acpi_enable();
 
-    outw(facp->PM1aControlBlock, (SLP_TYPa << 0) | SLP_EN);
+    outw((SLP_TYPa << 0) | SLP_EN, facp->PM1aControlBlock);
 
     if (facp->PM1bControlBlock != 0)
-        outw(facp->PM1aControlBlock, (SLP_TYPb << 0) | SLP_EN);
+        outw((SLP_TYPb << 0) | SLP_EN, facp->PM1aControlBlock);
 
     PANIC("ACPI power down failed!");
 }
@@ -86,14 +86,14 @@ void acpi_reset()
 {
 
     acpi_enable();
-    outw(facp->ResetReg.Address, facp->ResetValue);
+    outw(facp->ResetValue, facp->ResetReg.Address);
 }
 
 void acpi_power_button_enable()
 {
     acpi_enable();
 
-    outw(facp->PM1aEventBlock, PWRBTN_EN);
+    outw(PWRBTN_EN, facp->PM1aEventBlock);
 }
 
 uint8_t
@@ -110,7 +110,7 @@ acpi_checksum(void *ptr, uint32_t size, uint8_t checksum)
 uint32_t
 acpi_handler(int_regs_t *regs)
 {
-    debug_printf("acpi interrupt!\n");
+    dbg_printf("acpi interrupt!\n");
 }
 
 #define return_val_if_fail(test, val) \
