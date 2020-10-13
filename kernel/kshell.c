@@ -739,6 +739,7 @@ static int kshell_execute(int argc, const char **argv) {
     }
     /* Shutdown using ACPI */
     else if (!strcmp(cmd, "shutdown")) {
+        acpi_power_button_enable();
         acpi_power_down();
     } else if (!strcmp(cmd, "echo")) {
         for (size_t i = 1; i < argc; i++) {
