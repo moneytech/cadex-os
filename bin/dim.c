@@ -37,7 +37,7 @@ static void dim_open_script(char *script) {
 
 static void print_line_no(int num) {
     text_color(150, 150, 150); // Set text color to gray
-    printf("  %d ", num);     // print the line number
+    printf("  %d ", num);      // print the line number
     if (verbose)
         dbg_printf("[dim.exe] printing line no %d...", num);
     resetColor(); // set the color to white (default)
@@ -83,8 +83,8 @@ static int textarea(char *line) {
                 i--;
             }
         }
-		/* Check if 'c' is ESCAPE */
-		else if (c == ASCII_ESC) {
+        /* Check if 'c' is ESCAPE */
+        else if (c == ASCII_ESC) {
             printf("\n  > ");
             char command[1024];
             refresh();
@@ -115,8 +115,8 @@ static int textarea(char *line) {
                 continue;
             }
         }
-		/* Check if 'c'' is A-z or 0-9 */
-		else if (c >= 0x20 && c <= 0x7E) {
+        /* Check if 'c'' is A-z or 0-9 */
+        else if (c >= 0x20 && c <= 0x7E) {
             printf_putchar(c);
             line[i] = c;
             i++;
