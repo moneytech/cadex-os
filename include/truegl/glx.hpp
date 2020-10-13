@@ -48,9 +48,6 @@ auto glx_get_config = [](GraphicsContext context) {
     if (current_glx_config->window_props->root_window) {
         // If the current glx window config's root_window property is 1 then return the current glx config
         return current_glx_config;
-    } else {
-        // Just return if the current glx window config's root_window value is 0
-        return;
     }
 };
 } // namespace TGL
