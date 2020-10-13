@@ -4,10 +4,10 @@
  * See the file LICENSE for details
 */
 
-#include <library/stdbool.h>
-#include <library/stdio.h>
-
-#define COS_SOURCE // Define that this is Cadex-OS source
+#include <stdio.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include <unistd.h>
 
 typedef struct {
     int eventid;
