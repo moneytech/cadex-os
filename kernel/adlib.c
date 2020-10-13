@@ -5,11 +5,11 @@ uint16_t Adlib_BaseAddress = 0x388;
 uint16_t Adlib_DataPort = 0x389;
 
 uint8_t Adlib_IRQ = 8;
-bool Adlib_Present = false;
+int Adlib_Present = 0;
 
-bool Adlib_Init(void) {
+int adlib_init(void) {
     // Try to find an Adlib card
-    dbg_printf("[adlib searching for an Adlib compatible sound device...\n");
+    dbg_printf("[adlib] searching for an Adlib compatible sound device...\n");
 
     // Reset both timers
     Adlib_Write(
@@ -45,7 +45,7 @@ bool Adlib_Init(void) {
     if ((status & 0xE0) == 0) {
         // test the second stored status
         if ((status2 & 0xE0) == 0xC0) {
-            dbg_printf("[adlib] found an Adlib compatible device at %x\n", Adlib_BaseAddress);
+            dbg_printf("[adlib] found an Adlib compatible device at 0x%x\n", Adlib_BaseAddress);
             Adlib_Present = true;
         }
     }

@@ -29,7 +29,7 @@
 #define TIMER_CTRL_TIMER2_GO    0x02
 #define TIMER_CTRL_TIMER1_GO    0x01
 
-bool Adlib_Init(void);
+int adlib_init(void);
 uint8_t Adlib_Read(uint8_t reg);
 void Adlib_Test(void);
 void Adlib_Write(uint8_t reg, uint8_t value);
