@@ -19,7 +19,7 @@ all: clear clean ${ISO_FILENAME} success
 
 run: ${ISO_FILENAME}
 	@echo " -- Using ${ISO_FILENAME}"
-	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04 -serial stdio -sdl -soundhw sb16,adlib
+	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04 -serial stdio -sdl
 
 debug: cadex.iso hddimg
 	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -s -S & gdb
