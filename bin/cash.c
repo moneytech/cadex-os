@@ -153,12 +153,12 @@ int do_command(char *line) {
         return 0;
     } else if (pch && !strcmp(pch, "sudo")) {
         if (getAuth() == 0) {
-            printf("got root permission\n");
+            printf("-cash: got root permission\n");
         } else {
-            printf("E: getting root permission failed!\n");
+            printf("-cash: error: getting root permission failed!\n");
         }
     } else if (pch) {
-        printf("%s: command/program not found\n", pch);
+        printf("-cash: %s: command/program not found\n", pch);
     }
     return 0;
 }
@@ -194,7 +194,7 @@ int main(int argc, char *argv[]) {
     char line[MAX_LINE_LENGTH];
 
     while (1) {
-        printf("[root@cadex:~/]# ");
+        printf("cash-1.2# ");
         flush();
         if (readline(line, sizeof(line))) {
             do_command(line);
