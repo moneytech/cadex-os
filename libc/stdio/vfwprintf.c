@@ -532,8 +532,6 @@ int vfwprintf(FILE* restrict f, const wchar_t* restrict fmt, va_list ap)
         va_end(ap2);
         return -1;
     }
-
-    FLOCK(f);
     fwide(f, 1);
     olderr = f->flags & F_ERR;
     f->flags &= ~F_ERR;
