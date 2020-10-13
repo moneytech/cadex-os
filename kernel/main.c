@@ -27,6 +27,7 @@ See the file LICENSE for details.
 #include "serial.h"
 #include "service.h"
 #include "string.h"
+#include "adlib.h"
 #include <sysinfo.h>
 
 /*
@@ -75,6 +76,8 @@ int kernel_main()
     cdrom_init();
     // init filesystem driver
     diskfs_init();
+	// init adlib driver
+    adlib_init();
     // mount atapi device with unit 2
     kshell_mount("atapi", 2, "cdfs");
 #ifdef DEBUG
