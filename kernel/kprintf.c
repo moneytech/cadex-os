@@ -67,6 +67,21 @@ static void printf_puthex(uint32_t i)
     }
 }
 
+static void serial_puthexdigit(uint8_t i) {
+    if (i < 10) {
+        serial_write(0, '0' + i);
+    } else {
+        serial_write(0, 'a' + i - 10);
+    }
+}
+
+static void serial_puthex(uint32_t i) {
+    int j;
+    for (j = 28; j >= 0; j = j - 4) {
+        serial_puthexdigit((i >> j) & 0x0f);
+    }
+}
+
 static void printf_putint(int32_t i)
 {
     int f, d;
@@ -182,7 +197,7 @@ void dbg_printf(const char* s, ...)
                 break;
             case 'x':
                 u = va_arg(args, uint32_t);
-                serial_device_write(0, u, sizeof(u), 0);
+                serial_puthex(u);
                 break;
             case 's':
                 str = va_arg(args, char*);
