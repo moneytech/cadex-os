@@ -190,9 +190,9 @@ Block interrupts while reading, to avoid inconsistent state.
 
 void mouse_read(struct mouse_event* e)
 {
-    interrupt_disable(44);
+    interrupt_disable(12);
     *e = state;
-    interrupt_enable(44);
+    interrupt_enable(12);
 }
 /*
 Unlike the keyboard, the mouse is not automatically enabled
@@ -204,6 +204,7 @@ which causes an interrupt for every move of the mouse.
 
 void mouse_init()
 {
+    interrupt_block();
     ps2_clear_buffer();
 
     uint8_t config = ps2_config_get();
@@ -219,6 +220,7 @@ void mouse_init()
     ps2_mouse_command(PS2_MOUSE_COMMAND_ENABLE_STREAMING);
 
     interrupt_register(12, mouse_interrupt);
+    interrupt_unblock();
     interrupt_enable(12);
     // kprintf("[HARDWARE] mouse: ready\n");
     dbg_printf("[mouse] initialised\n");
