@@ -170,21 +170,18 @@ int readline(char *line, int length) {
         read_object(0, &c, 1);
         if (c == ASCII_CR) {
             printf_putchar(c);
-            flush();
             line[i] = 0;
             return i;
         } else if (c == ASCII_BS) {
             if (i > 0) {
                 i--;
                 printf_putchar(c);
-                flush();
             }
         } else {
             if (i < (length - 1)) {
                 line[i] = c;
                 i++;
                 printf_putchar(c);
-                flush();
             }
         }
     }
@@ -195,7 +192,6 @@ int main(int argc, char *argv[]) {
 
     while (1) {
         printf("cash-1.2# ");
-        flush();
         if (readline(line, sizeof(line))) {
             do_command(line);
         }
