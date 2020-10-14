@@ -87,6 +87,8 @@ int kernel_main()
     // start the necessary services
     service_start("/bin/dbusctl.exe", 0, 0, "DBus Controller");
     service_start("/bin/klog.exe", 0, 0, "Kernel logging helper");
+	// show login prompt
+    kshell_show_login_prompt();
     // launch shell
     kshell_launch();
     dbg_printf("[kmain] Launched kshell\n");
