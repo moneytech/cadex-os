@@ -707,7 +707,11 @@ static int kshell_execute(int argc, const char **argv) {
             " serialwrite [-r] [text ...]       serialrecv\n\n"
             "Type `help' to see this help information.\n");
     } else if (!strcmp(cmd, "whoami")) {
-        kprintf("\nroot\n");
+        int pid = sys_process_run("/bin/whoami.exe", argc - 1, argv);
+        process_yield();
+        struct process_info info;
+        process_wait_child(pid, &info, -1);
+        process_reap(info.pid);
     } else if (!strcmp(cmd, "longtest")) {
         if (!strcmp(argv[1], "-f")) {
             int i;
