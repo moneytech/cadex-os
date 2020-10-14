@@ -109,6 +109,7 @@ char *shakespeare[] = {
     "Exeunt Marching: after the which, a Peale of",
     "Ordenance are shot off.",
 };
+
 char *promptsym[] = {
     "#",
     "$",
@@ -197,9 +198,11 @@ login:
     kprintf("password: ");
     kshell_readline(password, 1024, 0);
     if (!strcmp(login, "root")) {
-        // Success
-        kprintf("\nLogged in as %s\n\n", login);
+        // Set fgcolor to light magenta
+        graphics_set_fgcolor(196, 0, 196, 0);
         kprintf("Welcome to CadexOS!\n\n");
+        // Set fgcolor to white
+        graphics_set_fgcolor(255, 255, 255, 0);
         kprintf("https://github.com/CadexOS/Cadex-OS-Official\n\n");
     } else {
         // Fail
@@ -548,7 +551,7 @@ static int kshell_execute(int argc, const char **argv) {
     } else if (!strcmp(cmd, "memstats")) {
         uint32_t nfree, ntotal;
         page_stats(&nfree, &ntotal);
-        kprintf("memstats: memory info: %d/%d B\n", nfree, ntotal);
+        kprintf("memstats: memory info: %d/%d KB\n", nfree / 1000, ntotal / 1000);
     } else if (!strcmp(cmd, "mkdir")) {
         if (argc == 3) {
             struct fs_dirent *dir = fs_resolve(argv[1]);
@@ -610,9 +613,10 @@ static int kshell_execute(int argc, const char **argv) {
             serial_device_read(0, data, 1, 0);
             kprintf("%s", data);
         }
-    }
-
-    else if (strew(cmd, "\\")) {
+    } else if (!strcmp(cmd, "crash")) {
+        // Try to perform an invalid action
+        kmalloc(0xFFFFFFFF);
+    } else if (strew(cmd, "\\")) {
         char *line;
         kshell_readline(&line, 1024, 1);
         int argc = 0;
@@ -700,7 +704,7 @@ static int kshell_execute(int argc, const char **argv) {
             " uname [-avcr]                     ls [dir|.]\n"
             " bcache_flush                      time\n"
             " bcache_stats                      shutdown\n"
-            " serialwrite [-r] [text ...]		serialrecv\n\n"
+            " serialwrite [-r] [text ...]       serialrecv\n\n"
             "Type `help' to see this help information.\n");
     } else if (!strcmp(cmd, "whoami")) {
         kprintf("\nroot\n");
