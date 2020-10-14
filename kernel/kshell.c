@@ -197,12 +197,12 @@ login:
     kprintf("password: ");
     kshell_readline(password, 1024, 0);
     if (!strcmp(login, "root")) {
-		// Success
+        // Success
         kprintf("\nLogged in as %s\n\n", login);
         kprintf("Welcome to CadexOS!\n\n");
         kprintf("https://github.com/CadexOS/Cadex-OS-Official\n\n");
     } else {
-		// Fail
+        // Fail
         kprintf("Login failed. Try again\n");
         goto login;
     }
@@ -596,24 +596,24 @@ static int kshell_execute(int argc, const char **argv) {
         } else {
             kprintf("install: expected unit #s for cdrom and disk\n");
         }
-    } else if (!strcmp(cmd, "serialsend")) {
+    } else if (!strcmp(cmd, "serialwrite")) {
         if (argc == 2) {
             dbg_printf("%s", argv[1]);
         } else {
-            kprintf("usage: serialsend <message>\n");
+            kprintf("usage: serialwrite [-r] [message ...]\n");
         }
     } else if (!strcmp(cmd, "serialrecv")) {
         char *data;
-        while (1) {
+        kprintf("serialrecv: press ESC on serial console to stop listening "
+                "from serial port\n");
+        while (data != ASCII_ESC) {
             serial_device_read(0, data, 1, 0);
-            /* code */
             kprintf("%s", data);
         }
     }
 
     else if (strew(cmd, "\\")) {
         char *line;
-        kprintf("> ");
         kshell_readline(&line, 1024, 1);
         int argc = 0;
         char *argv;
@@ -699,7 +699,8 @@ static int kshell_execute(int argc, const char **argv) {
             " help [-vd]                        clear\n"
             " uname [-avcr]                     ls [dir|.]\n"
             " bcache_flush                      time\n"
-            " bcache_stats                      shutdown\n\n"
+            " bcache_stats                      shutdown\n"
+            " serialwrite [-r] [text ...]		serialrecv\n\n"
             "Type `help' to see this help information.\n");
     } else if (!strcmp(cmd, "whoami")) {
         kprintf("\nroot\n");
