@@ -28,7 +28,8 @@ uint32_t graphics_width(struct graphics* g);
 uint32_t graphics_height(struct graphics* g);
 void graphics_fgcolor(struct graphics* g, struct graphics_color c);
 void graphics_bgcolor(struct graphics* g, struct graphics_color c);
-int graphics_clip(struct graphics* g, int x, int y, int w, int h);
+void graphics_set_fgcolor(int r, int g, int b, int a);
+int graphics_clip(struct graphics *g, int x, int y, int w, int h);
 
 void graphics_scrollup(struct graphics* g, int x, int y, int w, int h, int dy);
 void graphics_rect(struct graphics* g, int x, int y, int w, int h);
