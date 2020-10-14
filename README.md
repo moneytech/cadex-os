@@ -25,9 +25,18 @@ You can write programs for CadexOS by using the SDK for Windows or cloning the s
 - Cadex OS supports C++ apps and thus it has a C++ library. The C++ library is implemented as a header-only library (Note that the C++ library used in this project is completely written from scratch and thus it may not be complaint to the C++ standards)
 - Cadex OS is targeted on x86 systems and if you want it to run on ARM-based systems, you will need to rewrite the bootloader and some kernel-side code
 
-This repo was made by HyperCreeck and actively maintained by HyperCreeck and contributors.
-
 To learn more, see the [Cadex OS Wiki](http://cadex-os-wiki.rf.gd).
+
+## Features
+
+- VESA Framebuffer Graphics
+- ATA driver
+- ATAPI driver
+- AdLib sound card driver
+- Memory Protection
+- Standard libc
+- Support for making apps with C++
+- Basic process management
 
 ## Notable components
 
