@@ -138,7 +138,7 @@ acpi()
             rsdp = (struct RSDPDescriptor *)ptr;
 
             // return_val_if_fail(acpi_checksum(rsdp,sizeof(struct RSDPDescriptor),rsdp->Checksum), 0);
-
+ 
             for (i = 0; i < 6; i++)
             {
                 if (rsdp->OEMID[i] == ' ')
