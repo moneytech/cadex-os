@@ -33,5 +33,6 @@ int adlib_init(void);
 uint8_t Adlib_Read(uint8_t reg);
 void Adlib_Test(void);
 void Adlib_Write(uint8_t reg, uint8_t value);
+void Adlib_Sound_Off();
 
 #endif

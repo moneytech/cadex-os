@@ -70,6 +70,8 @@ void Adlib_Reset(void) {
 
 }
 
+void Adlib_Sound_Off() { Adlib_Write(0xB0, 0x11); }
+
 void Adlib_Test(void) {
     Adlib_Reset();
 
@@ -88,7 +90,7 @@ void Adlib_Test(void) {
     wait_for_io(10000000000);
 
     // turn the voice off
-    Adlib_Write(0xB0, 0x11);
+    Adlib_Sound_Off();
 }
 
 void Adlib_Write(uint8_t reg, uint8_t value) {
@@ -96,7 +98,7 @@ void Adlib_Write(uint8_t reg, uint8_t value) {
     outb(reg, Adlib_BaseAddress);
 
     // wait 3.3 microseconds
-    // TODO TimeDelayMS(1);
+    wait_for_io(1);
 
     // Write to the register
     outb(value, Adlib_DataPort);
@@ -104,5 +106,5 @@ void Adlib_Write(uint8_t reg, uint8_t value) {
     // We're supposed to wait 23 microseconds before any other sound card
     // operation can be performed (Realistically, waiting doesn't matter because
     // the hardware is probably emulated)
-    // TODO TimeDelayMS(1);
+    wait_for_io(1);
 }
