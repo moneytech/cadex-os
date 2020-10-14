@@ -43,10 +43,13 @@ To learn more, see the [Cadex OS Wiki](http://cadex-os-wiki.rf.gd).
 - Support for making apps with C++
 - Basic process management
 - Basic filesystem (DiskFS, aka DFS)
+- Basic bootloader
 - Support for ELF executables
 - Basic graphics library (TrueGL)
 - Non-UNIX syscalls
 - Support for process piping
+- A shell implemented in the kernel side: KShell
+- Some basic games like Snake
 
 ## Notable components
 
