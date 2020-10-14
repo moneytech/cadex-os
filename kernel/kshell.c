@@ -6,6 +6,7 @@ See the file LICENSE for details.
 
 #include "kshell.h"
 #include "acpi.h"
+#include "adlib.h"
 #include "bcache.h"
 #include "clock.h"
 #include "console.h"
@@ -37,7 +38,6 @@ See the file LICENSE for details.
 #include "serial.h"
 #include "string.h"
 #include "syscall_handler.h"
-#include "adlib.h"
 #include "utils.h"
 #include <bits/cwd.h>
 #include <library/version.h>
@@ -182,39 +182,30 @@ char *kshell_history_get(size_t item) {
 char *kshell_history_prev(size_t item) {
     return kshell_history_get(kshell_history_count - item);
 }
-int strew(const char *str, const char *suffix) {
-    if (!str || !suffix)
-        return false;
-    size_t lenstr = strlen(str);
-    size_t lensuffix = strlen(suffix);
-    if (lensuffix > lenstr)
-        return false;
-    return strncmp(str + lenstr - lensuffix, suffix, lensuffix) == 0;
-}
-int memcmp(const void *cs, const void *ct, size_t count) {
-    const unsigned char *su1, *su2;
-    int res = 0;
-
-    for (su1 = cs, su2 = ct; 0 < count; ++su1, ++su2, count--)
-        if ((res = *su1 - *su2) != 0)
-            break;
-    return res;
-}
-int strsw(const char *pre, const char *str) {
-    size_t lenpre = strlen(pre), lenstr = strlen(str);
-    return lenstr < lenpre ? false : memcmp(pre, str, lenpre) == 0;
-}
 void KPANIC(char *str) { kprintf("[PANIC]: %s\n", str); }
 
 void kshell_show_login_prompt() {
     char *login, *password;
-    kprintf("\n\nCadexOS v%s Codename \"%s\"\n", _LTS_REL_, _K_CODENAME);
-    kprintf("\nLogin: ");
+    struct rtc_time time;
+    rtc_read(&time);
+    kprintf("\n\nCadexOS livecd %s-%s %d-%d-%d %d:%d:%d %s\n", _LTS_REL_,
+            __VER_SUFFIX, time.year, time.month, time.day, time.hour,
+            time.minute, time.second, _K_ARCH);
+login:
+    kprintf("\nlivecd login: ");
     kshell_readline(login, 1024, 1);
-    kprintf("Password: ");
+    kprintf("password: ");
     kshell_readline(password, 1024, 0);
-    kprintf("Logged in as %s\n", login);
-    default_shell->user_login_name = login;
+    if (!strcmp(login, "root")) {
+		// Success
+        kprintf("\nLogged in as %s\n\n", login);
+        kprintf("Welcome to CadexOS!\n\n");
+        kprintf("https://github.com/CadexOS/Cadex-OS-Official\n\n");
+    } else {
+		// Fail
+        kprintf("Login failed. Try again\n");
+        goto login;
+    }
 }
 
 int kshell_mount(const char *devname, int unit, const char *fs_type) {
@@ -710,22 +701,9 @@ static int kshell_execute(int argc, const char **argv) {
             " bcache_flush                      time\n"
             " bcache_stats                      shutdown\n\n"
             "Type `help' to see this help information.\n");
-        // kprintf(
-        //     "Available commands :\n\n *whoami\n *longtest\n *basic86<args>\n
-        //     " " prompt<args>   *sdlg<args>\n *clear\n *uname<args>\n " "
-        //     run<path><args>\n *whoami\n *start<path><args>\n *kill<pid>\n "
-        //     " reap<pid>\n *wait\n *ls\n *mount<device><unit><fstype>\n "
-        //     " umount\n *format<device><unit><fstype>\n "
-        //     " install<srcunit><dstunit>\n *cd<path>\n *mkdir<path>\n "
-        //     " rm<path>\n *time\n *bcache_stats\n *bcache_flush\n *reboot\n "
-        //     " shutdown\n *help\n\n ");
     } else if (!strcmp(cmd, "whoami")) {
         kprintf("\nroot\n");
     } else if (!strcmp(cmd, "longtest")) {
-        /**
-         * Long character test
-         * Only for testing purposes
-         */
         if (!strcmp(argv[1], "-f")) {
             int i;
             for (i = 0; i < sizeof(shakespeare) / sizeof(char *); i++) {
@@ -901,12 +879,6 @@ int kshell_readline(char *line, int length, int text_visible) {
     return 0;
 }
 
-uint32_t random(uint32_t min, uint32_t max) {
-    static uint32_t state = 0xF3DC1A24;
-    state = (state * 1299721) + 29443;
-    return min + ((state >> 16) % (max - min + 1));
-}
-
 int kshell_launch() {
     int i = 0;
     char line[1024];
@@ -914,7 +886,8 @@ int kshell_launch() {
     int argc;
 
     /* Initialize shell variables */
-    default_shell->device_name = "cbox";
+    default_shell->user_login_name = "root";
+    default_shell->device_name = "livecd";
     default_shell->current_directory = "~/";
 
     /* Run Startup Application */
