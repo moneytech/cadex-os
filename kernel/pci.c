@@ -38,7 +38,7 @@ pci_read(uint32_t bus, uint32_t device, uint32_t function, uint32_t offset)
     reg |= (function & 0x7) << 8;
     reg |= (offset & 0xFF) & 0xFC;
 
-    outl(PCI_CONFIG, reg);
+    outl(reg, PCI_CONFIG);
 
     return inl(PCI_DATA);
 }
@@ -52,8 +52,8 @@ void pci_write(uint32_t bus, uint32_t device, uint32_t function, uint32_t offset
     reg |= (function & 0x7) << 8;
     reg |= offset & 0xFC;
 
-    outl(PCI_CONFIG, reg);
-    outl(PCI_DATA, data);
+    outl(reg, PCI_CONFIG);
+    outl(data, PCI_DATA);
 }
 
 uint8_t
@@ -114,6 +114,6 @@ void pci_test()
             {
                 vend_dev = pci_read(b, d, f, PCI_VENDOR_DEVICE);
                 if (vend_dev != 0xFFFFFFFF)
-                    kprintf("\t[%d:%d.%d] %x:%x\n", b, d, f, vend_dev & 0xFFFF, vend_dev >> 16);
+                    kprintf("[%d:%d.%d] %x:%x\n", b, d, f, vend_dev & 0xFFFF, vend_dev >> 16);
             }
 }
