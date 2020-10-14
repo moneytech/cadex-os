@@ -2,7 +2,7 @@ header_files:=$(shell find ../include -type f)
 
 .PHONY: copy
 
-all: copy $(patsubst %,../image/usr/include/%,$(header_files))
+all: copy
 
 copy:
 	@cp usr/share/kevin.txt ../image/usr/share/kevin.txt
