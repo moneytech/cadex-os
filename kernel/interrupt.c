@@ -35,6 +35,13 @@ static const char *exception_names[] = {"division by zero",
                                         "unknown",
                                         "coprocessor error"};
 
+static void reboot_system_on_segfault() {
+    dbg_printf("System is rebooting...");
+    kprintf("System is rebooting...");
+    wait_for_io(3000);
+    reboot();
+}
+
 static void unknown_exception(int i, int code) {
     unsigned vaddr; /* virtual address trying to be accessed */
     unsigned paddr; /* physical address */
@@ -73,6 +80,8 @@ static void unknown_exception(int i, int code) {
             dbg_printf("[interrupt] process %d crashed\n", current->pid);
             /* Terminate current process */
             process_exit(0);
+			/* Reboot system */
+            reboot_system_on_segfault();
         } else {
             // TODO: update process->vm_stack_size when growing the stack.
             pagetable_alloc(current->pagetable, vaddr, PAGE_SIZE,
@@ -127,7 +136,7 @@ static void play_sound(uint32_t nFrequence) {
     uint32_t Div;
     uint8_t tmp;
 
-    // Set the PIT to the desired frequency
+    // Set the PIT to the desired frequency--
     Div = 1193180 / nFrequence;
     outb(0x43, 0xb6);
     outb(0x42, (uint8_t)(Div));

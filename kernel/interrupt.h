@@ -7,6 +7,8 @@ See the file LICENSE for details.
 #ifndef INTERRUPT_H
 #define INTERRUPT_H
 
+#include "kernel/types.h"
+
 typedef void (*interrupt_handler_t)(int intr, int code);
 
 extern unsigned int __irq_sem;
