@@ -37,6 +37,7 @@ See the file LICENSE for details.
 #include "serial.h"
 #include "string.h"
 #include "syscall_handler.h"
+#include "adlib.h"
 #include "utils.h"
 #include <bits/cwd.h>
 #include <library/version.h>
@@ -148,7 +149,7 @@ void reboot_system() {
                  (Triple fault method) */
 }
 
-int kshell_readline(char *line, int length);
+int kshell_readline(char *line, int length, int text_visible);
 void print_array(char arr[], int start, int len) {
     /* Recursion base condition */
     if (start >= len)
@@ -204,6 +205,18 @@ int strsw(const char *pre, const char *str) {
     return lenstr < lenpre ? false : memcmp(pre, str, lenpre) == 0;
 }
 void KPANIC(char *str) { kprintf("[PANIC]: %s\n", str); }
+
+void kshell_show_login_prompt() {
+    char *login, *password;
+    kprintf("\n\nCadexOS v%s Codename \"%s\"\n", _LTS_REL_, _K_CODENAME);
+    kprintf("\nLogin: ");
+    kshell_readline(login, 1024, 1);
+    kprintf("Password: ");
+    kshell_readline(password, 1024, 0);
+    kprintf("Logged in as %s\n", login);
+    default_shell->user_login_name = login;
+}
+
 int kshell_mount(const char *devname, int unit, const char *fs_type) {
     struct device *dev = device_open(devname, unit);
     if (dev) {
@@ -395,7 +408,8 @@ static void kshell_print_prompt() {
     g.g = 244;
     g.b = 130;
     graphics_fgcolor(&graphics_root, g);
-    kprintf("root@%s", default_shell->device_name);
+    kprintf("%s@%s", default_shell->user_login_name,
+            default_shell->device_name);
 
     g.a = 0;
     g.b = 255;
@@ -609,7 +623,7 @@ static int kshell_execute(int argc, const char **argv) {
     else if (strew(cmd, "\\")) {
         char *line;
         kprintf("> ");
-        kshell_readline(&line, 1024);
+        kshell_readline(&line, 1024, 1);
         int argc = 0;
         char *argv;
         argv[argc] = strtok(line, " ");
@@ -693,7 +707,7 @@ static int kshell_execute(int argc, const char **argv) {
             " mkdir [path ...]                  rm [path ...]\n"
             " help [-vd]                        clear\n"
             " uname [-avcr]                     ls [dir|.]\n"
-			" bcache_flush                      time\n"
+            " bcache_flush                      time\n"
             " bcache_stats                      shutdown\n\n"
             "Type `help' to see this help information.\n");
         // kprintf(
@@ -823,6 +837,8 @@ static int kshell_execute(int argc, const char **argv) {
             mouse_read(&e);
             kprintf("X=%d,Y=%d,BUTTON=%u\n", e.x, e.y, e.buttons);
         }
+    } else if (!strcmp(cmd, "adlib_test")) {
+        Adlib_Test();
     } else {
         if (argc > 0 && strsw(".", argv[0])) {
             // Try to run the process
@@ -849,7 +865,7 @@ static int kshell_execute(int argc, const char **argv) {
     return 0;
 }
 
-int kshell_readline(char *line, int length) {
+int kshell_readline(char *line, int length, int text_visible) {
     int i = 0;
     int j = 0;
     while (i < (length - 1)) {
@@ -862,17 +878,20 @@ int kshell_readline(char *line, int length) {
         } else if (c == ASCII_BS) {
             /* BACKSPACE */
             if (i > 0) {
-                putchar(c);
+                if (text_visible)
+                    putchar(c);
                 i--;
             }
         } else if (c == 0x03) {
             /* CTRL + C */
-            kprintf("^C");
+            if (text_visible)
+                kprintf("^C");
             i += 2;
             return 0;
         } else if (c >= 0x20 && c <= 0x7E) {
             /* A-Z a-z 0-9 */
-            putchar(c);
+            if (text_visible)
+                putchar(c);
             line[i] = c;
             i++;
             j++;
@@ -912,7 +931,7 @@ start:
     kprintf("\n");
     while (1) {
         kshell_print_prompt();
-        if (kshell_readline(line, sizeof(line))) {
+        if (kshell_readline(line, sizeof(line), 1)) {
             kshell_history[i] = line;
             i++;
             argc = 0;

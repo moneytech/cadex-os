@@ -10,13 +10,15 @@ See the file LICENSE for details.
 typedef struct
 {
     char *device_name;
-    int kshell_prompt_index;
+    char *user_login_name;
     char *current_directory;
     char *custom_kshell_command;
     int last_run_proc_exitcode;
+    int kshell_prompt_index;
     int last_process_run;
 } kshell_t;
 
 int kshell_launch();
+void kshell_show_login_prompt();
 
 #endif
