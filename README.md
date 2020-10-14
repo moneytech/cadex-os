@@ -18,7 +18,7 @@ You can write programs for CadexOS by using the SDK for Windows or cloning the s
 - Cadex OS supports graphical and text-based applications
 - Cadex OS uses ELF as the binary format
 - Cadex OS supports modules, but it is still in development and is not in the Makefile
-- Cadex OS will be useful if you are a beginner in C programming lanhguage and you want to write small programs.
+- Cadex OS will be useful if you are a beginner in C programming language and you want to write small programs.
 - Cadex OS has a small graphics library called TrueGL. TrueGL is also a UI library
 - Cadex OS has many useful string functions defined at `library/string.c`
 - Cadex OS uses some code from Musl libc for the libc in Cadex OS. Libraries that are from Musl libc should contain a license header on the top.
@@ -29,7 +29,7 @@ This repo was made by HyperCreeck and actively maintained by HyperCreeck and con
 
 To learn more, see the [Cadex OS Wiki](http://cadex-os-wiki.rf.gd).
 
-## Notable components 
+## Notable components
 
 - **kshell**: A small but efficient shell implemented on the kernel space
 - **DiM**: A very small text editor
