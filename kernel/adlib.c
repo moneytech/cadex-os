@@ -46,7 +46,7 @@ int adlib_init(void) {
         // test the second stored status
         if ((status2 & 0xE0) == 0xC0) {
             dbg_printf("[adlib] found an Adlib compatible device at 0x%x\n", Adlib_BaseAddress);
-            Adlib_Present = true;
+            Adlib_Present = 1;
         }
     }
 
@@ -59,14 +59,14 @@ int adlib_init(void) {
 uint8_t Adlib_Read(uint8_t reg) { return inb(Adlib_BaseAddress + reg); }
 
 void Adlib_Reset(void) {
-    dbg_printf("Resetting Adlib...");
+    dbg_printf("[adlib] resetting Adlib... ");
 
     // Quick-and-dirty reset: write 0's to all 245 registers
     for (uint8_t reg = 1; reg < 0xF5; ++reg) {
         Adlib_Write(reg, 0);
     }
 
-    dbg_printf("Done\n");
+    dbg_printf("done\n");
 
 }
 
