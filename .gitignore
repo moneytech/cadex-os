@@ -22,3 +22,4 @@ doxygen/html
 doxygen/latex
 basefs/usr/include/**
 *.gz
+*.cs
