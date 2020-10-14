@@ -1,15 +1,15 @@
 # Cadex OS
+
 [![Build Status](https://travis-ci.org/OpenCreeck/Cadex-OS-Official.svg?branch=master)](https://travis-ci.org/OpenCreeck/Cadex-OS-Official)
 
-Cadex OS is a Unix-like based operating system targeting x86 systems. This project is based on the [basekernel](https://github.com/dthain/basekernel) project
+Cadex OS is a 32-bit UNIX-like based operating system.
 
 Cadex OS is a free and open-source project. You can fork this project and make your own OS from this.
-Cadex OS is always Unix-compatible, except that Cadex OS doesn't support VFS (Virtual filesystem) and some Unix libraries are also missing.
+Cadex OS is UNIX-compatible, except that Cadex OS doesn't support VFS (Virtual filesystem) and some UNIX libraries are not implemented.
 
 Cadex OS can boot an Intel PC-compatible virtual machine in 32-bit protected
 mode, with support for VESA framebuffer graphics, ATA hard disks, ATAPI optical
-devices, process management, memory protection, small graphics, a standard libc, C++ language support and basic filesystem (DFS).
-You can write programs for CadexOS by using the SDK for Windows or cloning the source and adding another application.
+devices, process management, memory protection, small graphics, a standard libc, C++ language support and basic filesystem (DFS). Cadex OS supports ELF executables, therefore apps are also supported
 
 ## Some useful info about Cadex OS
 
@@ -29,14 +29,24 @@ To learn more, see the [Cadex OS Wiki](http://cadex-os-wiki.rf.gd).
 
 ## Features
 
-- VESA Framebuffer Graphics
+- VESA Framebuffer Graphics driver
 - ATA driver
 - ATAPI driver
 - AdLib sound card driver
+- ACPI driver
+- PCI driver
+- PS/2 Mouse driver
+- IDE driver
+- 8x8 font (modified version of Pearl font from Linux sources)
 - Memory Protection
-- Standard libc
+- Standard libc and libcxx
 - Support for making apps with C++
 - Basic process management
+- Basic filesystem (DiskFS, aka DFS)
+- Support for ELF executables
+- Basic graphics library (TrueGL)
+- Non-UNIX syscalls
+- Support for process piping
 
 ## Notable components
 
