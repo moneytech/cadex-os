@@ -8,8 +8,6 @@ See the file LICENSE for details.
 #include "kernel/ascii.h"
 #include "kernel/types.h"
 #include "kmalloc.h"
-
-//#include "stdarg.h"
 #include "console.h"
 
 #define _U  0x01 /* upper */
@@ -302,4 +300,27 @@ void itoa(int num, char *number) {
         }
         number[dgcount] = '\0';
     }
+}
+
+int strew(const char *str, const char *suffix) {
+    if (!str || !suffix)
+        return false;
+    size_t lenstr = strlen(str);
+    size_t lensuffix = strlen(suffix);
+    if (lensuffix > lenstr)
+        return false;
+    return strncmp(str + lenstr - lensuffix, suffix, lensuffix) == 0;
+}
+int memcmp(const void *cs, const void *ct, size_t count) {
+    const unsigned char *su1, *su2;
+    int res = 0;
+
+    for (su1 = cs, su2 = ct; 0 < count; ++su1, ++su2, count--)
+        if ((res = *su1 - *su2) != 0)
+            break;
+    return res;
+}
+int strsw(const char *pre, const char *str) {
+    size_t lenpre = strlen(pre), lenstr = strlen(str);
+    return lenstr < lenpre ? false : memcmp(pre, str, lenpre) == 0;
 }
