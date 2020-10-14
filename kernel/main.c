@@ -22,6 +22,7 @@ See the file LICENSE for details.
 #include "memorylayout.h"
 #include "mouse.h"
 #include "page.h"
+#include "pci.h"
 #include "process.h"
 #include "rtc.h"
 #include "serial.h"
