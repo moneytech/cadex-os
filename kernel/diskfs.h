@@ -9,11 +9,12 @@ See the file LICENSE for details.
 
 #include "kernel/types.h"
 
-#define DISKFS_MAGIC 0xabcd4321
-#define DISKFS_BLOCK_SIZE 4096
+#define DISKFS_MAGIC           0xabcd4321
+#define DISKFS_BLOCK_SIZE      4096
 #define DISKFS_DIRECT_POINTERS 6
-#define DISKFS_INODES_PER_BLOCK (DISKFS_BLOCK_SIZE / sizeof(struct diskfs_inode))
-#define DISKFS_ITEMS_PER_BLOCK (DISKFS_BLOCK_SIZE / sizeof(struct diskfs_item))
+#define DISKFS_INODES_PER_BLOCK \
+    (DISKFS_BLOCK_SIZE / sizeof(struct diskfs_inode))
+#define DISKFS_ITEMS_PER_BLOCK    (DISKFS_BLOCK_SIZE / sizeof(struct diskfs_item))
 #define DISKFS_POINTERS_PER_BLOCK (DISKFS_BLOCK_SIZE / sizeof(uint32_t))
 
 struct diskfs_superblock {
@@ -35,8 +36,8 @@ struct diskfs_inode {
 };
 
 #define DISKFS_ITEM_BLANK 0
-#define DISKFS_ITEM_FILE 1
-#define DISKFS_ITEM_DIR 2
+#define DISKFS_ITEM_FILE  1
+#define DISKFS_ITEM_DIR   2
 
 #pragma pack(1)
 struct diskfs_item {
