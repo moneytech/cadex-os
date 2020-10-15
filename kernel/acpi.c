@@ -75,7 +75,7 @@ void acpi_power_down()
     if (facp->PM1bControlBlock != 0)
         outw((SLP_TYPb << 0) | SLP_EN, facp->PM1aControlBlock);
 
-    PANIC("ACPI power down failed!");
+    dbg_printf("[acpi] ACPI power down failed\n");
 }
 
 void acpi_reset()
@@ -147,7 +147,7 @@ acpi_init()
                     rsdp->Revision);
 
             rsdt = (struct RSDT *)rsdp->RsdtAddress;
-            dbg_printf("RsdtAddr: 0x%x\n", rsdp->RsdtAddress);
+            dbg_printf("RsdtAddr: 0x%x Signature: ", rsdp->RsdtAddress);
             _page_map(rsdp->RsdtAddress, rsdp->RsdtAddress, 0x1000); // make rsdt header accessible
             _page_map(rsdp->RsdtAddress, rsdp->RsdtAddress, rsdt->h.Length);
             i_max = (rsdt->h.Length - sizeof(struct ACPISDTHeader)) / 4;
@@ -162,7 +162,7 @@ acpi_init()
                 switch (*((uint32_t *)sdt->Signature))
                 {
                 case 'TDSS': // same than DSDT
-                    // kprintf("[+SSDT] ");
+                    dbg_printf("[+SSDT] ");
                     S5Block = acpi_search_S5(sdt);
                     if (S5Block != NULL)
                     {
@@ -183,7 +183,7 @@ acpi_init()
                     }
                     break;
                 case 'PCAF': // "FACP"
-                    // kprintf("[+FACP] ");
+                    dbg_printf("[+FACP] ");
                     facp = (struct FADT *)sdt;
 
                     interrupt_register(facp->SCI_Interrupt, acpi_handler); // install ACPI IRQ handler
@@ -226,19 +226,20 @@ acpi_init()
 
                     break;
                 case 'TEPH': // HPET
-                    // kprintf("[+HPET] ");
+                    dbg_printf("[+HPET] ");
                     break;
                 default:
-                    // kprintf("[-%c%c%c%c] ", sdt->Signature[0], sdt->Signature[1], sdt->Signature[2], sdt->Signature[3]);
+                    dbg_printf("[-%c%c%c%c] ", sdt->Signature[0], sdt->Signature[1], sdt->Signature[2], sdt->Signature[3]);
                     break;
                 }
             }
-
+            dbg_printf("\n");
             acpi_power_button_enable();
             dbg_printf("[acpi] SCI_Interrupt=%d SMI_CommandPort=0x%x ShutDown=%c\n", facp->SCI_Interrupt, facp->SMI_CommandPort, (S5Block == NULL) ? 'N' : 'Y');
             return ptr;
         }
     }
+    kprintf("RSDP nao encontrado.\n");
     return 0;
 }
 
