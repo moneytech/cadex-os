@@ -25,6 +25,6 @@
 #include "bitmap.h"
 #include "pci.h"
 
-void ide(void);
+void ide_init(void);
 
 #endif // !IDE_H

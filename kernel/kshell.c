@@ -200,7 +200,7 @@ login:
     if (!strcmp(login, "root")) {
         // Set fgcolor to light magenta
         graphics_set_fgcolor(196, 0, 196, 0);
-        kprintf("Welcome to CadexOS!\n\n");
+        kprintf("\nWelcome to CadexOS!\n\n");
         // Set fgcolor to white
         graphics_set_fgcolor(255, 255, 255, 0);
         kprintf("https://github.com/CadexOS/Cadex-OS-Official\n\n");
@@ -551,7 +551,8 @@ static int kshell_execute(int argc, const char **argv) {
     } else if (!strcmp(cmd, "memstats")) {
         uint32_t nfree, ntotal;
         page_stats(&nfree, &ntotal);
-        kprintf("memstats: memory info: %d/%d KB\n", nfree / 1000, ntotal / 1000);
+        kprintf("memstats: memory info: %d/%d KB\n", nfree / 1000,
+                ntotal / 1000);
     } else if (!strcmp(cmd, "mkdir")) {
         if (argc == 3) {
             struct fs_dirent *dir = fs_resolve(argv[1]);
@@ -737,9 +738,9 @@ static int kshell_execute(int argc, const char **argv) {
     }
     /* Shutdown using ACPI */
     else if (!strcmp(cmd, "shutdown")) {
-		// try to shutdown using ACPI
+        // try to shutdown using ACPI
         acpi_power_down();
-		// If ACPI method didn't succeed try emulator specific method
+        // If ACPI method didn't succeed try emulator specific method
         shutdown_vm();
     } else if (!strcmp(cmd, "echo")) {
         for (size_t i = 1; i < argc; i++) {
@@ -821,7 +822,8 @@ static int kshell_execute(int argc, const char **argv) {
         struct mouse_event e;
         while (1) {
             mouse_read(&e);
-            kprintf("X=%d,Y=%d,BUTTON=%u\n", e.x, e.y, e.buttons);
+            if (e.x != 0 && e.y != 0)
+                kprintf("X=%d,Y=%d,BUTTON=%u\n", e.x, e.y, e.buttons);
         }
     } else if (!strcmp(cmd, "adlib_test")) {
         Adlib_Test();

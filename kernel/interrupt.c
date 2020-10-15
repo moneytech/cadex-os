@@ -80,7 +80,7 @@ static void unknown_exception(int i, int code) {
             dbg_printf("[interrupt] process %d crashed\n", current->pid);
             /* Terminate current process */
             process_exit(0);
-			/* Reboot system */
+            /* Reboot system */
             reboot_system_on_segfault();
         } else {
             // TODO: update process->vm_stack_size when growing the stack.
@@ -90,10 +90,12 @@ static void unknown_exception(int i, int code) {
             return;
         }
     } else {
-        kprintf(
-            "\n\nUnknown Exception Occured\n\nStack trace:\n%d: %s (code %x)\n",
-            i, exception_names[i], code);
+        graphics_set_fgcolor(200, 100, 100, 0);
+        kprintf("\n\n -- Exception Occured -- \n\nError code: %x\nError cause: "
+                "%s\n\n -- Stack trace -- \n\n",
+                code, exception_names[i]);
         process_dump(current);
+        graphics_set_fgcolor(255, 255, 255, 0);
     }
 
     if (current->pid != 1) {

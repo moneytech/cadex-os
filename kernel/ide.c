@@ -9,7 +9,7 @@ uint8_t ide_bus, ide_dev, ide_fun;
 
 uint16_t ide_primary_io_base, ide_primary_ctrl, ide_secondary_io_base, ide_secondary_ctrl, ide_bus_master_base;
 
-void ide(void)
+void ide_init(void)
 {
 
     if (!pci_find_class(0x1, 0x1, &ide_bus, &ide_dev, &ide_fun)) // find mass storage / scsi bus
@@ -30,11 +30,12 @@ void ide(void)
     ide_bus_master_base = pci_read(ide_bus, ide_dev, ide_fun, PCI_BAR4);
 
     uint8_t i;
-    kprintf("\nPRI: ");
+    dbg_printf("[ide] PRI: ");
     for (i = 2; i < 6; i++)
-        kprintf("0x%x ", inb(ide_primary_io_base + i));
-
-    kprintf("\nSEC: ");
+        dbg_printf("0x%x ", inb(ide_primary_io_base + i));
+    dbg_printf(", ");
+    dbg_printf("SEC: ");
     for (i = 2; i < 6; i++)
-        kprintf("0x%x ", inb(ide_secondary_io_base + i));
+        dbg_printf("0x%x ", inb(ide_secondary_io_base + i));
+    dbg_printf("\n");
 }
