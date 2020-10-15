@@ -64,7 +64,6 @@ static void print_src_location(const struct source_location *src)
 static void undefined_throw(const char *error)
 {
 	printf("ubsan: %s", error);
-	print_backtrace();
 	printf("\n");
 }
 
@@ -179,5 +178,5 @@ void __ubsan_handle_load_invalid_value()
 __attribute__((__noreturn__)) void __ubsan_handle_builtin_unreachable(struct unreachable *data)
 {
 	print_src_location(&data->src);
-	panic("Unreachable code reached");
+	dbg_printf("[PANIC] Unreachable code reached");
 }
