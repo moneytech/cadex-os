@@ -21,10 +21,15 @@
 /**
  * NOTE: This file is well commented to understand how this works. Use wisely :)
  */
+ 
 int dims[2];
 int i = 0; // Counter 'i'
 
 bool verbose = 0;
+
+static void dim_parse_file(int fd, int script){
+	// TODO: Parse a DimScript
+}
 
 static void dim_open_script(char *script) {
     int file = syscall_open_file("/usr/share/", 0, 0);
