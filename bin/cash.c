@@ -192,7 +192,7 @@ int main(int argc, char *argv[]) {
 
     while (1) {
         printf("cash-1.2# ");
-        if (readline(line, sizeof(line))) {
+        if (scanf(line, sizeof(line))) {
             do_command(line);
         }
     }
