@@ -19,5 +19,7 @@ uint32_t pci_read(uint32_t bus, uint32_t device, uint32_t function,
                   uint32_t offset);
 void pci_write(uint32_t bus, uint32_t device, uint32_t function,
                uint32_t offset, uint32_t data);
+uint8_t pci_find_class(int8_t class, uint8_t subclass, uint8_t *bus,
+                       uint8_t *dev, uint8_t *function);
 void pci_test();
 #endif
