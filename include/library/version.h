@@ -15,6 +15,6 @@
 #define __KSHELL_VER_ "1.15.1"   // The Kernel shell version
 #define __VER_SUFFIX "release"   // Version suffix; Valid values are: beta, prerelease, prebeta, alpha, prealpha
 #define _K_ARCH "i686"           // Kernel architecture
-#define _K_CODENAME "Lean Llama" // Kernel Codename
+#define _K_CODENAME "Gorgeous Gastrotricha"                   // Kernel Codename
 #define __K_BUILD_DATE __DATE__ ? __DATE__ : "Not available"  // The date when this kernel was built from source
 #define __K_BUILD_TIME __TIME__ ? __TIME__ : "Not available" // The time when this kernel was built from source
