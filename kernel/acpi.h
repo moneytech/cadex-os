@@ -5,7 +5,7 @@
 */
 
 #ifndef ACPI_H
-#define APCI_H
+#define ACPI_H
 
 #include <stddef.h>
 #include <kernel/ascii.h>
@@ -135,7 +135,7 @@ void acpi_reset();
 void acpi_power_button_enable();
 uint8_t acpi_checksum(void *ptr, uint32_t size, uint8_t checksum);
 uint32_t acpi_handler(int_regs_t *regs);
-uint32_t acpi();
+uint32_t acpi_init();
 uint8_t *acpi_search_S5(struct ACPISDTHeader *hdr);
 
 #endif // !ACPI_H

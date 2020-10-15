@@ -5,11 +5,7 @@
 */
 
 #include "acpi.h"
-#ifdef DEBUG
-#define debug_printf(a, ...) kprintf(a, ...)
-#else
-#define debug_printf(a, ...)
-#endif // DEBUG
+#include "interrupt.h"
 
 void PANIC(char *str)
 {
@@ -84,7 +80,6 @@ void acpi_power_down()
 
 void acpi_reset()
 {
-
     acpi_enable();
     outw(facp->ResetValue, facp->ResetReg.Address);
 }
@@ -92,8 +87,7 @@ void acpi_reset()
 void acpi_power_button_enable()
 {
     acpi_enable();
-
-    outw(PWRBTN_EN, facp->PM1aEventBlock);
+    outw(facp->PM1aEventBlock, PWRBTN_EN);
 }
 
 uint8_t
@@ -118,7 +112,7 @@ acpi_handler(int_regs_t *regs)
         return val;
 
 uint32_t
-acpi()
+acpi_init()
 {
     uint32_t ptr;
     uint32_t i, i_max;
@@ -126,7 +120,7 @@ acpi()
     struct RSDPDescriptor *rsdp;
     struct ACPISDTHeader *sdt;
 
-    kprintf("ACPI ");
+    dbg_printf("[acpi] ");
 
     // search for Root System Description Pointer address
     for (ptr = 0; ptr < 0x100000; ptr += 16)
@@ -138,7 +132,7 @@ acpi()
             rsdp = (struct RSDPDescriptor *)ptr;
 
             // return_val_if_fail(acpi_checksum(rsdp,sizeof(struct RSDPDescriptor),rsdp->Checksum), 0);
- 
+
             for (i = 0; i < 6; i++)
             {
                 if (rsdp->OEMID[i] == ' ')
@@ -148,12 +142,12 @@ acpi()
                 }
             }
 
-            kprintf("found (OEM: %s Rev. %d) ",
+            dbg_printf("found (OEM: %s Rev. %d) ",
                     rsdp->OEMID,
                     rsdp->Revision);
 
             rsdt = (struct RSDT *)rsdp->RsdtAddress;
-            kprintf("RsdtAddr: 0x%x\n", rsdp->RsdtAddress);
+            dbg_printf("RsdtAddr: 0x%x\n", rsdp->RsdtAddress);
             _page_map(rsdp->RsdtAddress, rsdp->RsdtAddress, 0x1000); // make rsdt header accessible
             _page_map(rsdp->RsdtAddress, rsdp->RsdtAddress, rsdt->h.Length);
             i_max = (rsdt->h.Length - sizeof(struct ACPISDTHeader)) / 4;
@@ -192,7 +186,7 @@ acpi()
                     // kprintf("[+FACP] ");
                     facp = (struct FADT *)sdt;
 
-                    //IRQ_SET_HANDLER(facp->SCI_Interrupt, acpi_handler); // install ACPI IRQ handler
+                    interrupt_register(facp->SCI_Interrupt, acpi_handler); // install ACPI IRQ handler
 
                     // kprintf("Profile=%d ", facp->PreferredPowerManagementProfile);
                     // kprintf("ResetReg=0x%x(0x%x)\n", facp->ResetReg.Address, facp->ResetValue);
@@ -240,12 +234,11 @@ acpi()
                 }
             }
 
-            // acpi_power_button_enable();
-            kprintf("SCI_Interrupt=%d SMI_CommandPort=0x%x ShutDown=%c\n", facp->SCI_Interrupt, facp->SMI_CommandPort, (S5Block == NULL) ? 'N' : 'Y');
+            acpi_power_button_enable();
+            dbg_printf("[acpi] SCI_Interrupt=%d SMI_CommandPort=0x%x ShutDown=%c\n", facp->SCI_Interrupt, facp->SMI_CommandPort, (S5Block == NULL) ? 'N' : 'Y');
             return ptr;
         }
     }
-    kprintf("RSDP nao encontrado.\n");
     return 0;
 }
 
