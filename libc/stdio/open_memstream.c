@@ -1,5 +1,3 @@
-#include "libc.h"
-#include "stdio_impl.h"
 #include <errno.h>
 #include <limits.h>
 #include <stdlib.h>
