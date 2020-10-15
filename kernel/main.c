@@ -79,6 +79,8 @@ int kernel_main()
     diskfs_init();
 	// init adlib driver
     adlib_init();
+	// init ACPI driver
+    acpi_init();
     // mount atapi device with unit 2
     kshell_mount("atapi", 2, "cdfs");
 #ifdef DEBUG
