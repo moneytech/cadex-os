@@ -675,9 +675,6 @@ static int kshell_execute(int argc, const char **argv) {
                 time.hour, time.minute, time.second);
     } else if (!strcmp(cmd, "reboot")) {
         reboot_system();
-    } else if (!strcmp(cmd, "qshutdown")) {
-        shutdown_vm();
-        KPANIC("emulators (QEMU) doesn't support shutdown");
     } else if (!strcmp(cmd, "bcache_stats")) {
         struct bcache_stats stats;
         bcache_get_stats(&stats);
@@ -740,7 +737,10 @@ static int kshell_execute(int argc, const char **argv) {
     }
     /* Shutdown using ACPI */
     else if (!strcmp(cmd, "shutdown")) {
+		// try to shutdown using ACPI
         acpi_power_down();
+		// If ACPI method didn't succeed try emulator specific method
+        shutdown_vm();
     } else if (!strcmp(cmd, "echo")) {
         for (size_t i = 1; i < argc; i++) {
             if (!strcmp(argv[i], "\\n")) {
