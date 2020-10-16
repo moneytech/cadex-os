@@ -4,6 +4,10 @@
  * See the file LICENSE for details
 */
 
+/**
+ * ACPI driver
+*/
+
 #include "acpi.h"
 #include "interrupt.h"
 
@@ -104,7 +108,7 @@ acpi_checksum(void *ptr, uint32_t size, uint8_t checksum)
 uint32_t
 acpi_handler(int_regs_t *regs)
 {
-    dbg_printf("acpi interrupt!\n");
+    kprintf("[acpi] ACPI interrput recieved\n");
 }
 
 #define return_val_if_fail(test, val) \
@@ -188,7 +192,7 @@ acpi_init()
 
                     interrupt_register(facp->SCI_Interrupt, acpi_handler); // install ACPI IRQ handler
 
-                    // kprintf("Profile=%d ", facp->PreferredPowerManagementProfile);
+                    dbg_printf("Profile=%d ", facp->PreferredPowerManagementProfile);
                     // kprintf("ResetReg=0x%x(0x%x)\n", facp->ResetReg.Address, facp->ResetValue);
 
                     dsdt = (struct ACPISDTHeader *)facp->Dsdt;
