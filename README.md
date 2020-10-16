@@ -1,6 +1,6 @@
 # Cadex OS
 
-[![Build Status](https://travis-ci.org/OpenCreeck/Cadex-OS-Official.svg?branch=master)](https://travis-ci.org/OpenCreeck/Cadex-OS-Official)
+[![Build Status](https://travis-ci.org/OpenCreeck/Cadex-OS-Official.svg?branch=master)](https://travis-ci.org/CadexOS/Cadex-OS-Official)
 
 Cadex OS is a 32-bit UNIX- operating system.
 
