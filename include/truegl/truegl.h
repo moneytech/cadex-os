@@ -13,6 +13,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef __cplusplus
+#include <truegl/gkit.hpp>
+#include <truegl/glx.hpp>
+#include <truegl/lib/widget_compositor.hpp>
+#endif // __cplusplus
+
 /**
  * This enum is defined but not used. Stubbed
  */
@@ -81,7 +87,7 @@ typedef struct {
     /* Window border color */
     gui_color_t *border_color;
 
-	/* Root window flag */
+    /* Root window flag */
 } tgl_window_t;
 
 /* Get window and objects */
@@ -133,6 +139,15 @@ int draw_static_textarea(char *placeholder);
  */
 void setup_window();
 
+/**
+ * Creates a TrueGL window
+ */
+void TGL_window_create(tgl_window_t *window, int x, int y, int w, int h);
+
+/**
+ * Draws the window
+*/
+void TGL_draw_window(tgl_window_t *window);
 #ifdef __cplusplus
 }
 #endif
