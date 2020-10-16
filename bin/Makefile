@@ -18,7 +18,7 @@ USER_PROGRAMS= sdlg.exe \
 			   base64.exe \
 			   klog.exe \
 			   check_fs.exe \
-			   stapp.exe
+			   stapp.exe 
 
 .PHONY: clean
 
