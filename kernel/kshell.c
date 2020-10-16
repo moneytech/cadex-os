@@ -657,10 +657,10 @@ static int kshell_execute(int argc, const char **argv) {
                 kprintf("cd: %s: not a directory\n", argv[1]);
             } else {
                 default_shell->current_directory = "";
-                if (strcmp(argv[1], ".."))
-                    default_shell->current_directory = argv[1];
-                else
+                if (!strcmp(argv[1], ".."))
                     default_shell->current_directory = "/";
+                else
+                    default_shell->current_directory = argv[1];
             }
         } else if (argc == 1) {
             sys_chdir("/");
@@ -671,9 +671,22 @@ static int kshell_execute(int argc, const char **argv) {
         }
     } else if (!strcmp(cmd, "time")) {
         struct rtc_time time;
+        char a = -1;
         rtc_read(&time);
-        kprintf("%d-%d-%d %d:%d:%d\n", time.year, time.month, time.day,
-                time.hour, time.minute, time.second);
+        if (argc > 1) {
+            if (!strcmp(argv[1], "--realtime")) {
+                while (a == -1) {
+                    a = keyboard_read(1);
+                    rtc_read(&time);
+                    kprintf("\r%d-%d-%d %d:%d:%d", time.year, time.month,
+                            time.day, time.hour, time.minute, time.second);
+                }
+            }
+        } else {
+            kprintf("%d-%d-%d %d:%d:%d\n", time.year, time.month, time.day,
+                    time.hour, time.minute, time.second);
+        }
+        kprintf("\n");
     } else if (!strcmp(cmd, "reboot")) {
         reboot_system();
     } else if (!strcmp(cmd, "bcache_stats")) {
@@ -694,7 +707,7 @@ static int kshell_execute(int argc, const char **argv) {
             " prompt [type ...]                 whoami [-vh]\n"
             " run [path ...]                    echo [-ne] [arg ...]\n"
             " reap [pid ...]                    start [path ...]\n"
-            " wait [n]                          mount [dev] [unit] [fstype]\n"
+            " wait [n] [timeout ...]            mount [dev] [unit] [fstype]\n"
             " umount [unit]                     format [dev] [unit] [fstype]\n"
             " install [src_unit] [dest_unit]    cd [dir]\n"
             " mkdir [path ...]                  rm [path ...]\n"
@@ -702,6 +715,7 @@ static int kshell_execute(int argc, const char **argv) {
             " uname [-avcr]                     ls [dir|.]\n"
             " bcache_flush                      time\n"
             " bcache_stats                      shutdown\n"
+            " reboot                            cat [file ...]"
             " serialwrite [-r] [text ...]       serialrecv\n\n"
             "Type `help' to see this help information.\n");
     } else if (!strcmp(cmd, "whoami")) {
@@ -817,14 +831,7 @@ static int kshell_execute(int argc, const char **argv) {
             current->user = USER_ROOT;
         }
     } else if (!strcmp(cmd, "pwd")) {
-        kprintf("%s", default_shell->current_directory);
-    } else if (!strcmp(cmd, "mtest")) {
-        struct mouse_event e;
-        while (1) {
-            mouse_read(&e);
-            if (e.x != 0 && e.y != 0)
-                kprintf("X=%d,Y=%d,BUTTON=%u\n", e.x, e.y, e.buttons);
-        }
+        kprintf("%s\n", default_shell->current_directory);
     } else if (!strcmp(cmd, "adlib_test")) {
         Adlib_Test();
     } else {
@@ -876,6 +883,10 @@ int kshell_readline(char *line, int length, int text_visible) {
                 kprintf("^C");
             i += 2;
             return 0;
+        }else if (c == 0x13)
+		{
+			/* CTRL + S */
+            acpi_power_down();
         } else if (c >= 0x20 && c <= 0x7E) {
             /* A-Z a-z 0-9 */
             if (text_visible)
