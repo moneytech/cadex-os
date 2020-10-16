@@ -153,6 +153,10 @@ void kprintf(const char* s, ...)
                 u = va_arg(args, int32_t);
                 printf_putchar(u);
                 break;
+			case 'n':
+                u = va_arg(args, uint8_t);
+                printf_putchar(u);
+                break;
             case 0:
                 return;
                 break;
