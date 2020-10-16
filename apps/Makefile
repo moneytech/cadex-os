@@ -1,7 +1,10 @@
 
 include ../arch/i386/Makefile.config
 
-USER_PROGRAMS= tests.exe box.exe api_example.exe
+USER_PROGRAMS= tests.exe \
+			   box.exe \
+			   api_example.exe \
+			   compositor.exe
 
 all: alert $(USER_PROGRAMS)
 
