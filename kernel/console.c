@@ -62,7 +62,7 @@ int console_write(struct console *d, const char *data, int size) {
                 d->xsize = graphics_width(d->gx) / 8;
                 d->ysize = graphics_height(d->gx) / 8;
                 graphics_fgcolor(d->gx, fgcolor);
-                graphics_bgcolor(d->gx, bgcolor);
+                // graphics_bgcolor(d->gx, bgcolor);
                 graphics_clear(d->gx, 0, 0, graphics_width(d->gx),
                                graphics_height(d->gx));
                 break;
