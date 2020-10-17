@@ -4,7 +4,8 @@ include ../arch/i386/Makefile.config
 USER_PROGRAMS= tests.exe \
 			   box.exe \
 			   api_example.exe \
-			   compositor.exe
+			   calc.exe \
+			   templeos.exe
 
 all: alert $(USER_PROGRAMS)
 
