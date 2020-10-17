@@ -233,6 +233,6 @@ void mouse_init() {
 
     interrupt_register(44, mouse_interrupt);
     interrupt_enable(44);
-    // kprintf("[HARDWARE] mouse: ready\n");
+    
     dbg_printf("[mouse] initialized\n");
 }
