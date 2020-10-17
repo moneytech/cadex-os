@@ -11,6 +11,6 @@ int main(int argc, const char* argv[]) {
     TGL_window_create(&window, 10, 10, 200, 200);
 	/* Draw window */
     TGL_draw_window(&window);
-    int a = 0 / 0;
+	
     return 0;
 }
