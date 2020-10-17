@@ -13,6 +13,9 @@ the main function.  Note that this function cannot exit, but
 must invoke the _process_exit() function to terminate the process.
 */
 
+void _init();
+void _fini();
+
 #include "library/syscalls.h"
 
 int main(int argc, const char* argv[]);
@@ -25,3 +28,4 @@ void _start(int argc, const char** argv)
 {
     _process_exit(main(argc, argv));
 }
+
