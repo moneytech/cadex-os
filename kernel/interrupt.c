@@ -17,30 +17,23 @@ static interrupt_handler_t interrupt_handler_table[48];
 static uint32_t interrupt_count[48];
 static uint8_t interrupt_spurious[48];
 
-static const char *exception_names[] = {"division by zero",
-                                        "debug exception",
-                                        "nonmaskable interrupt",
-                                        "breakpoint",
-                                        "overflow",
-                                        "bounds check",
-                                        "invalid instruction",
-                                        "coprocessor error",
-                                        "double fault",
-                                        "copressor overrun",
-                                        "invalid task",
-                                        "segment not present",
-                                        "stack exception",
-                                        "general protection fault",
-                                        "page fault",
-                                        "unknown",
-                                        "coprocessor error"};
-
-static void reboot_system_on_segfault() {
-    dbg_printf("System is rebooting...");
-    kprintf("System is rebooting...");
-    wait_for_io(3000);
-    reboot();
-}
+static const char *exception_names[] = {"Division by zero",
+                                        "Debug exception",
+                                        "Nonmaskable interrupt",
+                                        "Breakpoint",
+                                        "Overflow",
+                                        "Bounds check",
+                                        "Invalid instruction",
+                                        "Coprocessor error",
+                                        "Double fault",
+                                        "Copressor overrun",
+                                        "Invalid task",
+                                        "Segment not present",
+                                        "Stack exception",
+                                        "General protection fault",
+                                        "Page fault",
+                                        "Unknown",
+                                        "Coprocessor error"};
 
 static void unknown_exception(int i, int code) {
     unsigned vaddr; /* virtual address trying to be accessed */
@@ -80,8 +73,8 @@ static void unknown_exception(int i, int code) {
             dbg_printf("[interrupt] process %d crashed\n", current->pid);
             /* Terminate current process */
             process_exit(0);
-            /* Reboot system */
-            reboot_system_on_segfault();
+            /* Free the pagetable of current process */
+            pagetable_free(current->pagetable, vaddr, PAGE_SIZE);
         } else {
             // TODO: update process->vm_stack_size when growing the stack.
             pagetable_alloc(current->pagetable, vaddr, PAGE_SIZE,
@@ -90,12 +83,17 @@ static void unknown_exception(int i, int code) {
             return;
         }
     } else {
+        dbg_printf("[interrupt] EXCEPTION: Cause: %s\n", exception_names[i]);
+        /* Set fgcolor to red */
         graphics_set_fgcolor(200, 100, 100, 0);
         kprintf("\n\n -- Exception Occured -- \n\nError code: %x\nError cause: "
                 "%s\n\n -- Stack trace -- \n\n",
                 code, exception_names[i]);
         process_dump(current);
+        /* Set fgcolor to white */
         graphics_set_fgcolor(255, 255, 255, 0);
+        /* Free page */
+        pagetable_free(current->pagetable, vaddr, PAGE_SIZE);
     }
 
     if (current->pid != 1) {
