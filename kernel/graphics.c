@@ -170,6 +170,7 @@ void graphics_set_fgcolor(int r, int g, int b, int a){
     c.a = a;
     graphics_fgcolor(&graphics_root, c);
 }
+
 int graphics_clip(struct graphics* g, int x, int y, int w, int h)
 {
     // Clip values may not be negative
