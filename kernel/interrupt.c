@@ -83,7 +83,7 @@ static void unknown_exception(int i, int code) {
             return;
         }
     } else {
-        dbg_printf("[interrupt] EXCEPTION: Cause: %s\n", exception_names[i]);
+        dbg_printf("[interrupt] EXCEPTION: Cause: %s, PID=%d\n", exception_names[i], current->pid);
         /* Set fgcolor to red */
         graphics_set_fgcolor(200, 100, 100, 0);
         kprintf("\n\n -- Exception Occured -- \n\nError code: %x\nError cause: "
