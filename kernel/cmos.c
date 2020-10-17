@@ -25,14 +25,14 @@ void cmos_dump(
 {
     uint16_t index;
     for (index = 0; index < 128; ++index) {
-        outb(CMOS_ADDRESS, index);
+        outb(index, CMOS_ADDRESS);
         values[index] = inb(CMOS_DATA);
     }
 }
 
 int is_update_in_progress(void)
 {
-    outb(CMOS_ADDRESS, 0x0a);
+    outb(0x0a, CMOS_ADDRESS );
     return inb(CMOS_DATA) & 0x80;
 }
 
@@ -158,7 +158,7 @@ uint32_t read_cmos(void)
 
 int gettimeofday(struct timeval* t, void* z)
 {
-    // Not implemented!
+    // TODO: Implement time data structures
     //t->tv_sec = boot_time + timer_ticks + timer_drift;
     //t->tv_usec = timer_subticks * 1000;
     return 0;
