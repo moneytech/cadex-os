@@ -49,7 +49,7 @@ typedef struct {
     int g;
     int b;
     int a;
-} gui_color_t;
+} color_t;
 
 /**
  * Sprite type definition
@@ -85,9 +85,16 @@ typedef struct {
     int32_t y;
 
     /* Window border color */
-    gui_color_t *border_color;
+    color_t *border_color;
+
+	/* Text color */
+    color_t *text_color;
+
+	/* Background color */
+    color_t *bg_color;
 
     /* Root window flag */
+    int root_window;
 } tgl_window_t;
 
 /* Get window and objects */
