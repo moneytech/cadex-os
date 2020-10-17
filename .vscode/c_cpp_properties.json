@@ -45,7 +45,7 @@
                 "g"
             ],
             "intelliSenseMode": "gcc-x86",
-            "cStandard": "c18",
+            "cStandard": "c17",
             "cppStandard": "c++20",
             "browse": {
                 "path": [
