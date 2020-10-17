@@ -938,8 +938,6 @@ start:
             if (argc > 0) {
                 kshell_execute(argc, argv);
             }
-        } else {
-            goto start;
         }
     }
     // This is to keep the kernel running even after a segfault/exception
