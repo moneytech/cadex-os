@@ -20,6 +20,7 @@ See the file LICENSE for details.
 #include "page.h"
 #include "string.h"
 #include "x86.h"
+#include "kprintf.h"
 
 struct process* current = 0;
 struct list ready_list = { 0, 0 };
@@ -396,7 +397,7 @@ void process_dump(struct process* p)
     kprintf("ecx: %x     ss: %x\n", s->regs1.ecx, s->ss);
     kprintf("edx: %x eflags: %x\n", s->regs1.edx, s->eflags);
     kprintf("esi: %x\n", s->regs1.esi);
-    kprintf("edi: %x\n", s->regs1.edi);
+    kprintf("edi: %x\n", s->regs1.edi); 
     kprintf("ebp: %x\n", s->regs1.ebp);
     kprintf("esp: %x\n", s->esp);
     kprintf("eip: %x\n", s->eip);
