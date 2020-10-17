@@ -15,19 +15,19 @@
 
 static void enable_serial_color()
 {
-    outb(COM1, ESC);
-    outb(COM1, '[');
-    outb(COM1, '3');
-    outb(COM1, '6');
-    outb(COM1, 'm');
+    outb(ESC, COM1);
+    outb('[', COM1);
+    outb('3', COM1);
+    outb('6', COM1);
+    outb('m', COM1);
 }
 
 static void disable_serial_color()
 {
-    outb(COM1, ESC);
-    outb(COM1, '[');
-    outb(COM1, '0');
-    outb(COM1, 'm');
+    outb(ESC, COM1);
+    outb('[', COM1);
+    outb('0', COM1);
+    outb('m', COM1);
 }
 
 static void printf_putchar(char c)
@@ -181,7 +181,7 @@ void dbg_printf(const char* s, ...)
     va_start(args, s);
 
     // Enable serial output coloring
-    enable_serial_color();
+    // enable_serial_color();
 
     while (*s) {
         if (*s != '%') {
@@ -224,7 +224,7 @@ void dbg_printf(const char* s, ...)
     va_end(args);
 
     // Disable serial output coloring
-    disable_serial_color();
+    // disable_serial_color();
 }
 
 /* Systemd like success messages */
