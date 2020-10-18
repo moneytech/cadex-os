@@ -11,14 +11,6 @@
 #include "acpi.h"
 #include "interrupt.h"
 
-void PANIC(char *str)
-{
-    kprintf("[PANIC]: %s\n", str);
-}
-void ASSERT_PANIC(char *str)
-{
-    PANIC(str);
-}
 void _page_map(uint32_t p_addr, uint32_t v_addr, uint32_t length)
 {
     uint32_t *pd, *table, p_idx, t_idx;
@@ -79,7 +71,7 @@ void acpi_power_down()
     if (facp->PM1bControlBlock != 0)
         outw((SLP_TYPb << 0) | SLP_EN, facp->PM1aControlBlock);
 
-    dbg_printf("[acpi] ACPI power down failed\n");
+    kprintf("[acpi] ACPI power down failed\n");
 }
 
 void acpi_reset()
@@ -124,7 +116,7 @@ acpi_init()
     struct RSDPDescriptor *rsdp;
     struct ACPISDTHeader *sdt;
 
-    dbg_printf("[acpi] ");
+    kprintf("[acpi] ");
 
     // search for Root System Description Pointer address
     for (ptr = 0; ptr < 0x100000; ptr += 16)
@@ -146,12 +138,12 @@ acpi_init()
                 }
             }
 
-            dbg_printf("found (OEM: %s Rev. %d) ",
+            kprintf("found (OEM: %s Rev. %d) ",
                     rsdp->OEMID,
                     rsdp->Revision);
 
             rsdt = (struct RSDT *)rsdp->RsdtAddress;
-            dbg_printf("RsdtAddr: 0x%x Signature: ", rsdp->RsdtAddress);
+            kprintf("RsdtAddr: 0x%x Signature: ", rsdp->RsdtAddress);
             _page_map(rsdp->RsdtAddress, rsdp->RsdtAddress, 0x1000); // make rsdt header accessible
             _page_map(rsdp->RsdtAddress, rsdp->RsdtAddress, rsdt->h.Length);
             i_max = (rsdt->h.Length - sizeof(struct ACPISDTHeader)) / 4;
@@ -166,7 +158,7 @@ acpi_init()
                 switch (*((uint32_t *)sdt->Signature))
                 {
                 case 'TDSS': // same than DSDT
-                    dbg_printf("[+SSDT] ");
+                    kprintf("[+SSDT] ");
                     S5Block = acpi_search_S5(sdt);
                     if (S5Block != NULL)
                     {
@@ -187,12 +179,12 @@ acpi_init()
                     }
                     break;
                 case 'PCAF': // "FACP"
-                    dbg_printf("[+FACP] ");
+                    kprintf("[+FACP] ");
                     facp = (struct FADT *)sdt;
 
                     interrupt_register(facp->SCI_Interrupt, acpi_handler); // install ACPI IRQ handler
 
-                    dbg_printf("Profile=%d ", facp->PreferredPowerManagementProfile);
+                    kprintf("Profile=%d ", facp->PreferredPowerManagementProfile);
                     // kprintf("ResetReg=0x%x(0x%x)\n", facp->ResetReg.Address, facp->ResetValue);
 
                     dsdt = (struct ACPISDTHeader *)facp->Dsdt;
@@ -230,16 +222,16 @@ acpi_init()
 
                     break;
                 case 'TEPH': // HPET
-                    dbg_printf("[+HPET] ");
+                    kprintf("[+HPET] ");
                     break;
                 default:
-                    dbg_printf("[-%c%c%c%c] ", sdt->Signature[0], sdt->Signature[1], sdt->Signature[2], sdt->Signature[3]);
+                    kprintf("[-%c%c%c%c] ", sdt->Signature[0], sdt->Signature[1], sdt->Signature[2], sdt->Signature[3]);
                     break;
                 }
             }
-            dbg_printf("\n");
+            kprintf("\n");
             acpi_power_button_enable();
-            dbg_printf("[acpi] SCI_Interrupt=%d SMI_CommandPort=0x%x ShutDown=%c\n", facp->SCI_Interrupt, facp->SMI_CommandPort, (S5Block == NULL) ? 'N' : 'Y');
+            kprintf("[acpi] SCI_Interrupt=%d SMI_CommandPort=0x%x ShutDown=%c\n", facp->SCI_Interrupt, facp->SMI_CommandPort, (S5Block == NULL) ? 'N' : 'Y');
             return ptr;
         }
     }
