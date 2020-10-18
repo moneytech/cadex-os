@@ -67,15 +67,16 @@ LIBRARY_OBJECTS=crt/crti.o \
 				wait.o \
 				rand.o \
 				util/print_array.o \
-				truegl/tgl_base.o \
-				truegl/ui_button.o \
-				truegl/ui_textbox.o \
-				truegl/movable_scanf.o \
-				truegl/ui_window.o \
-				truegl/compositor.o \
+				libtgl/tgl_base.o \
+				libtgl/ui_button.o \
+				libtgl/ui_textbox.o \
+				libtgl/movable_scanf.o \
+				libtgl/ui_window.o \
+				libtgl/compositor.o \
 				sys/version.o \
 				sys/contty.o \
 				sys/dbg_printf.o \
+				sys/dlopen.o \
 				sul/base64_encode.o \
 				sul/url_parser.o \
 				$(CRTEND_OBJ) \
