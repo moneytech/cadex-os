@@ -11,17 +11,18 @@
  * the cdrom and the hard disk at the same time. Because of that, you cannot
  * access dim.exe when the hard disk is mounted
  */
-#include <debug.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <truegl/truegl.h>
 #include <unistd.h>
+#include <debug.h>
+#include <truegl/truegl.h>
+#include <sys/module.h>
 
 /**
  * NOTE: This file is well commented to understand how this works. Use wisely :)
  */
- 
+
 int dims[2];
 int i = 0; // Counter 'i'
 
@@ -161,6 +162,12 @@ int main(int argc, const char *argv[]) {
     setup_window();
     clear_screen();
     printf("\n\n");
+
+	/* Try to load TrueGL module from cdrom */
+    dlib_t *libtgl;
+    int dl = dlopen("/usr/lib/libtgl_0.1.so", libtgl);
+	if(!dl)
+        dbg_printf("[dim.exe] warning: dlopen() returned 0\n");
 
     /* Load editor */
     dbg_printf("[dim.exe] textarea() started\n");
