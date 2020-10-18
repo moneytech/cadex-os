@@ -173,17 +173,6 @@ static void mouse_interrupt(int i, int code) {
         state.x = video_xres - 1;
     if (state.y >= video_yres)
         state.y = video_yres - 1;
-    switch (state.buttons)
-	{
-	case 1:
-        kprintf("[mouse] left click.\n");
-        break;
-	case 2:
-        kprintf("[mouse] right click.\n");
-        break;
-    default:
-        break;
-	}
 }
 
 /**
@@ -233,6 +222,6 @@ void mouse_init() {
 
     interrupt_register(44, mouse_interrupt);
     interrupt_enable(44);
-    
-    dbg_printf("[mouse] initialized\n");
+
+    kprintf("[mouse] initialized\n");
 }
