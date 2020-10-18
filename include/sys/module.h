@@ -4,45 +4,22 @@
  * See the file LICENSE for details
 */
 
+/**
+ * Stub files for dynamic libraries
+*/
+
 #pragma once
 
 #include <types.h>
-
 #include <library/hashmap.h>
 
-typedef struct {
-    char* name;
-    int (*initialize)(void);
-    int (*finalize)(void);
-} module_defs;
+typedef struct
+{
+    int size;
+    char *filename;
+    uint8_t entry_point;
+} dlib_t;
 
-typedef struct {
-    module_defs* mod_info;
-    void* bin_data;
-    hashmap_t* symbols;
-    uintptr_t end;
-    size_t deps_length;
-    char* deps;
-    uintptr_t text_addr;
-} module_data_t;
-
-void (*symbol_find(const char* name))(void);
-
-extern int module_quickcheck(void* blob);
-extern void* module_load_direct(void* blob, size_t size);
-extern void* module_load(char* filename);
-extern void module_unload(char* name);
-extern void modules_install(void);
-
-#define MODULE_DEF(n, init, fini)   \
-    module_defs module_info_##n = { \
-        .name = #n,                 \
-        .initialize = &init,        \
-        .finalize = &fini           \
-    }
-
-extern hashmap_t* modules_get_list(void);
-extern hashmap_t* modules_get_symbols(void);
-
-#define MODULE_DEPENDS(n) \
-    static char _mod_dependency_##n[] __attribute__((section("moddeps"), used)) = #n
+int dlopen(const char *path, dlib_t *dlib);
+void dlclose(dlib_t dlib);
+int dlfindsymbol(dlib_t dlib);
