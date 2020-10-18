@@ -1,6 +1,0 @@
-[submodule "libc/printf"]
-	path = libc/printf
-	url = https://github.com/mpaland/printf.git
-[submodule "libc/mxml"]
-	path = libc/mxml
-	url = https://github.com/CadexOS/mxml.git
