@@ -271,6 +271,6 @@ static struct fs cdrom_fs = {
 int cdrom_init()
 {
     fs_register(&cdrom_fs);
-    dbg_printf("[cdfs] CDFS driver initialized\n");
+    kprintf("[cdfs] CDFS driver initialized\n");
     return 0;
 }
