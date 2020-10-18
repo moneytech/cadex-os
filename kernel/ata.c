@@ -451,7 +451,7 @@ static int ata_probe_internal(int id, int kind, int* nblocks, int* blocksize, ch
     }
 
     if (!result) {
-        // kprintf("[SYS] ata unit %d: not connected\n", id);
+        // kprintf("[ata] ata unit %d: not connected\n", id);
         dbg_printf("[ata] ata unit %d not connected\n", id);
         return 0;
     }
@@ -472,7 +472,7 @@ static int ata_probe_internal(int id, int kind, int* nblocks, int* blocksize, ch
     /* Get disk size in megabytes*/
     uint32_t mbytes = (*nblocks) / KILO * (*blocksize) / KILO;
 
-    kprintf("[SYS] %s unit %d: %s %u sectors %u MB %s\n",
+    kprintf("[ata] %s unit %d: %s %u sectors %u MB %s\n",
         (*blocksize) == 512 ? "ata" : "atapi",
         id,
         (*blocksize) == 512 ? "disk" : "cdrom",
@@ -519,7 +519,7 @@ void ata_init()
         counters.blocks_written[i] = 0;
     }
 
-    dbg_printf("[ata] setting up interrupts\n");
+    kprintf("[ata] setting up interrupts\n");
 
     interrupt_register(ATA_IRQ0, ata_interrupt);
     interrupt_enable(ATA_IRQ0);
@@ -527,16 +527,14 @@ void ata_init()
     interrupt_register(ATA_IRQ1, ata_interrupt);
     interrupt_enable(ATA_IRQ1);
 
-    dbg_printf("[ata] probing devices\n");
+    kprintf("[ata] probing devices\n");
 
     for (i = 0; i < 4; i++) {
         ata_probe_internal(i, 0, &nblocks, &blocksize, longname);
     }
 
     device_driver_register(&ata_driver);
-    // kprintf("[SYS] ata: ready\n");
-    dbg_printf("[ata_driver] ready\n");
+    kprintf("[ata] ready\n");
     device_driver_register(&atapi_driver);
-    // kprintf("[SYS] atapi: ready\n");
-    dbg_printf("[atapi_driver] ready\n");
+    kprintf("[atapi] ready\n");
 }
