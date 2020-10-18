@@ -13,8 +13,6 @@
  * - Rich Felker, April 2012
  */
 
-#include "locale_impl.h"
-#include <fnmatch.h>
 #include <stdlib.h>
 #include <string.h>
 #include <wchar.h>
