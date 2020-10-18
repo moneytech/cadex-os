@@ -145,6 +145,6 @@ void console_size(struct console *c, int *xsize, int *ysize) {
 struct console *console_init(struct graphics *g) {
     console_root.gx = g;
     console_reset(&console_root);
-    console_putstring(&console_root, "\n[SYS] console: console initialised\n");
+    console_putstring(&console_root, "\n[console] console: console initialised\n");
     return &console_root;
 }
