@@ -49,9 +49,9 @@ int kernel_main() {
     console_addref(&console_root);
 
     // print the screen resolution
-    kprintf("[SYS] video: %d x %d\n", video_xres, video_yres, video_xbytes);
+    kprintf("[kmain] video: %d x %d\n", video_xres, video_yres, video_xbytes);
     // print the kernel size
-    kprintf("[SYS] kernel size: %d KB\n", kernel_size / 1000);
+    kprintf("[kmain] kernel size: %d KB\n", kernel_size / 1000);
 
     // init serialports
     serial_init();
@@ -93,8 +93,10 @@ int kernel_main() {
     // start the necessary services
     service_start("/bin/dbusctl.exe", 0, 0, "DBus Controller");
     service_start("/bin/klog.exe", 0, 0, "Kernel logging helper");
+	// clear the screen
+    kprintf("\f");
     // show login prompt
-    kshell_show_login_prompt();
+    kshell_show_login_prompt(); 
     // launch shell
     kshell_launch();
     dbg_printf("[kmain] Launched kshell\n");
