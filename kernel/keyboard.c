@@ -208,6 +208,6 @@ void keyboard_init()
     interrupt_register(33, keyboard_interrupt);
     interrupt_enable(33);
     device_driver_register(&keyboard_driver);
-    // kprintf("[HARDWARE] keyboard: ready\n");
-    dbg_printf("[keyboard] ready\n");
+
+    kprintf("[keyboard] initialized\n");
 }
