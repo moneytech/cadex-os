@@ -629,7 +629,8 @@ struct fs_ops diskfs_ops = {.volume_open = diskfs_volume_open,
 struct fs disk_fs = {"dfs", &diskfs_ops, 0};
 
 int diskfs_init(void) {
-    dbg_printf("[diskfs] Registering filesystem...\n");
+    kprintf("[diskfs] Registering filesystem...\n");
     fs_register(&disk_fs);
+    kprintf("[diskfs] Initialized\n");
     return 0;
 }
