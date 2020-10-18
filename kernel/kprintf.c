@@ -119,6 +119,7 @@ static void printf_putuint(uint32_t u)
 
 void kprintf(const char* s, ...)
 {
+
     va_list args;
 
     uint32_t u;
