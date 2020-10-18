@@ -104,7 +104,6 @@ static int textarea(char *line) {
                 read_object(STDIN, &keystroke, 1);
                 if (keystroke == ASCII_CR) {
                     refresh();
-                    read_object(STDIN, 0, 1);
                     break;
                 } else if (keystroke == ASCII_ESC) {
                     break;
