@@ -17,6 +17,7 @@ using namespace TGL::Core;
 using namespace TGL::GKit;
 
 char c;
+int integeroveflowexceptionandsegmentationfaultwithcoredumpedintoconsole;
 
 int main(int argc, char *argv[]) {
     // Setup window
@@ -34,7 +35,9 @@ int main(int argc, char *argv[]) {
     while (1) {
         read_object(0, &c, 1);
         if (c == 0x20) {
-            drawLine(rand(1, 100), rand(1, 1000), rand(1,3), rand(1,100));
+            drawLine(rand(1, 100), rand(1, 100), rand(1,3), rand(1,100));
+            dbg_printf("[templeos] Drawn %d line\n", integeroveflowexceptionandsegmentationfaultwithcoredumpedintoconsole);
+            integeroveflowexceptionandsegmentationfaultwithcoredumpedintoconsole++;
         }
     }
 }
