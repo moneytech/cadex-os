@@ -183,9 +183,7 @@ void interrupt_init() {
     }
 
     interrupt_unblock();
-
-    /* kprintf("[SYS] interrupt-manager: OK\n");*/
-    dbg_printf("[interrupt] initialized\n");
+    kprintf("[interrupt] initialized\n");
 }
 
 void interrupt_handler(int i, int code) {
