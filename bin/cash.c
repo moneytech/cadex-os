@@ -171,7 +171,7 @@ int readline(char *line, int length) {
         if (c == ASCII_CR) {
             printf_putchar(c);
             line[i] = 0;
-            return i;
+            return i; 
         } else if (c == ASCII_BS) {
             if (i > 0) {
                 i--;
