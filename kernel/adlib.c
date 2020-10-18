@@ -19,7 +19,7 @@ int Adlib_Present = 0;
 
 int adlib_init(void) {
     // Try to find an Adlib card
-    dbg_printf("[adlib] searching for an Adlib compatible sound device...\n");
+    kprintf("[adlib] searching for an Adlib compatible sound device...\n");
 
     // Reset both timers
     Adlib_Write(
@@ -55,13 +55,13 @@ int adlib_init(void) {
     if ((status & 0xE0) == 0) {
         // test the second stored status
         if ((status2 & 0xE0) == 0xC0) {
-            dbg_printf("[adlib] found an Adlib compatible device at 0x%x\n", Adlib_BaseAddress);
+            kprintf("[adlib] found an Adlib compatible device at 0x%x\n", Adlib_BaseAddress);
             Adlib_Present = 1;
         }
     }
 
     if (!Adlib_Present)
-        dbg_printf("[adlib] no Adlib compatible device found\n");
+        kprintf("[adlib] no Adlib compatible device found\n");
 
     return Adlib_Present;
 }
