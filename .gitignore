@@ -23,4 +23,3 @@ doxygen/latex
 basefs/usr/include/**
 *.gz
 *.cs
-libc/printf/
