@@ -1,0 +1,29 @@
+/**
+ * Copyright (C) 2019-2020 The CadexOS Project
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+ */
+
+/**
+ * Basic Input stream functions
+ */
+
+#ifndef _ISTREAM
+#define _ISTREAM
+
+#include <__config>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+namespace std {
+class istream {
+    private:
+    /* data */
+    public:
+    istream(/* args */);
+    ~istream();
+};
+} // namespace std
+#endif // !_ISTREAM

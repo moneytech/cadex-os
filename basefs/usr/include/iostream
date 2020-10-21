@@ -1,0 +1,27 @@
+
+/**
+ * iostream: Header-only iostream library for Cadex OS
+*/
+#ifndef IOSTREAM
+#define IOSTREAM
+
+// We need these header files because the standard I/O functions and the types are defined here
+#include <stdio.h>
+#include <library/syscalls.h>
+#include <stdlib.h>
+#include <algorithm.h>
+#include <color>
+#include <library/math.h>
+#include <library/console.hpp>
+#include <__config>
+#include <ostream>
+#include <istream>
+
+namespace std
+{
+    extern ostream cout;
+    extern ostream cerr;
+    extern istream cin;
+} // namespace std
+
+#endif // !IOSTREAM
