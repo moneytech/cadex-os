@@ -33,6 +33,7 @@ To learn more, see the [Cadex OS Wiki](http://cadex-os-wiki.rf.gd).
 - ATA driver
 - ATAPI driver
 - AdLib sound card driver
+- SoundBlaster 16 sound card driver
 - ACPI driver
 - PCI driver
 - PS/2 Mouse driver
