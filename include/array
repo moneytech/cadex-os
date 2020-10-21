@@ -1,0 +1,40 @@
+#include <library/types.h>
+#include <stddef.h>
+
+template<typename T, size_t Sz>
+class Array {
+    T elems[Sz];
+
+public:
+    //constexpr const T* data() const { return elems; }
+    //constexpr       T* data()       { return elems; }
+
+    constexpr const T* operator*() const { return elems; }
+    constexpr       T* operator*()       { return elems; }
+
+    static constexpr size_t length() { return Sz; }
+    //static constexpr size_t size()   { return Sz * sizeof(T); }
+
+    void clear(const T &x) { for (size_t i = 0; i < Sz; ++i) elems[i] = x;    }
+    void clear()           { for (size_t i = 0; i < Sz; ++i) elems[i] = T {}; }
+
+    constexpr const T &operator[](size_t i) const { return elems[i]; }
+    constexpr       T &operator[](size_t i)       { return elems[i]; }
+
+    constexpr const T *begin() const { return elems; }
+    constexpr       T *begin()       { return elems; }
+    constexpr const T *end()   const { return elems+Sz; }
+    constexpr       T *end()         { return elems+Sz; }
+
+    template<typename... As>
+    constexpr Array(const As&... as) : elems { as... } { }
+    constexpr Array() {}
+};
+
+static_assert(sizeof(Array<uint8_t , 1>) ==  1);
+static_assert(sizeof(Array<uint16_t,10>) == 20);
+
+template<typename A, typename... As>
+void make_array(const A& a, const As&... as) {
+    return Array<A, sizeof...(as)+1> { a, as... };
+}

@@ -1,0 +1,33 @@
+/**
+ * Copyright (C) 2019-2020 The CadexOS Project
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+ */
+/**
+ * Basic Output Stream functions
+ */
+#ifndef _OSTREAM
+#define _OSTREAM
+
+#include <__config>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+namespace std {
+class ostream {
+    public:
+    ostream();
+    ostream(ostream &&);
+    ostream(const ostream &);
+    ostream &operator<<(char *&&);
+    ostream &operator<<(const char *&);
+    ~ostream();
+
+    private:
+};
+
+} // namespace std
+
+#endif

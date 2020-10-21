@@ -1,0 +1,147 @@
+/**
+ * Copyright (C) 2019-2020 The CadexOS Project
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+ *
+ * NOTE: Some parts of this code is taken from the LLVM project while others
+ * look like they are taken from LLVM but they are written from scratch
+ */
+#ifndef _CONFIG
+#define _CONFIG
+
+#include <sys/rt/cxx__rt.hpp>
+
+/* Definitions for library namespaces */
+#define _LIBCXX_NAMESPACE_STD_BEGIN namespace std {
+#define _LIBCXX_NAMESPACE_STD_END   }
+
+#define _LIBC_EXTERN_HEADER_BEGIN extern "C" {
+#define _LIBC_EXTERN_HEADER_END   }
+
+/* LIBCPP Standard version */
+#ifndef _LIBCPP_STD_VER
+#if __cplusplus <= 201103L
+#define _LIBCPP_STD_VER 11
+#elif __cplusplus <= 201402L
+#define _LIBCPP_STD_VER 14
+#elif __cplusplus <= 201703L
+#define _LIBCPP_STD_VER 17
+#else
+#define _LIBCPP_STD_VER 18 // current year, or date of c++2a ratification
+#endif
+#endif
+
+/* Executable format */
+#if defined(__ELF__)
+#define _LIBCPP_OBJECT_FORMAT_ELF 1
+#elif defined(__MACH__)
+#define _LIBCPP_OBJECT_FORMAT_MACHO 1
+#elif defined(_WIN32)
+#define _LIBCPP_OBJECT_FORMAT_COFF 1
+#elif defined(__wasm__)
+#define _LIBCPP_OBJECT_FORMAT_WASM 1
+#else
+#error Unknown object file format
+#endif
+
+#if defined(_WIN32)
+#error Cannot compile in win32 mode.
+#endif
+
+#ifndef __has_attribute
+#define __has_attribute(__x) 0
+#endif
+
+#ifndef __has_builtin
+#define __has_builtin(__x) 0
+#endif
+
+#ifndef __has_extension
+#define __has_extension(__x) 0
+#endif
+
+#ifndef __has_feature
+#define __has_feature(__x) 0
+#endif
+
+#ifndef __has_cpp_attribute
+#define __has_cpp_attribute(__x) 0
+#endif
+
+#if defined(__arm__)
+#error ARM compiler not supported. Please use i686 or x86 GCC and G++
+#endif
+#if defined(_LIBCPP_COMPILER_GCC) && __cplusplus < 201103L
+#error "libc++ does not support using GCC with C++03. Please enable C++11"
+#endif
+
+#if !__has_feature(cxx_exceptions)
+#define _LIBCPP_NO_EXCEPTIONS
+#endif
+
+#if !(__has_feature(cxx_strong_enums))
+#define _LIBCPP_HAS_NO_STRONG_ENUMS
+#endif
+
+#if __has_feature(cxx_attributes)
+#define _LIBCPP_NORETURN [[noreturn]]
+#else
+#define _LIBCPP_NORETURN __attribute__((noreturn))
+#endif
+
+#if !(__has_feature(cxx_lambdas))
+#define _LIBCPP_HAS_NO_LAMBDAS
+#endif
+
+// #if !(__has_feature(cxx_nullptr))
+// #if (__has_extension(cxx_nullptr) || __has_keyword(__nullptr)) &&
+// defined(_LIBCPP_ABI_ALWAYS_USE_CXX11_NULLPTR) #define nullptr __nullptr #else
+// #define _LIBCPP_HAS_NO_NULLPTR
+// #endif
+// #endif
+
+#if !(__has_feature(cxx_auto_type))
+#define _LIBCPP_HAS_NO_AUTO_TYPE
+#endif
+
+#if !(__has_feature(cxx_variadic_templates))
+#define _LIBCPP_HAS_NO_VARIADICS
+#endif
+
+#if !__EXCEPTIONS
+#define _LIBCPP_NO_EXCEPTIONS
+#endif
+
+#if !__EXCEPTIONS
+#define _LIBCPP_NO_EXCEPTIONS
+#endif
+
+#define __alignof__ __alignof
+
+#if !defined(_LIBCPP_DISABLE_DEPRECATION_WARNINGS)
+#if __has_attribute(deprecated)
+#define _LIBCPP_DEPRECATED __attribute__((deprecated))
+#elif _LIBCPP_STD_VER > 11
+#define _LIBCPP_DEPRECATED [[deprecated]]
+#else
+#define _LIBCPP_DEPRECATED
+#endif
+#else
+#define _LIBCPP_DEPRECATED
+#endif
+
+#if _LIBCPP_STD_VER <= 11
+#define _LIBCPP_EXPLICIT_AFTER_CXX11
+#else
+#define _LIBCPP_EXPLICIT_AFTER_CXX11 explicit
+#endif
+
+#if _LIBCPP_STD_VER > 11 && !defined(_LIBCPP_HAS_NO_CXX14_CONSTEXPR)
+#define _LIBCPP_CONSTEXPR_AFTER_CXX11 constexpr
+#else
+#define _LIBCPP_CONSTEXPR_AFTER_CXX11
+#endif
+
+#define deprecated _LIBCPP_DEPRECATED
+
+#endif

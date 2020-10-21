@@ -1,0 +1,19 @@
+#ifndef _FSTREAM
+#define _FSTREAM
+
+#include <iostream>
+#include <string>
+
+namespace std {
+class File {
+private:
+public:
+    static auto Write(std::String* path, std::String* contents) -> void
+    {
+        int __fd_ = fopen(path->getValue(), 0);
+        if (__fd_ == KERROR_NOT_FOUND || __fd_ < 0) {
+        }
+    }
+};
+} // namespace std
+#endif // !_FSTREAM
