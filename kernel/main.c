@@ -27,10 +27,10 @@ See the file LICENSE for details.
 #include "pci.h"
 #include "process.h"
 #include "rtc.h"
+#include "sb16.h"
 #include "serial.h"
 #include "service.h"
 #include "string.h"
-#include "sb16.h"
 #include <sysinfo.h>
 
 extern uint8_t sse_available();
@@ -83,12 +83,19 @@ int kernel_main() {
     diskfs_init();
     // init adlib driver
     adlib_init();
-	// init Sound Blaster 16 driver
+    // init Sound Blaster 16 driver
     SB16_Init();
     // init IDE driver
     ide_init();
     // init ACPI driver
     // acpi_init();
+    // init PCI driver
+    PCI_Init();
+    /**
+     * NOTE: For some reason, when initializing PCI devices on QEMU, it shows an
+     * endless list of PCI devices.
+     */
+    
     // check if CPU supports SSE
     if (sse_available()) {
         kprintf("[sse] CPU has SSE features\n");
