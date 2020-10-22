@@ -286,7 +286,7 @@ static int kshell_mount_nomsg(const char *devname, int unit,
  * Install CadexOS and the softwares from the cdrom volume unit src
  * to the disk volume dst by performing a recursive copy.
  * TODO: This needs better error checking.
-*/
+ */
 
 int kshell_install(int src, int dst) {
     struct fs *srcfs = fs_lookup("cdfs");
@@ -384,8 +384,7 @@ static int kshell_listdir(const char *path) {
         }
     } else {
         if (path != ".") {
-            kprintf("ls: %s: No such file or directory\n",
-                    path);
+            kprintf("ls: %s: No such file or directory\n", path);
         } else {
             kprintf("ls: root directory not found.");
         }
@@ -748,15 +747,7 @@ static int kshell_execute(int argc, const char **argv) {
         struct process_info info;
         process_wait_child(pid, &info, -1);
         process_reap(info.pid);
-    } else if (!strcmp(cmd, "calc")) {
-        int pid = sys_process_run("/usr/apps/calc.exe", argc - 1, &argv[1]);
-        process_yield();
-        struct process_info info;
-        process_wait_child(pid, &info, -1);
-        process_reap(info.pid);
-    }
-
-    /* Shutdown using ACPI */
+    } /* Shutdown using ACPI */
     else if (!strcmp(cmd, "shutdown")) {
         // try to shutdown using ACPI
         acpi_power_down();
@@ -825,16 +816,13 @@ static int kshell_execute(int argc, const char **argv) {
         struct process_info info;
         process_wait_child(pid, &info, -1);
         process_reap(info.pid);
-    }else if (!strcmp(cmd, "imgview"))
-	{
+    } else if (!strcmp(cmd, "imgview")) {
         int pid = sys_process_run("/bin/imgview.exe", argc - 1, &argv[1]);
         process_yield();
         struct process_info info;
         process_wait_child(pid, &info, -1);
         process_reap(info.pid);
-    }
-
-    /* standard, not-so-secure version of sudo */
+    } /* standard, not-so-secure version of sudo */
     else if (!strcmp(cmd, "sudo")) {
         int pid = sys_process_run("/bin/sudo.exe", argc - 1, &argv[1]);
         process_yield();
@@ -846,8 +834,6 @@ static int kshell_execute(int argc, const char **argv) {
         }
     } else if (!strcmp(cmd, "pwd")) {
         kprintf("%s\n", default_shell->current_directory);
-    } else if (!strcmp(cmd, "adlib_test")) {
-        Adlib_Test();
     } else {
         if (argc > 0 && strsw(".", argv[0])) {
             // Try to run the process
@@ -907,7 +893,7 @@ int kshell_readline(char *line, int length, int text_visible) {
             line[i] = c;
             i++;
             j++;
-        } else if(c == KEY_UP) {
+        } else if (c == KEY_UP) {
             kprintf("^UP");
         } else {
             kprintf("%d", c);
