@@ -24,3 +24,5 @@ basefs/usr/include/**
 *.gz
 *.cs
 aagney.*
+*.img
+hard_disk.img
