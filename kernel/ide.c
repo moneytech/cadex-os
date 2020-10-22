@@ -12,22 +12,25 @@ uint16_t ide_primary_io_base, ide_primary_ctrl, ide_secondary_io_base, ide_secon
 void ide_init(void)
 {
 
-    if (!pci_find_class(0x1, 0x1, &ide_bus, &ide_dev, &ide_fun)) // find mass storage / scsi bus
+    if (!PCI_GetClassCodes(&ide_bus, &ide_dev, &ide_fun)) // find mass storage / scsi bus
         return;
 
-    if ((ide_primary_io_base = pci_read(ide_bus, ide_dev, ide_fun, PCI_BAR0)) <= 1)
+    if ((ide_primary_io_base = PCI_ConfigReadWord(ide_bus, ide_dev, ide_fun, PCI_BAR0)) <= 1)
         ide_primary_io_base = 0x1F0;
 
-    if ((ide_primary_ctrl = pci_read(ide_bus, ide_dev, ide_fun, PCI_BAR1)) <= 1)
+    if ((ide_primary_ctrl = PCI_ConfigReadWord(ide_bus, ide_dev, ide_fun, PCI_BAR1)) <= 1)
         ide_primary_ctrl = 0x3F6;
 
-    if ((ide_secondary_io_base = pci_read(ide_bus, ide_dev, ide_fun, PCI_BAR2)) <= 1)
+    if ((ide_secondary_io_base =
+             PCI_ConfigReadWord(ide_bus, ide_dev, ide_fun, PCI_BAR2)) <= 1)
         ide_secondary_io_base = 0x170;
 
-    if ((ide_secondary_ctrl = pci_read(ide_bus, ide_dev, ide_fun, PCI_BAR3)) <= 1)
+    if ((ide_secondary_ctrl =
+             PCI_ConfigReadWord(ide_bus, ide_dev, ide_fun, PCI_BAR3)) <= 1)
         ide_secondary_ctrl = 0x376;
 
-    ide_bus_master_base = pci_read(ide_bus, ide_dev, ide_fun, PCI_BAR4);
+    ide_bus_master_base =
+        PCI_ConfigReadWord(ide_bus, ide_dev, ide_fun, PCI_BAR4);
 
     uint8_t i;
     kprintf("[ide] PRI: ");
