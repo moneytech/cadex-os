@@ -406,7 +406,7 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth) {
         struct fs_dirent *new_src = fs_dirent_lookup(src, name);
         if (!new_src) {
             kprintf("cp: couldn't lookup %s in directory!\n", name);
-            dbg_printf("[fscopy] couldn't lookup %s in directory.\n", name);
+            // dbg_printf("[fscopy] couldn't lookup %s in directory.\n", name);
             goto next_entry;
         }
 
@@ -418,11 +418,11 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth) {
 
         if (fs_dirent_isdir(new_src)) {
             kprintf("> %s (dir)\n", name);
-            dbg_printf("> %s (directory)\n", name);
+            // dbg_printf("> %s (directory)\n", name);
             struct fs_dirent *new_dst = fs_dirent_mkdir(dst, name);
             if (!new_dst) {
                 kprintf("cp: couldn't create %s!\n", name);
-                dbg_printf("[fscopy] couldn't create %s.\n", name);
+                // dbg_printf("[fscopy] couldn't create %s.\n", name);
                 fs_dirent_close(new_src);
                 goto next_entry;
             }
@@ -434,7 +434,7 @@ int fs_dirent_copy(struct fs_dirent *src, struct fs_dirent *dst, int depth) {
             kprintf("%s (%d KB)\n", name,
                     fs_dirent_size(new_src) /
                         1000); // Divide by 1000 to get kB value
-            dbg_printf("%d (%d KB)\n", name, fs_dirent_size(new_src) / 1000);
+            // dbg_printf("%d (%d KB)\n", name, fs_dirent_size(new_src) / 1000);
             struct fs_dirent *new_dst = fs_dirent_mkfile(dst, name);
             if (!new_dst) {
                 kprintf("couldn't create %s!\n", name);
