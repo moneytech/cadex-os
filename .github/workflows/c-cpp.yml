@@ -13,7 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: fix-toolchain
+      run: tr -d '\015' <scripts/build-toolchain.sh> scripts/fixed.sh
     - name: build-toolchain
-      run: chmod +x scripts/build-toolchain.sh && ./scripts/build-toolchain.sh
+      run: chmod +x scripts/fixed.sh && ./scripts/fixed.sh
     - name: make
       run: make
