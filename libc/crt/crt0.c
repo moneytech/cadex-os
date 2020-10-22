@@ -1,8 +1,9 @@
-/*
-Copyright (C) 2019-2020 The CadexOS Project
-This software is distributed under the GNU General Public License.
-See the file LICENSE for details.
-*/
+/**
+ * Copyright (C) 2019-2020 The CadexOS Project
+ * This software is distributed under the GNU General Public License
+ * See the file LICENSE for details
+ */
+
 
 /*
 This module is the runtime start of every user-level program.
@@ -15,11 +16,7 @@ must invoke the _process_exit() function to terminate the process.
 
 void _init();
 void _fini();
-
 #include "library/syscalls.h"
-
 int main(int argc, const char *argv[]);
-
 const char **environ = {"PATH=/bin/,/usr/bin,/sys"};
-
-void _start(int argc, const char **argv) { _process_exit(main(argc, argv)); }
+__attribute__((__noreturn__)) void _start(int argc, const char **argv) { _process_exit(main(argc, argv)); }
