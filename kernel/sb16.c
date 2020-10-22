@@ -1,3 +1,11 @@
+/**
+ * SoundBlaster 16 Sound Card Driver
+ *
+ * NOTE: This was originally taken from a project called 'MyOS' written by
+ * codeTrevor. I didn't write this driver and all rights go to the user who
+ * wrote this.
+ */
+
 #include "console.h"
 #include "device.h"
 #include "graphics.h"
