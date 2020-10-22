@@ -14,7 +14,7 @@
 bmf_font_t load_bmf(char *font_name) {
     if (!strcmp(font_name, "pearl")) {
 
-    } else if (!strcmp(font_name, "")) {
+    } else if (!strcmp(font_name, "acorn")) {
 
     } else {
         dbg_printf("load_bmf(): Invalid font %s\n", font_name);
