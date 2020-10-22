@@ -1,11 +1,9 @@
 /**
- * Copyright (C) 2019-2020 The CadexOS Project
- * This software is distributed under the GNU General Public License
- * See the file LICENSE for details
- */
-
-/**
  * ACPI driver
+ *
+ * NOTE: This was originally taken from a project called 'DiyOS' written by
+ * leonardoms. I didn't write this driver and all rights go to the user who
+ * wrote this.
  */
 
 #include "acpi.h"
