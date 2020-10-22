@@ -14,6 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: build-toolchain
-      run: ./scripts/build-toolchain.sh
+      run: chmod +x scripts/build-toolchain.sh && ./scripts/build-toolchain.sh
     - name: make
       run: make
