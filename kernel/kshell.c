@@ -282,10 +282,10 @@ static int kshell_mount_nomsg(const char *devname, int unit,
     return -1;
 }
 
-/*
-Install Cadex OS and the softwares from the cdrom volume unit src
-to the disk volume dst by performing a recursive copy.
-TODO: This needs better error checking.
+/**
+ * Install CadexOS and the softwares from the cdrom volume unit src
+ * to the disk volume dst by performing a recursive copy.
+ * TODO: This needs better error checking.
 */
 
 int kshell_install(int src, int dst) {
