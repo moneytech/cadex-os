@@ -1,11 +1,9 @@
 /**
- * Copyright (C) 2019-2020 The CadexOS Project
- * This software is distributed under the GNU General Public License
- * See the file LICENSE for details
- */
-
-/**
  * Yamaha YM3812 (OPL2) sound card driver
+ *
+ * NOTE: This was originally taken from a project called 'MyOS' written by
+ * codeTrevor. I didn't write this driver and all rights go to the user who
+ * wrote this.
  */
 
 #include "adlib.h"
