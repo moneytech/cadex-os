@@ -17,7 +17,6 @@ using namespace TGL::Core;
 using namespace TGL::GKit;
 
 char c;
-int integeroveflowexceptionandsegmentationfaultwithcoredumpedintoconsole;
 
 int main(int argc, char *argv[]) {
     // Setup window
@@ -28,18 +27,14 @@ int main(int argc, char *argv[]) {
     clear_screen();
     /* Print the magical text interface! */
     printf("%c%c%c%c%c%c%c%c%c%c%c%c\n%c TempleOS "
-           "%c\n%c%c%c%c%c%c%c%c%c%c%c%c\n\nGod doodle: Press space "
-           "continously.\n\n",
+           "%c\n%c%c%c%c%c%c%c%c%c%c%c%c\n\nGod Song: Press <SPACE> repeatedly. "
+           "\n\n",
            201, 205, 205, 205, 205, 205, 205, 205, 205, 205, 205, 187, 186, 186,
            200, 205, 205, 205, 205, 205, 205, 205, 205, 205, 205, 188);
     while (1) {
         read_object(0, &c, 1);
         if (c == 0x20) {
-            drawLine(rand(1, 100), rand(1, 100), rand(1, 3), rand(1, 100));
-            dbg_printf(
-                "[templeos] Drawn %d line\n",
-                integeroveflowexceptionandsegmentationfaultwithcoredumpedintoconsole);
-            integeroveflowexceptionandsegmentationfaultwithcoredumpedintoconsole++;
+            syscall_beep(rand(10, 150), rand(10,20));
         }
-    }
+    }  
 }
