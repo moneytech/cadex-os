@@ -822,7 +822,14 @@ static int kshell_execute(int argc, const char **argv) {
         struct process_info info;
         process_wait_child(pid, &info, -1);
         process_reap(info.pid);
-    } /* standard, not-so-secure version of sudo */
+    } else if (!strcmp(cmd, "beep")) {
+        beep();
+    }else if (!strcmp(cmd, "adlib_test"))
+    {
+        Adlib_Test();
+    }
+    
+    /* standard, not-so-secure version of sudo */
     else if (!strcmp(cmd, "sudo")) {
         int pid = sys_process_run("/bin/sudo.exe", argc - 1, &argv[1]);
         process_yield();
@@ -902,6 +909,7 @@ int kshell_readline(char *line, int length, int text_visible) {
 
     return 0;
 }
+
 
 int kshell_launch() {
     int i = 0;
