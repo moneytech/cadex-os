@@ -198,6 +198,7 @@ void bcache_flush_device(struct device *device) {
         if (e->device == device) {
             bcache_entry_clean(e);
         }
+        kprintf(".");
     }
 }
 
