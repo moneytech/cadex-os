@@ -106,7 +106,7 @@ void Adlib_Write(uint8_t reg, uint8_t value) {
     outb(reg, Adlib_BaseAddress);
 
     // wait 3.3 microseconds
-    wait_for_io(1);
+    // clock_wait(1);
 
     // Write to the register
     outb(value, Adlib_DataPort);
@@ -114,5 +114,5 @@ void Adlib_Write(uint8_t reg, uint8_t value) {
     // We're supposed to wait 23 microseconds before any other sound card
     // operation can be performed (Realistically, waiting doesn't matter because
     // the hardware is probably emulated)
-    wait_for_io(1);
+    // clock_wait(1);
 }
