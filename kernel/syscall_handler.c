@@ -56,6 +56,11 @@ int mouse_dev_read(struct mouse_event *m) {
     return 0;
 }
 
+int sys_spkr_out(uint32_t freq, uint32_t ms) {
+    beep_ms(freq, ms);
+    return 0;
+}
+
 int sys_debug(const char *str) {
     if (!is_valid_string(str))
         return KERROR_INVALID_ADDRESS;
@@ -756,6 +761,8 @@ int32_t syscall_handler(syscall_t n, uint32_t a, uint32_t b, uint32_t c,
             return gui_set_bgcolor((int)a, (int)b, (int)c, (int)d);
         case SYSCALL_KPANIC:
             return sys_chdir((char *)a);
+        case SYSCALL_BEEP:
+            return sys_spkr_out((uint32_t)a, (uint32_t)b);
         default:
             return KERROR_INVALID_SYSCALL;
     }
