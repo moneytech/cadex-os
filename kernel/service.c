@@ -15,7 +15,6 @@ int service_start(char* path, int argc, char* argv[], char* s_name)
         kprintf("%s\n", s_name);
     }
     process_reap(pid);
-    process_kill(pid);
     return 0;
 }
 
