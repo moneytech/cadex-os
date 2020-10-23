@@ -1,0 +1,21 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: fix-toolchain
+      run: tr -d '\015' <scripts/build-toolchain.sh> scripts/fixed.sh
+    - name: build-toolchain
+      run: chmod +x scripts/fixed.sh && ./scripts/fixed.sh
+    - name: make
+      run: make
