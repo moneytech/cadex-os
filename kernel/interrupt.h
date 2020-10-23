@@ -40,6 +40,7 @@ void interrupt_unblock();
 void interrupt_wait();
 
 void wait_for_io(uint32_t timer_count);
+void beep_ms(uint32_t freq, uint32_t ms);
 void beep();
 /*
 PC Interrupts:
