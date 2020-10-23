@@ -16,6 +16,10 @@ char buffsize[5000];
 extern "C" {
 #endif
 
+void syscall_beep(uint32_t freq, uint32_t ms){
+    return syscall(SYSCALL_BEEP, (uint32_t)freq, (uint32_t)ms, 0, 0, 0);
+}
+
 void syscall_debug(const char *str) {
     syscall(SYSCALL_DEBUG, (uint32_t)str, 0, 0, 0, 0);
 }
