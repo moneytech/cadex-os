@@ -69,7 +69,15 @@ static void unknown_exception(int i, int code) {
          * the */
         /* heap, or we are accessing both. If so, error */
         if (page_already_present || !(data_access ^ stack_access)) {
-            kprintf("Segmentation fault (core dumped)\n");
+            graphics_set_fgcolor(200, 10, 10, 0);
+            kprintf("Page fault (core dumped)\n");
+            graphics_set_fgcolor(255, 255, 255, 0);
+            
+            /* Deadth tone */
+            beep_ms(600, 500);
+            beep_ms(500, 500);
+            beep_ms(400, 500);
+
             dbg_printf("[interrupt] process %d crashed\n", current->pid);
             /* Terminate current process */
             process_exit(0);
@@ -83,6 +91,11 @@ static void unknown_exception(int i, int code) {
             return;
         }
     } else {
+        /* Deadth tone */
+        beep_ms(600, 500);
+        beep_ms(500, 500);
+        beep_ms(400, 500);
+
         dbg_printf("[interrupt] EXCEPTION: Cause: %s\n", exception_names[i]);
         /* Set fgcolor to red */
         graphics_set_fgcolor(200, 100, 100, 0);
@@ -138,14 +151,14 @@ static void play_sound(uint32_t nFrequence) {
 
     // Set the PIT to the desired frequency--
     Div = 1193180 / nFrequence;
-    outb(0x43, 0xb6);
-    outb(0x42, (uint8_t)(Div));
-    outb(0x42, (uint8_t)(Div >> 8));
+    outb(0xb6, 0x43);
+    outb((uint8_t)(Div), 0x42);
+    outb((uint8_t)(Div >> 8), 0x42);
 
     // And play the sound using the PC speaker
     tmp = inb(0x61);
     if (tmp != (tmp | 3)) {
-        outb(0x61, tmp | 3);
+        outb(tmp | 3, 0x61);
     }
 }
 
@@ -153,15 +166,21 @@ static void play_sound(uint32_t nFrequence) {
 static void nosound() {
     uint8_t tmp = inb(0x61) & 0xFC;
 
-    outb(0x61, tmp);
+    outb(tmp, 0x61);
 }
 
 /* Make a beep */
 void beep() {
-    play_sound(600);
+    play_sound(400);
     sleep(1);
     nosound();
     // set_PIT_2(old_frequency);
+}
+
+void beep_ms(uint32_t freq, uint32_t ms) {
+    play_sound(ms);
+    clock_wait(ms);
+    nosound();
 }
 
 void interrupt_init() {
