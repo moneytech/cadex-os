@@ -91,10 +91,6 @@ int kernel_main() {
     // acpi_init();
     // init PCI driver
     PCI_Init();
-    /**
-     * NOTE: For some reason, when initializing PCI devices on QEMU, it shows an
-     * endless list of PCI devices.
-     */
     
     // check if CPU supports SSE
     if (sse_available()) {
@@ -111,14 +107,17 @@ int kernel_main() {
     // start the necessary services
     service_start("/bin/dbusctl.exe", 0, 0, "DBus Controller");
     service_start("/bin/klog.exe", 0, 0, "Kernel logging helper");
+
+    // We don't need splash screen
     // service_start("/bin/splash.exe", 0, 0, "Splash Screen");
+    
     // clear the screen
     kprintf("\f");
     // show login prompt
     kshell_show_login_prompt();
+
     // launch shell
     kshell_launch();
-    dbg_printf("[kmain] Launched kshell\n");
 
     while (1) {
         // we need this for the kshell or it will just show text and we can't
