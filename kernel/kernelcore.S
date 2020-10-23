@@ -439,6 +439,7 @@ intr_syscall:
 .global intr_return
 intr_return:
 	popl	%eax
+
 syscall_return:
 	popl	%ebx
 	popl	%ecx
