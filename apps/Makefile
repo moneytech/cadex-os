@@ -11,7 +11,7 @@ USER_PROGRAMS= tests.exe \
 all: alert $(USER_PROGRAMS)
 
 %.o: %.cpp
-	@${CPP} -m32 -w -c -std=c++17 -ffreestanding -nostdlib -nodefaultlibs -fno-pie -fno-builtin -fno-exceptions -fno-leading-underscore -Wno-write-strings -fpermissive -I ../include -o $@ $<
+	@${CPP} -m32 -w -c -std=c++17 -ffreestanding -nostdlib -nodefaultlibs -fno-exceptions -fno-pie -fno-builtin -fno-leading-underscore -Wno-write-strings -fpermissive -I ../include -o $@ $<
 	@echo " CXX    apps/$<"
 
 %.exe: %.o ../libc/crt/cxxrt0.o ../libc/baselib.a
