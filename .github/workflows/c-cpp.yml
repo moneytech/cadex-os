@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: fix-term
+      run: export TERM=xterm
     - name: fix-toolchain
       run: tr -d '\015' <scripts/build-toolchain.sh> scripts/fixed.sh
     - name: build-toolchain
