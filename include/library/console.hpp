@@ -27,7 +27,7 @@ namespace std {
  * @author HyperCreeck (@asiawin)
  */
 class Console {
-    public:
+public:
     /**
      * Create a console on WN_STDWINDOW
      */
@@ -42,20 +42,21 @@ class Console {
     /**
      * Deletes the console object
      */
-    ~Console() {}
+    ~Console() { }
 
     /**
      * Writes the specified string to the console
      * @param str The string to write to the console
      */
-    static void Write(char *str) { printf("%s", str); }
+    static void Write(char* str) { printf("%s", str); }
 
     /**
      * Writes the specified string to the console
      * @param str The string to write to the console
      */
-    static auto Write(String *str) -> void {
-        char *tmp = str->getValue();
+    static auto Write(String* str) -> void
+    {
+        char* tmp = str->getValue();
         printf("%s", tmp);
     }
 
@@ -63,8 +64,9 @@ class Console {
      * Writes a line to the console
      * @param str The string to write to the console
      */
-    static auto WriteLine(String *str) -> void {
-        char *tmp = str->getValue();
+    static auto WriteLine(String* str) -> void
+    {
+        char* tmp = str->getValue();
         printf("%s", tmp);
     }
 
@@ -72,19 +74,20 @@ class Console {
      * Writes a line to console
      * @param str String to write to console
      */
-    static void WriteLine(char *str) { printf("%s\n", str); }
+    static void WriteLine(const char* str) { printf("%s\n", str); }
 
     /**
      * Read a line from the STDIN
      * @param str The string to store the input to
      */
-    static void ReadLine(char *str) { scanf(str, sizeof(str)); }
+    static void ReadLine(char* str) { scanf(str, sizeof(str)); }
 
     /**
      * Sets the foreground color of the console
      * @param color The color to use
      */
-    static auto SetForegroundColor(Colors::Color *color) -> void {
+    static auto SetForegroundColor(Colors::Color* color) -> void
+    {
         setTextColor(color->r, color->g, color->b, color->a);
     }
 
@@ -112,7 +115,8 @@ class Console {
      * @param length The length of data (i.e keystrokes) to be read from the
      * keyboard
      */
-    static auto Read(void *output, int length) -> void {
+    static auto Read(void* output, int length) -> void
+    {
         read_object(STDIN, output, length);
     }
 };

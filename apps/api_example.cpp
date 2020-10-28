@@ -6,21 +6,33 @@
 
 #include <fstream>
 #include <iostream>
+#include <library/scanf.h>
 #include <string>
-#include <sys/logger.h>
 #include <truegl/truegl.h>
-#include <truegl/glx.hpp>
 
 using namespace std;
 using namespace TGL;
 
-int main(int argc, const char *argv[]) {
+// Used for scanf() demo
+char* input[1024];
+
+int main(int argc, const char* argv[])
+{
     // You can use Console::WriteLine to write plain string to the console
     Console::WriteLine("Console::WriteLine(\"Hello World!\");");
 
     // You can use the traditional printf() function to print formatted text to
     // the screen
     printf("printf(\"Hello World!\");\n");
+
+    // Scanf in CadexOS is a bit different. It doesn't
+    // allow you to take formatted input from the
+    // keyboard regardless of its function name
+    scanf(input, sizeof(input));
+
+    // You can parse command-line arguments just like you do on other
+    // operating systems
+    printf("command-line arguments: argc=%d, argv='%s'", argc, (char*)argv);
 
     // You can use dbg_printf() to print formatted debug messages to the
     // serial port COM1
@@ -30,7 +42,7 @@ int main(int argc, const char *argv[]) {
     // actions like drawing rectangle, drawing lines .etc
     setup_window();
 
-	// To draw a rectangle, you can use the drawRect() function.
-    drawRect(10,10,100,100);
+    // To draw a rectangle, you can use the drawRect() function.
+    drawRect(10, 10, 100, 100);
     return 0;
 }
