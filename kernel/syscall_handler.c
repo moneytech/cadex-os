@@ -56,7 +56,7 @@ int mouse_dev_read(struct mouse_event *m) {
     return 0;
 }
 
-int sys_spkr_out(uint32_t freq, uint32_t ms) {
+int sys_spkr_out(int freq, int ms) {
     beep_ms(freq, ms);
     return 0;
 }
@@ -762,7 +762,7 @@ int32_t syscall_handler(syscall_t n, uint32_t a, uint32_t b, uint32_t c,
         case SYSCALL_KPANIC:
             return sys_chdir((char *)a);
         case SYSCALL_BEEP:
-            return sys_spkr_out((uint32_t)a, (uint32_t)b);
+            return sys_spkr_out(a, b);
         default:
             return KERROR_INVALID_SYSCALL;
     }

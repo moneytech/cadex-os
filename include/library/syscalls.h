@@ -85,7 +85,7 @@ void syscall_debug(const char *str);
 void syscall_debug_putc(const char a);
 
 int dev_mouse_read(struct mouse_event *m);
-void syscall_beep(uint32_t freq, uint32_t ms);
+int syscall_beep(int freq, int ms);
 
 /* Syscalls that manipulate this process and its children. */
 

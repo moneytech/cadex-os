@@ -839,7 +839,21 @@ static int kshell_execute(int argc, const char **argv) {
         if (info.exitcode == 0) {
             current->user = USER_ROOT;
         }
-    } else if (!strcmp(cmd, "pwd")) {
+    }else if (!strcmp(cmd, "song"))
+    {
+        beep_ms(100, 10);
+        beep_ms(200, 10);
+        beep_ms(300, 90);
+        beep_ms(400, 100);
+        beep_ms(500, 90);
+        beep_ms(600, 120);
+        beep_ms(700, 90);
+        beep_ms(800, 130);
+        beep_ms(900, 90);
+        beep_ms(800, 140);
+        beep_ms(700, 150);
+    }
+     else if (!strcmp(cmd, "pwd")) {
         kprintf("%s\n", default_shell->current_directory);
     } else {
         if (argc > 0 && strsw(".", argv[0])) {

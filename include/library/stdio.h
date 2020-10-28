@@ -103,7 +103,6 @@ extern void drawRect(int x, int y, int w, int h);
 extern void clearScreen(int x, int y, int w, int h);
 extern void clear_screen();
 extern void drawLine(int x, int y, int w, int h);
-extern void draw_circle(int x, int y, int w, int h, int radius);
 extern void printChar(int x, int y, char c);
 extern void print(int x, int y, char *s);
 extern void flushScreen();

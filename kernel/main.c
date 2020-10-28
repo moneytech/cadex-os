@@ -114,7 +114,7 @@ int kernel_main() {
     // clear the screen
     kprintf("\f");
     // show login prompt
-    kshell_show_login_prompt();
+    // kshell_show_login_prompt();
 
     // launch shell
     kshell_launch();

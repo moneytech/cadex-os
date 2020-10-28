@@ -111,6 +111,10 @@ static int textarea(char *line) {
                     refresh();
                     goto ask_save_file;
                 }
+            }else if (!strcmp(command, ":q!"))
+            {
+                // Exit
+                break;
             } else {
                 setTextColor(CLEAR_RED, 0);
                 printf("  Invalid command: %s\n", command);

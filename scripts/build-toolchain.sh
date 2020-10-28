@@ -54,7 +54,7 @@ cd ..
 echo "-- Building GCC..."
 mkdir $GCC-elf-objs
 cd $GCC-elf-objs
-../$GCC/configure --prefix="$PREFIX" --target=i686-elf --disable-nls --enable-languages=c --without-headers
+../$GCC/configure --prefix="$PREFIX" --target=i686-elf --disable-nls --enable-languages=c,c++ --without-headers
 make all-gcc && make all-target-libgcc && make install-gcc && make install-target-libgcc
 cd ..
 

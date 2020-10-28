@@ -177,6 +177,8 @@ void TGL_window_create(tgl_window_t *window, int x, int y, int w, int h);
  * Draws the window
  */
 void TGL_draw_window(tgl_window_t *window);
+
+void draw_circle(int xc, int yc, int r);
 #ifdef __cplusplus
 }
 #endif

@@ -12,7 +12,7 @@
 #define __ENV_H__
 #include <types.h>
 
-static const char *environ[] = {"PATH=/bin/;/usr/bin", "DIMG=/boot/cadex.img",
-                                "KMODS=/usr/lib/libc.so;/usr/lib/libcxx.so"};
+// static const char *environ[] = {"PATH=/bin/;/usr/bin", "DIMG=/boot/cadex.img",
+//                                 "KMODS=/usr/lib/libc.so;/usr/lib/libcxx.so"};
 
 #endif // __ENV_H__

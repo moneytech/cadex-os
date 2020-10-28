@@ -11,7 +11,7 @@ IndentCaseLabels: 'true'
 IndentWidth: '4'
 Language: Cpp
 SpaceBeforeParens: ControlStatements
-SpacesInCStyleCastParentheses: 'false'
-SpacesInSquareBrackets: 'false'
+SpacesInCStyleCastParentheses: 'true'
+SpacesInSquareBrackets: 'true'
 TabWidth: '4'
 UseTab: Never

@@ -324,6 +324,7 @@ int move_snake(struct coords *snake_coords, struct coords *apple,
             printf("Setting apple location failed!\n");
             return -1;
         }
+        syscall_beep(200, 10);
     } else {
         // Update snake_coords
         update_snake(snake_coords, x_next, y_next, 0);

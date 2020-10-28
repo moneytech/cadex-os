@@ -42,6 +42,7 @@
 #define Var
 #define As
 #define Integer int
+#define Boolean int
 
 #define exit return 0;
 

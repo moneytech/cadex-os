@@ -369,12 +369,3 @@ uint8_t getch() {
     read_object(STDIN, &data, 1);
     return data;
 }
-
-void draw_circle(int x, int y, int w, int h, int radius) {
-    int dx, dy;
-    for (dy = -radius; dy < radius; dy++) {
-        double half_row_width = sqrt(radius * radius - dy * dy);
-        for (dx = -half_row_width; dx < half_row_width; dx++)
-            drawRect(x + dx, y + dy, 1,1);
-    }
-}

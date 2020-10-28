@@ -20,7 +20,9 @@ USER_PROGRAMS= sdlg.exe \
 			   check_fs.exe \
 			   stapp.exe \
 			   test.exe \
-			   imgview.exe
+			   imgview.exe \
+			   soundpad.exe \
+               compiler.exe
 
 .PHONY: clean
 
