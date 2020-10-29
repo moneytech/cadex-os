@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 
+#define PANIC dbg_printf // Temporary solution
+
 #ifdef __cplusplus
 extern "C"
 {

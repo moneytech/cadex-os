@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 // Constructor
-LibGUI::Canvas::Canvas() {
+LibGUI::Canvas::Canvas(int x, int y, int width, int height) {
     // Invoke on_create()
     this->on_create ();
 }

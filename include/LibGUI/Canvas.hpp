@@ -5,9 +5,15 @@
 
 namespace LibGUI {
 class Canvas : public CanvasBase {
+private:
+    int x;
+    int y;
+    int width;
+    int height;
+
 public:
     /* Constructor and destructor */
-    Canvas();
+    Canvas(int x, int y, int width, int height);
     ~Canvas();
 
     /* Virtual functions */
