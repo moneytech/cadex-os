@@ -5,14 +5,23 @@
 
 namespace LibGUI {
 class CanvasBase {
-    private:
-    public:
-    CanvasBase(/* args */);
+private:
+    /* Private variables for internal functions */
+    int xpos;
+    int ypos;
+    int width;
+    int height;
+    bool visible;
+
+public:
+    /* Constructor and destructor */
+    CanvasBase();
     ~CanvasBase();
 
-    auto DrawRect(int x, int y, int w, int h) -> void;
-    auto DrawLine(int x, int y, int w, int h) -> void;
-    auto DrawPixel(int x, int y) -> void;
+    /* Virtual functions */
+    virtual void on_draw() = 0;
+    virtual void on_draw_finish() = 0;
+    virtual void on_create() = 0;
 };
 } // namespace LibGUI
 #endif // !_CANVASBASE_HPP_
