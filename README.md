@@ -2,10 +2,7 @@
 
 [![Build Status](https://travis-ci.org/CadexOS/Cadex-OS-Official.svg?branch=master)](https://travis-ci.org/CadexOS/Cadex-OS-Official)
 
-Cadex OS is a 32-bit UNIX- operating system.
-
-Cadex OS is a free and open-source project. You can fork this project and make your own OS from this.
-Cadex OS is UNIX-compatible, except that Cadex OS doesn't support VFS (Virtual filesystem) and some UNIX libraries are not implemented.
+Cadex OS is a small x86 operating system. It's a free and open-source project. You can fork this project and make your own OS from this.
 
 Cadex OS can boot an Intel PC-compatible virtual machine in 32-bit protected
 mode, with support for VESA framebuffer graphics, ATA hard disks, ATAPI optical

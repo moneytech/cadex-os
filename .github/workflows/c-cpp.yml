@@ -16,8 +16,6 @@ jobs:
     - name: fix-term
       run: export TERM=xterm
     - name: fix-toolchain
-      run: tr -d '\015' <scripts/build-toolchain.sh> scripts/fixed.sh
-    - name: build-toolchain
-      run: chmod +x scripts/fixed.sh && ./scripts/fixed.sh
+      run: chmod +x scripts/fix-ci.sh && ./scripts/fix-ci.sh
     - name: make
       run: make
