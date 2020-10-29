@@ -26,3 +26,4 @@ basefs/usr/include/**
 aagney.*
 *.img
 hard_disk.img
+*.user
