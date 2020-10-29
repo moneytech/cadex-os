@@ -14,7 +14,7 @@ using namespace std;
 using namespace TGL;
 
 // Used for scanf() demo
-char* input[1024];
+char input[1024];
 
 int main(int argc, const char* argv[])
 {

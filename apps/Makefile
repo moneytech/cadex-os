@@ -5,8 +5,7 @@ USER_PROGRAMS= tests.exe \
 			   box.exe \
 			   api_example.exe \
 			   calc.exe \
-			   templeos.exe \
-               aagney.exe
+			   templeos.exe 
 
 all: alert $(USER_PROGRAMS)
 
