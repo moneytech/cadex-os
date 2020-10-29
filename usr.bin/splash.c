@@ -16,7 +16,6 @@ int main(int argc, const char *argv[]) {
     clearScreen(0, 0, width, height);
     flushScreen();
     flush();
-    draw_cadex_logo(130, 20);
     drawRect(80, 80, 10, 10);
     print(85, 100, "Loading components...");
     render_window(WN_STDWINDOW);

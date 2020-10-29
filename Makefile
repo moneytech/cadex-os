@@ -19,10 +19,10 @@ all: clear clean ${ISO_FILENAME} success
 
 run: ${ISO_FILENAME}
 	@echo " -- Using ${ISO_FILENAME}"
-	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -serial stdio --no-acpi -no-reboot -device vmware-svga -sdl -soundhw pcspk,sb16,adlib
+	@qemu-system-i386 -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -serial stdio --no-acpi -no-reboot -device vmware-svga -soundhw pcspk,sb16,adlib
 
 debug: cadex.iso hddimg
-	@qemu-system-x86_64 -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04 -serial stdio --no-acpi -no-reboot -device vmware-svga -s -S & gdb
+	@qemu-system-i386 -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04 -serial stdio --no-acpi -no-reboot -device vmware-svga -s -S & gdb
 
 hddimg:
 	@qemu-img create -f qcow2 hard_disk.img 1G

@@ -27,3 +27,6 @@ aagney.*
 *.img
 hard_disk.img
 *.user
+scripts/cross
+scripts/cross
+cross

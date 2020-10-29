@@ -8,7 +8,7 @@ GDB="gdb-8.2"
 
 CURRDIR=$(pwd)
 PREFIX=$CURRDIR/cross
-WORKDIR=$(mktemp -d)
+WORKDIR=$(mktemp -d) 
 
 # Tell the user about our config
 echo "-- Cross compiler build script for Cadex OS (i386)"
