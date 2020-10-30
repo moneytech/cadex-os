@@ -3,6 +3,7 @@
  * This software is distributed under the GNU General Public License
  * See the file LICENSE for details
  */
+ 
 /**
  * A utility to encode and decode base64 strings
  */

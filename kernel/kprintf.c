@@ -10,7 +10,7 @@
 #include "string.h"
 #include <stdarg.h>
 
-#define DEBUG 0
+#define DEBUG 0 
 #define ESC   0x1b
 
 static void enable_serial_color() {
@@ -161,7 +161,7 @@ void dbg_printf(const char *s, ...) {
     va_start(args, s);
 
     // Enable serial output coloring
-    // enable_serial_color();
+    enable_serial_color();
 
     while (*s) {
         if (*s != '%') {
@@ -204,7 +204,7 @@ void dbg_printf(const char *s, ...) {
     va_end(args);
 
     // Disable serial output coloring
-    // disable_serial_color();
+    disable_serial_color();
 }
 
 /* Systemd like success messages */

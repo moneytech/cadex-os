@@ -15,7 +15,7 @@ ISO_FILENAME = cadexos-image.iso
 
 MAKEFLAGS += --no-print-directory
 
-all: clear clean ${ISO_FILENAME} success
+all: clean ${ISO_FILENAME} success
 
 run: ${ISO_FILENAME}
 	@echo " -- Using ${ISO_FILENAME}"
@@ -30,10 +30,11 @@ hddimg:
 libc/baselib.a: $(LIBRARY_SOURCES) $(LIBRARY_HEADERS)
 	@cd libc && make ${MAKEFLAGS}
 
-$(USER_PROGRAMS): $(USER_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)
+${USER_PROGRAMS}: $(USER_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)
 	@cd usr.bin && make ${MAKEFLAGS}
 
-$(SYSTEM_BIN_FILES): $(SYSTEM_BIN_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)
+${SYSTEM_BIN_FILES}: ${SYSTEM_BIN_SOURCES} libc/baselib.a ${LIBRARY_HEADERS}
+	@echo "-- Building system "
 	@cd bin && make ${MAKEFLAGS}
 
 $(APPS_BINARIES): $(APPS_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)
@@ -42,14 +43,14 @@ $(APPS_BINARIES): $(APPS_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)
 kernel/cadex.img: $(KERNEL_SOURCES) $(LIBRARY_HEADERS)
 	@cd kernel && make ${MAKEFLAGS}
 
-image: kernel/cadex.img $(USER_PROGRAMS) $(SYSTEM_BIN_FILES) $(APPS_BINARIES)
+image: kernel/cadex.img ${USER_PROGRAMS} ${SYSTEM_BIN_FILES} ${APPS_BINARIES}
 	@rm -rf image
 	@mkdir image image/boot image/usr image/usr/bin image/usr/include image/bin image/sys image/usr/share image/usr/share/dict image/etc image/var image/tmp image/usr/apps
 	@cp kernel/cadex.img image/boot
 	@cd basefs && make
-	@cp $(USER_PROGRAMS) image/usr/bin
-	@cp $(SYSTEM_BIN_FILES) image/bin
-	@cp $(APPS_BINARIES) image/usr/apps
+	@cp ${USER_PROGRAMS} image/usr/bin
+	@cp ${SYSTEM_BIN_FILES} image/bin
+	@cp ${APPS_BINARIES} image/usr/apps
 	@head -2000 /usr/share/dict/words > image/usr/share/dict/words
 
 ${ISO_FILENAME}: image
@@ -66,15 +67,12 @@ doc: clean
 
 clean:
 	@rm -rf ${ISO_FILENAME} image
-	@cd kernel && make clean
-	@cd libc && make clean
-	@cd usr.bin && make clean
-	@cd bin && make clean
-	@cd apps && make clean
+	@cd kernel && make clean ${MAKEFLAGS}
+	@cd libc && make clean ${MAKEFLAGS}
+	@cd usr.bin && make clean ${MAKEFLAGS}
+	@cd bin && make clean ${MAKEFLAGS}
+	@cd apps && make clean ${MAKEFLAGS}
 	@rm -rf ./*.log
 	@rm -rf doxygen/html/*
 	@rm -rf doxygen/latex/*
 	@rm -rf doxygen/doxygen/*?
-
-clear:
-	@clear

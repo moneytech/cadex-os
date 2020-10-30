@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "command": "make run",
+            "command": "cos && make run",
             "name": "Build and run CadexOS",
             "request": "launch",
             "type": "node-terminal"
