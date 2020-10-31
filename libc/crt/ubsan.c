@@ -1,6 +1,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#define PANIC(...) dbg_printf(__VA_ARGS__)
+
 extern void panic(const char *err) __attribute__((__noreturn__));
 extern void print_backtrace();
 
