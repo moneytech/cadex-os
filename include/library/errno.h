@@ -4,6 +4,10 @@
  * See the file LICENSE for details
  */
 
+/**
+ * Error numbers
+*/
+
 #ifndef ERRNO_H
 #define ERRNO_H
 
@@ -13,7 +17,7 @@
 
 const char *strerror(kernel_error_t err_code);
 
-/*
+/**
  * The bulk of these match Linux.
  * Descriptions come from newlib.
  */

@@ -26,6 +26,8 @@ typedef enum {
 	KERROR_OUT_OF_SPACE = -20,
 	KERROR_FILE_EXISTS = -21,
 	KERROR_NOT_EMPTY = -22,
+    KERROR_UNKNOWN_ERROR = -23,
+    KERROR_FAILED = -24,
 } kernel_error_t;
 
 #endif

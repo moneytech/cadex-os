@@ -34,7 +34,7 @@ extern "C" {
 extern int getpid(void);
 extern int getppid(void);
 
-extern int open(const char *filename, int mode);
+extern int open(const char *filename, kernel_flags_t flags);
 extern int close(int fd);
 
 extern int fork(void);

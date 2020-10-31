@@ -58,15 +58,15 @@ struct fs_dirent *fs_resolve(const char *path) {
         struct kobject *tagobj = find_kobject_by_tag(tagstr);
         kfree(tagstr);
         if (!tagobj) {
-            // kprintf("%s: No such file or directory\n", path);
+            kprintf("%s: No such file or directory\n", path);
             return KERROR_NOT_FOUND;
         }
-        // XXX KERROR_NOT_FOUND;
+        // TODO KERROR_NOT_FOUND;
 
         // Make sure it is really a directory.
         if (kobject_get_type(tagobj) != KOBJECT_DIR)
             return KERROR_NOT_A_DIRECTORY;
-        // XXX KERROR_NOT_A_DIRECTORY;
+        // TODO KERROR_NOT_A_DIRECTORY;
 
         // If there is no remaining path, just return that object.
         if (!*rest)
@@ -193,7 +193,7 @@ struct fs_dirent *fs_dirent_traverse(struct fs_dirent *parent,
         if (!n) {
             // KERROR_NOT_FOUND
             kfree(lpath);
-            return 0;
+            return KERROR_NOT_FOUND;
         }
         d = n;
         part = strtok(0, "/");

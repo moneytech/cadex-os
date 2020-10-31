@@ -145,8 +145,8 @@ value returned by the keyboard driver.
 #define KEY_PAGE_DOWN 133
 #define KEY_UP -122
 #define KEY_DOWN 135
-#define KEY_LEFT 136
-#define KEY_RIGHT 137
+#define KEY_LEFT -120
+#define KEY_RIGHT -119
 #define KEY_HELP 138
 
 #define KEY_F1 140

@@ -95,7 +95,7 @@ static char **argv_copy(int argc, const char **argv) {
     pp = kmalloc(sizeof(char *) * argc);
     int i;
     for (i = 0; i < argc; i++) {
-        pp[i] = strdup(argv[i]);
+        pp[ i ] = strdup(argv[ i ]);
     }
 
     return pp;
@@ -104,7 +104,7 @@ static char **argv_copy(int argc, const char **argv) {
 static void argv_delete(int argc, char **argv) {
     int i;
     for (i = 0; i < argc; i++) {
-        kfree(argv[i]);
+        kfree(argv[ i ]);
     }
     kfree(argv);
 }
@@ -305,9 +305,9 @@ int sys_object_list(int fd, char *buffer, int length) {
         return KERROR_INVALID_OBJECT;
     if (!is_valid_pointer(buffer, length))
         return KERROR_INVALID_ADDRESS;
-    if (kobject_get_type(current->ktable[fd]) != KOBJECT_DIR)
+    if (kobject_get_type(current->ktable[ fd ]) != KOBJECT_DIR)
         return KERROR_NOT_A_DIRECTORY;
-    return kobject_read(current->ktable[fd], buffer, length);
+    return kobject_read(current->ktable[ fd ], buffer, length);
 }
 
 int sys_open_file_relative(int fd, const char *path, int mode,
@@ -322,10 +322,10 @@ int sys_open_file_relative(int fd, const char *path, int mode,
         return -1;
 
     struct kobject *newobj;
-    int result = kobject_lookup(current->ktable[fd], path, &newobj);
+    int result = kobject_lookup(current->ktable[ fd ], path, &newobj);
 
     if (result >= 0) {
-        current->ktable[newfd] = newobj;
+        current->ktable[ newfd ] = newobj;
         return newfd;
     } else {
         return result;
@@ -346,18 +346,18 @@ int sys_open_dir(int fd, const char *path, kernel_flags_t flags) {
     int result;
 
     if (flags & KERNEL_FLAGS_CREATE) {
-        newobj = kobject_create_dir_from_dir(current->ktable[fd], path);
+        newobj = kobject_create_dir_from_dir(current->ktable[ fd ], path);
         if (newobj) {
             result = 0;
         } else {
             result = KERROR_NOT_FOUND;
         }
     } else {
-        result = kobject_lookup(current->ktable[fd], path, &newobj);
+        result = kobject_lookup(current->ktable[ fd ], path, &newobj);
     }
 
     if (result >= 0) {
-        current->ktable[newfd] = newobj;
+        current->ktable[ newfd ] = newobj;
         return fd;
     } else {
         return result;
@@ -365,33 +365,41 @@ int sys_open_dir(int fd, const char *path, kernel_flags_t flags) {
 }
 
 int sys_open_file(const char *path, int mode, kernel_flags_t flags) {
-    if (!is_valid_path(path))
-        return -1;
+    if (!is_valid_path(path)) {
+        dbg_printf("sys_open_file(): '%s' is not a valid path\n", path);
+        return KERROR_INVALID_PATH;
+    }
 
     int newfd = process_available_fd(current);
-    if (newfd < 0)
-        return -1;
+    if (newfd < 0) {
+        dbg_printf(
+            "sys_open_file(): unable to create fs dirent for process %d!\n",
+            current->pid);
+        return KERROR_OUT_OF_OBJECTS; // KERROR_OUT_OF_OBJECTS
+    }
 
     struct fs_dirent *d = fs_resolve(path);
 
-    if (fs_dirent_isdir(d)) {
-        fs_dirent_close(d);
-        return -1;
-    }
-
-    if (d) {
-        current->ktable[newfd] = kobject_create_file(d);
-        return newfd;
-    } else if (d == KERROR_NOT_FOUND) {
+    if (d == KERROR_NOT_FOUND) {
         // TODO: Propogate better error
-        dbg_printf("[PANIC@(syscall_handler.c:440)] %s: no such file or "
-                   "directory\n"); //
-        return 1;                  // KERROR_NOT_FOUND
+        dbg_printf("sys_open_file(): cannot find file '%s'\n", path);
+        return KERROR_NOT_FOUND; // KERROR_NOT_FOUND
     }
 
-    else {
-        // XXX propagate better error
-        return -1;
+    if (fs_dirent_isdir(d)) {
+        dbg_printf("sys_open_file(): '%s' is not a file\n", path);
+        fs_dirent_close(d);
+        return KERROR_NOT_A_FILE; // KERROR_NOT_A_FILE
+    }
+
+    if (d > 1) {
+        current->ktable[ newfd ] = kobject_create_file(d);
+        return newfd;
+    } else {
+        dbg_printf("sys_open_file(): unable to open file '%s': unknown error\n",
+                   path);
+        // TODO propagate better error
+        return KERROR_UNKNOWN_ERROR; // KERROR_UNKNOWN_ERROR
     }
 }
 
@@ -403,8 +411,8 @@ int sys_open_console(int wd) {
     if (fd < 0)
         return KERROR_OUT_OF_OBJECTS;
 
-    current->ktable[fd] =
-        kobject_create_console_from_graphics(current->ktable[wd]);
+    current->ktable[ fd ] =
+        kobject_create_console_from_graphics(current->ktable[ wd ]);
     return fd;
 }
 
@@ -412,7 +420,7 @@ int sys_open_window(int wd, int x, int y, int w, int h) {
     if (!is_valid_object_type(wd, KOBJECT_GRAPHICS))
         return KERROR_INVALID_OBJECT;
 
-    struct kobject *k = current->ktable[wd];
+    struct kobject *k = current->ktable[ wd ];
 
     int fd = process_available_fd(current);
     if (fd < 0)
@@ -424,7 +432,7 @@ int sys_open_window(int wd, int x, int y, int w, int h) {
         return KERROR_INVALID_REQUEST;
     }
 
-    current->ktable[fd] = k;
+    current->ktable[ fd ] = k;
 
     return fd;
 }
@@ -438,7 +446,7 @@ int sys_open_pipe() {
     if (!p) {
         return KERROR_NOT_FOUND;
     }
-    current->ktable[fd] = kobject_create_pipe(p);
+    current->ktable[ fd ] = kobject_create_pipe(p);
     return fd;
 }
 
@@ -446,7 +454,7 @@ int sys_object_type(int fd) {
     if (!is_valid_object(fd))
         return KERROR_INVALID_OBJECT;
 
-    int fd_type = kobject_get_type(current->ktable[fd]);
+    int fd_type = kobject_get_type(current->ktable[ fd ]);
     if (!fd_type)
         return 0;
     return fd_type;
@@ -467,10 +475,10 @@ int sys_object_dup(int fd1, int fd2) {
             return KERROR_NOT_FOUND;
         }
     }
-    if (current->ktable[fd2]) {
-        kobject_close(current->ktable[fd2]);
+    if (current->ktable[ fd2 ]) {
+        kobject_close(current->ktable[ fd2 ]);
     }
-    current->ktable[fd2] = kobject_addref(current->ktable[fd1]);
+    current->ktable[ fd2 ] = kobject_addref(current->ktable[ fd1 ]);
     return fd2;
 }
 
@@ -491,7 +499,7 @@ int sys_object_read(int fd, void *data, int length) {
     if (!is_valid_pointer(data, length))
         return KERROR_INVALID_ADDRESS;
 
-    struct kobject *p = current->ktable[fd];
+    struct kobject *p = current->ktable[ fd ];
     return kobject_read(p, data, length);
 }
 
@@ -501,7 +509,7 @@ int sys_object_read_nonblock(int fd, void *data, int length) {
     if (!is_valid_pointer(data, length))
         return KERROR_INVALID_ADDRESS;
 
-    struct kobject *p = current->ktable[fd];
+    struct kobject *p = current->ktable[ fd ];
     return kobject_read_nonblock(p, data, length);
 }
 
@@ -511,7 +519,7 @@ int sys_object_write(int fd, void *data, int length) {
     if (!is_valid_pointer(data, length))
         return KERROR_INVALID_ADDRESS;
 
-    struct kobject *p = current->ktable[fd];
+    struct kobject *p = current->ktable[ fd ];
     return kobject_write(p, data, length);
 }
 
@@ -528,36 +536,36 @@ int sys_object_remove(int fd, const char *name) {
         return KERROR_INVALID_OBJECT;
     if (!is_valid_path(name))
         return KERROR_INVALID_PATH;
-    return kobject_remove(current->ktable[fd], name);
+    return kobject_remove(current->ktable[ fd ], name);
 }
 
 int sys_object_close(int fd) {
     if (!is_valid_object(fd))
         return KERROR_INVALID_OBJECT;
 
-    struct kobject *p = current->ktable[fd];
+    struct kobject *p = current->ktable[ fd ];
     kobject_close(p);
-    current->ktable[fd] = 0;
+    current->ktable[ fd ] = 0;
     return 0;
 }
 
 int sys_object_set_tag(int fd, char *tag) {
     if (!is_valid_object(fd))
         return KERROR_INVALID_OBJECT;
-    kobject_set_tag(current->ktable[fd], tag);
+    kobject_set_tag(current->ktable[ fd ], tag);
     return 0;
 }
 
 int sys_object_get_tag(int fd, char *buffer, int buffer_size) {
     if (!is_valid_object(fd))
         return KERROR_INVALID_OBJECT;
-    return kobject_get_tag(current->ktable[fd], buffer, buffer_size);
+    return kobject_get_tag(current->ktable[ fd ], buffer, buffer_size);
 }
 
 int sys_object_set_blocking(int fd, int b) {
     if (!is_valid_object(fd))
         return KERROR_INVALID_OBJECT;
-    return kobject_set_blocking(current->ktable[fd], b);
+    return kobject_set_blocking(current->ktable[ fd ], b);
 }
 
 int sys_object_size(int fd, int *dims, int n) {
@@ -566,7 +574,7 @@ int sys_object_size(int fd, int *dims, int n) {
     if (!is_valid_pointer(dims, sizeof(*dims) * n))
         return KERROR_INVALID_ADDRESS;
 
-    struct kobject *p = current->ktable[fd];
+    struct kobject *p = current->ktable[ fd ];
     return kobject_size(p, dims, n);
 }
 
@@ -576,7 +584,7 @@ int sys_object_copy(int src, int dst) {
     if (!is_valid_object(dst))
         return KERROR_INVALID_OBJECT;
 
-    kobject_copy(current->ktable[src], &(current->ktable[dst]));
+    kobject_copy(current->ktable[ src ], &(current->ktable[ dst ]));
 
     return 0;
 }
@@ -596,8 +604,8 @@ int sys_system_stats(struct system_stats *s) {
 
     struct ata_count a = ata_stats();
     for (int i = 0; i < 4; i++) {
-        s->blocks_written[i] = a.blocks_written[i];
-        s->blocks_read[i] = a.blocks_read[i];
+        s->blocks_written[ i ] = a.blocks_written[ i ];
+        s->blocks_read[ i ] = a.blocks_read[ i ];
     }
 
     return 0;
@@ -662,26 +670,26 @@ int sys_chdir(const char *path) {
 int32_t syscall_handler(syscall_t n, uint32_t a, uint32_t b, uint32_t c,
                         uint32_t d, uint32_t e) {
     if ((n < MAX_SYSCALL) && current) {
-        current->stats.syscall_count[n]++;
+        current->stats.syscall_count[ n ]++;
     }
     switch (n) {
         case SYSCALL_DEBUG:
-            return sys_debug((const char *)a);
+            return sys_debug(( const char * )a);
         case SYSCALL_DEBUG_PUTC:
-            return sys_debug_putc((const char)a);
+            return sys_debug_putc(( const char )a);
         case SYSCALL_PROCESS_YIELD:
             return sys_process_yield();
         case SYSCALL_PROCESS_EXIT:
             return sys_process_exit(a);
         case SYSCALL_PROCESS_RUN:
-            return sys_process_run((const char *)a, b, (const char **)c);
+            return sys_process_run(( const char * )a, b, ( const char ** )c);
         case SYSCALL_PROCESS_WRUN:
-            return sys_process_wrun((const char *)a, b, (const char **)c,
-                                    (int *)d, e);
+            return sys_process_wrun(( const char * )a, b, ( const char ** )c,
+                                    ( int * )d, e);
         case SYSCALL_PROCESS_FORK:
             return sys_process_fork();
         case SYSCALL_PROCESS_EXEC:
-            return sys_process_exec((const char *)a, b, (const char **)c);
+            return sys_process_exec(( const char * )a, b, ( const char ** )c);
         case SYSCALL_PROCESS_SELF:
             return sys_process_self();
         case SYSCALL_PROCESS_PARENT:
@@ -691,19 +699,19 @@ int32_t syscall_handler(syscall_t n, uint32_t a, uint32_t b, uint32_t c,
         case SYSCALL_PROCESS_REAP:
             return sys_process_reap(a);
         case SYSCALL_PROCESS_WAIT:
-            return sys_process_wait((struct process_info *)a, b);
+            return sys_process_wait(( struct process_info * )a, b);
         case SYSCALL_PROCESS_SLEEP:
             return sys_process_sleep(a);
         case SYSCALL_PROCESS_STATS:
-            return sys_process_stats((struct process_stats *)a, b);
+            return sys_process_stats(( struct process_stats * )a, b);
         case SYSCALL_PROCESS_HEAP:
             return sys_process_heap(a);
         case SYSCALL_OPEN_FILE:
-            return sys_open_file((const char *)a, b, c);
+            return sys_open_file(( const char * )a, b, c);
         case SYSCALL_OPEN_FILE_RELATIVE:
-            return sys_open_file_relative(a, (const char *)b, c, d);
+            return sys_open_file_relative(a, ( const char * )b, c, d);
         case SYSCALL_OPEN_DIR:
-            return sys_open_dir(a, (const char *)b, (kernel_flags_t)c);
+            return sys_open_dir(a, ( const char * )b, ( kernel_flags_t )c);
         case SYSCALL_OPEN_WINDOW:
             return sys_open_window(a, b, c, d, e);
         case SYSCALL_OPEN_CONSOLE:
@@ -715,52 +723,52 @@ int32_t syscall_handler(syscall_t n, uint32_t a, uint32_t b, uint32_t c,
         case SYSCALL_OBJECT_DUP:
             return sys_object_dup(a, b);
         case SYSCALL_OBJECT_READ:
-            return sys_object_read(a, (void *)b, c);
+            return sys_object_read(a, ( void * )b, c);
         case SYSCALL_OBJECT_READ_NONBLOCK:
-            return sys_object_read_nonblock(a, (void *)b, c);
+            return sys_object_read_nonblock(a, ( void * )b, c);
         case SYSCALL_OBJECT_LIST:
-            return sys_object_list(a, (char *)b, (int)c);
+            return sys_object_list(a, ( char * )b, ( int )c);
         case SYSCALL_OBJECT_WRITE:
-            return sys_object_write(a, (void *)b, c);
+            return sys_object_write(a, ( void * )b, c);
         case SYSCALL_OBJECT_SEEK:
             return sys_object_seek(a, b, c);
         case SYSCALL_OBJECT_REMOVE:
-            return sys_object_remove(a, (const char *)b);
+            return sys_object_remove(a, ( const char * )b);
         case SYSCALL_OBJECT_CLOSE:
             return sys_object_close(a);
         case SYSCALL_OBJECT_SET_TAG:
-            return sys_object_set_tag(a, (char *)b);
+            return sys_object_set_tag(a, ( char * )b);
         case SYSCALL_OBJECT_GET_TAG:
-            return sys_object_get_tag(a, (char *)b, c);
+            return sys_object_get_tag(a, ( char * )b, c);
         case SYSCALL_OBJECT_SET_BLOCKING:
             return sys_object_set_blocking(a, b);
         case SYSCALL_OBJECT_SIZE:
-            return sys_object_size(a, (int *)b, c);
+            return sys_object_size(a, ( int * )b, c);
         case SYSCALL_OBJECT_MAX:
             return sys_object_max(a);
         case SYSCALL_OBJECT_COPY:
             return sys_object_copy(a, b);
         case SYSCALL_SYSTEM_STATS:
-            return sys_system_stats((struct system_stats *)a);
+            return sys_system_stats(( struct system_stats * )a);
         case SYSCALL_BCACHE_STATS:
-            return sys_bcache_stats((struct bcache_stats *)a);
+            return sys_bcache_stats(( struct bcache_stats * )a);
         case SYSCALL_BCACHE_FLUSH:
             return sys_bcache_flush();
         case SYSCALL_SYSTEM_TIME:
-            return sys_system_time((uint32_t *)a);
+            return sys_system_time(( uint32_t * )a);
         case SYSCALL_SYSTEM_RTC:
-            return sys_system_rtc((struct rtc_time *)a);
+            return sys_system_rtc(( struct rtc_time * )a);
         case SYSCALL_DEVICE_DRIVER_STATS:
-            return sys_device_driver_stats((char *)a,
-                                           (struct device_driver_stats *)b);
+            return sys_device_driver_stats(( char * )a,
+                                           ( struct device_driver_stats * )b);
         case SYSCALL_CHDIR:
-            return sys_chdir((const char *)a);
+            return sys_chdir(( const char * )a);
         case SYSCALL_MOUSE_READ:
-            return mouse_dev_read((struct mouse_event *)a);
+            return mouse_dev_read(( struct mouse_event * )a);
         case SYSCALL_BGCOLOR:
-            return gui_set_bgcolor((int)a, (int)b, (int)c, (int)d);
+            return gui_set_bgcolor(( int )a, ( int )b, ( int )c, ( int )d);
         case SYSCALL_KPANIC:
-            return sys_chdir((char *)a);
+            return sys_chdir(( char * )a);
         case SYSCALL_BEEP:
             return sys_spkr_out(a, b);
         default:

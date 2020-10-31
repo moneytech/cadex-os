@@ -10,7 +10,7 @@
 #include "string.h"
 #include <stdarg.h>
 
-#define DEBUG 0 
+#define DEBUG 0
 #define ESC   0x1b
 
 static void enable_serial_color() {
@@ -161,6 +161,11 @@ void dbg_printf(const char *s, ...) {
     va_start(args, s);
 
     // Enable serial output coloring
+    
+    // NOTE: The color will not be displayed correctly in a Windows CMD or
+    // Windows Powershell window because it doesn't support unicode and escape
+    // sequences.
+
     enable_serial_color();
 
     while (*s) {

@@ -26,11 +26,13 @@ int main(int argc, char *argv[]) {
                 flush();
             }
             syscall_object_close(fd);
+        }else if (fd == KERROR_NOT_FOUND)
+        {
+            printf("cat: error: %s: no such file or directory\n");
+            exit(0);
         } else {
             syscall_object_close(fd);
-            printf("cat: error reading '%s': %s\n", argv[0], strerror(fd));
-            dbg_printf("[cat.exe] error reading '%s': %s\n", argv[0],
-                       strerror(fd));
+            printf("cat: error: unable to read '%s': %s\n", argv[0], strerror(fd));
         }
 
         printf("\n");

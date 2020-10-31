@@ -22,7 +22,8 @@ USER_PROGRAMS= sdlg.exe \
 			   test.exe \
 			   imgview.exe \
 			   soundpad.exe \
-               compiler.exe
+               compiler.exe \
+               man.exe
 
 .PHONY: clean
 

@@ -489,7 +489,7 @@ void PCI_CheckFunction(uint8_t bus, uint8_t device, uint8_t function,
     subClass = classes & 0xFF;
 
     // print string from the base class and subclass
-    kprintf("   Fnctn %d - %x - %s\n", function, deviceID,
+    kprintf("      Fnctn %d - %x - %s\n", function, deviceID,
             PCI_GetSubclassName(baseClass, subClass));
     
     // try to load a driver for the device
