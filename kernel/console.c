@@ -84,6 +84,14 @@ int console_write(struct console *d, const char *data, int size) {
                 console_putstring(&console_root, "    ");
                 d->xpos += 4;
                 break;
+            case -291:
+                // Move cursor left
+                d->xpos--;
+                break;
+            case -290:
+                // Move cursor right
+                d->xpos++;
+                break;
             default:
                 graphics_char(d->gx, d->xpos * 8, d->ypos * 8, c);
                 d->xpos++;

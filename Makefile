@@ -21,7 +21,7 @@ run: ${ISO_FILENAME}
 	@echo " -- Using ${ISO_FILENAME}"
 	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -serial stdio --no-acpi -no-reboot -device vmware-svga -soundhw pcspk,sb16,adlib
 
-debug: cadex.iso hddimg
+debug: ${ISO_FILENAME} hddimg
 	@qemu-system-i386.exe -cdrom ${ISO_FILENAME} -m size=500M -drive 'file=hard_disk.img,format=qcow2' -device isa-debug-exit,iobase=0xf3,iosize=0x04 -serial stdio --no-acpi -no-reboot -device vmware-svga -s -S & gdb
 
 hddimg:
@@ -34,7 +34,6 @@ ${USER_PROGRAMS}: $(USER_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)
 	@cd usr.bin && make ${MAKEFLAGS}
 
 ${SYSTEM_BIN_FILES}: ${SYSTEM_BIN_SOURCES} libc/baselib.a ${LIBRARY_HEADERS}
-	@echo "-- Building system "
 	@cd bin && make ${MAKEFLAGS}
 
 $(APPS_BINARIES): $(APPS_SOURCES) libc/baselib.a $(LIBRARY_HEADERS)

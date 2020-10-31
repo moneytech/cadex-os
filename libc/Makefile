@@ -5,7 +5,7 @@ CRTEND_OBJ := $(shell $(CC) $(CFLAGS) -print-file-name=crtend.o)
 LIBRARY_OBJECTS_CPP=crt/cxxrt0.o \
                     libcxx/LibGUI/StyleFormatter.o \
                     libcxx/LibGUI/CanvasBase.o \
-		    libcxx/LibGUI/Canvas.o
+		            libcxx/LibGUI/Canvas.o
 
 LIBRARY_OBJECTS=crt/crti.o \
 				$(CRTBEGIN_OBJ) \
@@ -84,6 +84,7 @@ LIBRARY_OBJECTS=crt/crti.o \
 				sys/contty.o \
 				sys/dbg_printf.o \
 				sys/dlopen.o \
+                printf/printf.o \
 				sul/base64_encode.o \
 				sul/url_parser.o \
 				$(CRTEND_OBJ) \

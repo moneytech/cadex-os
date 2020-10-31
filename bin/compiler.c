@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <truegl/truegl.h>
+#include <library/printf.h>
+
+char *test;
 
 int main(int argc, char *argv[]) {
-    setup_window();
-    draw_circle(10, 10, 100);
-    getch();
+    // sprintf(test, "This is a %s which has %d letters", "test", 4);
+    printf("%s", test);
     return 0;
 }
-
+ 

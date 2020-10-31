@@ -75,10 +75,12 @@ void __ubsan_handle_out_of_bounds(struct out_of_bounds *data)
 	print_src_location(&data->src);
 	undefined_throw("Out-of-bounds access");
 }
+
 void __ubsan_handle_missing_return()
 {
 	PANIC("ubsan", "Missing return");
 }
+
 void __ubsan_handle_nonnull_return(struct nonnull_return *data)
 {
 	print_src_location(&data->src);

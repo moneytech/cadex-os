@@ -126,7 +126,7 @@ int last_process_run = 0;
 
 #define SHELL_HISTORY_ENTRIES 128
 
-char *kshell_history[SHELL_HISTORY_ENTRIES];
+char *kshell_history[ SHELL_HISTORY_ENTRIES ];
 size_t kshell_history_count = 0;
 size_t kshell_history_offset = 0;
 
@@ -157,7 +157,7 @@ void print_array(char arr[], int start, int len) {
         return;
 
     /* Prints the current array element */
-    kprintf("%s, ", arr[start]);
+    kprintf("%s, ", arr[ start ]);
 
     /* Recursively call print_array to print next element in array */
     print_array(arr, start - 1, len);
@@ -165,19 +165,19 @@ void print_array(char arr[], int start, int len) {
 
 void kshell_history_insert(char *str) {
     if (kshell_history_count == SHELL_HISTORY_ENTRIES) {
-        kfree(kshell_history[kshell_history_offset]);
-        kshell_history[kshell_history_offset] = str;
+        kfree(kshell_history[ kshell_history_offset ]);
+        kshell_history[ kshell_history_offset ] = str;
         kshell_history_offset =
             (kshell_history_offset + 1) % SHELL_HISTORY_ENTRIES;
     } else {
-        kshell_history[kshell_history_count] = str;
+        kshell_history[ kshell_history_count ] = str;
         kshell_history_count++;
     }
 }
 
 char *kshell_history_get(size_t item) {
-    return kshell_history[(item + kshell_history_offset) %
-                          SHELL_HISTORY_ENTRIES];
+    return kshell_history[ (item + kshell_history_offset) %
+                           SHELL_HISTORY_ENTRIES ];
 }
 
 char *kshell_history_prev(size_t item) {
@@ -421,37 +421,37 @@ static void kshell_print_prompt() {
     g.r = 255;
     g.g = 255;
     graphics_fgcolor(&graphics_root, g);
-    kprintf("%s ", promptsym[prompt]);
+    kprintf("%s ", promptsym[ prompt ]);
 }
 
 static int kshell_execute(int argc, const char **argv) {
-    const char *cmd = argv[0];
+    const char *cmd = argv[ 0 ];
 
     if (!strcmp(cmd, "start")) {
         if (argc > 1) {
-            int pid = sys_process_run(argv[1], argc - 1, &argv[1]);
+            int pid = sys_process_run(argv[ 1 ], argc - 1, &argv[ 1 ]);
             if (pid > 0) {
 #ifdef SHOW_DEBUG_INFO
                 kprintf("started process %d\n", pid);
 #endif
                 process_yield();
             } else {
-                kprintf("run: error: cannot start %s\n", argv[1]);
+                kprintf("run: error: cannot start %s\n", argv[ 1 ]);
             }
         } else {
             kprintf("run: requires argument.\n");
         }
     } else if (!strcmp(cmd, "exec")) {
         if (argc > 1) {
-            sys_process_exec(argv[1], argc - 1, &argv[1]);
+            sys_process_exec(argv[ 1 ], argc - 1, &argv[ 1 ]);
             process_yield();
-            kprintf("exec: error: couldn't execute %s\n", argv[1]);
+            kprintf("exec: error: couldn't execute %s\n", argv[ 1 ]);
         } else {
             kprintf("exec: requires argument.\n");
         }
     } else if (!strcmp(cmd, "run")) {
         if (argc > 1) {
-            int pid = sys_process_run(argv[1], argc - 1, &argv[1]);
+            int pid = sys_process_run(argv[ 1 ], argc - 1, &argv[ 1 ]);
             if (pid > 0) {
 #ifdef SHOW_DEBUG_INFO
                 kprintf("started process %d\n", pid);
@@ -465,7 +465,7 @@ static int kshell_execute(int argc, const char **argv) {
 #endif
                 process_reap(info.pid);
             } else {
-                kprintf("run: error: cannot find %s\n", argv[1]);
+                kprintf("run: error: cannot find %s\n", argv[ 1 ]);
             }
         } else {
             kprintf("run: requires argument\n");
@@ -473,10 +473,10 @@ static int kshell_execute(int argc, const char **argv) {
     } else if (!strcmp(cmd, "mount")) {
         if (argc == 4) {
             int unit;
-            if (str2int(argv[2], &unit)) {
-                kshell_mount(argv[1], unit, argv[3]);
+            if (str2int(argv[ 2 ], &unit)) {
+                kshell_mount(argv[ 1 ], unit, argv[ 3 ]);
             } else {
-                kprintf("mount: expected unit number but got %s\n", argv[2]);
+                kprintf("mount: expected unit number but got %s\n", argv[ 2 ]);
             }
         } else {
             kprintf("usage: mount <device> <unit> <fstype>\n");
@@ -492,28 +492,28 @@ static int kshell_execute(int argc, const char **argv) {
     } else if (!strcmp(cmd, "reap")) {
         if (argc > 1) {
             int pid;
-            if (str2int(argv[1], &pid)) {
+            if (str2int(argv[ 1 ], &pid)) {
                 if (process_reap(pid)) {
                     kprintf("reap failed!\n");
                 } else {
                     kprintf("process %d reaped\n", pid);
                 }
             } else {
-                kprintf("reap: expected process id but got %s\n", argv[1]);
+                kprintf("reap: expected process id but got %s\n", argv[ 1 ]);
             }
         } else {
             kprintf("reap: requires argument\n");
         }
     } else if (!strcmp(cmd, "addcmd")) {
         if (argc > 2) {
-            comd = argv[1];
-            excpath = argv[2];
+            comd = argv[ 1 ];
+            excpath = argv[ 2 ];
         } else {
             kprintf("usage: addcmd <command> <path>");
         }
     } else if (!strcmp(cmd, comd)) {
         if (strcmp(excpath, "")) {
-            int pid = sys_process_run(excpath, argc - 1, &argv[1]);
+            int pid = sys_process_run(excpath, argc - 1, &argv[ 1 ]);
             process_yield();
             struct process_info info;
             process_wait_child(pid, &info, -1);
@@ -522,11 +522,11 @@ static int kshell_execute(int argc, const char **argv) {
     } else if (!strcmp(cmd, "kill")) {
         if (argc > 1) {
             int pid;
-            if (str2int(argv[1], &pid)) {
+            if (str2int(argv[ 1 ], &pid)) {
                 process_kill(pid);
             } else {
                 kprintf("kill: expected process id number but got %s\n",
-                        argv[1]);
+                        argv[ 1 ]);
             }
         } else {
             kprintf("kill: you need to specify the PID of which program to "
@@ -542,7 +542,7 @@ static int kshell_execute(int argc, const char **argv) {
         }
     } else if (!strcmp(cmd, "ls")) {
         if (argc > 1) {
-            kshell_listdir(argv[1]);
+            kshell_listdir(argv[ 1 ]);
         } else {
             kshell_listdir(".");
         }
@@ -553,16 +553,16 @@ static int kshell_execute(int argc, const char **argv) {
                 ntotal / 1000);
     } else if (!strcmp(cmd, "mkdir")) {
         if (argc == 3) {
-            struct fs_dirent *dir = fs_resolve(argv[1]);
+            struct fs_dirent *dir = fs_resolve(argv[ 1 ]);
             if (dir) {
-                struct fs_dirent *n = fs_dirent_mkdir(dir, argv[2]);
+                struct fs_dirent *n = fs_dirent_mkdir(dir, argv[ 2 ]);
                 if (!n) {
-                    kprintf("mkdir: couldn't create %s\n", argv[2]);
+                    kprintf("mkdir: couldn't create %s\n", argv[ 2 ]);
                 }
                 fs_dirent_close(n);
                 fs_dirent_close(dir);
             } else {
-                kprintf("mkdir: couldn't open %s\n", argv[1]);
+                kprintf("mkdir: couldn't open %s\n", argv[ 1 ]);
             }
         } else {
             kprintf("usage: mkdir <parent-dir> <dirname>\n");
@@ -570,21 +570,21 @@ static int kshell_execute(int argc, const char **argv) {
     } else if (!strcmp(cmd, "format")) {
         if (argc == 4) {
             int unit;
-            if (str2int(argv[2], &unit)) {
-                struct fs *f = fs_lookup(argv[3]);
+            if (str2int(argv[ 2 ], &unit)) {
+                struct fs *f = fs_lookup(argv[ 3 ]);
                 if (f) {
-                    struct device *d = device_open(argv[1], unit);
+                    struct device *d = device_open(argv[ 1 ], unit);
                     if (d) {
                         fs_volume_format(f, d);
                     } else {
                         kprintf("format: couldn't open device %s unit %d\n",
-                                argv[1], unit);
+                                argv[ 1 ], unit);
                     }
                 } else {
-                    kprintf("format: invalid fs type: %s\n", argv[3]);
+                    kprintf("format: invalid fs type: %s\n", argv[ 3 ]);
                 }
             } else {
-                kprintf("format: expected unit number but got %s\n", argv[2]);
+                kprintf("format: expected unit number but got %s\n", argv[ 2 ]);
             }
         } else {
             kprintf("usage: format <device> <unit> <fstype>\n");
@@ -592,15 +592,15 @@ static int kshell_execute(int argc, const char **argv) {
     } else if (!strcmp(cmd, "install")) {
         if (argc == 3) {
             int src, dst;
-            str2int(argv[1], &src);
-            str2int(argv[2], &dst);
+            str2int(argv[ 1 ], &src);
+            str2int(argv[ 2 ], &dst);
             kshell_install(src, dst);
         } else {
             kprintf("install: expected unit #s for cdrom and disk\n");
         }
     } else if (!strcmp(cmd, "serialwrite")) {
         if (argc == 2) {
-            dbg_printf("%s", argv[1]);
+            dbg_printf("%s", argv[ 1 ]);
         } else {
             kprintf("usage: serialwrite [-r] [message ...]\n");
         }
@@ -620,45 +620,45 @@ static int kshell_execute(int argc, const char **argv) {
         kshell_readline(&line, 1024, 1);
         int argc = 0;
         char *argv;
-        argv[argc] = strtok(line, " ");
-        while (argv[argc]) {
+        argv[ argc ] = strtok(line, " ");
+        while (argv[ argc ]) {
             argc++;
-            argv[argc] = strtok(0, " ");
+            argv[ argc ] = strtok(0, " ");
         }
 
         if (argc > 0) {
-            kshell_execute(argc, argv); // Recursion
+            // kshell_execute(argc, argv); // Recursion
         }
     } else if (!strcmp(cmd, "rm")) {
         if (argc == 3) {
-            struct fs_dirent *dir = fs_resolve(argv[1]);
+            struct fs_dirent *dir = fs_resolve(argv[ 1 ]);
             if (dir) {
-                int result = fs_dirent_remove(dir, argv[2]);
+                int result = fs_dirent_remove(dir, argv[ 2 ]);
                 if (result < 0) {
-                    kprintf("rm: couldn't remove %s\n", argv[2]);
+                    kprintf("rm: couldn't remove %s\n", argv[ 2 ]);
                 }
                 fs_dirent_close(dir);
             } else {
-                kprintf("rm: couldn't open %s\n", argv[1]);
+                kprintf("rm: couldn't open %s\n", argv[ 1 ]);
             }
         } else {
             kprintf("usage: rm <parent-dir> <filename>\n\n");
         }
     } else if (!strcmp(cmd, "cd")) {
         if (argc == 2) {
-            int cd_res = sys_chdir(argv[1]);
+            int cd_res = sys_chdir(argv[ 1 ]);
             if (cd_res == KERROR_INVALID_PATH) {
-                kprintf("%s: invalid path specified\n", argv[1]);
+                kprintf("%s: invalid path specified\n", argv[ 1 ]);
             } else if (cd_res == KERROR_NOT_FOUND) {
-                kprintf("cd: %s: no such file or directory\n", argv[1]);
+                kprintf("cd: %s: no such file or directory\n", argv[ 1 ]);
             } else if (cd_res == KERROR_NOT_A_DIRECTORY) {
-                kprintf("cd: %s: not a directory\n", argv[1]);
+                kprintf("cd: %s: not a directory\n", argv[ 1 ]);
             } else {
                 default_shell->current_directory = "";
-                if (!strcmp(argv[1], ".."))
+                if (!strcmp(argv[ 1 ], ".."))
                     default_shell->current_directory = "/";
                 else
-                    default_shell->current_directory = argv[1];
+                    default_shell->current_directory = argv[ 1 ];
             }
         } else if (argc == 1) {
             sys_chdir("/");
@@ -672,7 +672,7 @@ static int kshell_execute(int argc, const char **argv) {
         char a = -1;
         rtc_read(&time);
         if (argc > 1) {
-            if (!strcmp(argv[1], "--realtime")) {
+            if (!strcmp(argv[ 1 ], "--realtime")) {
                 while (a == -1) {
                     a = keyboard_read(1);
                     rtc_read(&time);
@@ -723,16 +723,16 @@ static int kshell_execute(int argc, const char **argv) {
         process_wait_child(pid, &info, -1);
         process_reap(info.pid);
     } else if (!strcmp(cmd, "longtest")) {
-        if (!strcmp(argv[1], "-f")) {
+        if (!strcmp(argv[ 1 ], "-f")) {
             int i;
             for (i = 0; i < sizeof(shakespeare) / sizeof(char *); i++) {
-                kprintf("%s\n", shakespeare[i]);
+                kprintf("%s\n", shakespeare[ i ]);
                 sleep(1);
             }
-        } else if (!strcmp(argv[1], "-s")) {
+        } else if (!strcmp(argv[ 1 ], "-s")) {
             int i;
             for (i = 0; i < sizeof(shakespeare) / sizeof(char *); i++) {
-                kprintf("%s\n", shakespeare[i]);
+                kprintf("%s\n", shakespeare[ i ]);
                 sleep(3);
             }
         } else {
@@ -742,7 +742,7 @@ static int kshell_execute(int argc, const char **argv) {
     }
 
     else if (!strcmp(cmd, "uname")) {
-        int pid = sys_process_run("/bin/uname.exe", argc - 1, &argv[1]);
+        int pid = sys_process_run("/bin/uname.exe", argc - 1, &argv[ 1 ]);
         process_yield();
         struct process_info info;
         process_wait_child(pid, &info, -1);
@@ -755,19 +755,19 @@ static int kshell_execute(int argc, const char **argv) {
         shutdown_vm();
     } else if (!strcmp(cmd, "echo")) {
         for (size_t i = 1; i < argc; i++) {
-            if (!strcmp(argv[i], "\\n")) {
+            if (!strcmp(argv[ i ], "\\n")) {
                 kprintf("\n");
-            } else if (!strcmp(argv[i], "$1")) {
+            } else if (!strcmp(argv[ i ], "$1")) {
                 kprintf("%d ", last_run_proc_exitcode);
-            } else if (!strcmp(argv[i], "\"")) {
+            } else if (!strcmp(argv[ i ], "\"")) {
                 continue;
-            } else if (!strsw("\"", argv[i]) || !strew(argv[i], "\"")) {
-                kprintf("%s ", argv[i]);
+            } else if (!strsw("\"", argv[ i ]) || !strew(argv[ i ], "\"")) {
+                kprintf("%s ", argv[ i ]);
                 continue;
             }
 
             else {
-                kprintf("%s ", argv[i]);
+                kprintf("%s ", argv[ i ]);
             }
         }
         kprintf("\n");
@@ -776,13 +776,13 @@ static int kshell_execute(int argc, const char **argv) {
     else if (!strcmp(cmd, "prompt")) {
         /* This is a very good customisation feature. Ability to change prompt
          * symbol. */
-        if (!strcmp(argv[1], "bash")) {
+        if (!strcmp(argv[ 1 ], "bash")) {
             /* [root@cadex]$ */
             prompt = 1;
-        } else if (!strcmp(argv[1], "rootbash")) {
+        } else if (!strcmp(argv[ 1 ], "rootbash")) {
             /* [root@cadex]# */
             prompt = 0;
-        } else if (!strcmp(argv[1], "linux")) {
+        } else if (!strcmp(argv[ 1 ], "linux")) {
             /* [root@cadex]% */
             prompt = 2;
         } else {
@@ -795,14 +795,14 @@ static int kshell_execute(int argc, const char **argv) {
 
     /* Clears the screen */
     else if (!strcmp(cmd, "clear")) {
-        int pid = sys_process_run("/bin/cls.exe", argc - 1, &argv[1]);
+        int pid = sys_process_run("/bin/cls.exe", argc - 1, &argv[ 1 ]);
         process_yield();
         struct process_info info;
         process_wait_child(pid, &info, -1);
         process_reap(info.pid);
     } else if (!strcmp(cmd, "dim")) {
 
-        int pid = sys_process_run("/bin/dim.exe", argc - 1, &argv[1]);
+        int pid = sys_process_run("/bin/dim.exe", argc - 1, &argv[ 1 ]);
         process_yield();
         struct process_info info;
         process_wait_child(pid, &info, -1);
@@ -811,27 +811,26 @@ static int kshell_execute(int argc, const char **argv) {
 
     /* cat: output the contents of a file to the console */
     else if (!strcmp(cmd, "cat")) {
-        int pid = sys_process_run("/bin/cat.exe", argc - 1, &argv[1]);
+        int pid = sys_process_run("/bin/cat.exe", argc - 1, &argv[ 1 ]);
         process_yield();
         struct process_info info;
         process_wait_child(pid, &info, -1);
         process_reap(info.pid);
     } else if (!strcmp(cmd, "imgview")) {
-        int pid = sys_process_run("/bin/imgview.exe", argc - 1, &argv[1]);
+        int pid = sys_process_run("/bin/imgview.exe", argc - 1, &argv[ 1 ]);
         process_yield();
         struct process_info info;
         process_wait_child(pid, &info, -1);
         process_reap(info.pid);
     } else if (!strcmp(cmd, "beep")) {
         beep();
-    }else if (!strcmp(cmd, "adlib_test"))
-    {
+    } else if (!strcmp(cmd, "adlib_test")) {
         Adlib_Test();
     }
-    
+
     /* standard, not-so-secure version of sudo */
     else if (!strcmp(cmd, "sudo")) {
-        int pid = sys_process_run("/bin/sudo.exe", argc - 1, &argv[1]);
+        int pid = sys_process_run("/bin/sudo.exe", argc - 1, &argv[ 1 ]);
         process_yield();
         struct process_info info;
         process_wait_child(pid, &info, -1);
@@ -839,8 +838,7 @@ static int kshell_execute(int argc, const char **argv) {
         if (info.exitcode == 0) {
             current->user = USER_ROOT;
         }
-    }else if (!strcmp(cmd, "song"))
-    {
+    } else if (!strcmp(cmd, "song")) {
         beep_ms(100, 10);
         beep_ms(200, 10);
         beep_ms(300, 90);
@@ -852,13 +850,12 @@ static int kshell_execute(int argc, const char **argv) {
         beep_ms(900, 90);
         beep_ms(800, 140);
         beep_ms(700, 150);
-    }
-     else if (!strcmp(cmd, "pwd")) {
+    } else if (!strcmp(cmd, "pwd")) {
         kprintf("%s\n", default_shell->current_directory);
     } else {
-        if (argc > 0 && strsw(".", argv[0])) {
+        if (argc > 0 && strsw(".", argv[ 0 ])) {
             // Try to run the process
-            int pid = sys_process_run(argv[0], argc - 1, &argv[1]);
+            int pid = sys_process_run(argv[ 0 ], argc - 1, &argv[ 1 ]);
             if (pid > 1) {
                 process_yield();
                 struct process_info info;
@@ -870,12 +867,12 @@ static int kshell_execute(int argc, const char **argv) {
                 last_run_proc_exitcode = info.exitcode;
             } else if (pid == KERROR_NOT_FOUND) {
                 // Handle the NOT_FOUND error
-                kprintf("%s: No such file or directory\n", argv[0]);
+                kprintf("%s: No such file or directory\n", argv[ 0 ]);
             }
         }
 
         else {
-            kprintf("%s: command not found\n", argv[0]);
+            kprintf("%s: command not found\n", argv[ 0 ]);
         }
     }
     return 0;
@@ -888,7 +885,7 @@ int kshell_readline(char *line, int length, int text_visible) {
         char c = keyboard_read(0);
         if (c == ASCII_CR) {
             /* ENTER */
-            line[i] = 0;
+            line[ i ] = 0;
             kprintf("\n");
             return 1;
         } else if (c == ASCII_BS) {
@@ -911,7 +908,7 @@ int kshell_readline(char *line, int length, int text_visible) {
             /* A-Z a-z 0-9 */
             if (text_visible)
                 putchar(c);
-            line[i] = c;
+            line[ i ] = c;
             i++;
             j++;
         } else if (c == KEY_UP) {
@@ -924,11 +921,10 @@ int kshell_readline(char *line, int length, int text_visible) {
     return 0;
 }
 
-
 int kshell_launch() {
     int i = 0;
-    char line[1024];
-    const char *argv[100];
+    char line[ 1024 ];
+    const char *argv[ 100 ];
     int argc;
 
     /* Initialize shell variables */
@@ -951,13 +947,13 @@ start:
     while (1) {
         kshell_print_prompt();
         if (kshell_readline(line, sizeof(line), 1)) {
-            kshell_history[i] = line;
+            kshell_history[ i ] = line;
             i++;
             argc = 0;
-            argv[argc] = strtok(line, " ");
-            while (argv[argc]) {
+            argv[ argc ] = strtok(line, " ");
+            while (argv[ argc ]) {
                 argc++;
-                argv[argc] = strtok(0, " ");
+                argv[ argc ] = strtok(0, " ");
             }
 
             if (argc > 0) {
